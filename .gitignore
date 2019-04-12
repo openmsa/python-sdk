@@ -1,0 +1,7 @@
+tags
+__pycache__
+.coverage
+.coveragerc
+*.pyc
+html/
+Doxyfile
