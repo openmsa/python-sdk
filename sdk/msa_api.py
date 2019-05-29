@@ -6,8 +6,10 @@ def host_port():
     """
     Hostname and port of the API.
 
-    @return: Hostname and Port
-    @rtype: Tuple
+    Returns
+    -------
+    Hostname and Port
+
     """
     return ('10.30.18.86', '80')
 
@@ -27,7 +29,10 @@ class MSA_API():  # pylint: disable=invalid-name
         """
         Property API Token.
 
-        @return: Token
+        Returns
+        -------
+        None
+
         """
         return self._token
 
@@ -42,7 +47,10 @@ class MSA_API():  # pylint: disable=invalid-name
         """
         Check reponse of a POST/GET/PUT/DELETE.
 
-        @return: None
+        Returns
+        --------
+        None
+
         """
         if not self.response.ok:
             print(self.response.reason)
@@ -52,7 +60,10 @@ class MSA_API():  # pylint: disable=invalid-name
         """
         Call -XPOST.
 
-        @return: None
+        Returns
+        --------
+        None
+
         """
         headers = {
             'Accept': 'application/json',
@@ -65,7 +76,10 @@ class MSA_API():  # pylint: disable=invalid-name
         """
         Call -XGET.
 
-        @return: None
+        Returns
+        --------
+        None
+
         """
         headers = {
             'Accept': 'application/json',
@@ -80,8 +94,14 @@ class MSA_API():  # pylint: disable=invalid-name
         """
         Call -XPUT.
 
-        @param data: Data to
-        @return: None
+        Parameters
+        ----------
+        data: Data to send
+
+        Returns
+        --------
+        None
+
         """
         headers = {
             'Accept': 'application/json',
@@ -95,7 +115,10 @@ class MSA_API():  # pylint: disable=invalid-name
         """
         Call -XDELETE.
 
-        @return: None
+        Returns
+        --------
+        None
+
         """
         headers = {
             'Accept': 'application/json',
