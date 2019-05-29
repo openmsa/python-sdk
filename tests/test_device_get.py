@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 from util import _is_valid_json
 from util import device_fixture  # pylint: disable=unused-import
-from sdk.device import Device
+from msa_sdk.device import Device
 
 
 def test_read_by_id():

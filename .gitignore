@@ -3,5 +3,11 @@ __pycache__
 .coverage
 .coveragerc
 *.pyc
+setup.py
+*.rpm
 html/
+rpms/
+build/
 Doxyfile
+dist/
+*.egg-info/

@@ -2,7 +2,7 @@
 import json
 import pytest
 
-from sdk.device import Device
+from msa_sdk.device import Device
 
 
 def _is_valid_json(msg_json):
