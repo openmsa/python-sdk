@@ -4,4 +4,7 @@ __pycache__
 .coveragerc
 *.pyc
 html/
+build/
 Doxyfile
+dist/
+*.egg-info/

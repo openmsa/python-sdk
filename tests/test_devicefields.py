@@ -5,7 +5,7 @@ Test Devicefields
 from unittest.mock import patch
 import pytest
 
-from sdk.device import DeviceFields
+from msa_sdk.device import DeviceFields
 
 
 @pytest.mark.skip

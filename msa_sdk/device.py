@@ -1,7 +1,7 @@
 """Module Device."""
 import json
 
-from sdk.msa_api import MSA_API
+from msa_sdk.msa_api import MSA_API
 
 
 class DeviceFields(MSA_API):
