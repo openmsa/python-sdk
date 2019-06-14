@@ -1,7 +1,7 @@
 """Module Device."""
 import json
 
-from sdk.msa_api import MSA_API
+from msa_sdk.msa_api import MSA_API
 
 
 class DeviceFields(MSA_API):
@@ -11,10 +11,15 @@ class DeviceFields(MSA_API):
         """
         Initialize.
 
-        @param device_id: Device ID
-        @type device_id: String
+        Parameters
+        ----------
+        device_id: String
+                Device ID
 
-        @return: None
+        Returns
+        --------
+        None
+
         """
         MSA_API.__init__(self)
         self.api_path = "/deviceFields"
@@ -27,7 +32,15 @@ class DeviceFields(MSA_API):
         self.call_put()
 
     def add_serial_number(self, serial_number):
-        """Add Serial Number."""
+        """
+        Add Serial Number.
+
+        Parameters
+        ----------
+        serial_number:
+                Serial Number
+
+        """
         self.path = "{}/{}/serialNumber/{}".format(
             self.api_path, self.device_id, serial_number)
         self.call_put()
@@ -46,23 +59,38 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Initialize.
 
-        @param customer_id: Customer id
-        @param name: Name
-        @param manufacturer_id: Manufacture ID
-        @param model_id: Model ID
-        @param login: Login
-        @param password: Password
-        @param password_admin: Password Admin
-        @param management_address: Management Address
-        @param device_external: Device External
-        @param log_enabled: Log Enabled
-        @param log_more_enabled: More logs
-        @param mail_alerting: Mail alerting
-        @param reporting: Reporting
-        @param snmp_community: SNMP Community
-        @param device_id: Device ID
+        Parameters
+        ----------
+        customer_id: String
+                Customer id
+        name: String
+                Name of the device
+        manufacturer_id: String
+                Manufacture ID
+        model_id: String
+                Model ID
+        login: String
+                Login
+        password: String
+                Password
+        password_admin: String
+                Password Admin
+        management_address: Management Address
+        device_external: Device External
+        log_enabled: Bool
+                Log Enabled
+        log_more_enabled: More logs
+        mail_alerting: Bool
+                Mail alerting
+        reporting: Bool
+                Reporting
+        snmp_community: SNMP Community
+        device_id: Device ID
 
-        @return: None
+        Returns
+        -------
+        None
+
         """
         MSA_API.__init__(self)
         self.customer_id = customer_id
@@ -95,10 +123,15 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Delete device.
 
-        @param by_ref: Path /id/ or /reference/
-        @type by_ref: String
+        Parameters
+        ----------
+        by_ref: String
+                Path /id/ or /reference/
 
-        @return: None
+        Returns
+        -------
+        None
+
         """
         self._format_path_ref_id(by_ref, self.api_path)
         self.call_delete()
@@ -107,7 +140,10 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Activate device.
 
-        @return: None
+        Returns
+        --------
+        None
+
         """
         self.path = "{}/activate/{}".format(self.api_path, self.device_id)
         self.call_post()
@@ -116,7 +152,10 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Provision a device.
 
-        @return: None
+        Returns
+        --------
+        None
+
         """
         self.path = "{}/provisioning/{}".format(self.api_path, self.device_id)
         self.call_post()
@@ -125,8 +164,10 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Get the provision status.
 
-        @return: Json with provision status
-        @rtype: String
+        Returns
+        --------
+        Json with provision status
+
         """
         self.path = "{}/provisioning/status/{}".format(
             self.api_path, self.device_id)
@@ -137,8 +178,10 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Check if is device.
 
-        @return: Json with True or False
-        @rtype: String
+        Returns
+        --------
+        Json with True or False
+
         """
         self.path = "{}/isDevice/{}".format(self.api_path, self.device_id)
         self.call_get()
@@ -148,9 +191,15 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Read device information.
 
-        @param by_ref: Path /id/ or /reference/
-        @type by_ref: String
-        @return: None
+        Parameters
+        ----------
+        by_ref: String
+            Path /id/ or /reference/
+
+        Returns
+        --------
+        None
+
         """
         self._format_path_ref_id(by_ref, self.api_path)
         self.call_get()
@@ -176,8 +225,10 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Get device status.
 
-        @return: One word string
-        @rtype: String
+        Returns
+        --------
+        One word string
+
         """
         self.path = "{}/status/{}".format(self.api_path, self.device_id)
         self.call_get()
@@ -187,7 +238,10 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Get configuration status and add to device configuration.
 
-        @return: None
+        Returns
+        --------
+        None
+
         """
         self.path = "{}/configuration/status/id/{}".format(
             self.api_path, self.device_id)
@@ -198,8 +252,10 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Update config.
 
-        @return: Config in JSON form
-        @rtype: String
+        Returns
+        --------
+        Config in JSON form
+
         """
         self.path = "{}/configuration/update/{}".format(
             self.api_path, self.device_id)
@@ -210,8 +266,15 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Ping address.
 
-        @param address[in] Ip address.
-        @return Ping response
+        Parameters
+        ----------
+        address: String
+                Ip address.
+
+        Returns
+        --------
+        Ping response
+
         """
         self.path = "{}/ping/{}".format(self.api_path, address)
         self.call_get()
@@ -231,8 +294,10 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Push configuration status.
 
-        @return: Json with configuration
-        @rtype: String
+        Returns
+        --------
+        Json with configuration
+
         """
         self.path = "{}/push_configuration/status/{}".format(
             self.api_path, self.device_id)
@@ -255,12 +320,17 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Update Ip Address.
 
-        @param ip_addr: IP Address format (xxx.xxx.xxx.xxx)
-        @type ip_addr: String
-        @param netmask: Netmask, default 255.255.255.2555
-        @type netmask: String
+        Parameters
+        ----------
+        ip_addr: String
+                IP Address format (xxx.xxx.xxx.xxx)
+        netmask: String
+                Netmask, default 255.255.255.2555
 
-        @returns: None
+        Returns
+        --------
+        None
+
         """
         path = "{}/management_ip/update/{}?ip={}&mask={}"
         self.path = path.format(
@@ -274,12 +344,17 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Profile Switch.
 
-        @param old_profile: Old profile name
-        @type old_profile: String
-        @param new_profile_ref: New profile name
-        @type new_profile_ref: String
+        Parameters
+        ----------
+        old_profile: String
+                Old profile name
+        new_profile_ref: String
+            New profile name
 
-        @return: None
+        Returns
+        --------
+        None
+
         """
         path = ('{}/conf_profile/switch/{}'
                 '?old_profile_ref={}&new_profile_ref={}').format(
@@ -294,11 +369,17 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Update Credentials.
 
-        @param login: Credentials Login
-        @type login: String
-        @param password: Credentials password
-        @type password: String
-        @return: None
+        Parameters
+        ----------
+        login: String
+                Credentials Login
+        password: String
+                Credentials password
+
+        Returns
+        --------
+        None
+
         """
         path = "{}/credentials/update/{}?login={}&password={}"
         self.path = path.format(self.api_path, self.device_id, login, password)
@@ -308,9 +389,16 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Attach files.
 
-        @param uris:
-        @param position:
-        @return: None
+        Parameters
+        ----------
+        uris:
+        position: String
+                default: AUTO
+
+        Returns
+        --------
+        None
+
         """
         self.path = ("{}/attach/{}/files/{}").format(self.api_path,
                                                      self.device_id, position)
@@ -320,8 +408,14 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Attach files.
 
-        @param uris:
-        @return: None
+        Parameters
+        ----------
+        uris: String
+
+        Returns
+        --------
+        None
+
         """
         self.path = ("{}/detach/{}/files").format(self.api_path,
                                                   self.device_id)

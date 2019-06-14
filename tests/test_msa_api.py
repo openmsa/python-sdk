@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 import pytest
 
-from sdk.msa_api import MSA_API
+from msa_sdk.msa_api import MSA_API
 
 
 def host_port():
@@ -18,7 +18,7 @@ def host_port():
 
 @pytest.fixture
 @patch('requests.post')
-@patch('sdk.msa_api.host_port')
+@patch('msa_sdk.msa_api.host_port')
 def api_fixture(mock_host_port, mock_post):
     """
     API Fixtures

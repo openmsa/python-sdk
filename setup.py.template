@@ -1,0 +1,34 @@
+"""Setup"""
+
+from setuptools import setup
+
+# Utility function to read the README file.
+# Used for the long_description.  It's nice, because now 1) we have a top level
+# README file and 2) it's easier to type in the README file than to put a raw
+# string in below ...
+
+
+with open("README.md", "r") as fh:
+    LONG_DESCRIPTION = fh.read()
+
+setup(
+    name="msa_sdk",
+    version="{VERSION}",
+    author="Ubiqube",
+    author_email="ubiqube@ubiqube.com",
+    description="MSA Python SDK",
+    license="",
+    keywords="MSA",
+    url="https://ubiqube.com",
+    packages=['msa_sdk'],
+    data_files=[('../opt/ses/share/htdocs/msa_sdk',
+                 ['html/msa_sdk/device.html',
+                  'html/msa_sdk/index.html',
+                  'html/msa_sdk/msa_api.html'])],
+    include_package_data=True,
+    classifiers=[
+        "Development Status :: 4 - Beta"
+    ],
+)
+
+# vim: ft=python
