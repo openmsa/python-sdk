@@ -3,8 +3,8 @@
 # RPM_BUILD="$(pwd)/rpmbuild"
 # mkdir -p "${RPM_BUILD}"
 
-VERSION='0.1'
-RELEASE='1'
+VERSION='0.2'
+RELEASE='0'
 
 sed "s/{VERSION}/${VERSION}/" setup.py.template > setup.py
 
