@@ -2,6 +2,7 @@
 Device for PUT
 """
 from unittest.mock import patch
+from util import _is_valid_json
 
 from util import device_fixture  # pylint: disable=unused-import
 
@@ -20,6 +21,19 @@ def test_update_ip_address_no_mask(device_fixture):
         path = ('/device/management_ip/update/{}?ip={}&mask={}')
         assert device.path == path.format(
             device.device_id, ip_addr, '255.255.255.255')
+        mock_call_put.assert_called_once()
+
+
+def test_create_device(device_fixture):
+    """
+    Create device
+    """
+
+    device = device_fixture
+
+    with patch('requests.put') as mock_call_put:
+        device.create()
+        assert device.path == '/device/{}'.format(device.customer_id)
         mock_call_put.assert_called_once()
 
 
@@ -124,4 +138,17 @@ def test_detach_files(device_fixture):
         device.detach_files(uris)
         assert device.path == '/device/detach/{}/files'.format(
             device.device_id)
+        mock_call_put.assert_called_once()
+
+
+def test_create(device_fixture):
+    """
+    Test create
+    """
+
+    device = device_fixture
+
+    with patch('requests.put') as mock_call_put:
+        assert _is_valid_json(device.create())
+        assert device.path == '/device/{}'.format(device.customer_id)
         mock_call_put.assert_called_once()

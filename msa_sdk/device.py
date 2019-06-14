@@ -119,6 +119,21 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         del_by = "reference" if by_ref else "id"
         self.path = "{}/{}/{}".format(path, del_by, self.device_id)
 
+    def create(self):
+        """
+        Create device.
+
+        Returns
+        -------
+        None
+
+        """
+        self.path = '{}/{}'.format(self.api_path, self.customer_id)
+        data = json.dumps(self.__dict__)
+        self.call_put(data)
+
+        return data
+
     def delete(self, by_ref=False):
         """
         Delete device.
