@@ -108,7 +108,7 @@ class MSA_API():  # pylint: disable=invalid-name
             print(self.response.reason)
             raise RuntimeError
 
-    def call_post(self):
+    def call_post(self, data=None, timeout=60):
         """
         Call -XPOST.
 
@@ -121,8 +121,12 @@ class MSA_API():  # pylint: disable=invalid-name
             'Accept': 'application/json',
             'Authorization': 'Bearer {}'.format(self._token),
         }
+
+        if not data:
+            data = json.dumps(data)
+
         url = self.url + self.path
-        self.response = requests.post(url, headers=headers)
+        self.response = requests.post(url, headers=headers, data=data)
 
     def call_get(self):
         """

@@ -1,0 +1,295 @@
+"""
+Test Orchestration
+"""
+from unittest.mock import patch
+from msa_sdk.orchestration import Orchestration
+from util import _is_valid_json
+
+# pylint: disable=redefined-outer-name
+
+
+def test_list_service_instances():
+    """
+    Test List Service Instances
+    """
+
+    device_info = (
+        '[{"name":"Process/Reference/Customer/Kibana/kibana_dashboard",'
+        '"id":2102,"serviceExternalReference":"MSASID2102","state":"ACTIVE"},'
+        '{"name":"Process/Reference/Customer/Kibana/kibana_dashboard",'
+        '"id":2258,"serviceExternalReference":"MSASID2258","state":"ACTIVE"},'
+        '{"name":"Process/Reference/Customer/Kibana/kibana_dashboard",'
+        '"id":2231,"serviceExternalReference":"MSASID2231","state":"ACTIVE"},'
+        '{"name":"Process/Reference/Device_Management/Device_Management_List",'
+        '"id":1536,"serviceExternalReference":"MSASID1536","state":"ACTIVE"}]')
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.content = device_info
+        orch = Orchestration('MSAA19224')
+        orch.list_service_instances()
+        assert orch.path == '/orchestration/MSAA19224/service/instance'
+        assert _is_valid_json(orch.response.content)
+
+
+def test_get_service_variables_by_service_id():
+    """
+    Test Get Service variables by Service ID
+    """
+    device_info = ('[{"comment":"","name":"SERVICEINSTANCEID",'
+                   '"value":"205710"},'
+                   '{"comment":"","name":"service_id",'
+                   '"value":"205710"}]')
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.content = device_info
+        orch = Orchestration('MSAA19224')
+        orch.get_service_variables('1234')
+        assert orch.path == '/orchestration/service/variables/1234'
+        assert _is_valid_json(orch.response.content)
+
+
+def test_get_service_variable_by_name():
+    """
+    Test Get Service Variables by Variable Name
+    """
+
+    device_info = ('{"TASKINSTANCEID":"353763"}')
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.content = device_info
+        orch = Orchestration('MSAA19224')
+        orch.get_service_variable_by_name('1234', 'TASKINSTANCEID')
+        assert orch.path == \
+            '/orchestration/service/variables/1234/TASKINSTANCEID'
+        assert _is_valid_json(orch.response.content)
+
+
+def test_update_service_variable():
+    """
+    Update service variable
+    """
+
+    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+        orch = Orchestration('MSAA19224')
+        orch.update_service_variable('1234', 'TASKINSTANCEID', 'NewValue')
+        assert orch.path == \
+            '/orchestration/service/variables/1234/TASKINSTANCEID?value=NewValue'
+        mock_call_post.assert_called_once()
+
+
+def test_delete_service_by_id():
+    """
+    Delete service by ID
+    """
+
+    with patch('msa_sdk.msa_api.MSA_API.call_delete') as mock_call_delete:
+        orch = Orchestration('MSAA19224')
+        orch.delete_service('1234')
+        assert orch.path == '/orchestration/MSAA19224/service/instance/1234'
+        mock_call_delete.assert_called_once()
+
+
+def test_list_process_instances():
+    """
+    Test list process instances
+    """
+
+    device_info = (
+        '[{"processId":{"id":208606,"lastExecNumber":1,'
+        '"name":"Fortigate_Ping_Execution/Process_Execute_Ping/Process_Execute_Ping",'
+        '"submissionType":"RUN"},"serviceId":{"id":205732,'
+        '"name":"Fortigate_Ping_Execution","serviceExternalReference":"FGT_PING",'
+        '"state":null},"status":{"details":"Mandatory parameter device_id is not'
+        'present","endingDate":"2017-06-04 15:18:00.0",'
+        '"execNumber":1,'
+        '"processTaskStatus":[{"details":"Mandatory parameter device_id is not present",'
+        '"endingDate":"2017-06-04'
+        '15:18:00.0","newParameter":[],"order":1,"processInstanceId":208606,'
+        '"scriptName":"Execute Ping","startingDate":"2017-06-04 15:18:00.0","status":"FAIL"}],'
+        '"startingDate":"2017-06-04 15:18:00.0","status":"FAIL"}}]')
+
+    local_path = '/orchestration/process/instances/{}'.format(1234)
+
+    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+        mock_call_get.return_value.content = device_info
+        orch = Orchestration('MSAA19224')
+        orch.list_process_instances_by_service(1234)
+        assert orch.path == local_path
+        mock_call_get.assert_called_once()
+
+
+def test_launch_process_instance():
+    """
+    Test launch process instance
+    """
+
+    local_path = '/orchestration/process/execute/{}'
+    local_path += '/{}?processName={}'
+
+    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+        orch = Orchestration('MSAA19224')
+        orch.execute_launch_process_instance('1234', 'Process',
+                                             {"var1": 1, "var2": 2})
+        assert orch.path == local_path.format('MSAA19224', '1234',
+                                              'Process')
+        mock_call_post.assert_called_once()
+
+
+def test_execute_service():
+    """
+    Test execute service
+    """
+
+    local_path = '/orchestration/service/execute/{}'
+    local_path += '?serviceName={}&processName={}&serviceInstance=0'
+
+    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+        orch = Orchestration('MSAA19224')
+        orch.execute_service('1234', 'ProcessName', {"var1": 1, "var2": 2})
+        assert orch.path == local_path.format('MSAA19224', '1234',
+                                              'ProcessName')
+        mock_call_post.assert_called_once_with({"var1": 1, "var2": 2})
+
+
+def test_execute_by_service():
+    """
+    Test execute by service
+    """
+
+    local_path = '/orchestration/service/execute/{}'
+    local_path += '/{}?serviceName={}&processName={}'
+
+    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+        orch = Orchestration('MSAA19224')
+        orch.execute_by_service('external_ref', 'service_ref', 'serviceName',
+                                'ProcessName',
+                                {"var1": 1, "var2": 2})
+        assert orch.path == local_path.format('external_ref', 'service_ref',
+                                              'serviceName', 'ProcessName')
+        mock_call_post.assert_called_once_with({"var1": 1, "var2": 2})
+
+
+def test_execute_service_by_reference():
+    """
+    Test execute service by reference
+    """
+
+    local_path = '/orchestration/service/execute/{}/{}'
+    local_path += '?serviceName={}&processName={}'
+
+    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+        orch = Orchestration('MSAA19224')
+
+        orch.execute_service_by_reference('external_ref', 'servReference',
+                                          'servName', 'procName',
+                                          {"var1": 1, "var2": 2})
+
+        assert orch.path == local_path.format('external_ref', 'servReference',
+                                              'servName', 'procName')
+
+        mock_call_post.assert_called_once_with({"var1": 1, "var2": 2})
+
+
+def test_list_process_instance_by_service_id():
+    """
+    Test List process instance by service id
+    """
+    device_info = (
+        '[{"processId":{"id":208606,"lastExecNumber":1,'
+        '"name":"Fortigate_Ping_Execution/Process_Execute_Ping/Process_Execute_Ping",'
+        '"submissionType":"RUN"},"serviceId":{"id":205732,'
+        '"name":"Fortigate_Ping_Execution","serviceExternalReference":"FGT_PING",'
+        '"state":null},"status":{"details":"Mandatory parameter device_id is not'
+        'present","endingDate":"2017-06-04 15:18:00.0",'
+        '"execNumber":1,'
+        '"processTaskStatus":[{"details":"Mandatory parameter device_id is not present",'
+        '"endingDate":"2017-06-04'
+        '15:18:00.0","newParameter":[],"order":1,"processInstanceId":208606,'
+        '"scriptName":"Execute Ping","startingDate":"2017-06-04 15:18:00.0","status":"FAIL"}],'
+        '"startingDate":"2017-06-04 15:18:00.0","status":"FAIL"}}]')
+
+    local_path = '/orchestration/process/instances/{}'.format(1234)
+
+    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+        mock_call_get.return_value.content = device_info
+        orch = Orchestration('MSAA19224')
+        orch.list_process_instances_by_service(1234)
+        assert orch.path == local_path
+        mock_call_get.assert_called_once()
+
+
+def test_get_process_instance():
+    """
+    Test get process instance
+    """
+
+    device_info = (
+        '[{"processId":{"id":208606,"lastExecNumber":1,'
+        '"name":"Fortigate_Ping_Execution/Process_Execute_Ping/Process_Execute_Ping",'
+        '"submissionType":"RUN"},"serviceId":{"id":205732,'
+        '"name":"Fortigate_Ping_Execution","serviceExternalReference":"FGT_PING",'
+        '"state":null},"status":{"details":"Mandatory parameter device_id is not'
+        'present","endingDate":"2017-06-04 15:18:00.0",'
+        '"execNumber":1,'
+        '"processTaskStatus":[{"details":"Mandatory parameter device_id is not present",'
+        '"endingDate":"2017-06-04'
+        '15:18:00.0","newParameter":[],"order":1,"processInstanceId":208606,'
+        '"scriptName":"Execute Ping","startingDate":"2017-06-04 15:18:00.0","status":"FAIL"}],'
+        '"startingDate":"2017-06-04 15:18:00.0","status":"FAIL"}}]')
+
+    local_path = '/orchestration/process/instance/{}'.format(1234)
+
+    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+        mock_call_get.return_value.content = device_info
+        orch = Orchestration('MSAA19224')
+        orch.get_process_instance(1234)
+        assert orch.path == local_path
+        mock_call_get.assert_called_once()
+
+
+def test_update_process_script_details():
+    """
+    Test update process script details
+    """
+
+    local_path = ('/orchestration/process/instance/{}'
+                  '/task/{}/execnumber/{}/update').format(1234, 'Task-ID',
+                                                          'exec-number')
+
+    with patch('msa_sdk.msa_api.MSA_API.call_put') as mock_call_put:
+        orch = Orchestration('MSAA19224')
+        orch.update_process_script_details(1234, 'Task-ID', 'exec-number')
+        assert orch.path == local_path
+        mock_call_put.assert_called_once()
+
+
+def test_update_service_instance_ref():
+    """
+    Test update service instance reference
+    """
+    local_path = ('/orchestration/{}/service/instance/update'
+                  '/{}/?serviceReference={}').format('MSAA19224', 'ServID',
+                                                     'Serv_Ref')
+
+    with patch('msa_sdk.msa_api.MSA_API.call_put') as mock_call_put:
+        orch = Orchestration('MSAA19224')
+        orch.update_service_instance_reference('ServID', 'Serv_Ref')
+        assert orch.path == local_path
+        mock_call_put.assert_called_once()
+
+
+def test_read_service_instance():
+    """
+    Test Read Service Instances
+    """
+
+    device_info = (
+        '{"name":"Process/Reference/Customer/Kibana/kibana_dashboard",'
+        '"id":2231,"serviceExternalReference":"MSASID2231","state":"ACTIVE"}')
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.content = device_info
+        orch = Orchestration('MSAA19224')
+        orch.read_service_instance('2231')
+        assert orch.path == '/orchestration/MSAA19224/service/instance/2231'
+        assert _is_valid_json(orch.response.content)

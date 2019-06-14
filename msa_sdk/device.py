@@ -65,16 +65,20 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.mail_alerting = mail_alerting
         self.reporting = reporting
         self.snmp_community = snmp_community
-        self.device_id = device_id
         self.api_path_v1 = "/device/v1"
         self.api_path = "/device"
         self.management_interface = None
         self.use_nat = False
         self.configuration = {}
+        self.device_id = device_id
+
+        if device_id:
+            self.read()
 
     def _format_path_ref_id(self, by_ref, path):
-        del_by = "reference" if by_ref else "id"
-        self.path = "{}/{}/{}".format(path, del_by, self.device_id)
+        del_by = "reference/" + by_ref \
+            if by_ref else "id/" + str(self.device_id)
+        self.path = "{}/{}".format(path, del_by)
 
     def create(self):
         """
@@ -194,6 +198,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.call_get()
         device_info = json.loads(self.response.content)
 
+        self.device_id = device_info['id']
         self.name = device_info["name"]
         self.manufacturer_id = device_info["manufacturerId"]
         self.model_id = device_info["modelId"]

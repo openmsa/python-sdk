@@ -17,5 +17,5 @@ def _is_valid_json(msg_json):
 def device_fixture():
     """Device fixture."""
     device = Device(10, "MyDevice", 11, 13, "ncroot", "pswd",
-                    "adm_pswd", "mng_addres", "Dexternal", device_id=1234)
+                    "adm_pswd", "mng_addres", "Dexternal")
     return device

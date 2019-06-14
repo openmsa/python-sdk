@@ -28,8 +28,6 @@ def test_read_by_id():
         mock_call_get.return_value.content = device_info
         device = Device(device_id=21594)
 
-        assert _is_valid_json(device.read())
-
         assert device.path == '/device/id/21594'
         assert device.device_id == 21594
         assert device.name == "Linux self MSA"
@@ -64,11 +62,11 @@ def test_read_by_reference():
 
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = device_info
-        device = Device(device_id=21594)
+        device = Device()
 
-        assert _is_valid_json(device.read(True))
+        assert _is_valid_json(device.read('DEV_REF'))
 
-        assert device.path == '/device/reference/21594'
+        assert device.path == '/device/reference/DEV_REF'
         assert device.device_id == 21594
         assert device.name == "Linux self MSA"
         assert device.manufacturer_id == 14020601
@@ -140,6 +138,7 @@ def test_provision_status(device_fixture):  # pylint: disable=W0621
                       '\"sms_message\":\"OK\"}]}", "status": "OK"}')
 
     device = device_fixture
+    device.device_id = 1234
 
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = provision_info
@@ -156,6 +155,7 @@ def test_load_configuration(device_fixture):
     Test Load configuration
     """
     device = device_fixture
+    device.device_id = 1234
 
     with patch('requests.get') as mock_call_get:
         r_value = ('{"message":"OK\\r\\n\\r\\n","date":"24-04-2019 '

@@ -29,6 +29,7 @@ def test_delete(device_fixture):
     Test delete
     """
     device = device_fixture
+    device.device_id = '1234'
     with patch('requests.delete') as mock_call_delete:
 
         device.delete()
