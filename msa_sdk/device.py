@@ -32,7 +32,15 @@ class DeviceFields(MSA_API):
         self.call_put()
 
     def add_serial_number(self, serial_number):
-        """Add Serial Number."""
+        """
+        Add Serial Number.
+
+        Parameters
+        ----------
+        serial_number:
+                Serial Number
+
+        """
         self.path = "{}/{}/serialNumber/{}".format(
             self.api_path, self.device_id, serial_number)
         self.call_put()
