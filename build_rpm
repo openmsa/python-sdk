@@ -4,7 +4,7 @@
 # mkdir -p "${RPM_BUILD}"
 
 VERSION='0.2'
-RELEASE='0'
+RELEASE='1'
 
 sed "s/{VERSION}/${VERSION}/" setup.py.template > setup.py
 
