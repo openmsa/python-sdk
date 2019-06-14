@@ -4,48 +4,6 @@ import json
 from msa_sdk.msa_api import MSA_API
 
 
-class DeviceFields(MSA_API):
-    """Class Device Fields."""
-
-    def __init__(self, device_id):
-        """
-        Initialize.
-
-        Parameters
-        ----------
-        device_id: String
-                Device ID
-
-        Returns
-        --------
-        None
-
-        """
-        MSA_API.__init__(self)
-        self.api_path = "/deviceFields"
-        self.device_id = device_id
-
-    def activate_email_alerting(self):
-        """Email alerting."""
-        self.path = "{}/{}/emailAlerting".format(self.api_path, self.device_id)
-
-        self.call_put()
-
-    def add_serial_number(self, serial_number):
-        """
-        Add Serial Number.
-
-        Parameters
-        ----------
-        serial_number:
-                Serial Number
-
-        """
-        self.path = "{}/{}/serialNumber/{}".format(
-            self.api_path, self.device_id, serial_number)
-        self.call_put()
-
-
 class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
     """Class Device."""
 
@@ -113,7 +71,6 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.management_interface = None
         self.use_nat = False
         self.configuration = {}
-        self.device_fields = None
 
     def _format_path_ref_id(self, by_ref, path):
         del_by = "reference" if by_ref else "id"
@@ -249,7 +206,6 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.mail_alerting = device_info["mailAlerting"]
         self.use_nat = device_info["useNat"]
         self.snmp_community = device_info["snmpCommunity"]
-        self.device_fields = DeviceFields(self.device_id)
 
         return self.response.content
 
