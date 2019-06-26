@@ -22,9 +22,9 @@ setup(
     url="https://ubiqube.com",
     packages=['msa_sdk'],
     data_files=[('../opt/ses/share/htdocs/msa_sdk',
-                 ['html/msa_sdk/device.html',
-                  'html/msa_sdk/index.html',
-                  'html/msa_sdk/msa_api.html'])],
+                 ['msa_sdk/html/msa_sdk/device.html',
+                  'msa_sdk/html/msa_sdk/index.html',
+                  'msa_sdk/html/msa_sdk/msa_api.html'])],
     include_package_data=True,
     classifiers=[
         "Development Status :: 4 - Beta"
