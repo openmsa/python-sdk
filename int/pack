@@ -18,4 +18,7 @@ VERSION='20.0.0'
 sed "s/{VERSION}/${VERSION}/" setup.py.template > setup.py
 pdoc3 --html --force -o msa_sdk/html msa_sdk
 
-python setup.py bdist_rpm --release="${release}"  --requires="python3-requests" --binary-only  --dist-dir ../
+python setup.py bdist_rpm --release="${release}" \
+    --binary-only \
+    --install-lib="/usr/local/lib/python3.7/site-packages" \
+    --dist-dir ../

@@ -1,1 +1,1 @@
-This repository is temporary
+MSA SDK Repository
