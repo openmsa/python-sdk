@@ -13,7 +13,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="msa_sdk",
-    version="0.1",
+    version="20.0.0",
     author="Ubiqube",
     author_email="",
     description=("MSA Python SDK"),

@@ -1,0 +1,2 @@
+#!/bin/bash
+python setup.py bdist_rpm --release="1.1"  --requires="python3-requests" --binary-only  --dist-dir ../
