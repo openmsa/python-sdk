@@ -1,2 +1,8 @@
 #!/bin/bash
-python setup.py bdist_rpm --release="1.1"  --requires="python3-requests" --binary-only  --dist-dir ../
+VERSION='20.0.0'
+RELEASE='1.1'
+
+sed "s/{VERSION}/${VERSION}/" setup.py.template > setup.py
+pdoc3 --html --force -o msa_sdk/html msa_sdk
+
+python setup.py bdist_rpm --release="${RELEASE}"  --requires="python3-requests" --binary-only  --dist-dir ../
