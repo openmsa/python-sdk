@@ -11,7 +11,7 @@ def host_port():
     Hostname and Port
 
     """
-    return ('10.30.18.86', '80')
+    return ('10.30.18.86', '8480')
 
 
 class MSA_API():  # pylint: disable=invalid-name
@@ -105,6 +105,7 @@ class MSA_API():  # pylint: disable=invalid-name
         """
         headers = {
             'Accept': 'application/json',
+            'Content-Type': 'application/json',
             'Authorization': 'Bearer {}'.format(self._token),
         }
         url = self.url + self.path

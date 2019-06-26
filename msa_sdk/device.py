@@ -111,7 +111,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.api_path_v1 = "/device/v1"
         self.api_path = "/device"
         self.management_interface = None
-        self.use_nat = None
+        self.use_nat = False
         self.configuration = {}
         self.device_fields = None
 
@@ -129,10 +129,25 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         """
         self.path = '{}/{}'.format(self.api_path, self.customer_id)
-        data = json.dumps(self.__dict__)
-        self.call_put(data)
 
-        return data
+        data = {"manufacturerId": self.manufacturer_id,
+                "modelId": self.model_id,
+                "managementAddress": self.management_address,
+                "reporting": self.reporting,
+                "useNat": self.use_nat,
+                "logEnabled": self.log_enabled,
+                "logMoreEnabled": self.log_more_enabled,
+                "managementInterface": self.management_interface,
+                "mailAlerting": self.mail_alerting,
+                "passwordAdmin": self.password_admin,
+                "externalReference": "",
+                "login": self.login,
+                "name": self.name,
+                "password": self.password,
+                "id": 0,
+                "snmpCommunity": self.snmp_community}
+
+        self.call_put(json.dumps(data))
 
     def delete(self, by_ref=False):
         """
