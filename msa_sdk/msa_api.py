@@ -1,6 +1,7 @@
 """Module msa_api."""
 import json
 import requests
+import datetime
 
 
 def host_port():
@@ -54,12 +55,12 @@ class MSA_API():  # pylint: disable=invalid-name
             """
             Log a message to a log file with corresponding to a process id
             """
+            log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-            log_file = '{}/process-{}.log'.format(
-                PROCESS_LOGS_DIRECTORY, log_id)
-            f_log = open(log_file, 'a+')
-            f_log.write(log_msg)
-            f_log.close()
+            log_file = '{}/process-{}.log'.format(PROCESS_LOGS_DIRECTORY,
+                                                  log_id)
+            with open(log_file, 'a+') as f_log:
+                f_log.write('\n=== {} ===\n{}'.format(log_time, log_msg))
 
         response = {
             "wo_status": status,

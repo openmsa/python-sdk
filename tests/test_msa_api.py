@@ -6,6 +6,7 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 import json
 import pytest
+import datetime
 
 from msa_sdk.msa_api import MSA_API
 
@@ -94,7 +95,7 @@ def test_content_no_log():
 
 def test_content_with_log(tmpdir):
     """
-    Test content with no log
+    Test content with log
     """
 
     temp_dir = tmpdir.mkdir('test')
@@ -110,10 +111,52 @@ def test_content_with_log(tmpdir):
             "wo_newparams": params
         }
 
-        assert api.content(
-            'ENDED', 'Task OK',
-            params,
-            True) == json.dumps(response)
+        assert api.content('ENDED', 'Task OK', params,
+                           True) == json.dumps(response)
 
-        assert json.dumps(params, indent=4) == open(
+        log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        log_msg = '\n=== {} ===\n{}'.format(log_time, json.dumps(params,
+                                                                 indent=4))
+
+        assert log_msg == open(
+            '{}/{}'.format(temp_dir, 'process-1234.log'), 'r').read()
+
+
+def test_content_with_log_more_lines(tmpdir):
+    """
+    Test content with log with more lines
+    """
+
+    temp_dir = tmpdir.mkdir('test')
+
+    with patch('msa_sdk.msa_api.PROCESS_LOGS_DIRECTORY', temp_dir):
+        api = MSA_API()
+
+        params1 = {"SERVICEINSTANCEID": 1234, "Other": "Value1"}
+        params2 = {"SERVICEINSTANCEID": 1234, "Other": "Value2"}
+
+        response = {
+            "wo_status": 'ENDED',
+            "wo_comment": 'Task OK',
+            "wo_newparams": params1
+        }
+
+        assert api.content('ENDED', 'Task OK', params1,
+                           True) == json.dumps(response)
+
+        log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        log_msg_1 = '\n=== {} ===\n{}'.format(log_time, json.dumps(params1,
+                                                                   indent=4))
+
+        assert log_msg_1 == open(
+            '{}/{}'.format(temp_dir, 'process-1234.log'), 'r').read()
+
+        api.content('ENDED', 'Task OK', params2, True)
+
+        log_msg_2 = '{}\n=== {} ===\n{}'.format(
+            log_msg_1, log_time, json.dumps(params2, indent=4))
+
+        assert log_msg_2 == open(
             '{}/{}'.format(temp_dir, 'process-1234.log'), 'r').read()
