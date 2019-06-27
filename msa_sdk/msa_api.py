@@ -1,4 +1,5 @@
 """Module msa_api."""
+import json
 import requests
 
 
@@ -27,7 +28,8 @@ class MSA_API():  # pylint: disable=invalid-name
         self.path = None
         self.response = None
 
-    def content(self, status, comment, new_params, log_response=False):
+    @classmethod
+    def content(cls, status, comment, new_params, log_response=False):
         """
         Property content
 
