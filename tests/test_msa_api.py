@@ -4,6 +4,7 @@ Test MSA API
 
 from unittest.mock import MagicMock
 from unittest.mock import patch
+import json
 import pytest
 
 from msa_sdk.msa_api import MSA_API
@@ -70,3 +71,49 @@ def test_check_reponse_ok(api_fixture):
 
     with pytest.raises(RuntimeError):
         api.check_response()
+
+
+def test_content_no_log():
+    """
+    Test content with no log
+    """
+
+    api = MSA_API()
+
+    response = {
+        "wo_status": 'ENDED',
+        "wo_comment": 'Task OK',
+        "wo_newparams": {"SERVICEINSTANCEID": 1234, "Other": "Value"}
+    }
+
+    assert api.content(
+        'ENDED', 'Task OK', {
+            "SERVICEINSTANCEID": 1234,
+            "Other": "Value"}) == json.dumps(response)
+
+
+def test_content_with_log(tmpdir):
+    """
+    Test content with no log
+    """
+
+    temp_dir = tmpdir.mkdir('test')
+
+    with patch('msa_sdk.msa_api.PROCESS_LOGS_DIRECTORY', temp_dir):
+        api = MSA_API()
+
+        params = {"SERVICEINSTANCEID": 1234, "Other": "Value"}
+
+        response = {
+            "wo_status": 'ENDED',
+            "wo_comment": 'Task OK',
+            "wo_newparams": params
+        }
+
+        assert api.content(
+            'ENDED', 'Task OK',
+            params,
+            True) == json.dumps(response)
+
+        assert json.dumps(params, indent=4) == open(
+            '{}/{}'.format(temp_dir, 'process-1234.log'), 'r').read()

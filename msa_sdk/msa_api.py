@@ -14,6 +14,9 @@ def host_port():
     return ('10.30.18.86', '8480')
 
 
+PROCESS_LOGS_DIRECTORY = '/opt/jboss/latest/logs/processLog'
+
+
 class MSA_API():  # pylint: disable=invalid-name
     """Class MSA API."""
 
@@ -24,6 +27,52 @@ class MSA_API():  # pylint: disable=invalid-name
         self.path = None
         self.response = None
 
+    def content(self, status, comment, new_params, log_response=False):
+        """
+        Property content
+
+        Parameters
+        ----------
+        status: String
+            Status ID: 'ENDED', 'FAIL', 'RUNNING', 'WARNING', PAUSE
+        comment: String
+            Comment
+        new_params: Dictionary
+            Context
+        log_response: Bool
+            Write log to a file
+
+        Returns
+        -------
+        Response content formated
+
+        """
+
+        def log_to_file(log_id, log_msg):
+            """
+            Log a message to a log file with corresponding to a process id
+            """
+
+            log_file = '{}/process-{}.log'.format(
+                PROCESS_LOGS_DIRECTORY, log_id)
+            f_log = open(log_file, 'a+')
+            f_log.write(log_msg)
+            f_log.close()
+
+        response = {
+            "wo_status": status,
+            "wo_comment": comment,
+            "wo_newparams": new_params
+        }
+
+        json_response = json.dumps(response)
+
+        if log_response:
+            pretty_json = json.dumps(new_params, indent=4)
+            log_to_file(new_params['SERVICEINSTANCEID'], pretty_json)
+
+        return json_response
+
     @property
     def token(self):
         """
@@ -31,7 +80,7 @@ class MSA_API():  # pylint: disable=invalid-name
 
         Returns
         -------
-        None
+        Token
 
         """
         return self._token
