@@ -126,9 +126,10 @@ class MSA_API():  # pylint: disable=invalid-name
             data = json.dumps(data)
 
         url = self.url + self.path
-        self.response = requests.post(url, headers=headers, data=data)
+        self.response = requests.post(url, headers=headers, data=data,
+                                      timeout=60)
 
-    def call_get(self):
+    def call_get(self, timeout=60):
         """
         Call -XGET.
 
@@ -143,7 +144,7 @@ class MSA_API():  # pylint: disable=invalid-name
         }
 
         url = self.url + self.path
-        self.response = requests.get(url, headers=headers)
+        self.response = requests.get(url, headers=headers, timeout=timeout)
         self.check_response()
 
     def call_put(self, data=None):
