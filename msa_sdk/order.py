@@ -14,7 +14,8 @@ class Order(Device):
 
     def command_execute(self, command, params, timeout=60):
         """
-        Command execute
+
+        Command execute.
 
         Parameteres
         -----------
@@ -37,7 +38,8 @@ class Order(Device):
 
     def command_generate_configuration(self, command, params):
         """
-        Command execute
+
+        Command generate configuration.
 
         Parameteres
         -----------
@@ -61,7 +63,8 @@ class Order(Device):
 
     def command_synchronize(self, timeout):
         """
-        Command execute
+
+        Command synchronize.
 
         Parameteres
         -----------

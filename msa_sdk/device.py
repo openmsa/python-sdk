@@ -326,11 +326,8 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         """
         path = "{}/management_ip/update/{}?ip={}&mask={}"
-        self.path = path.format(
-            self.api_path,
-            self.device_id,
-            ip_addr,
-            netmask)
+        self.path = path.format(self.api_path, self.device_id, ip_addr,
+                                netmask)
         self.call_put()
 
     def profile_switch(self, old_profile, new_profile_ref):

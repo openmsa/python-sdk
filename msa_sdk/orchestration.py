@@ -49,7 +49,8 @@ class Orchestration(MSA_API):
 
     def get_service_variables(self, service_id):
         """
-        Get service variables
+
+        Get service variables.
 
         Parameters
         ----------
@@ -115,6 +116,7 @@ class Orchestration(MSA_API):
 
     def delete_service(self, service_id):
         """
+
         Delete service.
 
         Parameters
@@ -127,7 +129,6 @@ class Orchestration(MSA_API):
         None
 
         """
-
         self.path = \
             '/orchestration/{}/service/instance/{}'.format(self.ubiqube_id,
                                                            service_id)
@@ -136,6 +137,7 @@ class Orchestration(MSA_API):
 
     def execute_service(self, service_id, process_name, data):
         """
+
         Execute service.
 
         Parameters
@@ -150,7 +152,6 @@ class Orchestration(MSA_API):
         None
 
         """
-
         format_path = ('/orchestration/service/execute/{}'
                        '?serviceName={}&processName={}&serviceInstance=0')
 
@@ -159,10 +160,12 @@ class Orchestration(MSA_API):
 
         self.call_post(data)
 
+    # pylint: disable=too-many-arguments
     def execute_by_service(self, external_ref, service_ref, service_name,
                            process_name, data):
         """
-        Execute service.
+
+        Execute by service.
 
         Parameters
         ----------
@@ -182,7 +185,6 @@ class Orchestration(MSA_API):
         None
 
         """
-
         format_path = ('/orchestration/service/execute/{}/{}'
                        '?serviceName={}&processName={}')
 
@@ -194,6 +196,7 @@ class Orchestration(MSA_API):
     def execute_service_by_reference(self, external_ref, service_ref,
                                      service_name, process_name, data):
         """
+
         Execute service.
 
         Parameters
@@ -214,7 +217,6 @@ class Orchestration(MSA_API):
         None
 
         """
-
         format_path = ('/orchestration/service/execute/{}/{}'
                        '?serviceName={}&processName={}')
 
@@ -225,6 +227,7 @@ class Orchestration(MSA_API):
 
     def execute_launch_process_instance(self, service_id, process_name, data):
         """
+
         Execute launch process service.
 
         Parameters
@@ -239,7 +242,6 @@ class Orchestration(MSA_API):
         None
 
         """
-
         format_path = ('/orchestration/process/execute/{}/{}?processName={}')
 
         self.path = format_path.format(self.ubiqube_id,
@@ -249,6 +251,7 @@ class Orchestration(MSA_API):
 
     def list_process_instances_by_service(self, service_id):
         """
+
         List process instances by Service.
 
         Parameters
@@ -268,7 +271,8 @@ class Orchestration(MSA_API):
 
     def get_process_instance(self, service_id):
         """
-        Get process instance
+
+        Get process instance.
 
         Parameters
         ----------
@@ -286,7 +290,8 @@ class Orchestration(MSA_API):
 
     def update_process_script_details(self, process_id, task_id, exec_number):
         """
-        Get process instance
+
+        Update process script details.
 
         Parameters
         ----------
@@ -310,7 +315,8 @@ class Orchestration(MSA_API):
 
     def update_service_instance_reference(self, service_id, service_ref):
         """
-        Get process instance
+
+        Update service instance reference.
 
         Parameters
         ----------

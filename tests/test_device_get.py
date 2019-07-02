@@ -7,25 +7,20 @@ from unittest.mock import patch
 
 from util import _is_valid_json
 from util import device_fixture  # pylint: disable=unused-import
+from util import device_info
 from msa_sdk.device import Device
 
 
-def test_read_by_id():
+@patch('requests.post')
+def test_read_by_id(mock_post):
     """
     Read Device by id
     """
 
-    device_info = (
-        '{"id": 21594, "name": "Linux self MSA",'
-        '"externalReference":"MSA21594","manufacturerId":14020601,'
-        '"modelId":14020601,"managementAddress":"127.0.0.1",'
-        '"managementInterface":"","login":"root",'
-        '"password":"$ubiqube","passwordAdmin":"","logEnabled":false,'
-        '"logMoreEnabled":false,"mailAlerting":false,"reporting":false,'
-        '"useNat":true,"snmpCommunity":""}')
+    mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = device_info
+        mock_call_get.return_value.content = device_info()
         device = Device(device_id=21594)
 
         assert device.path == '/device/id/21594'
@@ -46,22 +41,16 @@ def test_read_by_id():
         mock_call_get.assert_called_once()
 
 
-def test_read_by_reference():
+@patch('requests.post')
+def test_read_by_reference(mock_post):
     """
     Read Device by reference
     """
 
-    device_info = ('{"id": 21594, "name": "Linux self MSA",'
-                   '"externalReference":"MSA21594","manufacturerId":14020601,'
-                   '"modelId":14020601,"managementAddress":"127.0.0.1",'
-                   '"managementInterface":"","login":"root",'
-                   '"password":"$ubiqube","passwordAdmin":"",'
-                   '"logEnabled":false,"logMoreEnabled":false,'
-                   '"mailAlerting":false,"reporting":false,"useNat":true,'
-                   '"snmpCommunity":""}')
+    mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = device_info
+        mock_call_get.return_value.content = device_info()
         device = Device()
 
         assert _is_valid_json(device.read('DEV_REF'))

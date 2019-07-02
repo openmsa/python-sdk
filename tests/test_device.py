@@ -35,3 +35,16 @@ def test_delete(device_fixture):
         device.delete()
         assert device.path == '/device/id/{}'.format(device.device_id)
         mock_call_delete.assert_called_once()
+
+
+def test_constants_inherited(device_fixture):
+    """
+    Test Constants inherited
+    """
+    device = device_fixture
+
+    assert device.FAILED == 'FAIL'
+    assert device.ENDED == 'ENDED'
+    assert device.RUNNING == 'RUNNING'
+    assert device.WARNING == 'WARNING'
+    assert device.PAUSED == 'PAUSE'
