@@ -1,7 +1,9 @@
 """Module msa_api."""
 import json
-import requests
 import datetime
+import requests
+
+from msa_sdk import constants
 
 
 def host_port():
@@ -16,11 +18,14 @@ def host_port():
     return ('10.30.18.86', '8480')
 
 
-PROCESS_LOGS_DIRECTORY = '/opt/jboss/latest/logs/processLog'
-
-
 class MSA_API():  # pylint: disable=invalid-name
     """Class MSA API."""
+
+    ENDED = constants.ENDED
+    FAILED = constants.FAILED
+    RUNNING = constants.RUNNING
+    WARNING = constants.WARNING
+    PAUSED = constants.PAUSED
 
     def __init__(self):
         """Initialize."""
@@ -32,7 +37,8 @@ class MSA_API():  # pylint: disable=invalid-name
     @classmethod
     def content(cls, status, comment, new_params, log_response=False):
         """
-        Property content
+
+        Property content.
 
         Parameters
         ----------
@@ -50,15 +56,29 @@ class MSA_API():  # pylint: disable=invalid-name
         Response content formated
 
         """
-
         def log_to_file(log_id, log_msg):
             """
-            Log a message to a log file with corresponding to a process id
+
+            Log a message to a log file with corresponding to a process id.
+
+            Parameters
+            ---------
+            log_id: Integer
+                Log file id
+
+            log_msg: String
+                Message to be logged
+
+            Returns
+            ------
+            Json
+
             """
             log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-            log_file = '{}/process-{}.log'.format(PROCESS_LOGS_DIRECTORY,
-                                                  log_id)
+            log_file = '{}/process-{}.log'.format(
+                constants.PROCESS_LOGS_DIRECTORY,
+                log_id)
             with open(log_file, 'a+') as f_log:
                 f_log.write('\n=== {} ===\n{}'.format(log_time, log_msg))
 
@@ -108,7 +128,7 @@ class MSA_API():  # pylint: disable=invalid-name
             print(self.response.reason)
             raise RuntimeError
 
-    def call_post(self):
+    def call_post(self, data=None, timeout=60):
         """
         Call -XPOST.
 
@@ -121,10 +141,15 @@ class MSA_API():  # pylint: disable=invalid-name
             'Accept': 'application/json',
             'Authorization': 'Bearer {}'.format(self._token),
         }
-        url = self.url + self.path
-        self.response = requests.post(url, headers=headers)
 
-    def call_get(self):
+        if not data:
+            data = json.dumps(data)
+
+        url = self.url + self.path
+        self.response = requests.post(url, headers=headers, data=data,
+                                      timeout=timeout)
+
+    def call_get(self, timeout=60):
         """
         Call -XGET.
 
@@ -139,7 +164,7 @@ class MSA_API():  # pylint: disable=invalid-name
         }
 
         url = self.url + self.path
-        self.response = requests.get(url, headers=headers)
+        self.response = requests.get(url, headers=headers, timeout=timeout)
         self.check_response()
 
     def call_put(self, data=None):

@@ -5,17 +5,11 @@ Test MSA API
 from unittest.mock import MagicMock
 from unittest.mock import patch
 import json
-import pytest
 import datetime
+import pytest
 
 from msa_sdk.msa_api import MSA_API
-
-
-def host_port():
-    """
-    Hostname and port of the API
-    """
-    return ('api_hostname', '8080')
+from util import host_port
 
 
 @pytest.fixture
@@ -74,34 +68,34 @@ def test_check_reponse_ok(api_fixture):
         api.check_response()
 
 
-def test_content_no_log():
+def test_content_no_log(api_fixture):
     """
     Test content with no log
     """
 
-    api = MSA_API()
+    api = api_fixture
 
     response = {
         "wo_status": 'ENDED',
         "wo_comment": 'Task OK',
-        "wo_newparams": {"SERVICEINSTANCEID": 1234, "Other": "Value"}
+        "wo_newparams": {"SERVICEINSTANCEID": "1234", "Other": "Value"}
     }
 
     assert api.content(
         'ENDED', 'Task OK', {
-            "SERVICEINSTANCEID": 1234,
+            "SERVICEINSTANCEID": "1234",
             "Other": "Value"}) == json.dumps(response)
 
 
-def test_content_with_log(tmpdir):
+def test_content_with_log(api_fixture, tmpdir):
     """
     Test content with log
     """
 
     temp_dir = tmpdir.mkdir('test')
 
-    with patch('msa_sdk.msa_api.PROCESS_LOGS_DIRECTORY', temp_dir):
-        api = MSA_API()
+    with patch('msa_sdk.constants.PROCESS_LOGS_DIRECTORY', temp_dir):
+        api = api_fixture
 
         params = {"SERVICEINSTANCEID": 1234, "Other": "Value"}
 
@@ -123,15 +117,15 @@ def test_content_with_log(tmpdir):
             '{}/{}'.format(temp_dir, 'process-1234.log'), 'r').read()
 
 
-def test_content_with_log_more_lines(tmpdir):
+def test_content_with_log_more_lines(api_fixture, tmpdir):
     """
     Test content with log with more lines
     """
 
     temp_dir = tmpdir.mkdir('test')
 
-    with patch('msa_sdk.msa_api.PROCESS_LOGS_DIRECTORY', temp_dir):
-        api = MSA_API()
+    with patch('msa_sdk.constants.PROCESS_LOGS_DIRECTORY', temp_dir):
+        api = api_fixture
 
         params1 = {"SERVICEINSTANCEID": 1234, "Other": "Value1"}
         params2 = {"SERVICEINSTANCEID": 1234, "Other": "Value2"}
@@ -160,3 +154,16 @@ def test_content_with_log_more_lines(tmpdir):
 
         assert log_msg_2 == open(
             '{}/{}'.format(temp_dir, 'process-1234.log'), 'r').read()
+
+
+def test_constants(api_fixture):
+    """
+    Test Constants
+    """
+    msa = api_fixture
+
+    assert msa.ENDED == 'ENDED'
+    assert msa.FAILED == 'FAIL'
+    assert msa.RUNNING == 'RUNNING'
+    assert msa.WARNING == 'WARNING'
+    assert msa.PAUSED == 'PAUSE'

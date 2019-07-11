@@ -7,28 +7,21 @@ from unittest.mock import patch
 
 from util import _is_valid_json
 from util import device_fixture  # pylint: disable=unused-import
+from util import device_info
 from msa_sdk.device import Device
 
 
-def test_read_by_id():
+@patch('requests.post')
+def test_read_by_id(mock_post):
     """
     Read Device by id
     """
 
-    device_info = (
-        '{"id": 21594, "name": "Linux self MSA",'
-        '"externalReference":"MSA21594","manufacturerId":14020601,'
-        '"modelId":14020601,"managementAddress":"127.0.0.1",'
-        '"managementInterface":"","login":"root",'
-        '"password":"$ubiqube","passwordAdmin":"","logEnabled":false,'
-        '"logMoreEnabled":false,"mailAlerting":false,"reporting":false,'
-        '"useNat":true,"snmpCommunity":""}')
+    mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = device_info
+        mock_call_get.return_value.content = device_info()
         device = Device(device_id=21594)
-
-        assert _is_valid_json(device.read())
 
         assert device.path == '/device/id/21594'
         assert device.device_id == 21594
@@ -48,27 +41,21 @@ def test_read_by_id():
         mock_call_get.assert_called_once()
 
 
-def test_read_by_reference():
+@patch('requests.post')
+def test_read_by_reference(mock_post):
     """
     Read Device by reference
     """
 
-    device_info = ('{"id": 21594, "name": "Linux self MSA",'
-                   '"externalReference":"MSA21594","manufacturerId":14020601,'
-                   '"modelId":14020601,"managementAddress":"127.0.0.1",'
-                   '"managementInterface":"","login":"root",'
-                   '"password":"$ubiqube","passwordAdmin":"",'
-                   '"logEnabled":false,"logMoreEnabled":false,'
-                   '"mailAlerting":false,"reporting":false,"useNat":true,'
-                   '"snmpCommunity":""}')
+    mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = device_info
-        device = Device(device_id=21594)
+        mock_call_get.return_value.content = device_info()
+        device = Device()
 
-        assert _is_valid_json(device.read(True))
+        assert _is_valid_json(device.read('DEV_REF'))
 
-        assert device.path == '/device/reference/21594'
+        assert device.path == '/device/reference/DEV_REF'
         assert device.device_id == 21594
         assert device.name == "Linux self MSA"
         assert device.manufacturer_id == 14020601
@@ -140,6 +127,7 @@ def test_provision_status(device_fixture):  # pylint: disable=W0621
                       '\"sms_message\":\"OK\"}]}", "status": "OK"}')
 
     device = device_fixture
+    device.device_id = 1234
 
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = provision_info
@@ -156,6 +144,7 @@ def test_load_configuration(device_fixture):
     Test Load configuration
     """
     device = device_fixture
+    device.device_id = 1234
 
     with patch('requests.get') as mock_call_get:
         r_value = ('{"message":"OK\\r\\n\\r\\n","date":"24-04-2019 '
