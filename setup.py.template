@@ -27,6 +27,7 @@ setup(
                   'msa_sdk/html/msa_sdk/constants.html',
                   'msa_sdk/html/msa_sdk/orchestration.html',
                   'msa_sdk/html/msa_sdk/order.html',
+                  'msa_sdk/html/msa_sdk/util.html',
                   'msa_sdk/html/msa_sdk/msa_api.html'])],
     include_package_data=True,
     classifiers=[
