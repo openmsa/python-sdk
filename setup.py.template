@@ -21,9 +21,12 @@ setup(
     keywords="MSA",
     url="https://ubiqube.com",
     packages=['msa_sdk'],
-    data_files=[('../opt/ses/share/htdocs/msa_sdk',
+    data_files=[('/opt/ses/share/htdocs/msa_sdk',
                  ['msa_sdk/html/msa_sdk/device.html',
                   'msa_sdk/html/msa_sdk/index.html',
+                  'msa_sdk/html/msa_sdk/constants.html',
+                  'msa_sdk/html/msa_sdk/orchestration.html',
+                  'msa_sdk/html/msa_sdk/order.html',
                   'msa_sdk/html/msa_sdk/msa_api.html'])],
     include_package_data=True,
     classifiers=[
