@@ -1,0 +1,23 @@
+#!/bin/bash
+
+## Install pyenv
+## $ curl -L https://raw.github.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+
+## Load pyenv automatically by adding
+## the following to ~/.bashrc:
+## export PATH="/home/nahmed/.pyenv/bin:$PATH"
+## eval "$(pyenv init -)"
+## eval "$(pyenv virtualenv-init -)"
+## $ source $HOME/.bashrc
+## $ pyenv install 3.7.3
+## $ python -m pip install -r requirements.txt
+## $ source $HOME/.bashrc
+
+VERSION='20.0.0'
+
+sed "s/{VERSION}/${VERSION}/" setup.py.template > setup.py
+pdoc3 --html --force -o msa_sdk/html msa_sdk
+
+python3.7 setup.py bdist_rpm --release="${release}" \
+    --binary-only \
+    --dist-dir ../

@@ -1,10 +1,7 @@
 #!/bin/bash
 
-# RPM_BUILD="$(pwd)/rpmbuild"
-# mkdir -p "${RPM_BUILD}"
-
-VERSION='0.2'
-RELEASE='1'
+VERSION='20.0.0'
+RELEASE=$(date +%Y%m%d%H%M)
 
 sed "s/{VERSION}/${VERSION}/" setup.py.template > setup.py
 
@@ -12,13 +9,11 @@ RPM_HOME="/home/rpm"
 
 pdoc3 --html --force -o msa_sdk/html msa_sdk
 
-# docker run --rm -u rpm -v "$(pwd)/rpmbuild:${RPM_HOME}/rpmbuild" \
+mkdir -p rpms/
 docker run --rm -u rpm -v "$(pwd):${RPM_HOME}/build" \
     -w "${RPM_HOME}/build" rpm-build \
     python3 setup.py bdist_rpm --release="${RELEASE}" \
-    --requires="python3-requests" \
     --binary-only \
     --dist-dir rpms/
 
-mkdir -p rpms/
 rm -rf build/ dist/ msa_sdk.egg-info/

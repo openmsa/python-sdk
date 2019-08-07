@@ -4,48 +4,6 @@ import json
 from msa_sdk.msa_api import MSA_API
 
 
-class DeviceFields(MSA_API):
-    """Class Device Fields."""
-
-    def __init__(self, device_id):
-        """
-        Initialize.
-
-        Parameters
-        ----------
-        device_id: String
-                Device ID
-
-        Returns
-        --------
-        None
-
-        """
-        MSA_API.__init__(self)
-        self.api_path = "/deviceFields"
-        self.device_id = device_id
-
-    def activate_email_alerting(self):
-        """Email alerting."""
-        self.path = "{}/{}/emailAlerting".format(self.api_path, self.device_id)
-
-        self.call_put()
-
-    def add_serial_number(self, serial_number):
-        """
-        Add Serial Number.
-
-        Parameters
-        ----------
-        serial_number:
-                Serial Number
-
-        """
-        self.path = "{}/{}/serialNumber/{}".format(
-            self.api_path, self.device_id, serial_number)
-        self.call_put()
-
-
 class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
     """Class Device."""
 
@@ -107,17 +65,20 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.mail_alerting = mail_alerting
         self.reporting = reporting
         self.snmp_community = snmp_community
-        self.device_id = device_id
         self.api_path_v1 = "/device/v1"
         self.api_path = "/device"
         self.management_interface = None
-        self.use_nat = None
+        self.use_nat = False
         self.configuration = {}
-        self.device_fields = None
+        self.device_id = device_id
+
+        if device_id:
+            self.read()
 
     def _format_path_ref_id(self, by_ref, path):
-        del_by = "reference" if by_ref else "id"
-        self.path = "{}/{}/{}".format(path, del_by, self.device_id)
+        del_by = "reference/" + by_ref \
+            if by_ref else "id/" + str(self.device_id)
+        self.path = "{}/{}".format(path, del_by)
 
     def create(self):
         """
@@ -129,10 +90,27 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         """
         self.path = '{}/{}'.format(self.api_path, self.customer_id)
-        data = json.dumps(self.__dict__)
-        self.call_put(data)
 
-        return data
+        data = {"manufacturerId": self.manufacturer_id,
+                "modelId": self.model_id,
+                "managementAddress": self.management_address,
+                "reporting": self.reporting,
+                "useNat": self.use_nat,
+                "logEnabled": self.log_enabled,
+                "logMoreEnabled": self.log_more_enabled,
+                "managementInterface": self.management_interface,
+                "mailAlerting": self.mail_alerting,
+                "passwordAdmin": self.password_admin,
+                "externalReference": "",
+                "login": self.login,
+                "name": self.name,
+                "password": self.password,
+                "id": 0,
+                "snmpCommunity": self.snmp_community}
+
+        self.call_put(json.dumps(data))
+        self.device_id = json.loads(self.response.content)['entity']['id']
+        return json.dumps(data)
 
     def delete(self, by_ref=False):
         """
@@ -220,6 +198,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.call_get()
         device_info = json.loads(self.response.content)
 
+        self.device_id = device_info['id']
         self.name = device_info["name"]
         self.manufacturer_id = device_info["manufacturerId"]
         self.model_id = device_info["modelId"]
@@ -232,7 +211,6 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.mail_alerting = device_info["mailAlerting"]
         self.use_nat = device_info["useNat"]
         self.snmp_community = device_info["snmpCommunity"]
-        self.device_fields = DeviceFields(self.device_id)
 
         return self.response.content
 
@@ -348,11 +326,8 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         """
         path = "{}/management_ip/update/{}?ip={}&mask={}"
-        self.path = path.format(
-            self.api_path,
-            self.device_id,
-            ip_addr,
-            netmask)
+        self.path = path.format(self.api_path, self.device_id, ip_addr,
+                                netmask)
         self.call_put()
 
     def profile_switch(self, old_profile, new_profile_ref):
