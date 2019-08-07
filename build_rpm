@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# RPM_BUILD="$(pwd)/rpmbuild"
-# mkdir -p "${RPM_BUILD}"
-
 VERSION='20.0.0'
 RELEASE=$(date +%Y%m%d%H%M)
 
