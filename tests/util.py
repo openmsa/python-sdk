@@ -6,6 +6,7 @@ import pytest
 from msa_sdk.device import Device
 from msa_sdk.orchestration import Orchestration
 from msa_sdk.order import Order
+from msa_sdk.repository import Repository
 
 
 def _is_valid_json(msg_json):
@@ -49,6 +50,15 @@ def device_fixture():
         device = Device(10, "MyDevice", 11, 13, "ncroot", "pswd",
                         "adm_pswd", "mng_addres", "Dexternal")
     return device
+
+
+@pytest.fixture
+def repository_fixture():
+    """Repository fixture."""
+    with patch('requests.post') as mock_post:
+        mock_post.return_value.json.return_value = {'token': '12345qwert'}
+        repos = Repository()
+    return repos
 
 
 @pytest.fixture
