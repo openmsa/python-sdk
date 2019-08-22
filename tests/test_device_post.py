@@ -65,3 +65,20 @@ def test_do_provisioning(device_fixture):
         assert device.path == '/device/provisioning/{}'.format(
             device.device_id)
         mock_call_post.assert_called_once()
+
+
+def test_create(device_fixture):
+    """
+    Test create
+    """
+
+    device = device_fixture
+
+    response_content = '{"entity": {"id": 67015, "name": "PyASA27-b"}}'
+
+    with patch('requests.post') as mock_call_post:
+        mock_call_post.return_value.content = response_content
+        assert _is_valid_json(device.create())
+        assert device.path == '/device/{}'.format(device.customer_id)
+        assert device.device_id == 67015
+        mock_call_post.assert_called_once()
