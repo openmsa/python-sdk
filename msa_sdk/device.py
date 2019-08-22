@@ -108,7 +108,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                 "id": 0,
                 "snmpCommunity": self.snmp_community}
 
-        self.call_put(json.dumps(data))
+        self.call_post(json.dumps(data))
         self.device_id = json.loads(self.response.content)['entity']['id']
         return json.dumps(data)
 

@@ -127,19 +127,3 @@ def test_detach_files(device_fixture):
             device.device_id)
         mock_call_put.assert_called_once()
 
-
-def test_create(device_fixture):
-    """
-    Test create
-    """
-
-    device = device_fixture
-
-    response_content = '{"entity": {"id": 67015, "name": "PyASA27-b"}}'
-
-    with patch('requests.put') as mock_call_put:
-        mock_call_put.return_value.content = response_content
-        assert _is_valid_json(device.create())
-        assert device.path == '/device/{}'.format(device.customer_id)
-        assert device.device_id == 67015
-        mock_call_put.assert_called_once()
