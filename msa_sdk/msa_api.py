@@ -138,6 +138,7 @@ class MSA_API():  # pylint: disable=invalid-name
 
         """
         headers = {
+			'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Authorization': 'Bearer {}'.format(self._token),
         }
