@@ -18,3 +18,25 @@ _This assumes you have docker installed and running_
 
 1. Clone the project
 2. `mkBL -a`
+
+#### Run unit tests
+
+1. Make sure you have all the requirements `pip install -r requirements.txt`
+1. Run the tests: `python -m pytest --cov`
+  - `Cover` should be **100%** for all the files
+
+```
+Name                       Stmts   Miss  Cover
+----------------------------------------------
+msa_sdk/__init__.py            1      0   100%
+msa_sdk/constants.py           8      0   100%
+msa_sdk/device.py            115      0   100%
+msa_sdk/msa_api.py            63      0   100%
+msa_sdk/orchestration.py      53      0   100%
+msa_sdk/order.py              15      0   100%
+msa_sdk/repository.py         11      0   100%
+msa_sdk/util.py               93      0   100%
+----------------------------------------------
+TOTAL                        359      0   100%
+
+```
