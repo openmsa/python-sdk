@@ -35,7 +35,7 @@ class MSA_API():  # pylint: disable=invalid-name
         self.response = None
 
     @classmethod
-    def content(cls, status, comment, new_params, log_response=False):
+    def show_content(cls, status, comment, new_params, log_response=False):
         """
 
         Property content.
@@ -107,6 +107,11 @@ class MSA_API():  # pylint: disable=invalid-name
 
         """
         return self._token
+
+    @property
+    def content(self):
+        """Content of the response"""
+        return self.response.content
 
     def _get_token(self):
         headers = {'Content-Type': 'application/json'}

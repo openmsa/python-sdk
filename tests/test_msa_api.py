@@ -81,7 +81,7 @@ def test_content_no_log(api_fixture):
         "wo_newparams": {"SERVICEINSTANCEID": "1234", "Other": "Value"}
     }
 
-    assert api.content(
+    assert api.show_content(
         'ENDED', 'Task OK', {
             "SERVICEINSTANCEID": "1234",
             "Other": "Value"}) == json.dumps(response)
@@ -105,8 +105,8 @@ def test_content_with_log(api_fixture, tmpdir):
             "wo_newparams": params
         }
 
-        assert api.content('ENDED', 'Task OK', params,
-                           True) == json.dumps(response)
+        assert api.show_content('ENDED', 'Task OK', params,
+                                True) == json.dumps(response)
 
         log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -136,8 +136,8 @@ def test_content_with_log_more_lines(api_fixture, tmpdir):
             "wo_newparams": params1
         }
 
-        assert api.content('ENDED', 'Task OK', params1,
-                           True) == json.dumps(response)
+        assert api.show_content('ENDED', 'Task OK', params1,
+                                True) == json.dumps(response)
 
         log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -147,7 +147,7 @@ def test_content_with_log_more_lines(api_fixture, tmpdir):
         assert log_msg_1 == open(
             '{}/{}'.format(temp_dir, 'process-1234.log'), 'r').read()
 
-        api.content('ENDED', 'Task OK', params2, True)
+        api.show_content('ENDED', 'Task OK', params2, True)
 
         log_msg_2 = '{}\n=== {} ===\n{}'.format(
             log_msg_1, log_time, json.dumps(params2, indent=4))
