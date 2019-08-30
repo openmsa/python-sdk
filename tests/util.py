@@ -49,6 +49,7 @@ def device_fixture():
         mock_post.return_value.json.return_value = {'token': '12345qwert'}
         device = Device(10, "MyDevice", 11, 13, "ncroot", "pswd",
                         "adm_pswd", "mng_addres", "Dexternal")
+        device.log_response = False
     return device
 
 

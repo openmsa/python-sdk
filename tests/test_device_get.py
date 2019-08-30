@@ -4,6 +4,7 @@ Test Device Get
 import json
 
 from unittest.mock import patch
+from unittest.mock import MagicMock
 
 from util import _is_valid_json
 from util import device_fixture  # pylint: disable=unused-import
@@ -88,9 +89,9 @@ def test_status(device_fixture):  # pylint: disable=W0621
         mock_call_get.assert_called_once()
 
 
-def test_status_fail(device_fixture):  # pylint: disable=W0621
+def test_status_unreachable(device_fixture):  # pylint: disable=W0621
     """
-    Test Status
+    Test Status UNREACHABLE
     """
     device = device_fixture
 
@@ -100,7 +101,24 @@ def test_status_fail(device_fixture):  # pylint: disable=W0621
         assert device.status() == 'UNREACHABLE'
 
         assert device.path == '/device/status/{}'.format(device.device_id)
-        mock_call_get.assert_called_once()
+
+
+def test_status_fail(device_fixture):  # pylint: disable=W0621
+    """
+    Test Status fail
+    """
+    device = device_fixture
+
+    fail_response = {
+        'wo_status': 'FAIL',
+        'wo_comment': "Get device status",
+        'wo_newparams': "Not found"
+    }
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
+        device.status()
+        assert device.content == json.dumps(fail_response)
 
 
 def test_provision_status(device_fixture):  # pylint: disable=W0621
@@ -136,6 +154,25 @@ def test_provision_status(device_fixture):  # pylint: disable=W0621
 
         mock_call_get.assert_called_once()
         assert device.path == '/device/provisioning/status/1234'
+
+
+def test_provision_status_fail(device_fixture):  # pylint: disable=W0621
+    """
+    Test provision status fail
+    """
+
+    device = device_fixture
+
+    fail_response = {
+        'wo_status': 'FAIL',
+        'wo_comment': "Get provision status",
+        'wo_newparams': "Not found"
+    }
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
+        device.provision_status()
+        assert device.content == json.dumps(fail_response)
 
 
 # pylint: disable=redefined-outer-name
@@ -217,3 +254,22 @@ def test_is_device(device_fixture):
         assert device.is_device()
         assert device.path == '/device/isDevice/{}'.format(device.device_id)
         mock_call_get.assert_called_once()
+
+
+def test_is_device_fail(device_fixture):  # pylint: disable=W0621
+    """
+    Test is device fail
+    """
+
+    device = device_fixture
+
+    fail_response = {
+        'wo_status': 'FAIL',
+        'wo_comment': 'Is device',
+        'wo_newparams': "Not found"
+    }
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
+        device.is_device()
+        assert device.content == json.dumps(fail_response)

@@ -31,6 +31,7 @@ class Repository(MSA_API):
         None
 
         """
+        self.action = 'File update comment'
         url_encoded = urlencode({'uri': file_uri, 'comment': comment})
 
         self.path = "{}/comment?{}".format(self.api_path, url_encoded)

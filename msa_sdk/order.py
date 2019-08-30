@@ -31,6 +31,7 @@ class Order(Device):
         None
 
         """
+        self.action = 'Command execute'
         self.path = '{}/execute/{}/{}'.format(self.api_path, self.device_id,
                                               command)
 
@@ -55,6 +56,7 @@ class Order(Device):
         None
 
         """
+        self.action = 'Command generate configuration'
         self.path = '{}/get/configuration/{}/{}'.format(self.api_path,
                                                         self.device_id,
                                                         command)
@@ -77,6 +79,7 @@ class Order(Device):
         None
 
         """
+        self.action = 'Command synchronize'
         self.path = '{}/synchronize/{}'.format(self.api_path,
                                                self.device_id)
 
