@@ -22,7 +22,7 @@ _This assumes you have docker installed and running_
 #### Run unit tests
 
 1. Make sure you have all the requirements `pip install -r requirements.txt`
-1. Run the tests: `python -m pytest --cov`
+1. Run the tests: `python -m pytest --cov tests/`
   - `Cover` should be **100%** for all the files
 
 ```
@@ -40,3 +40,4 @@ msa_sdk/util.py               93      0   100%
 TOTAL                        359      0   100%
 
 ```
+*Image above is only an example*
