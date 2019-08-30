@@ -1,6 +1,4 @@
-"""
-Test util
-"""
+"""Test util."""
 
 import datetime
 import io

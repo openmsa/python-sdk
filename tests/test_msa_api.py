@@ -2,7 +2,6 @@
 Test MSA API
 """
 
-from unittest.mock import MagicMock
 from unittest.mock import patch
 import json
 import datetime
@@ -42,30 +41,6 @@ def test_get_token(api_fixture):
     api = api_fixture
 
     assert api.token == '12345qwert'
-
-
-def test_check_reponse_fail(api_fixture):
-    """
-    Test response fail
-    """
-    api = api_fixture
-    api.response = MagicMock()
-    api.response.ok = False
-
-    with pytest.raises(RuntimeError):
-        api.check_response()
-
-
-def test_check_reponse_ok(api_fixture):
-    """
-    Test response fail
-    """
-    api = api_fixture
-    api.response = MagicMock()
-    api.response.ok = False
-
-    with pytest.raises(RuntimeError):
-        api.check_response()
 
 
 def test_content_no_log(api_fixture):

@@ -23,6 +23,7 @@ class Orchestration(MSA_API):
         None
 
         """
+        self.action = 'List service instances'
         self.path = "{}/{}/service/instance".format(self.api_path,
                                                     self.ubiqube_id)
         self.call_get()
@@ -41,6 +42,7 @@ class Orchestration(MSA_API):
         None
 
         """
+        self.action = 'Read service instances'
         self.path = "{}/{}/service/instance/{}".format(self.api_path,
                                                        self.ubiqube_id,
                                                        service_id)
