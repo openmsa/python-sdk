@@ -43,6 +43,27 @@ def test_read_by_id(mock_post):
 
 
 @patch('requests.post')
+def test_read_by_invalid_id(mock_post):
+    """
+    Read Device by id
+    """
+
+    mock_post.return_value.json.return_value = {'token': '12345qwert'}
+
+    fail_return = {
+        "wo_status": "FAIL",
+        "wo_comment": "Read device",
+        "wo_newparams": "Not found"
+    }
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
+        device = Device(device_id=21594)
+        mock_call_get.assert_called_once()
+        assert device.content == json.dumps(fail_return)
+
+
+@patch('requests.post')
 def test_read_by_reference(mock_post):
     """
     Read Device by reference
