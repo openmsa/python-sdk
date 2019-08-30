@@ -203,6 +203,9 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.action = 'Read device'
         self._format_path_ref_id(by_ref, self.api_path)
         self.call_get()
+        if not self.response.ok:
+            return False
+
         device_info = json.loads(self.content)
 
         self.device_id = device_info['id']

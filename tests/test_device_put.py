@@ -2,7 +2,6 @@
 Device for PUT
 """
 from unittest.mock import patch
-from util import _is_valid_json
 
 from util import device_fixture  # pylint: disable=unused-import
 
@@ -126,4 +125,3 @@ def test_detach_files(device_fixture):
         assert device.path == '/device/detach/{}/files'.format(
             device.device_id)
         mock_call_put.assert_called_once()
-
