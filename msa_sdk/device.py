@@ -90,7 +90,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         """
         self.action = 'Create device'
-        self.path = '{}/{}'.format(self.api_path, self.customer_id)
+        self.path = '{}/v2/{}'.format(self.api_path, self.customer_id)
 
         data = {"manufacturerId": self.manufacturer_id,
                 "modelId": self.model_id,
@@ -111,7 +111,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         self.call_post(json.dumps(data))
         if self.response.ok:
-            self.device_id = json.loads(self.content)['entity']['id']
+            self.device_id = json.loads(self.content)['id']
             return json.dumps(data)
 
         return self.content
