@@ -118,7 +118,7 @@ class Variables:
         return json.dumps(variables)
 
     @classmethod
-    def task_call(cls, var_obj):
+    def task_call(cls, var_obj=None):
         """
         Will print all the variables from an object.
 
@@ -132,11 +132,16 @@ class Variables:
         Json with all the variables
 
         """
-        msg = ''
-        if len(sys.argv) > 1 and sys.argv[1] == '--get_vars_definition':
-            msg = var_obj.vars_definition()
+        context = '{}'
 
-        print(msg, end='')
+        if len(sys.argv) > 1 and '--get_vars_definition' in sys.argv[1]:
+            print(var_obj.vars_definition(), end='')
+            sys.exit(0)
+
+        if len(sys.argv) > 2 and '--execute' in sys.argv[1]:
+            context = json.loads(open(sys.argv[2]).read())
+
+        return context
 
     def check_mandatory_param(self, context):
         """Check if any required var has no value.
