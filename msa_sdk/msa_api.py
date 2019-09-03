@@ -38,10 +38,10 @@ class MSA_API():  # pylint: disable=invalid-name
         self.action = self.__class__
 
     @classmethod
-    def show_content(cls, status, comment, new_params, log_response=False):
+    def process_content(cls, status, comment, new_params, log_response=False):
         """
 
-        Property content.
+        Process content.
 
         Parameters
         ----------
@@ -134,8 +134,8 @@ class MSA_API():  # pylint: disable=invalid-name
 
         """
         if not self.response.ok:
-            self._content = self.show_content(self.FAILED, self.action,
-                                              self.response.reason)
+            self._content = self.process_content(self.FAILED, self.action,
+                                                 self.response.reason)
 
     def call_post(self, data=None, timeout=60):
         """

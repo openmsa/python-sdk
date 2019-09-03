@@ -116,14 +116,14 @@ def obtain_file_lock(lock_file_name, mode, process_param, sleep_time=60,
             time.sleep(sleep_time)
 
     if not lock_obtained:
-        r_json = MSA_API.show_content(
+        r_json = MSA_API.process_content(
             constants.FAILED,
             'Lock could not be obtained on the file {}'.format(
                 lock_file_name),
             process_param,
             True)
     else:
-        r_json = MSA_API.show_content(
+        r_json = MSA_API.process_content(
             constants.ENDED,
             'Lock obtained on the file {}'.format(lock_file_name),
             process_param,
@@ -175,12 +175,12 @@ def release_file_lock(lock_file_name, process_param, sleep_time=60,
             time.sleep(sleep_time)
 
     if tries >= timeout:
-        r_json = MSA_API.show_content(
+        r_json = MSA_API.process_content(
             constants.FAILED,
             'Lock could not be released on the file {}'.format(
                 lock_file_name), process_param, True)
     else:
-        r_json = MSA_API.show_content(
+        r_json = MSA_API.process_content(
             constants.ENDED,
             'Lock released on the file {}'.format(lock_file_name),
             process_param, True)
