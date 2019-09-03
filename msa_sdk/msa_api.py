@@ -159,6 +159,7 @@ class MSA_API():  # pylint: disable=invalid-name
         self.response = requests.post(url, headers=headers, data=data,
                                       timeout=timeout)
         self._content = self.response.content
+        self.check_response()
 
     def call_get(self, timeout=60):
         """

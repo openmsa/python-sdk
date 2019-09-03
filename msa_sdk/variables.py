@@ -119,8 +119,7 @@ class Variables:
 
     @classmethod
     def task_call(cls, var_obj=None):
-        """
-        Will print all the variables from an object.
+        """Will print all the variables from an object.
 
         Parameters
         ----------
@@ -132,12 +131,14 @@ class Variables:
         Json with all the variables
 
         """
-        context = '{}'
-
         if len(sys.argv) > 1 and '--get_vars_definition' in sys.argv[1]:
-            print(var_obj.vars_definition(), end='')
+            if var_obj:
+                print(var_obj.vars_definition(), end='')
+            else:
+                print("[{}]", end='')
             sys.exit(0)
 
+        context = '{}'
         if len(sys.argv) > 2 and '--execute' in sys.argv[1]:
             context = json.loads(open(sys.argv[2]).read())
 

@@ -1,7 +1,12 @@
 """
 Device for POST
 """
+
+import json
+
 from unittest.mock import patch
+from unittest.mock import MagicMock
+
 
 from util import _is_valid_json
 from util import device_fixture  # pylint: disable=unused-import
@@ -78,7 +83,30 @@ def test_create(device_fixture):
 
     with patch('requests.post') as mock_call_post:
         mock_call_post.return_value.content = response_content
+
         assert _is_valid_json(device.create())
         assert device.path == '/device/{}'.format(device.customer_id)
         assert device.device_id == 67015
+
         mock_call_post.assert_called_once()
+
+
+def test_create_fail(device_fixture):
+    """
+    Test fail create device
+    """
+
+    device = device_fixture
+
+    fail_response = {
+        'wo_status': 'FAIL',
+        'wo_comment': "Create device",
+        'wo_newparams': "Not found"
+    }
+
+    with patch('requests.post') as mock_call_post:
+        mock_call_post.return_value = MagicMock(ok=False, reason='Not found')
+
+        assert _is_valid_json(device.create())
+        assert device.path == '/device/{}'.format(device.customer_id)
+        assert device.content == json.dumps(fail_response)

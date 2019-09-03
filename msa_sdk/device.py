@@ -110,8 +110,11 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                 "snmpCommunity": self.snmp_community}
 
         self.call_post(json.dumps(data))
-        self.device_id = json.loads(self.content)['entity']['id']
-        return json.dumps(data)
+        if self.response.ok:
+            self.device_id = json.loads(self.content)['entity']['id']
+            return json.dumps(data)
+
+        return self.content
 
     def delete(self, by_ref=False):
         """

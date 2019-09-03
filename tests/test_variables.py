@@ -175,10 +175,69 @@ def test_task_call():
 
         variables.add('Var1')
         variables.add('Var2')
-        Variables().task_call(variables)
-
+        with pytest.raises(SystemExit):
+            Variables().task_call(variables)
         sys.stdout = sys.__stdout__
         assert caputure_output.getvalue() == variables.vars_definition()
+
+
+def test_task_call_no_var_obj():
+    """
+    Test task call to return var definitions
+    """
+
+    test_args = ['task.py', '--get_vars_definition']
+
+    with patch.object(sys, 'argv', test_args):
+        caputure_output = io.StringIO()
+        sys.stdout = caputure_output
+
+        variables = Variables()
+
+        variables.add('Var1')
+        variables.add('Var2')
+
+        with pytest.raises(SystemExit):
+            Variables().task_call()
+
+        sys.stdout = sys.__stdout__
+        assert caputure_output.getvalue() == "[{}]"
+
+
+def test_task_call_execute(tmpdir):
+    """
+    Test task call for execute
+    """
+
+    f_content = (
+        '{"manufacturer_id": "1",'
+        '"password": "cisco",'
+        '"password_admin": "cisco",'
+        '"managed_device_name": "ASA",'
+        '"model_id": "15010202",'
+        '"customer_id": "34604",'
+        '"device_ip_address": "10.30.18.10",'
+        '"login": "cisco",'
+        '"undefined": "",'
+        '"service_id": "5529",'
+        '"SERVICEINSTANCEID": "5529",'
+        '"EXECNUMBER": "1",'
+        '"PROCESSINSTANCEID": "214241",'
+        '"UBIQUBEID": "RKAA34604",'
+        '"SERVICEINSTANCEREFERENCE": "RKASID5529",'
+        '"TASKID": "1",'
+        '"TASKINSTANCEID": "371002"}'
+    )
+
+    f_name = tmpdir.mkdir('temp_file').join('context.json')
+    with open(f_name, 'w+') as t_file:
+        t_file.write(f_content)
+        t_file.close()
+
+    test_args = ['task.py', '--execute', f_name]
+
+    with patch.object(sys, 'argv', test_args):
+        assert Variables().task_call() == json.loads(f_content)
 
 
 def test_task_call_wrong_parameter():
