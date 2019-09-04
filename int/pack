@@ -13,8 +13,5 @@
 ## $ python -m pip install -r requirements.txt
 ## $ source $HOME/.bashrc
 
-pdoc3 --html --force -o msa_sdk/html msa_sdk
-
-python3.7 setup.py bdist_rpm --release="${release}" \
-    --binary-only \
-    --dist-dir ../
+../build_rpm -r ${release}
+\mv rpms/* ..
