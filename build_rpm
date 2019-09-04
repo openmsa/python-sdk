@@ -6,7 +6,6 @@ VERSION_MIN=${CURRENT_TAG##*-}
 VERSION=$(python -c "import msa_sdk; print(msa_sdk.VERSION)")
 RELEASE=${VERSION_MIN}_$(date +%Y%m%d%H%M)
 
-sed -e "s/{APP_NAME}/${APP_NAME}/" setup.py.template > setup.py
 cp setup.cfg.template setup.cfg
 
 RPM_HOME="/home/rpm"
@@ -22,4 +21,4 @@ docker run --rm -u rpm -v "$(pwd):${RPM_HOME}/build" \
 
 # clean
 rm -rf build/ dist/ "${APP_NAME}_${VERSION}.egg-info"
-rm setup.cfg setup.py
+rm setup.cfg
