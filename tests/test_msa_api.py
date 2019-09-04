@@ -9,32 +9,44 @@ from unittest.mock import patch
 import pytest
 
 from msa_sdk.msa_api import MSA_API
-from util import host_port
 
 
 @pytest.fixture
-@patch('requests.post')
-@patch('msa_sdk.msa_api.host_port')
-def api_fixture(mock_host_port, mock_post):
+def api_fixture(tmpdir):
     """
     API Fixtures
     """
-    mock_post.return_value.json.return_value = {'token': '12345qwert'}
-    mock_host_port.return_value = host_port()
-    api = MSA_API()
+
+    f_name = tmpdir.mkdir('test').join('vars_ctx_file')
+    api_info = 'OTHER_VALUE-1=foobar-1\n'
+    api_info += 'UBI_WILDFLY_JNDI_ADDRESS=test_hostname\n'
+    api_info += 'UBI_WILDFLY_JNDI_PORT=1111\n'
+    api_info += 'OTHER_VALUE-2=foobar-2\n'
+    api_info += 'OTHER_VALUE-4=foobar-3\n'
+    api_info += 'OTHER_VALUE-5=foobar-4\n'
+    api_info += 'OTHER_VALUE-6=foobar-5\n'
+
+    with open(f_name, 'w+') as t_file:
+        t_file.write(api_info)
+
+    with patch('requests.post') as mock_post:
+        mock_post.return_value.json.return_value = {'token': '12345qwert'}
+        with patch('msa_sdk.constants.VARS_CTX_FILE', f_name):
+            api = MSA_API()
+
     return api
 
 
 # pylint: disable=redefined-outer-name
-def test_hostname_port(api_fixture):
+def test_read_hostname_json(api_fixture):
     """
-    Test hostname and port
+    Test read hostname from json
     """
     api = api_fixture
+    assert api.url == 'http://test_hostname:1111/ubi-api-rest'
 
-    assert api.url == 'http://api_hostname:8080/ubi-api-rest'
 
-
+# pylint: disable=redefined-outer-name
 def test_get_token(api_fixture):
     """
     Test Get Token
@@ -44,6 +56,7 @@ def test_get_token(api_fixture):
     assert api.token == '12345qwert'
 
 
+# pylint: disable=redefined-outer-name
 def test_content_no_log(api_fixture):
     """
     Test content with no log
@@ -63,12 +76,13 @@ def test_content_no_log(api_fixture):
             "Other": "Value"}) == json.dumps(response)
 
 
+# pylint: disable=redefined-outer-name
 def test_content_with_log(api_fixture, tmpdir):
     """
     Test content with log
     """
 
-    temp_dir = tmpdir.mkdir('test')
+    temp_dir = tmpdir.mkdir('with_log')
 
     with patch('msa_sdk.constants.PROCESS_LOGS_DIRECTORY', temp_dir):
         api = api_fixture
@@ -93,12 +107,13 @@ def test_content_with_log(api_fixture, tmpdir):
             '{}/{}'.format(temp_dir, 'process-1234.log'), 'r').read()
 
 
+# pylint: disable=redefined-outer-name
 def test_content_with_log_more_lines(api_fixture, tmpdir):
     """
     Test content with log with more lines
     """
 
-    temp_dir = tmpdir.mkdir('test')
+    temp_dir = tmpdir.mkdir('with_log_more_lines')
 
     with patch('msa_sdk.constants.PROCESS_LOGS_DIRECTORY', temp_dir):
         api = api_fixture
@@ -132,6 +147,7 @@ def test_content_with_log_more_lines(api_fixture, tmpdir):
             '{}/{}'.format(temp_dir, 'process-1234.log'), 'r').read()
 
 
+# pylint: disable=redefined-outer-name
 def test_constants(api_fixture):
     """
     Test Constants

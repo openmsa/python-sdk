@@ -1,6 +1,7 @@
 """Module msa_api."""
 import datetime
 import json
+import re
 
 import requests
 
@@ -16,7 +17,14 @@ def host_port():
     Hostname and Port
 
     """
-    return ('10.30.18.86', '8480')
+    api_info = open(constants.VARS_CTX_FILE).read()
+
+    widlfly_address = re.search(r'UBI_WILDFLY_JNDI_ADDRESS=(.+)',
+                                api_info).group(1)
+    widlfly_port = re.search(r'UBI_WILDFLY_JNDI_PORT=(\d+)',
+                             api_info).group(1)
+
+    return (widlfly_address, widlfly_port)
 
 
 class MSA_API():  # pylint: disable=invalid-name
