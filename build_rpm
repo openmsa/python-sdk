@@ -1,9 +1,15 @@
 #!/bin/bash
 
-VERSION='20.0.0'
+CURRENT_TAG=$(git describe --abbrev=0 --tags)
+APP_NAME="msa_sdk"
+PRODUCT_VERSION=${CURRENT_TAG#*R}
+MAIN_VERSION=${PRODUCT_VERSION%-*}
+VERSION=${CURRENT_TAG##*-}
 RELEASE=$(date +%Y%m%d%H%M)
 
-sed "s/{VERSION}/${VERSION}/" setup.py.template > setup.py
+sed -e "s/{VERSION}/${VERSION}/"\
+    -e "s/{APP_NAME}/${APP_NAME}-${MAIN_VERSION//-/.}/" \
+    setup.py.template > setup.py
 
 RPM_HOME="/home/rpm"
 
@@ -16,4 +22,5 @@ docker run --rm -u rpm -v "$(pwd):${RPM_HOME}/build" \
     --binary-only \
     --dist-dir rpms/
 
-rm -rf build/ dist/ msa_sdk.egg-info/
+# clean
+rm -rf build/ dist/ "${APP_NAME}_${MAIN_VERSION//-/.}.egg-info"

@@ -12,7 +12,7 @@ with open("README.md", "r") as fh:
     LONG_DESCRIPTION = fh.read()
 
 setup(
-    name="msa_sdk",
+    name="{APP_NAME}",
     version="{VERSION}",
     author="Ubiqube",
     author_email="ubiqube@ubiqube.com",
