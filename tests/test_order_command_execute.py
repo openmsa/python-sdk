@@ -2,8 +2,8 @@
 Test Order Command
 """
 from unittest.mock import patch
-from util import order_fixture  # pylint: disable=unused-import
 
+from util import order_fixture  # pylint: disable=unused-import
 
 # pylint: disable=redefined-outer-name
 

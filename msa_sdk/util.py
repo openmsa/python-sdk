@@ -1,16 +1,16 @@
 """Module util."""
-import io
 import fcntl
-import time
+import io
 import os
-
+import time
 from configparser import ConfigParser
+from ipaddress import AddressValueError
 from ipaddress import IPv4Address
 from ipaddress import IPv4Network
 from ipaddress import ip_network
-from ipaddress import AddressValueError
-from msa_sdk.msa_api import MSA_API
+
 from msa_sdk import constants
+from msa_sdk.msa_api import MSA_API
 
 
 def get_ip_range(start, end):

@@ -22,7 +22,7 @@ _This assumes you have docker installed and running_
 #### Run unit tests
 
 1. Make sure you have all the requirements `pip install -r requirements.txt`
-1. Run the tests: `python -m pytest --cov tests/`
+1. Run the tests: `./run_tests [normal|html|verbose|quiet]`
   - `Cover` should be **100%** for all the files
 
 ```

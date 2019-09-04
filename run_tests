@@ -1,0 +1,32 @@
+#!/bin/bash
+
+usage() {
+    echo './run_tests [normal|html|verbose|quiet]'
+    exit 0
+}
+
+if [ -z "$1" ]; then
+    usage
+fi
+
+PYTEST='python -m pytest --cov --no-cov-on-fail --ff --isort --docstyle'
+
+case "$1" in
+    'html')
+        PYTEST="${PYTEST} --cov-report=html"
+        ;;
+    'verbose')
+        PYTEST="${PYTEST} -v"
+        ;;
+    'quiet')
+        PYTEST="${PYTEST} -q"
+        ;;
+    'normal')
+        ;;
+    '*')
+        usage
+        ;;
+esac
+
+# Run
+$PYTEST

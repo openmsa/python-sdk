@@ -2,6 +2,7 @@
 Test Device
 """
 from unittest.mock import patch
+
 from util import device_fixture  # pylint: disable=unused-import
 
 # pylint: disable=redefined-outer-name

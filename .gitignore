@@ -1,11 +1,11 @@
 tags
 __pycache__
 .coverage
-.coveragerc
 *.pyc
 setup.py
 *.rpm
 html/
+htmlcov/
 rpms/
 build/
 Doxyfile

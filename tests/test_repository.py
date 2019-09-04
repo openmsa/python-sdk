@@ -1,8 +1,9 @@
 """
 Test Repository
 """
-from urllib.parse import urlencode
 from unittest.mock import patch
+from urllib.parse import urlencode
+
 from util import repository_fixture  # pylint: disable=unused-import
 
 # pylint: disable=redefined-outer-name

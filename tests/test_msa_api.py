@@ -2,9 +2,10 @@
 Test MSA API
 """
 
-from unittest.mock import patch
-import json
 import datetime
+import json
+from unittest.mock import patch
+
 import pytest
 
 from msa_sdk.msa_api import MSA_API

@@ -1,8 +1,8 @@
 """Module Test lookup."""
 
 import json
-from unittest.mock import patch
 from unittest.mock import MagicMock
+from unittest.mock import patch
 
 from msa_sdk.lookup import Lookup
 from util import _is_valid_json

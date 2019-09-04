@@ -1,6 +1,7 @@
 """Module test util."""
-from unittest.mock import patch
 import json
+from unittest.mock import patch
+
 import pytest
 
 from msa_sdk.device import Device

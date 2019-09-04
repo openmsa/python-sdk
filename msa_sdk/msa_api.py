@@ -1,6 +1,7 @@
 """Module msa_api."""
-import json
 import datetime
+import json
+
 import requests
 
 from msa_sdk import constants

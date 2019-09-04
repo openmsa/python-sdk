@@ -2,6 +2,7 @@
 Test Orchestration
 """
 from unittest.mock import patch
+
 from util import _is_valid_json
 from util import orchestration_fixture  # pylint: disable=unused-import
 

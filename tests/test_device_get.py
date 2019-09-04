@@ -2,14 +2,13 @@
 Test Device Get
 """
 import json
-
-from unittest.mock import patch
 from unittest.mock import MagicMock
+from unittest.mock import patch
 
+from msa_sdk.device import Device
 from util import _is_valid_json
 from util import device_fixture  # pylint: disable=unused-import
 from util import device_info
-from msa_sdk.device import Device
 
 
 @patch('requests.post')
@@ -102,7 +101,6 @@ def test_status(device_fixture):  # pylint: disable=W0621
     device = device_fixture
 
     with patch('requests.get') as mock_call_get:
-
         mock_call_get.return_value.content = 'UNREACHABLE'
         assert device.status() == 'UNREACHABLE'
 
@@ -117,7 +115,6 @@ def test_status_unreachable(device_fixture):  # pylint: disable=W0621
     device = device_fixture
 
     with patch('requests.get') as mock_call_get:
-
         mock_call_get.return_value.content = 'UNREACHABLE'
         assert device.status() == 'UNREACHABLE'
 
@@ -252,7 +249,6 @@ def test_push_configuration_status(device_fixture):
                '"date":"27-06-2018 09:15:33","status":"ENDED"}')
 
     with patch('requests.get') as mock_call_get:
-
         mock_call_get.return_value.content = r_value
         assert _is_valid_json(device.push_configuration_status())
 

@@ -2,18 +2,18 @@
 
 import datetime
 import io
-
 from unittest.mock import patch
+
 from msa_sdk.util import address_is_in_network
+from msa_sdk.util import cidr_match
 from msa_sdk.util import cidr_to_range
+from msa_sdk.util import cidr_to_subnet_and_subnetmask_address
 from msa_sdk.util import get_ip_range
 from msa_sdk.util import get_vars_value
 from msa_sdk.util import is_cidr
+from msa_sdk.util import is_overlapping_cidr
 from msa_sdk.util import netmask_to_cidr
 from msa_sdk.util import obtain_file_lock
-from msa_sdk.util import cidr_match
-from msa_sdk.util import cidr_to_subnet_and_subnetmask_address
-from msa_sdk.util import is_overlapping_cidr
 from msa_sdk.util import release_file_lock
 
 

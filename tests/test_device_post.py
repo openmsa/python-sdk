@@ -3,10 +3,8 @@ Device for POST
 """
 
 import json
-
-from unittest.mock import patch
 from unittest.mock import MagicMock
-
+from unittest.mock import patch
 
 from util import _is_valid_json
 from util import device_fixture  # pylint: disable=unused-import
