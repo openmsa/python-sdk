@@ -9,7 +9,7 @@ if [ -z "$1" ]; then
     usage
 fi
 
-PYTEST='python -m pytest --cov --no-cov-on-fail --ff --isort --docstyle'
+PYTEST='python -m pytest --cov -x --no-cov-on-fail --ff --isort --docstyle'
 
 case "$1" in
     'html')
