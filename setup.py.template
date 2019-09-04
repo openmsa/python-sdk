@@ -3,16 +3,10 @@
 import glob
 from setuptools import setup
 
-# Utility function to read the README file.
-# Used for the long_description.  It's nice, because now 1) we have a top level
-# README file and 2) it's easier to type in the README file than to put a raw
-# string in below ...
-
-
 DOC_HTML_FILES = glob.glob('html/msa_sdk/*.html')
 
 setup(
-    name="{APP_NAME}",
+    name="msa_sdk",
     author="Ubiqube",
     author_email="ubiqube@ubiqube.com",
     description="MSA Python SDK",
