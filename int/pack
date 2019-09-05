@@ -1,17 +1,4 @@
 #!/bin/bash
 
-## Install pyenv
-## $ curl -L https://raw.github.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-
-## Load pyenv automatically by adding
-## the following to ~/.bashrc:
-## export PATH="/home/nahmed/.pyenv/bin:$PATH"
-## eval "$(pyenv init -)"
-## eval "$(pyenv virtualenv-init -)"
-## $ source $HOME/.bashrc
-## $ pyenv install 3.7.3
-## $ python -m pip install -r requirements.txt
-## $ source $HOME/.bashrc
-
 ../build_rpm -r ${release}
 \mv rpms/* ..
