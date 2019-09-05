@@ -1,0 +1,4 @@
+#!/bin/bash
+
+curl -s http://ubibucket/users/efe/repos/eduardo-stuff/raw/docker/rpmbuild/Dockerfile \
+	| docker build -t rpm-build -
