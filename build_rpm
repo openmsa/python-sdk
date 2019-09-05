@@ -5,6 +5,10 @@ APP_NAME="msa_sdk"
 VERSION_MIN=${CURRENT_TAG##*-}
 RELEASE=${VERSION_MIN}_$(date +%Y%m%d%H%M)
 
+if [ "$1" = "-r" ]; then
+	RELEASE=$2
+fi
+
 
 RPM_BUILD="/home/rpm/build"
 RPMS_DIR="rpms"
