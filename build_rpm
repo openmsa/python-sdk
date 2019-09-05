@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CURRENT_TAG=$(git describe --abbrev=0 --tags)
+CURRENT_TAG=$(git describe --abbrev=0 --tags --first-parent)
 APP_NAME="msa_sdk"
 VERSION_MIN=${CURRENT_TAG##*-}
 RELEASE=${VERSION_MIN}_$(date +%Y%m%d%H%M)
