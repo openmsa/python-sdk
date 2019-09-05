@@ -28,7 +28,10 @@ $ ./training_container stop
 
 _This assumes you have docker installed and running_
 
-- Create a docker image that will serve as the builder from [here](http://ubibucket.ubiqube.com/users/efe/repos/eduardo-stuff/browse/docker/rpmbuild)
+- Create a docker image that will serve as the builder
+
+	./init
+
 
 #### Generate RPM
 
