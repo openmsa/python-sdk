@@ -5,21 +5,45 @@ APP_NAME="msa_sdk"
 VERSION_MIN=${CURRENT_TAG##*-}
 RELEASE=${VERSION_MIN}_$(date +%Y%m%d%H%M)
 
-cp setup.cfg.template setup.cfg
 
-RPM_HOME="/home/rpm"
+RPM_BUILD="/home/rpm/build"
+RPMS_DIR="rpms"
 DOC_DIR="msa_sdk/html"
 
-pdoc3 --html --force -o "${DOC_DIR}" msa_sdk
 
-mkdir -p rpms/
-docker run --rm -u rpm -v "$(pwd):${RPM_HOME}/build" \
-    -w "${RPM_HOME}/build" rpm-build \
-    python3 setup.py bdist_rpm --release="${RELEASE}" \
-    --binary-only \
-    --dist-dir rpms/
+main() {
+	mkdir -p ${RPMS_DIR}
+	generate_doc
+	generate_rpm
 
-# clean
-rm -rf build/ dist/ "${APP_NAME}.egg-info"
-rm -rf "${DOC_DIR}"
-rm setup.cfg
+	rm -rf "${DOC_DIR}"
+	rm -rf build/ dist/ msa_sdk.egg-info/
+}
+
+generate_doc() {
+	docker_run "
+	pdoc3 --html --force -o "${DOC_DIR}" msa_sdk
+	"
+}
+
+generate_rpm() {
+	docker_run "
+	python3 setup.py bdist_rpm --release=${RELEASE} \
+	--binary-only \
+	--dist-dir ${RPMS_DIR}
+	"
+}
+
+docker_run() {
+	docker run \
+	--rm \
+	-u rpm \
+	-v "$(pwd):${RPM_BUILD}" \
+	-w "${RPM_BUILD}" \
+	rpm-build \
+	\
+	bash -c -e "$1"
+}
+
+
+main
