@@ -13,7 +13,6 @@ DOC_HTML_FILES = glob.glob('html/msa_sdk/*.html')
 
 setup(
     name="{APP_NAME}",
-    version="{VERSION}",
     author="Ubiqube",
     author_email="ubiqube@ubiqube.com",
     description="MSA Python SDK",

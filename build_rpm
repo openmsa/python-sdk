@@ -2,14 +2,11 @@
 
 CURRENT_TAG=$(git describe --abbrev=0 --tags)
 APP_NAME="msa_sdk"
-PRODUCT_VERSION=${CURRENT_TAG#*R}
-MAIN_VERSION=${PRODUCT_VERSION%-*}
-VERSION=${CURRENT_TAG##*-}
-RELEASE=$(date +%Y%m%d%H%M)
+VERSION_MIN=${CURRENT_TAG##*-}
+VERSION=$(python -c "import msa_sdk; print(msa_sdk.VERSION)")
+RELEASE=${VERSION_MIN}_$(date +%Y%m%d%H%M)
 
-sed -e "s/{VERSION}/${VERSION}/"\
-    -e "s/{APP_NAME}/${APP_NAME}-${MAIN_VERSION//-/.}/" \
-    setup.py.template > setup.py
+sed -e "s/{APP_NAME}/${APP_NAME}/" setup.py.template > setup.py
 cp setup.cfg.template setup.cfg
 
 RPM_HOME="/home/rpm"
@@ -24,5 +21,5 @@ docker run --rm -u rpm -v "$(pwd):${RPM_HOME}/build" \
     --dist-dir rpms/
 
 # clean
-rm -rf build/ dist/ "${APP_NAME}_${MAIN_VERSION//-/.}.egg-info"
+rm -rf build/ dist/ "${APP_NAME}_${VERSION}.egg-info"
 rm setup.cfg setup.py
