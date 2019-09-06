@@ -29,6 +29,7 @@ setup(
                   'msa_sdk/html/msa_sdk/order.html',
                   'msa_sdk/html/msa_sdk/util.html',
                   'msa_sdk/html/msa_sdk/variables.html',
+                  'msa_sdk/html/msa_sdk/lookup.html',
                   'msa_sdk/html/msa_sdk/msa_api.html'])],
     include_package_data=True,
     classifiers=[
