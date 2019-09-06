@@ -9,8 +9,9 @@ RELEASE=${VERSION_MIN}_$(date +%Y%m%d%H%M)
 cp setup.cfg.template setup.cfg
 
 RPM_HOME="/home/rpm"
+DOC_DIR="msa_sdk/html"
 
-pdoc3 --html --force -o msa_sdk/html msa_sdk
+pdoc3 --html --force -o "${DOC_DIR}" msa_sdk
 
 mkdir -p rpms/
 docker run --rm -u rpm -v "$(pwd):${RPM_HOME}/build" \
@@ -21,4 +22,5 @@ docker run --rm -u rpm -v "$(pwd):${RPM_HOME}/build" \
 
 # clean
 rm -rf build/ dist/ "${APP_NAME}_${VERSION}.egg-info"
+rm -rf "${DOC_DIR}"
 rm setup.cfg
