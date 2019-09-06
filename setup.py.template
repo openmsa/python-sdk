@@ -1,5 +1,6 @@
 """Setup"""
 
+import glob
 from setuptools import setup
 
 # Utility function to read the README file.
@@ -10,6 +11,7 @@ from setuptools import setup
 
 with open("README.md", "r") as fh:
     LONG_DESCRIPTION = fh.read()
+DOC_HTML_FILES = glob.glob('html/msa_sdk/*.html')
 
 setup(
     name="{APP_NAME}",
@@ -21,16 +23,7 @@ setup(
     keywords="MSA",
     url="https://ubiqube.com",
     packages=['msa_sdk'],
-    data_files=[('/opt/ses/share/htdocs/msa_sdk',
-                 ['msa_sdk/html/msa_sdk/device.html',
-                  'msa_sdk/html/msa_sdk/index.html',
-                  'msa_sdk/html/msa_sdk/constants.html',
-                  'msa_sdk/html/msa_sdk/orchestration.html',
-                  'msa_sdk/html/msa_sdk/order.html',
-                  'msa_sdk/html/msa_sdk/util.html',
-                  'msa_sdk/html/msa_sdk/variables.html',
-                  'msa_sdk/html/msa_sdk/lookup.html',
-                  'msa_sdk/html/msa_sdk/msa_api.html'])],
+    data_files=[('/opt/ses/share/htdocs/msa_sdk', DOC_HTML_FILES)],
     include_package_data=True,
     classifiers=[
         "Development Status :: 4 - Beta"
