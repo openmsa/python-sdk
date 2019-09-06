@@ -21,4 +21,15 @@ RUN yum clean all
 
 RUN pip3 install pdoc3
 
+
+# https://denibertovic.com/posts/handling-permissions-with-docker-volumes/
+
+RUN echo -e '#!/bin/bash			\n\
+	usermod -u \${USER_ID:-1000} rpm	\n\
+	exec sudo -H -u rpm "\$@"		\n\
+' > /tmp/entrypoint \
+&& chmod +x /tmp/entrypoint
+
+ENTRYPOINT ["/tmp/entrypoint"]
+
 EOT

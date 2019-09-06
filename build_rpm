@@ -45,7 +45,7 @@ generate_rpm() {
 docker_run() {
 	docker run \
 	--rm \
-	-u rpm \
+	-e USER_ID=`id -u` \
 	-v "$(pwd):${RPM_BUILD}" \
 	-w "${RPM_BUILD}" \
 	rpm-build \
