@@ -3,7 +3,7 @@
 import glob
 from setuptools import setup
 
-DOC_HTML_FILES = glob.glob('html/msa_sdk/*.html')
+DOC_HTML_FILES = glob.glob('msa_sdk/html/msa_sdk/*.html')
 
 setup(
     name="msa_sdk",
