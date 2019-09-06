@@ -13,9 +13,6 @@
 ## $ python -m pip install -r requirements.txt
 ## $ source $HOME/.bashrc
 
-VERSION='20.0.0'
-
-sed "s/{VERSION}/${VERSION}/" setup.py.template > setup.py
 pdoc3 --html --force -o msa_sdk/html msa_sdk
 
 python3.7 setup.py bdist_rpm --release="${release}" \
