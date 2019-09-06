@@ -9,8 +9,6 @@ from setuptools import setup
 # string in below ...
 
 
-with open("README.md", "r") as fh:
-    LONG_DESCRIPTION = fh.read()
 DOC_HTML_FILES = glob.glob('html/msa_sdk/*.html')
 
 setup(
