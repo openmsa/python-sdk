@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -x
+set -e
+
 CURRENT_TAG=$(git describe --abbrev=0 --tags --first-parent)
 VERSION_ALL=${CURRENT_TAG##*_R}
 VERSION_MAJ=${VERSION_ALL%-*}
