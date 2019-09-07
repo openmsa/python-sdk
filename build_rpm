@@ -50,7 +50,7 @@ docker_run() {
 	-w "${RPM_BUILD}" \
 	rpm-build \
 	\
-	bash -c -e "$1"
+	$1
 }
 
 
