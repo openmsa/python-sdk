@@ -1,9 +1,2 @@
-isort
-pdoc3
-pydocstyle
-pytest
-pytest-cov
-pytest-docstyle
-pytest-isort
-pytest-pylint
 requests
+ipython

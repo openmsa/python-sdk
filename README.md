@@ -1,14 +1,21 @@
 MSA Python SDK
 
-#### Generate RPM using docker
+### Trainning container
+#### How to create
+- `$ docker build -t training-sdk .`
 
-##### Prerequisites (only if you are not in a RPM linux distro based)
+#### How to start
+- `$ docker run --rm -it --name training-con training-sdk ipython`
+
+
+### Generate RPM using docker
+#### Prerequisites (only if you are not in a RPM linux distro based)
 
 _This assumes you have docker installed and running_
 
 - Create a docker image that will serve as the builder from [here](http://ubibucket.ubiqube.com/users/efe/repos/eduardo-stuff/browse/docker/rpmbuild)
 
-##### Generate RPM
+#### Generate RPM
 
 - `$ ./build_rpm`
   (... watch letters go up)
@@ -19,9 +26,10 @@ _This assumes you have docker installed and running_
 1. Clone the project
 2. `mkBL -a`
 
-#### Run unit tests
+### Run unit tests
 
-1. Make sure you have all the requirements `pip install -r requirements.txt`
+1. Make sure you have all the prod requirements `pip install -r requirements.txt`
+1. Make sure you have all the dev requirements `pip install -r requirements-dev.txt`
 1. Run the tests: `./run_tests [normal|html|verbose|quiet]`
   - `Cover` should be **100%** for all the files
 
