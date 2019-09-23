@@ -11,3 +11,4 @@ build/
 Doxyfile
 dist/
 *.egg-info/
+.ipynb_checkpoints
