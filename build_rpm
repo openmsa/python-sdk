@@ -21,6 +21,6 @@ docker run --rm -u rpm -v "$(pwd):${RPM_HOME}/build" \
     --dist-dir rpms/
 
 # clean
-rm -rf build/ dist/ "${APP_NAME}_${VERSION}.egg-info"
+rm -rf build/ dist/ "${APP_NAME}.egg-info"
 rm -rf "${DOC_DIR}"
 rm setup.cfg
