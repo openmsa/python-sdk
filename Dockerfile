@@ -1,8 +1,12 @@
-FROM python:3.7-alpine
+FROM jupyter/base-notebook
 
-ADD msa_sdk /python_sdk/msa_sdk
-WORKDIR /python_sdk
+USER root
+RUN pip install netmiko
+RUN mkdir /pkg
+ADD setup.py /pkg/
+ADD msa_sdk/ /pkg/msa_sdk
 
-ADD requirements.txt /python_sdk
+RUN pip install -e /pkg/
 
-RUN pip install -r requirements.txt
+USER jovyan
+ADD jupyter_notebook_config.py $HOME/.jupyter/

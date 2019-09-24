@@ -1,0 +1,67 @@
+#!/bin/bash
+
+usage() {
+    echo './training_container [start|stop|build]'
+    exit 0
+}
+
+if [ -z "$1" ]; then
+    usage
+fi
+
+DOCKER_ID_FILE='running_container_id'
+
+stop() {
+    if [ ! -f "${DOCKER_ID_FILE}" ]; then
+        echo 'Training notebooks does not seem to be running... Nothing to stop'
+        exit 0
+    fi
+        docker stop "$(cat ${DOCKER_ID_FILE})"
+        rm "${DOCKER_ID_FILE}"
+}
+
+start() {
+
+    if [ -f "${DOCKER_ID_FILE}" ]; then
+            echo 'Training notebooks is alreay running...'
+            echo "If not, please delete ${DOCKER_ID_FILE} and run start again."
+            exit 0
+    fi
+
+    DOCKER_ID=$(docker run --rm -u $UID \
+        -p 8888:8888 \
+        -v "$PWD/notebooks:/notebooks" \
+        -d \
+        training-notebooks start-notebook.sh \
+        --NotebookApp.notebook_dir=/notebooks)
+
+    echo "${DOCKER_ID}" > "${DOCKER_ID_FILE}"
+    echo 'Open http://127.0.0.1:8888 in your browser'
+}
+
+interactive(){
+    docker run --rm -it --name train-ntbs-interac training-notebooks ipython
+}
+
+build() {
+    docker build -t training-notebooks .
+}
+
+case "$1" in
+
+    "start"*)
+        start
+        ;;
+    "stop"*)
+        stop
+        ;;
+    "build"*)
+        build
+        ;;
+    "ipython"*)
+        interactive
+        ;;
+    *)
+        usage
+    ;;
+esac
