@@ -28,7 +28,10 @@ $ ./training_container stop
 
 _This assumes you have docker installed and running_
 
-- Create a docker image that will serve as the builder from [here](http://ubibucket.ubiqube.com/users/efe/repos/eduardo-stuff/browse/docker/rpmbuild)
+- Create a docker image that will serve as the builder
+
+	./init
+
 
 #### Generate RPM
 
@@ -64,3 +67,23 @@ TOTAL                        359      0   100%
 
 ```
 *Image above is only an example*
+
+
+Install pyenv + pyenv plugins
+-----------------------------
+
+	curl -L https://raw.github.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+
+	cat >> ~/.bashrc <<<'
+	export PATH="$HOME/.pyenv/bin:$PATH"
+	eval "$(pyenv init -)"
+	eval "$(pyenv virtualenv-init -)"
+	'
+
+Setup a python dev environment for the project
+----------------------------------------------
+
+	which pyenv || source ~/.bashrc
+
+	pyenv install 3.7.3
+	python -m pip install -r requirements.txt
