@@ -3,6 +3,8 @@ Test Order Command
 """
 from unittest.mock import patch
 
+from msa_sdk.order import Order
+
 from util import order_fixture  # pylint: disable=unused-import
 
 # pylint: disable=redefined-outer-name
@@ -10,54 +12,54 @@ from util import order_fixture  # pylint: disable=unused-import
 
 @patch('msa_sdk.device.Device.read')
 def test_command_execute(_, order_fixture):
-    """
-    Test Command execute
-    """
+	"""
+	Test Command execute
+	"""
 
-    local_path = '/ordercommand/execute/21594/UPDATE'
+	local_path = '/ordercommand/execute/21594/UPDATE'
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
-        order = order_fixture
-        order.command_execute('UPDATE', {"subnet": "mySubnet"}, 50)
+	with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+		order = order_fixture
+		order.command_execute('UPDATE', {"subnet": "mySubnet"}, 50)
 
-        assert order.path == local_path
+		assert order.path == local_path
 
-        mock_call_post.assert_called_once_with({"subnet": "mySubnet"}, 50)
+		mock_call_post.assert_called_once_with({"subnet": "mySubnet"}, 50)
 
 
 @patch('msa_sdk.device.Device.read')
 def test_command_generate_configuration(_, order_fixture):
-    """
-    Test command generate configuration
-    """
+	"""
+	Test command generate configuration
+	"""
 
-    local_path = '/ordercommand/get/configuration/21594/UPDATE'
+	local_path = '/ordercommand/get/configuration/21594/UPDATE'
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
-        order = order_fixture
-        order.command_generate_configuration('UPDATE',
-                                             {"subnet": "mySubnet"})
+	with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+		order = order_fixture
+		order.command_generate_configuration('UPDATE',
+											 {"subnet": "mySubnet"})
 
-        assert order.path == local_path
+		assert order.path == local_path
 
-        mock_call_post.assert_called_once_with({"subnet": "mySubnet"})
+		mock_call_post.assert_called_once_with({"subnet": "mySubnet"})
 
 
 @patch('msa_sdk.device.Device.read')
 def test_command_synchronize(_, order_fixture):
-    """
-    Test command generate configuration
-    """
+	"""
+	Test command generate configuration
+	"""
 
-    local_path = '/ordercommand/synchronize/21594'
+	local_path = '/ordercommand/synchronize/21594'
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
-        order = order_fixture
-        order.command_synchronize(50)
+	with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+		order = order_fixture
+		order.command_synchronize(50)
 
-        assert order.path == local_path
+		assert order.path == local_path
 
-        mock_call_post.assert_called_once_with(timeout=50)
+		mock_call_post.assert_called_once_with(timeout=50)
 
 @patch('msa_sdk.device.Device.read')
 def test_command_call(_, order_fixture):
@@ -69,8 +71,28 @@ def test_command_call(_, order_fixture):
 	with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
 		order = order_fixture
 		order.command_call('UPDATE',1,
-                            {"subnet": "mySubnet"})
+							{"subnet": "mySubnet"})
 
 		assert order.path == local_path
 
 		mock_call_post.assert_called_once_with({"subnet": "mySubnet"})
+
+@patch('msa_sdk.device.Device.read')
+def test_command_objects_all(_):
+	"""
+	Get all microservices attached to a device
+	"""
+	local_path = '/ordercommand/objects/21594'
+	return_body = [
+		'accesslist',
+		'addressObject',
+		'address_holder'
+	]
+	with patch('requests.get') as mock_call_get:
+		mock_call_get.return_value.content = return_body
+		order = Order(21594)
+		order.command_objects_all()
+
+		assert order.path == local_path
+		assert order.content == return_body
+		

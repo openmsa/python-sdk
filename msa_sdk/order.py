@@ -109,3 +109,22 @@ class Order(Device):
 											command,
 											mode)
 		self.call_post(params)
+
+	def command_objects_all(self):
+		"""
+
+		Get all microservices attached to a device
+
+		Parameters:
+		-----------
+		device_id: Integer
+				Device ID of the device
+		Returns:
+		--------
+		List:
+				List of names of microservices attached
+
+		"""
+		self.action = 'Get Microservices'
+		self.path = '{}/objects/{}'.format(self.api_path, self.device_id)
+		self.call_get()
