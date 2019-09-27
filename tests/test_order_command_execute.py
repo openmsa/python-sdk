@@ -58,3 +58,19 @@ def test_command_synchronize(_, order_fixture):
         assert order.path == local_path
 
         mock_call_post.assert_called_once_with(timeout=50)
+
+@patch('msa_sdk.device.Device.read')
+def test_command_call(_, order_fixture):
+	"""
+	Test command call
+	"""
+	local_path = '/ordercommand/call/21594/UPDATE/1'
+
+	with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+		order = order_fixture
+		order.command_call('UPDATE',1,
+                            {"subnet": "mySubnet"})
+
+		assert order.path == local_path
+
+		mock_call_post.assert_called_once_with({"subnet": "mySubnet"})
