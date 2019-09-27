@@ -84,3 +84,96 @@ class Order(Device):
                                                self.device_id)
 
         self.call_post(timeout=timeout)
+
+    def command_call(self, command, mode, params):
+        """
+
+        Command call.
+
+        Parameters:
+        -----------
+        command: String
+                CRUID method in microservice to call
+        mode: Integer
+                0 - No application
+                1 - Apply to base
+                2 - Apply to device
+        Returns:
+        --------
+        None
+
+        """
+        self.action = 'Call command'
+        self.path = '{}/call/{}/{}/{}'.format(self.api_path,
+                                            self.device_id,
+                                            command,
+                                            mode)
+        self.call_post(params)
+
+    def command_objects_all(self):
+        """
+
+        Get all microservices attached to a device.
+
+        Parameters:
+        -----------
+        device_id: Integer
+                Device ID of the device
+        Returns:
+        --------
+        List:
+                List of names of microservices attached
+
+        """
+        self.action = 'Get Microservices'
+        self.path = '{}/objects/{}'.format(self.api_path, self.device_id)
+        self.call_get()
+
+    def command_objects_instances(self, object_name):
+        """
+
+        Get microservices instance by microservice name.
+
+        Parameters:
+        -----------
+        device_id: Integer
+                Device ID of the device
+        object_name: String
+                Name of microservice
+        Returns:
+        --------
+        List:
+                List of object IDs per microservice
+
+        """
+        self.action = 'Get Microservice Instances'
+        self.path = '{}/objects/{}/{}'.format(self.api_path, 
+                                            self.device_id,
+                                            object_name)
+        self.call_get()
+
+    def command_objects_instances_by_id(self, object_name, object_id):
+        """
+
+        Get microservices instance by microservice object ID.
+
+        Parameters:
+        -----------
+        device_id: Integer
+                Device ID of the device
+        object_name: String
+                Name of microservice
+        object_id: String
+                Object ID of microservice instance
+        Returns:
+        --------
+        List:
+                Object of microservice parameters per object ID
+
+        """
+        self.action = 'Get Microservice Object Details'
+        self.path = '{}/objects/{}/{}/{}'.format(self.api_path, 
+                                            self.device_id,
+                                            object_name,
+                                            object_id)
+        self.call_get()

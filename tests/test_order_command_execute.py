@@ -3,6 +3,7 @@ Test Order Command
 """
 from unittest.mock import patch
 
+from msa_sdk.order import Order
 from util import order_fixture  # pylint: disable=unused-import
 
 # pylint: disable=redefined-outer-name
@@ -58,3 +59,86 @@ def test_command_synchronize(_, order_fixture):
         assert order.path == local_path
 
         mock_call_post.assert_called_once_with(timeout=50)
+
+@patch('msa_sdk.device.Device.read')
+def test_command_call(_, order_fixture):
+    """
+    Test command call
+    """
+    local_path = '/ordercommand/call/21594/UPDATE/1'
+
+    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+        order = order_fixture
+        order.command_call('UPDATE',1,
+                            {"subnet": "mySubnet"})
+
+        assert order.path == local_path
+
+        mock_call_post.assert_called_once_with({"subnet": "mySubnet"})
+
+@patch('msa_sdk.device.Device.read')
+def test_command_objects_all(_):
+    """
+    Get all microservices attached to a device
+    """
+    local_path = '/ordercommand/objects/21594'
+    return_body = [
+        'accesslist',
+        'addressObject',
+        'address_holder'
+    ]
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.content = return_body
+        order = Order(21594)
+        order.command_objects_all()
+
+        assert order.path == local_path
+        assert order.content == return_body
+        
+@patch('msa_sdk.device.Device.read')
+def test_command_objects_instances(_):
+    """
+    Get microservices instance by microservice name
+    """
+    local_path = '/ordercommand/objects/21594/accesslist'
+    return_body = [
+        '2000 line 1',
+        '2000 line 2',
+        'FROM-inside line 1'
+    ]
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.content = return_body
+        order = Order(21594)
+        order.command_objects_instances('accesslist')
+
+        assert order.path == local_path
+        assert order.content == return_body
+
+@patch('msa_sdk.device.Device.read')
+def test_command_objects_instances_by_id(_):
+    """
+    Get microservices instance by microservice object ID
+    """
+    local_path = '/ordercommand/objects/21594/accesslist/2000'
+    return_body = {
+        "accesslist": {
+            "2000": {
+                "_order": "1000",
+                "destip": "8.8.8.0",
+                "destmask": "255.255.255.0",
+                "object_id": "2000 line 1",
+                "options": "log informational interval 300 ",
+                "protocol": "ip",
+                "right": "permit",
+                "sourceip": "10.101.32.0",
+                "sourcemask": "255.255.255.0"
+            }
+        }
+    }
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.content = return_body
+        order = Order(21594)
+        order.command_objects_instances_by_id('accesslist', '2000')
+
+        assert order.path == local_path
+        assert order.content == return_body
