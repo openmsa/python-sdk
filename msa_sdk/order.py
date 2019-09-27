@@ -128,3 +128,26 @@ class Order(Device):
 		self.action = 'Get Microservices'
 		self.path = '{}/objects/{}'.format(self.api_path, self.device_id)
 		self.call_get()
+
+	def command_objects_instances(self, object_name):
+		"""
+
+		Get microservices instance by microservice name
+
+		Parameters:
+		-----------
+		device_id: Integer
+				Device ID of the device
+		object_name: String
+				Name of microservice
+		Returns:
+		--------
+		List:
+				List of object IDs per microservice
+
+		"""
+		self.action = 'Get Microservice Instances'
+		self.path = '{}/objects/{}/{}'.format(self.api_path, 
+											self.device_id,
+											object_name)
+		self.call_get()

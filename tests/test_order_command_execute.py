@@ -96,3 +96,21 @@ def test_command_objects_all(_):
 		assert order.path == local_path
 		assert order.content == return_body
 		
+@patch('msa_sdk.device.Device.read')
+def test_command_objects_instances(_):
+	"""
+	Get microservices instance by microservice name
+	"""
+	local_path = '/ordercommand/objects/21594/accesslist'
+	return_body = [
+		'2000 line 1',
+		'2000 line 2',
+		'FROM-inside line 1'
+	]
+	with patch('requests.get') as mock_call_get:
+		mock_call_get.return_value.content = return_body
+		order = Order(21594)
+		order.command_objects_instances('accesslist')
+
+		assert order.path == local_path
+		assert order.content == return_body
