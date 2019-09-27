@@ -114,3 +114,32 @@ def test_command_objects_instances(_):
 
 		assert order.path == local_path
 		assert order.content == return_body
+
+@patch('msa_sdk.device.Device.read')
+def test_command_objects_instances_by_id(_):
+	"""
+	Get microservices instance by microservice object ID
+	"""
+	local_path = '/ordercommand/objects/21594/accesslist/2000'
+	return_body = {
+		"accesslist": {
+			"2000": {
+				"_order": "1000",
+				"destip": "8.8.8.0",
+				"destmask": "255.255.255.0",
+				"object_id": "2000 line 1",
+				"options": "log informational interval 300 ",
+				"protocol": "ip",
+				"right": "permit",
+				"sourceip": "10.101.32.0",
+				"sourcemask": "255.255.255.0"
+			}
+		}
+	}
+	with patch('requests.get') as mock_call_get:
+		mock_call_get.return_value.content = return_body
+		order = Order(21594)
+		order.command_objects_instances_by_id('accesslist', '2000')
+
+		assert order.path == local_path
+		assert order.content == return_body
