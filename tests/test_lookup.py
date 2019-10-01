@@ -4,12 +4,28 @@ import json
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
+import pytest
+
 from msa_sdk.lookup import Lookup
 from util import _is_valid_json
 
 
+@pytest.fixture
+def lookup_fixture():
+    """
+    Lookup fixture
+    """
+    with patch('requests.post') as mock_post:
+        mock_post.return_value.json.return_value = {'token': '12345qwert'}
+        with patch('msa_sdk.msa_api.host_port') as mock_host_port:
+            mock_host_port.return_value = ('api_hostname', '8080')
+            lookup = Lookup()
+
+    return lookup
+
+
 @patch('requests.post')
-def test_device_ids(mock_post):
+def test_device_ids(mock_post, lookup_fixture):
     """Test a list of devices"""
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
@@ -33,7 +49,7 @@ def test_device_ids(mock_post):
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = json.dumps(devices)
 
-        lookup = Lookup()
+        lookup = lookup_fixture
         lookup.look_list_device_ids()
 
         assert lookup.path == '/lookup/devices'
@@ -44,7 +60,7 @@ def test_device_ids(mock_post):
 
 
 @patch('requests.post')
-def test_device_ids_fail(mock_post):
+def test_device_ids_fail(mock_post, lookup_fixture):
     """Test fail device ids"""
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
@@ -58,7 +74,7 @@ def test_device_ids_fail(mock_post):
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
 
-        lookup = Lookup()
+        lookup = lookup_fixture
         lookup.look_list_device_ids()
 
         assert lookup.path == '/lookup/devices'
@@ -66,7 +82,7 @@ def test_device_ids_fail(mock_post):
 
 
 @patch('requests.post')
-def test_customer_ids(mock_post):
+def test_customer_ids(mock_post, lookup_fixture):
     """Test a list of customers"""
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
@@ -100,7 +116,7 @@ def test_customer_ids(mock_post):
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = json.dumps(customers)
 
-        lookup = Lookup()
+        lookup = lookup_fixture
         lookup.look_list_customer_ids()
 
         assert lookup.path == '/lookup/customers'
@@ -111,7 +127,7 @@ def test_customer_ids(mock_post):
 
 
 @patch('requests.post')
-def test_manager_ids(mock_post):
+def test_manager_ids(mock_post, lookup_fixture):
     """Test a list of managers"""
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
@@ -145,7 +161,7 @@ def test_manager_ids(mock_post):
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = json.dumps(managers)
 
-        lookup = Lookup()
+        lookup = lookup_fixture
         lookup.look_list_manager_ids()
 
         assert lookup.path == '/lookup/managers'
@@ -155,7 +171,7 @@ def test_manager_ids(mock_post):
 
 
 @patch('requests.post')
-def test_manager_ids_fail(mock_post):
+def test_manager_ids_fail(mock_post, lookup_fixture):
     """Test fail manager ids """
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
@@ -169,7 +185,7 @@ def test_manager_ids_fail(mock_post):
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
 
-        lookup = Lookup()
+        lookup = lookup_fixture
         lookup.look_list_manager_ids()
 
         assert lookup.path == '/lookup/managers'
@@ -178,7 +194,7 @@ def test_manager_ids_fail(mock_post):
 
 
 @patch('requests.post')
-def test_operator_ids(mock_post):
+def test_operator_ids(mock_post, lookup_fixture):
     """Test a list of operator"""
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
@@ -212,7 +228,7 @@ def test_operator_ids(mock_post):
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = json.dumps(operators)
 
-        lookup = Lookup()
+        lookup = lookup_fixture
         lookup.look_list_operators_id(1234)
 
         assert lookup.path == '/lookup/operators/id/1234'
@@ -222,7 +238,7 @@ def test_operator_ids(mock_post):
 
 
 @patch('requests.post')
-def test_operator_ids_fail(mock_post):
+def test_operator_ids_fail(mock_post, lookup_fixture):
     """Test fail operator ids """
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
@@ -236,7 +252,7 @@ def test_operator_ids_fail(mock_post):
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
 
-        lookup = Lookup()
+        lookup = lookup_fixture
         lookup.look_list_operators_id(1234)
 
         assert lookup.path == '/lookup/operators/id/1234'
@@ -245,7 +261,7 @@ def test_operator_ids_fail(mock_post):
 
 
 @patch('requests.post')
-def test_sec_nodes(mock_post):
+def test_sec_nodes(mock_post, lookup_fixture):
     """Test a list of sec nodes"""
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
@@ -266,7 +282,7 @@ def test_sec_nodes(mock_post):
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = json.dumps(sec_nodes)
 
-        lookup = Lookup()
+        lookup = lookup_fixture
         lookup.look_list_sec_nodes()
 
         assert lookup.path == '/lookup/sec_nodes'
@@ -276,7 +292,7 @@ def test_sec_nodes(mock_post):
 
 
 @patch('requests.post')
-def test_sec_nodes_fail(mock_post):
+def test_sec_nodes_fail(mock_post, lookup_fixture):
     """Test fail sec nodes """
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
@@ -290,7 +306,7 @@ def test_sec_nodes_fail(mock_post):
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
 
-        lookup = Lookup()
+        lookup = lookup_fixture
         lookup.look_list_sec_nodes()
 
         assert lookup.path == '/lookup/sec_nodes'
@@ -299,7 +315,7 @@ def test_sec_nodes_fail(mock_post):
 
 
 @patch('requests.post')
-def test_device_by_customer(mock_post):
+def test_device_by_customer(mock_post, lookup_fixture):
     """Test list of device by customer ref"""
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
@@ -323,7 +339,7 @@ def test_device_by_customer(mock_post):
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = json.dumps(devices)
 
-        lookup = Lookup()
+        lookup = lookup_fixture
         lookup.look_list_device_by_customer_ref('cust_ref')
 
         assert lookup.path == '/lookup/customer/devices/reference/cust_ref'
@@ -333,7 +349,7 @@ def test_device_by_customer(mock_post):
 
 
 @patch('requests.post')
-def test_device_by_customer_fail(mock_post):
+def test_device_by_customer_fail(mock_post, lookup_fixture):
     """Test fail list of device by customer ref"""
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
@@ -347,7 +363,7 @@ def test_device_by_customer_fail(mock_post):
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
 
-        lookup = Lookup()
+        lookup = lookup_fixture
         lookup.look_list_device_by_customer_ref('cust_ref')
 
         assert lookup.path == '/lookup/customer/devices/reference/cust_ref'

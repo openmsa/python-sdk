@@ -21,7 +21,9 @@ def test_read_by_id(mock_post):
 
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = device_info()
-        device = Device(device_id=21594)
+        with patch('msa_sdk.msa_api.host_port') as mock_host_port:
+            mock_host_port.return_value = ('api_hostname', '8080')
+            device = Device(device_id=21594)
 
         assert device.path == '/device/id/21594'
         assert device.device_id == 21594
@@ -57,7 +59,9 @@ def test_read_by_invalid_id(mock_post):
 
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
-        device = Device(device_id=21594)
+        with patch('msa_sdk.msa_api.host_port') as mock_host_port:
+            mock_host_port.return_value = ('api_hostname', '8080')
+            device = Device(device_id=21594)
         mock_call_get.assert_called_once()
         assert device.content == json.dumps(fail_return)
 
@@ -72,7 +76,9 @@ def test_read_by_reference(mock_post):
 
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = device_info()
-        device = Device()
+        with patch('msa_sdk.msa_api.host_port') as mock_host_port:
+            mock_host_port.return_value = ('api_hostname', '8080')
+            device = Device()
 
         assert _is_valid_json(device.read('DEV_REF'))
 

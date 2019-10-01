@@ -60,6 +60,7 @@ def test_command_synchronize(_, order_fixture):
 
         mock_call_post.assert_called_once_with(timeout=50)
 
+
 @patch('msa_sdk.device.Device.read')
 def test_command_call(_, order_fixture):
     """
@@ -69,15 +70,16 @@ def test_command_call(_, order_fixture):
 
     with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
         order = order_fixture
-        order.command_call('UPDATE',1,
-                            {"subnet": "mySubnet"})
+        order.command_call('UPDATE', 1,
+                           {"subnet": "mySubnet"})
 
         assert order.path == local_path
 
         mock_call_post.assert_called_once_with({"subnet": "mySubnet"})
 
+
 @patch('msa_sdk.device.Device.read')
-def test_command_objects_all(_):
+def test_command_objects_all(_, order_fixture):
     """
     Get all microservices attached to a device
     """
@@ -89,14 +91,15 @@ def test_command_objects_all(_):
     ]
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = return_body
-        order = Order(21594)
+        order = order_fixture
         order.command_objects_all()
 
         assert order.path == local_path
         assert order.content == return_body
-        
+
+
 @patch('msa_sdk.device.Device.read')
-def test_command_objects_instances(_):
+def test_command_objects_instances(_, order_fixture):
     """
     Get microservices instance by microservice name
     """
@@ -108,14 +111,15 @@ def test_command_objects_instances(_):
     ]
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = return_body
-        order = Order(21594)
+        order = order_fixture
         order.command_objects_instances('accesslist')
 
         assert order.path == local_path
         assert order.content == return_body
 
+
 @patch('msa_sdk.device.Device.read')
-def test_command_objects_instances_by_id(_):
+def test_command_objects_instances_by_id(_, order_fixture):
     """
     Get microservices instance by microservice object ID
     """
@@ -137,7 +141,7 @@ def test_command_objects_instances_by_id(_):
     }
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = return_body
-        order = Order(21594)
+        order = order_fixture
         order.command_objects_instances_by_id('accesslist', '2000')
 
         assert order.path == local_path
