@@ -5,11 +5,9 @@ set -e
 
 CURRENT_TAG=$(git describe --abbrev=0 --tags --first-parent)
 VERSION_ALL=${CURRENT_TAG##*_R}
-VERSION_MAJ=${VERSION_ALL%-*}
 VERSION_MIN=${VERSION_ALL##*-}
 
 
-VERSION=$(python -c "import msa_sdk; print(msa_sdk.VERSION)")
 RELEASE=${VERSION_MIN}_$(date +%Y%m%d%H%M)
 
 if [ "$1" = "-r" ]; then
@@ -33,7 +31,7 @@ main() {
 
 generate_doc() {
 	docker_run "
-	pdoc3 --html --force -o "${DOC_DIR}" msa_sdk
+	pdoc3 --html --force -o ${DOC_DIR} msa_sdk
 	"
 }
 
