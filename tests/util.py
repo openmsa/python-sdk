@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 import pytest
 
+from msa_sdk.customer import Customer
 from msa_sdk.device import Device
 from msa_sdk.orchestration import Orchestration
 from msa_sdk.order import Order
@@ -37,6 +38,27 @@ def device_info():
         '"logMoreEnabled":false,"mailAlerting":false,"reporting":false,'
         '"useNat":true,"snmpCommunity":""}')
 
+def customer_info():
+    """
+
+    Retrieve Customer information.
+
+    Returns
+    -------
+    String: a mock device
+
+    """
+    return (
+        '{"id":6,"actorId":38,"name":"Electric City 1",'
+        '"address":{"streetName1":"","streetName2":"","streetName3":"",'
+        '"city":"","zipCode":"","country":"","fax":"","email":"prnkikiki@ubiqube.com",'
+        '"phone":""},"baseRole":{"id":5,"name":"Abonne"},'
+        '"civility":null,"company":false,'
+        '"contact":[{"id":84,"name":"","firstName":"","address":'
+        '{"streetName1":"Electronic city","streetName2":"phase1","streetName3":"",'
+        '"city":"","zipCode":"","country":"","fax":"","email":"prnkikiki@ubiqube.com",'
+        '"phone":""}}],"externalReference":"PRNA6","firstname":"",'
+        '"login":"PRNCustme6","pwd":"","operatorPrefix":"PRN"}')
 
 @pytest.fixture
 def device_fixture():
@@ -87,3 +109,13 @@ def order_fixture():
                 mock_host_port.return_value = ('api_hostname', '8080')
                 order = Order(1234)
     return order
+
+@pytest.fixture
+def customer_fixture():
+    """Create Customer fixture."""
+    with patch('requests.post') as mock_post:
+        mock_post.return_value.json.return_value = {'token': '12345qwert'}
+        with patch('msa_sdk.msa_api.host_port') as mock_host_port:
+            mock_host_port.return_value = ('api_hostname', '8080')
+            cust = Customer()
+    return cust
