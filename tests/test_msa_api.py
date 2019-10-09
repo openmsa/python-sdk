@@ -4,6 +4,7 @@ Test MSA API
 
 import datetime
 import json
+import os
 from unittest.mock import patch
 
 import pytest
@@ -36,6 +37,28 @@ def api_fixture(tmpdir):
 
     return api
 
+@pytest.fixture
+def environment_variable_fixture():
+    """
+    Fixture to test environment variables for API endpoint
+    """
+    os.environ['MSA_SDK_API_HOSTNAME'] = "environ_hostname"
+    os.environ['MSA_SDK_API_PORT'] = "2222"
+
+    with patch('requests.post') as mock_post:
+        mock_post.return_value.json.return_value = {'token': '12345qwert'}
+        api = MSA_API()
+    return api
+
+@pytest.fixture
+def default_hostname_fixture():
+    """
+    Fixure to use default hostname and port for API endpoint
+    """
+    with patch('requests.post') as mock_post:
+        mock_post.return_value.json.return_value = {'token': '12345qwert'}
+        api = MSA_API()
+    return api
 
 # pylint: disable=redefined-outer-name
 def test_read_hostname_json(api_fixture):
@@ -44,6 +67,24 @@ def test_read_hostname_json(api_fixture):
     """
     api = api_fixture
     assert api.url == 'http://test_hostname:1111/ubi-api-rest'
+
+# pylint: disable=redefined-outer-name
+def test_environment_variable_hostname_json(environment_variable_fixture):
+    """
+    Test read hostname from json
+    """
+    api = environment_variable_fixture
+    assert api.url == 'http://environ_hostname:2222/ubi-api-rest'
+    del os.environ['MSA_SDK_API_HOSTNAME']
+    del os.environ['MSA_SDK_API_PORT']
+
+# pylint: disable=redefined-outer-name
+def test_default_hostname_fixture(default_hostname_fixture):
+    """
+    Test read hostname from json
+    """
+    api = default_hostname_fixture
+    assert api.url == 'http://10.30.19.26:8480/ubi-api-rest'
 
 
 # pylint: disable=redefined-outer-name

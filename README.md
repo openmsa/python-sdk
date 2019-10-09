@@ -87,4 +87,12 @@ TOTAL                        359      0   100%
 ```
 *Image above is only an example*
 
+### Configuring IP and Port
 
+For usage of the SDK after installing on an MSA the SDK will use the *UBI_WILDFLY_JNDI_ADDRESS* and *UBI_WILDFLY_JNDI_PORT* from the *vars.ubiqube.net.ctx* file. 
+
+For local usage using either a custom MSA or wildlfy container set the following environment variables:
+1. IP/Hostname - 'MSA_SDK_API_HOSTNAME'
+2. Port - 'MSA_SDK_API_PORT'
+
+The default MSA that the SDK will use is the internal MSAv2 development server

@@ -1,7 +1,9 @@
 """Module msa_api."""
 import datetime
 import json
+import os
 import re
+from pathlib import Path
 
 import requests
 
@@ -17,14 +19,18 @@ def host_port():
     Hostname and Port
 
     """
-    api_info = open(constants.VARS_CTX_FILE).read()
+    if Path(constants.VARS_CTX_FILE).exists():
+        api_info = open(constants.VARS_CTX_FILE).read()
 
-    widlfly_address = re.search(r'UBI_WILDFLY_JNDI_ADDRESS=(.+)',
+        widlfly_address = re.search(r'UBI_WILDFLY_JNDI_ADDRESS=(.+)',
+                                    api_info).group(1)
+        widlfly_port = re.search(r'UBI_WILDFLY_JNDI_PORT=(\d+)',
                                 api_info).group(1)
-    widlfly_port = re.search(r'UBI_WILDFLY_JNDI_PORT=(\d+)',
-                             api_info).group(1)
-
-    return (widlfly_address, widlfly_port)
+        return (widlfly_address, widlfly_port)
+    elif 'MSA_SDK_API_HOSTNAME' in os.environ and 'MSA_SDK_API_PORT' in os.environ:
+        return (os.environ['MSA_SDK_API_HOSTNAME'], os.environ['MSA_SDK_API_PORT'])
+    else:
+        return('10.30.19.26', '8480')
 
 
 class MSA_API():  # pylint: disable=invalid-name
