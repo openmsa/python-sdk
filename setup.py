@@ -15,7 +15,7 @@ setup(
     keywords="MSA",
     url="https://ubiqube.com",
 
-    packages=['msa_sdk', 'requests', 'chardet', 'chardet.cli',
+    packages=['msa_sdk', 'requests', 'chardet', 'chardet.cli', 'urllib3',
               'urllib3.packages',
               'urllib3.contrib',
               'urllib3.contrib._securetransport',
