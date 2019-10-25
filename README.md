@@ -92,3 +92,5 @@ TOTAL                        359      0   100%
 For usage of the SDK after installing on an MSA the SDK will use the *UBI_WILDFLY_JNDI_ADDRESS* and *UBI_WILDFLY_JNDI_PORT* from the *vars.ubiqube.net.ctx* file. 
 
 The default MSA that the SDK will use is the internal MSAv2 development server
+
+### Pre-commit hook check
