@@ -1,4 +1,3 @@
 #!/bin/bash
 
-python -m pytest --cov -x --no-cov-on-fail --cov-fail-under 100 --ff --isort --docstyle --ignore=required_pkgs
-
+./run_tests quiet
