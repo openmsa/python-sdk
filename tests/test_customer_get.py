@@ -2,7 +2,6 @@
 Test Customer GET
 """
 import json
-from unittest.mock import MagicMock
 from unittest.mock import patch
 
 from msa_sdk.customer import Customer
@@ -11,13 +10,14 @@ from util import customer_info
 
 # pylint: disable=redefined-outer-name
 
+
 @patch('requests.post')
 def test_get_customer_by_id(mock_post):
     """
     Get customer info by ID
     """
 
-    mock_post.return_value.json.return_value = {'token':'12345qwert'}
+    mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = customer_info()
@@ -35,13 +35,14 @@ def test_get_customer_by_id(mock_post):
 
         mock_call_get.assert_called_once()
 
+
 @patch('requests.post')
 def test_get_customer_by_reference(mock_post):
     """
     Get customer info by reference
     """
 
-    mock_post.return_value.json.return_value = {'token':'12345qwert'}
+    mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.content = customer_info()
@@ -59,13 +60,14 @@ def test_get_customer_by_reference(mock_post):
 
         mock_call_get.assert_called_once()
 
+
 @patch('requests.post')
 def test_get_variables_by_id(mock_post):
     """
     Get variales by ID
     """
 
-    mock_post.return_value.json.return_value = {'token':'12345qwert'}
+    mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
     with patch('requests.get') as mock_call_get:
         with patch('msa_sdk.msa_api.host_port') as mock_host_port:
@@ -77,13 +79,14 @@ def test_get_variables_by_id(mock_post):
 
         mock_call_get.assert_called_once()
 
+
 @patch('requests.post')
 def test_get_variables_by_name(mock_post):
     """
     Get variales by ID
     """
 
-    mock_post.return_value.json.return_value = {'token':'12345qwert'}
+    mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
     with patch('requests.get') as mock_call_get:
         with patch('msa_sdk.msa_api.host_port') as mock_host_port:

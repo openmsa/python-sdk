@@ -8,13 +8,14 @@ from util import customer_fixture  # pylint: disable=unused-import
 
 # pylint: disable=redefined-outer-name
 
+
 def test_update_customer_by_id(customer_fixture):
     """
     Test update customer by ID
     """
 
     local_path = '/customer/id/6'
-    params = {'name':''}
+    params = {'name': ''}
     with patch('msa_sdk.msa_api.MSA_API.call_put') as mock_call_put:
         customer = customer_fixture
         customer.update_customer_by_id(6)
@@ -22,6 +23,7 @@ def test_update_customer_by_id(customer_fixture):
         assert customer.path == local_path
 
         mock_call_put.assert_called_once_with(params)
+
 
 def test_update_variables_by_reference(customer_fixture):
     """
@@ -40,6 +42,7 @@ def test_update_variables_by_reference(customer_fixture):
 
         mock_call_put.assert_called_once_with(params)
 
+
 def test_attach_profile_by_reference(customer_fixture):
     """
     Test attach profile by reference
@@ -55,6 +58,7 @@ def test_attach_profile_by_reference(customer_fixture):
         assert customer.path == local_path
 
         mock_call_put.assert_called_once_with(params)
+
 
 def test_detach_profile_by_reference(customer_fixture):
     """
