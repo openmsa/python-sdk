@@ -33,7 +33,7 @@ def host_port():
         return (os.environ['MSA_SDK_API_HOSTNAME'],
                 os.environ['MSA_SDK_API_PORT'])
 
-    return('10.30.19.26', '8480')
+    return('localhost', '8480')
 
 
 class MSA_API():  # pylint: disable=invalid-name
