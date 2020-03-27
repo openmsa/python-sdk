@@ -71,6 +71,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.use_nat = False
         self.configuration = {}
         self.device_id = device_id
+        self.fail = None
 
         if device_id:
             self.read()
@@ -110,6 +111,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                 "snmpCommunity": self.snmp_community}
 
         self.call_post(json.dumps(data))
+        self.fail = not self.response.ok
         if self.response.ok:
             self.device_id = json.loads(self.content)['id']
             return json.dumps(data)

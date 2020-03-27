@@ -85,6 +85,8 @@ def test_create(device_fixture):
         assert _is_valid_json(device.create())
         assert device.path == '/device/v2/{}'.format(device.customer_id)
         assert device.device_id == 67015
+        assert device.fail is not None
+        assert not device.fail
 
         mock_call_post.assert_called_once()
 
@@ -107,3 +109,4 @@ def test_create_fail(device_fixture):
         assert _is_valid_json(device.create())
         assert device.path == '/device/v2/{}'.format(device.customer_id)
         assert device.content == json.dumps(fail_response)
+        assert device.fail

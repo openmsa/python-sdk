@@ -37,6 +37,7 @@ def api_fixture(tmpdir):
 
     return api
 
+
 @pytest.fixture
 def environment_variable_fixture():
     """
@@ -50,6 +51,7 @@ def environment_variable_fixture():
         api = MSA_API()
     return api
 
+
 @pytest.fixture
 def default_hostname_fixture():
     """
@@ -61,6 +63,8 @@ def default_hostname_fixture():
     return api
 
 # pylint: disable=redefined-outer-name
+
+
 def test_read_hostname_json(api_fixture):
     """
     Test read hostname from json
@@ -69,6 +73,8 @@ def test_read_hostname_json(api_fixture):
     assert api.url == 'http://test_hostname:1111/ubi-api-rest'
 
 # pylint: disable=redefined-outer-name
+
+
 def test_environment_variable_hostname_json(environment_variable_fixture):
     """
     Test read hostname from json
