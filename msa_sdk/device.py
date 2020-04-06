@@ -44,6 +44,9 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                 Reporting
         snmp_community: SNMP Community
         device_id: Device ID
+        fail: Bool
+              Fail creating the device
+
 
         Returns
         -------
