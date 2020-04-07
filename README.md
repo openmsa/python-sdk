@@ -42,27 +42,6 @@ $ ./training_container stop
 	pyenv install 3.7.3
 	python -m pip install -r requirements.txt
 
-### Generate RPM using docker
-#### Prerequisites (only if you are not in a RPM linux distro based)
-
-_This assumes you have docker installed and running_
-
-- Create a docker image that will serve as the builder
-
-	./init
-
-
-#### Generate RPM
-
-- `$ ./build_rpm`
-  (... watch letters go up)
-- Your rpm is located in the rpms/
-
-#### Generate an RPM on warm75 (it doesn't work on warm64)
-
-1. Clone the project
-2. `mkBL -a`
-
 ### Running unit tests
 
 1. Make sure you have all the prod requirements `pip install -r requirements.txt`
