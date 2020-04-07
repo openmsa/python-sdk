@@ -30,11 +30,9 @@ class Customer(MSA_API):
 
         """
         self.action = 'Create customer by prefix'
-        self.path = "{}/{}".format(self.api_path, prefix)
-        params = {
-            "name":name, 
-            "reference":reference
-        }
+        self.path = "{}/{}?name={}&reference={}".format(self.api_path, prefix,
+                                                        name, reference)
+        params = {}
         self.call_post(params)
 
     def get_customer_by_id(self, id):
@@ -118,7 +116,8 @@ class Customer(MSA_API):
 
         """
         self.action = 'Update variables by reference'
-        self.path = '{}/reference/{}/variables'.format(self.api_path, reference)
+        self.path = '{}/reference/{}/variables'.format(
+            self.api_path, reference)
         params = {
             "name": name,
             "value": value
@@ -145,7 +144,7 @@ class Customer(MSA_API):
         self.action = 'Attach profile by reference'
         self.path = '{}/{}/attach'.format(self.api_path, reference)
         params = {
-            "profile":profile
+            "profile": profile
         }
         self.call_put(params)
 
@@ -169,7 +168,7 @@ class Customer(MSA_API):
         self.action = 'Detach profile by reference'
         self.path = '{}/{}/detach'.format(self.api_path, reference)
         params = {
-            "profile":profile
+            "profile": profile
         }
         self.call_put(params)
 
