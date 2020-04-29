@@ -1,5 +1,5 @@
 MSA Python SDK
-
+![Tests](https://github.com/openmsa/python-sdk/workflows/Python%20application/badge.svg)
 ## Trainning container
 ### How to create
 - `$ ./training_container build`
