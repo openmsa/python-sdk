@@ -21,9 +21,17 @@ class Order(Device):
         -----------
         command: String
                 Order command
+                Available values : CREATE, UPDATE, IMPORT, LIST, READ, DELETE
 
         params: dict
-              Parameters
+                Parameters in a dict format:
+                {"simple_firewall": {
+                    "12": {
+                            "object_id": "12",
+                            "src_ip": "3.4.5.6",
+                            "dst_port": "44"
+                    }
+                }
 
 
         Returns
@@ -105,9 +113,9 @@ class Order(Device):
         """
         self.action = 'Call command'
         self.path = '{}/call/{}/{}/{}'.format(self.api_path,
-                                            self.device_id,
-                                            command,
-                                            mode)
+                                              self.device_id,
+                                              command,
+                                              mode)
         self.call_post(params)
 
     def command_objects_all(self):
@@ -147,9 +155,9 @@ class Order(Device):
 
         """
         self.action = 'Get Microservice Instances'
-        self.path = '{}/objects/{}/{}'.format(self.api_path, 
-                                            self.device_id,
-                                            object_name)
+        self.path = '{}/objects/{}/{}'.format(self.api_path,
+                                              self.device_id,
+                                              object_name)
         self.call_get()
 
     def command_objects_instances_by_id(self, object_name, object_id):
@@ -172,8 +180,8 @@ class Order(Device):
 
         """
         self.action = 'Get Microservice Object Details'
-        self.path = '{}/objects/{}/{}/{}'.format(self.api_path, 
-                                            self.device_id,
-                                            object_name,
-                                            object_id)
+        self.path = '{}/objects/{}/{}/{}'.format(self.api_path,
+                                                 self.device_id,
+                                                 object_name,
+                                                 object_id)
         self.call_get()
