@@ -155,7 +155,7 @@ class MSA_API():  # pylint: disable=invalid-name
             self._content = self.process_content(self.FAILED, self.action,
                                                  self.response.reason)
 
-    def call_post(self, data=None, timeout=60):
+    def call_post(self, data={}, timeout=60):
         """
         Call -XPOST.
 
@@ -170,8 +170,10 @@ class MSA_API():  # pylint: disable=invalid-name
             'Authorization': 'Bearer {}'.format(self._token),
         }
 
-        if not data:
+        if isinstance(data, dict):
             data = json.dumps(data)
+        else:
+            raise TypeError('Parameters needs to be a dictionary')
 
         url = self.url + self.path
         self.response = requests.post(url, headers=headers, data=data,

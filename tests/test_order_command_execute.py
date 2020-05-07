@@ -3,7 +3,8 @@ Test Order Command
 """
 from unittest.mock import patch
 
-from msa_sdk.order import Order
+import pytest
+
 from util import order_fixture  # pylint: disable=unused-import
 
 # pylint: disable=redefined-outer-name
@@ -24,6 +25,16 @@ def test_command_execute(_, order_fixture):
         assert order.path == local_path
 
         mock_call_post.assert_called_once_with({"subnet": "mySubnet"}, 50)
+
+
+def test_command_execute_fail(order_fixture):
+    """
+    Test Command execute fail parameters type
+    """
+
+    order = order_fixture
+    with pytest.raises(TypeError):
+        order.command_execute('UPDATE', None, 50)
 
 
 @patch('msa_sdk.device.Device.read')
