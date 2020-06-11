@@ -155,7 +155,7 @@ class MSA_API():  # pylint: disable=invalid-name
             self._content = self.process_content(self.FAILED, self.action,
                                                  self.response.reason)
 
-    def call_post(self, data={}, timeout=60):
+    def call_post(self, data=None, timeout=60):
         """
         Call -XPOST.
 
@@ -169,6 +169,8 @@ class MSA_API():  # pylint: disable=invalid-name
             'Accept': 'application/json',
             'Authorization': 'Bearer {}'.format(self._token),
         }
+        if data is None:
+            data = {}
 
         if isinstance(data, dict):
             data = json.dumps(data)

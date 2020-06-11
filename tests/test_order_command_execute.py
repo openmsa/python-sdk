@@ -34,7 +34,7 @@ def test_command_execute_fail(order_fixture):
 
     order = order_fixture
     with pytest.raises(TypeError):
-        order.command_execute('UPDATE', None, 50)
+        order.command_execute('UPDATE', 123, 50)
 
 
 @patch('msa_sdk.device.Device.read')
