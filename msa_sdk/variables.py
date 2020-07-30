@@ -138,7 +138,7 @@ class Variables:
                 print("[{}]", end='')
             sys.exit(0)
 
-        context = '{}'
+        context = json.loads('{"TOKEN":"12345qwert"}')
         if len(sys.argv) > 2 and '--execute' in sys.argv[1]:
             context = json.loads(open(sys.argv[2]).read())
 
