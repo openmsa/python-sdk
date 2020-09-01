@@ -49,7 +49,7 @@ class MSA_API():  # pylint: disable=invalid-name
     def __init__(self):
         """Initialize."""
         self.url = 'http://{}:{}/ubi-api-rest'.format(*host_port())
-        
+
         self._token = Variables.task_call()['TOKEN']
         self.path = None
         self.response = None

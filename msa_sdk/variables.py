@@ -21,7 +21,7 @@ class Variable:
         """Init."""
         self._name = name
         self._var_type = var_type
-        self._values = values if values else []
+        self._values = values if values else ""
         self._def_values = def_values
         self._required = required
 
