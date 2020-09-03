@@ -21,7 +21,7 @@ class Variable:
         """Init."""
         self._name = name
         self._var_type = var_type
-        self._values = values if values else []
+        self._values = values if values else ""
         self._def_values = def_values
         self._required = required
 
@@ -138,7 +138,7 @@ class Variables:
                 print("[{}]", end='')
             sys.exit(0)
 
-        context = '{}'
+        context = json.loads('{"TOKEN":"12345qwert"}')
         if len(sys.argv) > 2 and '--execute' in sys.argv[1]:
             context = json.loads(open(sys.argv[2]).read())
 

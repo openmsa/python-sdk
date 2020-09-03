@@ -22,7 +22,7 @@ def test_create_simple_variable():
 
     assert var.name == 'Var1'
     assert var.var_type == 'String'
-    assert var.values == []
+    assert var.values == ""
     assert var.default_value is None
     assert not var.required
 
@@ -52,7 +52,7 @@ def test_create_vars():
     assert len(variables.all) == 1
     assert variables.all[0].name == 'Var1'
     assert variables.all[0].var_type == 'String'
-    assert variables.all[0].values == []
+    assert variables.all[0].values == ""
     assert variables.all[0].default_value is None
     assert not variables.all[0].required
 
@@ -136,13 +136,13 @@ def test_get_definition():
         {
             'name': 'Var1',
             'type': 'String',
-            'values': [],
+            'values': "",
             'default_value': None
         },
         {
             'name': 'Var2',
             'type': 'Int',
-            'values': [],
+            'values': "",
             'default_value': None
         },
         {

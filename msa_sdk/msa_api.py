@@ -8,6 +8,7 @@ from pathlib import Path
 import requests
 
 from msa_sdk import constants
+from msa_sdk.variables import Variables
 
 
 def host_port():
@@ -48,7 +49,8 @@ class MSA_API():  # pylint: disable=invalid-name
     def __init__(self):
         """Initialize."""
         self.url = 'http://{}:{}/ubi-api-rest'.format(*host_port())
-        self._token = self._get_token()
+
+        self._token = Variables.task_call()['TOKEN']
         self.path = None
         self.response = None
         self.log_response = True
@@ -133,13 +135,6 @@ class MSA_API():  # pylint: disable=invalid-name
     def content(self):
         """Content of the response."""
         return self._content
-
-    def _get_token(self):
-        headers = {'Content-Type': 'application/json'}
-        data = '{"username":"ncroot", "password":"ubiqube"}'
-        url = self.url + '/auth/token'
-        response = requests.post(url, headers=headers, data=data).json()
-        return response['token']
 
     def check_response(self):
         """
