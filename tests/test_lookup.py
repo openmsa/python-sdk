@@ -47,7 +47,7 @@ def test_device_ids(mock_post, lookup_fixture):
     devices = [first_dev, second_dev]
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = json.dumps(devices)
+        mock_call_get.return_value.text = json.dumps(devices)
 
         lookup = lookup_fixture
         lookup.look_list_device_ids()
@@ -114,7 +114,7 @@ def test_customer_ids(mock_post, lookup_fixture):
     customers = [first_costu, second_costu]
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = json.dumps(customers)
+        mock_call_get.return_value.text = json.dumps(customers)
 
         lookup = lookup_fixture
         lookup.look_list_customer_ids()
@@ -159,7 +159,7 @@ def test_manager_ids(mock_post, lookup_fixture):
     managers = [first_manager, second_manager]
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = json.dumps(managers)
+        mock_call_get.return_value.text = json.dumps(managers)
 
         lookup = lookup_fixture
         lookup.look_list_manager_ids()
@@ -226,7 +226,7 @@ def test_operator_ids(mock_post, lookup_fixture):
     operators = [first_operator, second_operator]
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = json.dumps(operators)
+        mock_call_get.return_value.text = json.dumps(operators)
 
         lookup = lookup_fixture
         lookup.look_list_operators_id(1234)
@@ -280,7 +280,7 @@ def test_sec_nodes(mock_post, lookup_fixture):
     sec_nodes = [first_sec_node]
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = json.dumps(sec_nodes)
+        mock_call_get.return_value.text = json.dumps(sec_nodes)
 
         lookup = lookup_fixture
         lookup.look_list_sec_nodes()
@@ -337,7 +337,7 @@ def test_device_by_customer(mock_post, lookup_fixture):
     devices = [first_dev, second_dev]
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = json.dumps(devices)
+        mock_call_get.return_value.text = json.dumps(devices)
 
         lookup = lookup_fixture
         lookup.look_list_device_by_customer_ref('cust_ref')

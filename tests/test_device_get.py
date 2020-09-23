@@ -20,7 +20,7 @@ def test_read_by_id(mock_post):
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = device_info()
+        mock_call_get.return_value.text = device_info()
         with patch('msa_sdk.msa_api.host_port') as mock_host_port:
             mock_host_port.return_value = ('api_hostname', '8080')
             device = Device(device_id=21594)
@@ -75,7 +75,7 @@ def test_read_by_reference(mock_post):
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = device_info()
+        mock_call_get.return_value.text = device_info()
         with patch('msa_sdk.msa_api.host_port') as mock_host_port:
             mock_host_port.return_value = ('api_hostname', '8080')
             device = Device()
@@ -107,7 +107,7 @@ def test_status(device_fixture):  # pylint: disable=W0621
     device = device_fixture
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = 'UNREACHABLE'
+        mock_call_get.return_value.text = 'UNREACHABLE'
         assert device.status() == 'UNREACHABLE'
 
         assert device.path == '/device/status/{}'.format(device.device_id)
@@ -121,7 +121,7 @@ def test_status_unreachable(device_fixture):  # pylint: disable=W0621
     device = device_fixture
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = 'UNREACHABLE'
+        mock_call_get.return_value.text = 'UNREACHABLE'
         assert device.status() == 'UNREACHABLE'
 
         assert device.path == '/device/status/{}'.format(device.device_id)
@@ -172,7 +172,7 @@ def test_provision_status(device_fixture):  # pylint: disable=W0621
     device.device_id = 1234
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = provision_info
+        mock_call_get.return_value.text = provision_info
 
         assert _is_valid_json(device.provision_status())
 
@@ -210,7 +210,7 @@ def test_load_configuration(device_fixture):
     with patch('requests.get') as mock_call_get:
         r_value = ('{"message":"OK\\r\\n\\r\\n","date":"24-04-2019 '
                    '16:30:05","status":"ENDED"}')
-        mock_call_get.return_value.content = r_value
+        mock_call_get.return_value.text = r_value
         device.get_configuration_status()
 
         mock_call_get.assert_called_once()
@@ -237,7 +237,7 @@ def test_ping(device_fixture):
                '0.014/0.020/0.027/0.007 ms\\"}","status":"OK"}')
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = r_value
+        mock_call_get.return_value.text = r_value
 
         assert _is_valid_json(device.ping('localhost'))
 
@@ -255,7 +255,7 @@ def test_push_configuration_status(device_fixture):
                '"date":"27-06-2018 09:15:33","status":"ENDED"}')
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = r_value
+        mock_call_get.return_value.text = r_value
         assert _is_valid_json(device.push_configuration_status())
 
         assert device.path == '/device/push_configuration/status/{}'.format(
@@ -272,7 +272,7 @@ def test_is_device(device_fixture):
     r_value = json.dumps('{"isDevice": true}')
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = r_value
+        mock_call_get.return_value.text = r_value
 
         assert device.is_device()
         assert device.path == '/device/isDevice/{}'.format(device.device_id)

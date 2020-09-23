@@ -127,7 +127,7 @@ def order_fixture():
         mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
         with patch('requests.get') as mock_call_get:
-            mock_call_get.return_value.content = device_info()
+            mock_call_get.return_value.text = device_info()
 
             with patch('msa_sdk.msa_api.host_port') as mock_host_port:
                 mock_host_port.return_value = ('api_hostname', '8080')
