@@ -25,11 +25,11 @@ def test_list_service_instances(orchestration_fixture):
         '"id":1536,"serviceExternalReference":"MSASID1536","state":"ACTIVE"}]')
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = device_info
+        mock_call_get.return_value.text = device_info
         orch = orchestration_fixture
         orch.list_service_instances()
         assert orch.path == '/orchestration/MSAA19224/service/instance'
-        assert _is_valid_json(orch.response.content)
+        assert _is_valid_json(orch.response.text)
 
 
 def test_get_service_variables_by_service_id(orchestration_fixture):
@@ -42,11 +42,11 @@ def test_get_service_variables_by_service_id(orchestration_fixture):
                    '"value":"205710"}]')
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = device_info
+        mock_call_get.return_value.text = device_info
         orch = orchestration_fixture
         orch.get_service_variables('1234')
         assert orch.path == '/orchestration/service/variables/1234'
-        assert _is_valid_json(orch.response.content)
+        assert _is_valid_json(orch.response.text)
 
 
 def test_get_service_variable_by_name(orchestration_fixture):
@@ -57,12 +57,12 @@ def test_get_service_variable_by_name(orchestration_fixture):
     device_info = ('{"TASKINSTANCEID":"353763"}')
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = device_info
+        mock_call_get.return_value.text = device_info
         orch = orchestration_fixture
         orch.get_service_variable_by_name('1234', 'TASKINSTANCEID')
         assert orch.path == \
             '/orchestration/service/variables/1234/TASKINSTANCEID'
-        assert _is_valid_json(orch.response.content)
+        assert _is_valid_json(orch.response.text)
 
 
 def test_update_service_variable(orchestration_fixture):
@@ -112,7 +112,7 @@ def test_list_process_instances(orchestration_fixture):
     local_path = '/orchestration/process/instances/{}'.format(1234)
 
     with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
-        mock_call_get.return_value.content = device_info
+        mock_call_get.return_value.text = device_info
         orch = orchestration_fixture
         orch.list_process_instances_by_service(1234)
         assert orch.path == local_path
@@ -212,7 +212,7 @@ def test_list_process_instance_by_service_id(orchestration_fixture):
     local_path = '/orchestration/process/instances/{}'.format(1234)
 
     with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
-        mock_call_get.return_value.content = device_info
+        mock_call_get.return_value.text = device_info
         orch = orchestration_fixture
         orch.list_process_instances_by_service(1234)
         assert orch.path == local_path
@@ -241,7 +241,7 @@ def test_get_process_instance(orchestration_fixture):
     local_path = '/orchestration/process/instance/{}'.format(1234)
 
     with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
-        mock_call_get.return_value.content = device_info
+        mock_call_get.return_value.text = device_info
         orch = orchestration_fixture
         orch.get_process_instance(1234)
         assert orch.path == local_path
@@ -289,8 +289,22 @@ def test_read_service_instance(orchestration_fixture):
         '"id":2231,"serviceExternalReference":"MSASID2231","state":"ACTIVE"}')
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = device_info
+        mock_call_get.return_value.text = device_info
         orch = orchestration_fixture
         orch.read_service_instance('2231')
         assert orch.path == '/orchestration/MSAA19224/service/instance/2231'
-        assert _is_valid_json(orch.response.content)
+        assert _is_valid_json(orch.response.text)
+
+
+def test_update_asynchronous_task_details(orchestration_fixture):
+    """
+    Test update task async way
+    """
+
+    argument_dict = {'process_id': '1234', 'task_id': '42', 'exec_number': '4242', 'data': 'Lorem ipsum dolor sit amet'}
+
+    with patch('requests.put') as mock_call_put:
+        assert not orchestration_fixture.update_asynchronous_task_details(**argument_dict)
+
+
+

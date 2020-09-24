@@ -1,5 +1,7 @@
 """Module Order."""
 
+import json
+
 from msa_sdk.device import Device
 
 
@@ -160,6 +162,8 @@ class Order(Device):
                                               object_name)
         self.call_get()
 
+        return json.loads(self.content)
+
     def command_objects_instances_by_id(self, object_name, object_id):
         """
 
@@ -185,3 +189,5 @@ class Order(Device):
                                                  object_name,
                                                  object_id)
         self.call_get()
+
+        return json.loads(self.content)

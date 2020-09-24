@@ -151,7 +151,7 @@ def test_provision_status(device_fixture):  # pylint: disable=W0621
     """
 
     provision_info = ('{"errorMsg": "", "rawJSONResult": '
-                      '"{\"sms_status\": \"OK\",'
+                      '{\"sms_status\": \"OK\",'
                       ' "PROVISIONING_PROCESS\": \"OK\",'
                       ' \"sms_result\": [{\"sms_status\": "OK\",'
                       ' \"sms_stage\": \"Lock Provisioning\",'
@@ -166,7 +166,7 @@ def test_provision_status(device_fixture):  # pylint: disable=W0621
                       '\"sms_stage\": \"Unlock Provisioning\",'
                       '\"sms_message\": \"OK\"}, {\"sms_status\": \"OK\", '
                       '\"sms_stage\":\"Save Configuration\",'
-                      '\"sms_message\":\"OK\"}]}", "status": "OK"}')
+                      '\"sms_message\":\"OK\"}]}, "status": "OK"}')
 
     device = device_fixture
     device.device_id = 1234
@@ -174,7 +174,7 @@ def test_provision_status(device_fixture):  # pylint: disable=W0621
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.text = provision_info
 
-        assert _is_valid_json(device.provision_status())
+        assert _is_valid_json(json.dumps(device.provision_status()))
 
         mock_call_get.assert_called_once()
         assert device.path == '/device/provisioning/status/1234'
@@ -296,3 +296,23 @@ def test_is_device_fail(device_fixture):  # pylint: disable=W0621
         mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
         device.is_device()
         assert device.content == json.dumps(fail_response)
+
+
+def test_get_configuration_variable(device_fixture):
+    """
+    Test if configuration variable got successfully
+    """
+
+    device = device_fixture
+
+    test_requested_var = 'HTTP_HEADER'
+    test_response = json.dumps({'name': 'HTTP_HEADER',
+                                'value': 'Content-Type: application/json',
+                                'comment': ''
+                               })
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = test_response
+        assert device.get_configuration_variable(test_requested_var)['name'] == test_requested_var
+
+
+

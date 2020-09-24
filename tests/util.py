@@ -93,7 +93,7 @@ def device_fixture():
         with patch('msa_sdk.msa_api.host_port') as mock_host_port:
             mock_host_port.return_value = ('api_hostname', '8080')
             device = Device(10, "MyDevice", 11, 13, "ncroot", "pswd",
-                            "adm_pswd", "mng_addres", "Dexternal")
+                            "adm_pswd", "mng_addres", "Dexternal", management_port = "22")
         device.log_response = False
     return device
 

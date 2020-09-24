@@ -340,3 +340,37 @@ def cidr_to_subnet_and_subnetmask_address(cidr):
 
     return {'subnet_ip': str(network.network_address),
             'subnet_mask': str(network.netmask)}
+
+def log_to_process_file(process_id: str, log_message: str) -> bool:
+        """
+    
+        Write log string with ISO timestamp to process log file.
+    
+        Parameters
+        ----------
+        process_id: String
+                    Process ID of current process
+        log_message: String
+                     Log text
+    
+        Returns
+        -------
+        True:  log string has been written correctlly
+        False: log string has not been written correctlly or the log file doesnt exist
+
+        """
+        import sys
+        from datetime import datetime
+        process_log_path = '{}/process-{}.log'.format(constants.PROCESS_LOGS_DIRECTORY,
+                                                      process_id)
+        current_time = datetime.now().isoformat()
+        log_string = '{date}:{file}:DEBUG:{msg}\n'.format(date = current_time,
+                                                          file = sys.argv[0].split('/')[-1],
+                                                          msg = log_message)
+        try:
+            with open(process_log_path, 'a') as log_file:
+                written_characters = log_file.write(log_string)
+                return True
+        except IOError:
+            return False
+
