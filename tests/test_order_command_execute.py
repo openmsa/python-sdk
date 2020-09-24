@@ -101,7 +101,7 @@ def test_command_objects_all(_, order_fixture):
         'address_holder'
     ]
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = return_body
+        mock_call_get.return_value.text = return_body
         order = order_fixture
         order.command_objects_all()
 
@@ -121,7 +121,7 @@ def test_command_objects_instances(_, order_fixture):
         'FROM-inside line 1'
     ]
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = return_body
+        mock_call_get.return_value.text = return_body
         order = order_fixture
         order.command_objects_instances('accesslist')
 
@@ -151,7 +151,7 @@ def test_command_objects_instances_by_id(_, order_fixture):
         }
     }
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.content = return_body
+        mock_call_get.return_value.text = return_body
         order = order_fixture
         order.command_objects_instances_by_id('accesslist', '2000')
 

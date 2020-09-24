@@ -175,7 +175,7 @@ class MSA_API():  # pylint: disable=invalid-name
         url = self.url + self.path
         self.response = requests.post(url, headers=headers, data=data,
                                       timeout=timeout)
-        self._content = self.response.content
+        self._content = self.response.text
         self.check_response()
 
     def call_get(self, timeout=60):
@@ -194,7 +194,7 @@ class MSA_API():  # pylint: disable=invalid-name
 
         url = self.url + self.path
         self.response = requests.get(url, headers=headers, timeout=timeout)
-        self._content = self.response.content
+        self._content = self.response.text
         self.check_response()
 
     def call_put(self, data=None):
@@ -217,7 +217,7 @@ class MSA_API():  # pylint: disable=invalid-name
         }
         url = self.url + self.path
         self.response = requests.put(url, data=data, headers=headers)
-        self._content = self.response.content
+        self._content = self.response.text
         self.check_response()
 
     def call_delete(self):
@@ -235,5 +235,5 @@ class MSA_API():  # pylint: disable=invalid-name
         }
         url = self.url + self.path
         self.response = requests.delete(url, headers=headers)
-        self._content = self.response.content
+        self._content = self.response.text
         self.check_response()

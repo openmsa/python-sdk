@@ -1,6 +1,7 @@
 """
 Device for PUT
 """
+import json
 from unittest.mock import patch
 
 from util import device_fixture  # pylint: disable=unused-import
@@ -125,3 +126,63 @@ def test_detach_files(device_fixture):
         assert device.path == '/device/detach/{}/files'.format(
             device.device_id)
         mock_call_put.assert_called_once()
+
+
+def test_create_configuration_variable_success(device_fixture):
+    """
+    Test if configuration variable created successfully
+    """
+    device = device_fixture
+    
+    test_var_name = 'HTTP_HEADER'
+    test_var_value = 'Content-Type: application/json'
+    test_var_comment = ''
+
+    test_response = json.dumps({'name': 'HTTP_HEADER',
+                                'value': 'Content-Type: application/json',
+                                'comment': ''
+                               })
+
+
+    with patch('requests.get') as mock_call_get:
+        with patch('requests.put') as mock_call_put:
+            mock_call_get.return_value.text = test_response
+            assert device.create_configuration_variable(test_var_name, test_var_value, test_var_comment)
+
+def test_create_configuration_variable_fail(device_fixture):
+    """
+    Test if configuration variable failed
+    """
+    device = device_fixture
+    
+    test_var_name = 'HTTP_HEADER'
+    test_var_value = 'Content-Type: application/json'
+    test_var_comment = ''
+
+    test_response = json.dumps({'name': 'HTTP_HEADER',
+                                'value': 'something wrong',
+                                'comment': ''
+                               })
+
+
+    with patch('requests.get') as mock_call_get:
+        with patch('requests.put') as mock_call_put:
+            mock_call_get.return_value.text = test_response
+            assert not device.create_configuration_variable(test_var_name, test_var_value, test_var_comment)
+
+def test_profile_attach(device_fixture):
+    """
+    Test if profile attached correctly
+    """
+    
+    test_profile_reference = 'ABC12345'
+
+    device = device_fixture
+
+    with patch('requests.put') as mock_call_put:
+        device.profile_attach(test_profile_reference)
+        assert device.path == f'/profile/{test_profile_reference}/attach?device=Dexternal'
+        mock_call_put.assert_called_once()    
+
+
+

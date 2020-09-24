@@ -1,5 +1,6 @@
 """Module Orchestration."""
 
+import json
 
 from msa_sdk.msa_api import MSA_API
 
@@ -290,7 +291,7 @@ class Orchestration(MSA_API):
                                                     service_id)
         self.call_get()
 
-    def update_process_script_details(self, process_id, task_id, exec_number):
+    def update_process_script_details(self, process_id, task_id, exec_number, data = None):
         """
 
         Update process script details.
@@ -313,7 +314,7 @@ class Orchestration(MSA_API):
                      '/execnumber/{}/update').format(self.api_path,
                                                      process_id, task_id,
                                                      exec_number)
-        self.call_put()
+        self.call_put(data)
 
     def update_service_instance_reference(self, service_id, service_ref):
         """
@@ -337,3 +338,29 @@ class Orchestration(MSA_API):
                                                      self.ubiqube_id,
                                                      service_id, service_ref)
         self.call_put()
+
+    def update_asynchronous_task_details(self, process_id: int, task_id: int, exec_number: int, data: str) -> None:
+        """
+
+        Update task comments in GUI dynamically.
+
+        Parameters
+        ----------
+        process_id: Integer
+                Process ID
+        task_id: Integer
+                Task ID
+        exec_number: Integer
+                Number exec
+        data: String
+              Task comment
+
+        Returns
+        -------
+        None
+
+        """
+        details_json = json.dumps({'details': data})
+        self.update_process_script_details(process_id, task_id, exec_number, details_json)
+
+        return None
