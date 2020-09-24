@@ -2,6 +2,7 @@
 
 import datetime
 import io
+import re
 from unittest.mock import patch
 
 from msa_sdk.util import address_is_in_network
@@ -12,6 +13,7 @@ from msa_sdk.util import get_ip_range
 from msa_sdk.util import get_vars_value
 from msa_sdk.util import is_cidr
 from msa_sdk.util import is_overlapping_cidr
+from msa_sdk.util import log_to_process_file
 from msa_sdk.util import netmask_to_cidr
 from msa_sdk.util import obtain_file_lock
 from msa_sdk.util import release_file_lock
@@ -410,3 +412,35 @@ def test_release_file_lock_failed(tmpdir):
 
     with open(f_path) as f_file:
         assert f_file.read().lower() == 'locked'
+
+def test_log_to_process_file_success(tmpdir):
+    """
+    Test if log to process file is success
+    """
+
+    temp_dir = tmpdir.mkdir('log_to_process_file_success')
+
+    with patch('msa_sdk.constants.PROCESS_LOGS_DIRECTORY', temp_dir):
+
+        params = {"SERVICEINSTANCEID": 1234, "Other": "Value"}
+
+        log_message = 'Lorem ipsum dolor sit amet'
+
+        assert log_to_process_file(params['SERVICEINSTANCEID'], log_message) == True
+
+        check_pattern = f'^.+?:DEBUG:{log_message}$'
+        with open(f'{temp_dir}/process-1234.log', 'r') as log_file:
+            assert re.match(check_pattern, log_file.read())
+
+def test_log_to_process_file_fail(tmpdir):
+    """
+    Test if log to process file is fail due IOError
+    """
+
+    with patch('msa_sdk.constants.PROCESS_LOGS_DIRECTORY', '/loprem/'):
+
+        params = {"SERVICEINSTANCEID": 1234, "Other": "Value"}
+
+        log_message = 'Lorem ipsum dolor sit amet'
+
+        assert log_to_process_file(params['SERVICEINSTANCEID'], log_message) == False
