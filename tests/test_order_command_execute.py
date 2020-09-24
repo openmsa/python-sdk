@@ -1,6 +1,7 @@
 """
 Test Order Command
 """
+import json
 from unittest.mock import patch
 
 import pytest
@@ -115,11 +116,11 @@ def test_command_objects_instances(_, order_fixture):
     Get microservices instance by microservice name
     """
     local_path = '/ordercommand/objects/21594/accesslist'
-    return_body = [
+    return_body = json.dumps([
         '2000 line 1',
         '2000 line 2',
         'FROM-inside line 1'
-    ]
+    ])
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.text = return_body
         order = order_fixture
@@ -135,7 +136,7 @@ def test_command_objects_instances_by_id(_, order_fixture):
     Get microservices instance by microservice object ID
     """
     local_path = '/ordercommand/objects/21594/accesslist/2000'
-    return_body = {
+    return_body = json.dumps({
         "accesslist": {
             "2000": {
                 "_order": "1000",
@@ -149,7 +150,7 @@ def test_command_objects_instances_by_id(_, order_fixture):
                 "sourcemask": "255.255.255.0"
             }
         }
-    }
+    })
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.text = return_body
         order = order_fixture
