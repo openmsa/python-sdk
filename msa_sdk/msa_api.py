@@ -237,3 +237,35 @@ class MSA_API():  # pylint: disable=invalid-name
         self.response = requests.delete(url, headers=headers)
         self._content = self.response.text
         self.check_response()
+
+    def log_to_process_file(self, processId: str, log_message: str) -> bool:
+        """
+    
+        Write log string with ISO timestamp to process log file.
+    
+        Parameters
+        ----------
+        process_id: String
+                    Process ID of current process
+        log_message: String
+                     Log text
+    
+        Returns
+        -------
+        True:  log string has been written correctlly
+        False: log string has not been written correctlly or the log file doesnt exist
+
+        """
+        import sys
+        process_log_path = '{}/process-{}.log'.format(constants.PROCESS_LOGS_DIRECTORY,
+                                                      processId)
+        current_time = datetime.datetime.now().isoformat()
+        log_string = '{date}:{file}:DEBUG:{msg}\n'.format(date = current_time,
+                                                          file = sys.argv[0].split('/')[-1],
+                                                          msg = log_message)
+        try:
+            with open(process_log_path, 'a') as log_file:
+                written_characters = log_file.write(log_string)
+                return True
+        except IOError:
+            return False

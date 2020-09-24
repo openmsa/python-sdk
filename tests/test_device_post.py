@@ -48,6 +48,7 @@ def test_update_config(device_fixture):
 
     with patch('requests.post') as mock_call_post:
         mock_call_post.return_value.text = r_value
+
         assert _is_valid_json(device.update_config())
         assert device.path == '/device/configuration/update/{}'.format(
             device.device_id)

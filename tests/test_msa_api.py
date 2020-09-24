@@ -5,6 +5,7 @@ Test MSA API
 import datetime
 import json
 import os
+import re
 from unittest.mock import patch
 
 import pytest
@@ -194,6 +195,40 @@ def test_content_with_log_more_lines(api_fixture, tmpdir):
 
         assert log_msg_2 == open(
             '{}/{}'.format(temp_dir, 'process-1234.log'), 'r').read()
+
+def test_log_to_process_file_success(api_fixture, tmpdir):
+    """
+    Test if log to process file is success
+    """
+
+    temp_dir = tmpdir.mkdir('log_to_process_file_success')
+
+    with patch('msa_sdk.constants.PROCESS_LOGS_DIRECTORY', temp_dir):
+        api = api_fixture
+
+        params = {"SERVICEINSTANCEID": 1234, "Other": "Value"}
+
+        log_message = 'Lorem ipsum dolor sit amet'
+
+        assert api.log_to_process_file(params['SERVICEINSTANCEID'], log_message) == True
+
+        check_pattern = f'^.+?:DEBUG:{log_message}$'
+        with open(f'{temp_dir}/process-1234.log', 'r') as log_file:
+            assert re.match(check_pattern, log_file.read())
+
+def test_log_to_process_file_fail(api_fixture, tmpdir):
+    """
+    Test if log to process file is fail due IOError
+    """
+
+    with patch('msa_sdk.constants.PROCESS_LOGS_DIRECTORY', '/loprem/'):
+        api = api_fixture
+
+        params = {"SERVICEINSTANCEID": 1234, "Other": "Value"}
+
+        log_message = 'Lorem ipsum dolor sit amet'
+
+        assert api.log_to_process_file(params['SERVICEINSTANCEID'], log_message) == False
 
 
 # pylint: disable=redefined-outer-name
