@@ -23,7 +23,7 @@ def test_activate(device_fixture):
         mock_call_post.assert_called_once()
 
 
-def test_provision(device_fixture):
+def test_do_provisioningion(device_fixture):
     """
     Test provision
     """
@@ -47,8 +47,7 @@ def test_update_config(device_fixture):
                '"rawSmsResult":null,"ok":true,"code":null,"message":null}')
 
     with patch('requests.post') as mock_call_post:
-        mock_call_post.return_value.content = r_value
-
+        mock_call_post.return_value.text = r_value
         assert _is_valid_json(device.update_config())
         assert device.path == '/device/configuration/update/{}'.format(
             device.device_id)
@@ -80,9 +79,8 @@ def test_create(device_fixture):
     response_content = '{"id": 67015, "name": "PyASA27-b"}'
 
     with patch('requests.post') as mock_call_post:
-        mock_call_post.return_value.content = response_content
-
-        assert _is_valid_json(device.create())
+        mock_call_post.return_value.text = response_content
+        assert _is_valid_json(json.dumps(device.create()))
         assert device.path == '/device/v2/{}'.format(device.customer_id)
         assert device.device_id == 67015
         assert device.fail is not None
@@ -106,7 +104,7 @@ def test_create_fail(device_fixture):
 
     with patch('requests.post') as mock_call_post:
         mock_call_post.return_value = MagicMock(ok=False, reason='Not found')
-        assert _is_valid_json(device.create())
+        assert _is_valid_json(json.dumps(device.create()))
         assert device.path == '/device/v2/{}'.format(device.customer_id)
         assert device.content == json.dumps(fail_response)
         assert device.fail

@@ -13,7 +13,8 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                  password_admin=None, management_address=None,
                  device_external=None, log_enabled=True,
                  log_more_enabled=True, mail_alerting=True,
-                 reporting=False, snmp_community="ubiqube", device_id=None):
+                 reporting=False, snmp_community="ubiqube", 
+                 device_id=None, management_port=None):
         """
         Initialize.
 
@@ -44,6 +45,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                 Reporting
         snmp_community: SNMP Community
         device_id: Device ID
+        management_port: Management Port
         fail: Bool
               Fail creating the device
 
@@ -74,6 +76,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.use_nat = False
         self.configuration = {}
         self.device_id = device_id
+        self.management_port = management_port
         self.fail = None
 
         if device_id:
@@ -90,7 +93,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         Returns
         -------
-        None
+        Dict() with created device capabilities
 
         """
         self.action = 'Create device'
@@ -106,20 +109,21 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                 "managementInterface": self.management_interface,
                 "mailAlerting": self.mail_alerting,
                 "passwordAdmin": self.password_admin,
-                "externalReference": "",
+                "externalReference": self.device_external,
                 "login": self.login,
                 "name": self.name,
                 "password": self.password,
                 "id": 0,
                 "snmpCommunity": self.snmp_community}
+        if self.management_port:
+            data["managementPort"] = self.management_port
 
         self.call_post(data)
         self.fail = not self.response.ok
         if self.response.ok:
             self.device_id = json.loads(self.content)['id']
-            return json.dumps(data)
 
-        return self.content
+        return json.loads(self.content)
 
     def delete(self, by_ref=False):
         """
@@ -170,7 +174,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         Returns
         --------
-        Json with provision status
+        Dict() with provision status
 
         """
         self.action = 'Get provision status'
@@ -178,7 +182,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
             self.api_path, self.device_id)
         self.call_get()
 
-        return json.dumps(self.content)
+        return json.loads(self.content)
 
     def is_device(self):
         """
@@ -186,7 +190,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         Returns
         --------
-        Json with True or False
+        Dict() with True or False
 
         """
         self.action = 'Is device'
@@ -205,7 +209,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         Returns
         --------
-        None
+        Json formated string
 
         """
         self.action = 'Read device'
@@ -383,6 +387,25 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.path = path
         self.call_put()
 
+    def profile_attach(self, profile_reference: str) -> None:
+        """
+        Attach new profile to device.
+
+        Parameters
+        ----------
+        profile_reference:  String
+                            Profile external reference
+
+        Returns
+        --------
+        None
+
+        """
+        self.path = '/profile/{profile_reference}/attach'\
+                    '?device={device_reference}'.format(profile_reference = profile_reference,
+                                                        device_reference = self.device_external)
+        self.call_put()
+
     def update_credentials(self, login, password):
         """
         Update Credentials.
@@ -441,3 +464,64 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.path = ("{}/detach/{}/files").format(self.api_path,
                                                   self.device_id)
         self.call_put(json.dumps(uris))
+
+    def get_configuration_variable(self, name: str) -> dict:
+        """
+        Get configuration variable value.
+
+        Parameters
+        ----------
+        name:    String
+                 Variable name
+        
+        Returns
+        -------
+        String:  Dict() like {'name': str(), 'value': str(), 'comment': str()}
+
+        """
+        self.path = '/variables/{device_id}/{name}'.format(device_id = self.device_id,
+                                                          name = name)
+        create_variable = self.call_get()
+
+        return json.loads(self.content)
+
+
+    def create_configuration_variable(self, name: str, value: str, type: str = 'String', comment: str = '') -> bool:
+        """
+        Create configuration variable.
+
+        Parameters
+        ----------
+        name:    String
+                 Variable name
+        value:   String
+                 Vriable Value
+        type:    String
+                 Variable type
+                 Default: String
+        comment: String
+                 Comment
+                 Default: empty stirng
+        
+        Returns
+        -------
+        True:  Variable has been created successdully
+        False: Variable has not been created successfully
+
+        """
+        self.path = '/variables/{device_id}/{name}'\
+                    '?value={value}'\
+                    '&type={type}'\
+                    '&comment={comment}'.format(device_id = self.device_id,
+                                               name = name,
+                                               value = value,
+                                               type = type,
+                                               comment = comment)
+
+        create_variable = self.call_put()
+
+        if self.get_configuration_variable(name)['value'] == value:
+            return True
+        else:
+            return False
+

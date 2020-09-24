@@ -93,7 +93,7 @@ def device_fixture():
         with patch('msa_sdk.msa_api.host_port') as mock_host_port:
             mock_host_port.return_value = ('api_hostname', '8080')
             device = Device(10, "MyDevice", 11, 13, "ncroot", "pswd",
-                            "adm_pswd", "mng_addres", "Dexternal")
+                            "adm_pswd", "mng_addres", "Dexternal", management_port = "22")
         device.log_response = False
     return device
 
@@ -127,7 +127,7 @@ def order_fixture():
         mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
         with patch('requests.get') as mock_call_get:
-            mock_call_get.return_value.content = device_info()
+            mock_call_get.return_value.text = device_info()
 
             with patch('msa_sdk.msa_api.host_port') as mock_host_port:
                 mock_host_port.return_value = ('api_hostname', '8080')
