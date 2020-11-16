@@ -54,6 +54,21 @@ def test_push_configuration(device_fixture):
         mock_call_put.assert_called_once()
 
 
+def test_push_configuration_with_data(device_fixture):
+    """
+    Test push configuration status with configuration
+    """
+    device = device_fixture
+
+    with patch('requests.put') as mock_call_put:
+
+        configuration = '{"configuration": "conf"}'
+        device.push_configuration(configuration)
+        path = ('/device/push_configuration/{}')
+        assert device.path == path.format(device.device_id)
+        mock_call_put.assert_called_once()
+
+
 def test_configuration_profile_switch(device_fixture):
     """
     Test Configuration profile switch

@@ -327,17 +327,25 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.call_get()
         return json.dumps(self.content)
 
-    def push_configuration(self):
+    def push_configuration(self, configuration=None):
         """
         Push configuration.
 
-        @return: TODO
+        Parameters
+        ----------
+        configuration: String
+                Configuration parameters for the device
+
+        Returns
+        --------
+        None
+
         """
         self.action = 'Push configuration'
         self.path = "{}/push_configuration/{}".format(
             self.api_path, self.device_id)
 
-        self.call_put()
+        self.call_put(configuration)
 
     def update_ip_address(self, ip_addr, netmask="255.255.255.255"):
         """

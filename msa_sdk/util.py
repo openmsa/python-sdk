@@ -393,7 +393,7 @@ def update_asynchronous_task_details(details: str):
 
     Returns
     -------
-    None
+    Orchestraion object
 
     """
     context = Variables.task_call()
@@ -404,3 +404,4 @@ def update_asynchronous_task_details(details: str):
     orch = Orchestration(None)
     orch.update_process_script_details(process_instance_id, task_id,
                                        exec_number, data)
+    return orch
