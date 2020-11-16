@@ -13,7 +13,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                  password_admin=None, management_address=None,
                  device_external=None, log_enabled=True,
                  log_more_enabled=True, mail_alerting=True,
-                 reporting=False, snmp_community="ubiqube", 
+                 reporting=False, snmp_community="ubiqube",
                  device_id=None, management_port=None):
         """
         Initialize.
@@ -401,9 +401,10 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         None
 
         """
-        self.path = '/profile/{profile_reference}/attach'\
-                    '?device={device_reference}'.format(profile_reference = profile_reference,
-                                                        device_reference = self.device_external)
+        self.path = ('/profile/{profile_reference}/attach'
+                     '?device={device_reference}').format(
+                         profile_reference=profile_reference,
+                         device_reference=self.device_external)
         self.call_put()
 
     def update_credentials(self, login, password):
@@ -473,20 +474,24 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         ----------
         name:    String
                  Variable name
-        
+
         Returns
         -------
         String:  Dict() like {'name': str(), 'value': str(), 'comment': str()}
 
         """
-        self.path = '/variables/{device_id}/{name}'.format(device_id = self.device_id,
-                                                          name = name)
+        self.path = '/variables/{device_id}/{name}'.format(
+            device_id=self.device_id, name=name)
         create_variable = self.call_get()
 
         return json.loads(self.content)
 
-
-    def create_configuration_variable(self, name: str, value: str, type: str = 'String', comment: str = '') -> bool:
+    def create_configuration_variable(
+            self,
+            name: str,
+            value: str,
+            type: str = 'String',
+            comment: str = '') -> bool:
         """
         Create configuration variable.
 
@@ -502,7 +507,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         comment: String
                  Comment
                  Default: empty stirng
-        
+
         Returns
         -------
         True:  Variable has been created successdully
@@ -512,11 +517,11 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.path = '/variables/{device_id}/{name}'\
                     '?value={value}'\
                     '&type={type}'\
-                    '&comment={comment}'.format(device_id = self.device_id,
-                                               name = name,
-                                               value = value,
-                                               type = type,
-                                               comment = comment)
+                    '&comment={comment}'.format(device_id=self.device_id,
+                                                name=name,
+                                                value=value,
+                                                type=type,
+                                                comment=comment)
 
         create_variable = self.call_put()
 
@@ -524,4 +529,3 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
             return True
         else:
             return False
-

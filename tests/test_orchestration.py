@@ -301,10 +301,12 @@ def test_update_asynchronous_task_details(orchestration_fixture):
     Test update task async way
     """
 
-    argument_dict = {'process_id': '1234', 'task_id': '42', 'exec_number': '4242', 'data': 'Lorem ipsum dolor sit amet'}
+    argument_dict = {
+        'process_id': '1234',
+        'task_id': '42',
+        'exec_number': '4242',
+        'data': 'Lorem ipsum dolor sit amet'}
 
     with patch('requests.put') as mock_call_put:
-        assert not orchestration_fixture.update_asynchronous_task_details(**argument_dict)
-
-
-
+        assert not orchestration_fixture.update_asynchronous_task_details(
+            **argument_dict)

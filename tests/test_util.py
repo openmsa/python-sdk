@@ -413,6 +413,7 @@ def test_release_file_lock_failed(tmpdir):
     with open(f_path) as f_file:
         assert f_file.read().lower() == 'locked'
 
+
 def test_log_to_process_file_success(tmpdir):
     """
     Test if log to process file is success
@@ -426,13 +427,14 @@ def test_log_to_process_file_success(tmpdir):
 
         log_message = 'Lorem ipsum dolor sit amet'
 
-        assert log_to_process_file(params['SERVICEINSTANCEID'], log_message) == True
+        assert log_to_process_file(params['SERVICEINSTANCEID'], log_message)
 
         check_pattern = f'^.+?:DEBUG:{log_message}$'
         with open(f'{temp_dir}/process-1234.log', 'r') as log_file:
             assert re.match(check_pattern, log_file.read())
 
-def test_log_to_process_file_fail(tmpdir):
+
+def test_log_to_process_file_fail():
     """
     Test if log to process file is fail due IOError
     """
@@ -443,4 +445,5 @@ def test_log_to_process_file_fail(tmpdir):
 
         log_message = 'Lorem ipsum dolor sit amet'
 
-        assert log_to_process_file(params['SERVICEINSTANCEID'], log_message) == False
+        assert not log_to_process_file(params['SERVICEINSTANCEID'],
+                                       log_message)
