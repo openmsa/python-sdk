@@ -17,6 +17,7 @@ from msa_sdk.util import log_to_process_file
 from msa_sdk.util import netmask_to_cidr
 from msa_sdk.util import obtain_file_lock
 from msa_sdk.util import release_file_lock
+from msa_sdk.util import update_asynchronous_task_details
 
 
 def test_get_ip_range():
@@ -413,6 +414,7 @@ def test_release_file_lock_failed(tmpdir):
     with open(f_path) as f_file:
         assert f_file.read().lower() == 'locked'
 
+
 def test_log_to_process_file_success(tmpdir):
     """
     Test if log to process file is success
@@ -426,13 +428,14 @@ def test_log_to_process_file_success(tmpdir):
 
         log_message = 'Lorem ipsum dolor sit amet'
 
-        assert log_to_process_file(params['SERVICEINSTANCEID'], log_message) == True
+        assert log_to_process_file(params['SERVICEINSTANCEID'], log_message)
 
         check_pattern = f'^.+?:DEBUG:{log_message}$'
         with open(f'{temp_dir}/process-1234.log', 'r') as log_file:
             assert re.match(check_pattern, log_file.read())
 
-def test_log_to_process_file_fail(tmpdir):
+
+def test_log_to_process_file_fail():
     """
     Test if log to process file is fail due IOError
     """
@@ -443,4 +446,24 @@ def test_log_to_process_file_fail(tmpdir):
 
         log_message = 'Lorem ipsum dolor sit amet'
 
-        assert log_to_process_file(params['SERVICEINSTANCEID'], log_message) == False
+        assert not log_to_process_file(params['SERVICEINSTANCEID'],
+                                       log_message)
+
+
+def test_update_asynchronous_task_details():
+    """Test update asyncronous task"""
+
+    with patch('msa_sdk.variables.Variables.task_call') as mock_task_call:
+        with patch('requests.put') as mock_call_put:
+            context = {
+                "PROCESSINSTANCEID": 12,
+                "TASKID": 13,
+                "EXECNUMBER": 21,
+                "TOKEN": "TOKEN1"
+            }
+            mock_task_call.return_value = context
+            orch = update_asynchronous_task_details("details")
+
+            mock_call_put.assert_called_once()
+            assert orch.path == ('/orchestration/process/instance/12/task/'
+                                 '13/execnumber/21/update')
