@@ -1,7 +1,6 @@
 """Module util."""
 import fcntl
 import io
-import json
 import os
 import sys
 import time
@@ -13,7 +12,8 @@ from ipaddress import IPv4Network
 from ipaddress import ip_network
 
 from msa_sdk import constants
-from msa_sdk.msa_api import MSA_API
+from msa_sdk.orchestration import MSA_API
+from msa_sdk.orchestration import Orchestration
 from msa_sdk.variables import Variables
 
 
@@ -401,8 +401,6 @@ def update_asynchronous_task_details(details: str):
     task_id = context['TASKID']
     exec_number = context['EXECNUMBER']
     data = {"details": details}
-    api = MSA_API()
-    api.path = ('/orchestration/process/instance/{}/task/{}'
-                '/execnumber/{}/update').format(
-                    process_instance_id, task_id, exec_number)
-    api.call_put(json.dumps(data))
+    orch = Orchestration(None)
+    orch.update_process_script_details(process_instance_id, task_id,
+                                       exec_number, data)
