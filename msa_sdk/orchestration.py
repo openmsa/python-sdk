@@ -291,7 +291,8 @@ class Orchestration(MSA_API):
                                                     service_id)
         self.call_get()
 
-    def update_process_script_details(self, process_id, task_id, exec_number, data = None):
+    def update_process_script_details(self, process_id, task_id, exec_number,
+                                      data=None):
         """
 
         Update process script details.
@@ -339,7 +340,9 @@ class Orchestration(MSA_API):
                                                      service_id, service_ref)
         self.call_put()
 
-    def update_asynchronous_task_details(self, process_id: int, task_id: int, exec_number: int, data: str) -> None:
+    def update_asynchronous_task_details(self, process_id: int, task_id: int,
+                                         exec_number: int,
+                                         data: str) -> None:
         """
 
         Update task comments in GUI dynamically.
@@ -361,6 +364,5 @@ class Orchestration(MSA_API):
 
         """
         details_json = json.dumps({'details': data})
-        self.update_process_script_details(process_id, task_id, exec_number, details_json)
-
-        return None
+        self.update_process_script_details(
+            process_id, task_id, exec_number, details_json)

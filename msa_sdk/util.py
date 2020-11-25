@@ -1,17 +1,19 @@
 """Module util."""
 import fcntl
 import io
-import json
 import os
+import sys
 import time
 from configparser import ConfigParser
+from datetime import datetime
 from ipaddress import AddressValueError
 from ipaddress import IPv4Address
 from ipaddress import IPv4Network
 from ipaddress import ip_network
 
 from msa_sdk import constants
-from msa_sdk.msa_api import MSA_API
+from msa_sdk.orchestration import MSA_API
+from msa_sdk.orchestration import Orchestration
 from msa_sdk.variables import Variables
 
 
@@ -343,54 +345,63 @@ def cidr_to_subnet_and_subnetmask_address(cidr):
     return {'subnet_ip': str(network.network_address),
             'subnet_mask': str(network.netmask)}
 
+
 def log_to_process_file(process_id: str, log_message: str) -> bool:
-        """
-    
-        Write log string with ISO timestamp to process log file.
-    
-        Parameters
-        ----------
-        process_id: String
-                    Process ID of current process
-        log_message: String
-                     Log text
-    
-        Returns
-        -------
-        True:  log string has been written correctlly
-        False: log string has not been written correctlly or the log file doesnt exist
+    """
 
-        """
-        import sys
-        from datetime import datetime
-        process_log_path = '{}/process-{}.log'.format(constants.PROCESS_LOGS_DIRECTORY,
-                                                      process_id)
-        current_time = datetime.now().isoformat()
-        log_string = '{date}:{file}:DEBUG:{msg}\n'.format(date = current_time,
-                                                          file = sys.argv[0].split('/')[-1],
-                                                          msg = log_message)
-        try:
-            with open(process_log_path, 'a') as log_file:
-                written_characters = log_file.write(log_string)
-                return True
-        except IOError:
-            return False
+    Write log string with ISO timestamp to process log file.
 
-def update_asynchronous_task_details(details: str) :
-        """
+    Parameters
+    ----------
+    process_id: String
+                Process ID of current process
+    log_message: String
+                 Log text
 
-        Update Asynchronous Task details : To print task details during Process execution.
+    Returns
+    -------
+    True:  log string has been written correctlly
+    False: log string has not been written correctlly or the
+            log file doesnt exist
 
-        Parameters
-        ----------
-        detail: String
-                The message to display in msa-ui
-        """
-        context = Variables.task_call()
-        process_instance_id = context['PROCESSINSTANCEID']
-        task_id = context['TASKID']
-        exec_number = context['EXECNUMBER']
-        data = { "details": details }
-        api = MSA_API()
-        api.path = "/orchestration/process/instance/{}/task/{}/execnumber/{}/update".format(process_instance_id, task_id, exec_number)
-        api.call_put(json.dumps(data))
+    """
+    process_log_path = '{}/process-{}.log'.format(
+        constants.PROCESS_LOGS_DIRECTORY, process_id)
+    current_time = datetime.now().isoformat()
+    log_string = '{date}:{file}:DEBUG:{msg}\n'.format(
+        date=current_time, file=sys.argv[0].split('/')[-1], msg=log_message)
+    try:
+        with open(process_log_path, 'a') as log_file:
+            log_file.write(log_string)
+    except IOError:
+        return False
+
+    return True
+
+
+def update_asynchronous_task_details(details: str):
+    """
+
+    Update Asynchronous Task details.
+
+    Print task details during Process execution.
+
+    Parameters
+    ----------
+    detail: String
+            The message to display in msa-ui
+
+    Returns
+    -------
+    Orchestraion object
+
+    """
+    context = Variables.task_call()
+    process_instance_id = context['PROCESSINSTANCEID']
+    task_id = context['TASKID']
+    exec_number = context['EXECNUMBER']
+    data = {"details": details}
+    orch = Orchestration(None)
+    orch.update_process_script_details(process_instance_id, task_id,
+                                       exec_number, data)
+    return orch

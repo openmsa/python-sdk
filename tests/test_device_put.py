@@ -54,6 +54,21 @@ def test_push_configuration(device_fixture):
         mock_call_put.assert_called_once()
 
 
+def test_push_configuration_with_data(device_fixture):
+    """
+    Test push configuration status with configuration
+    """
+    device = device_fixture
+
+    with patch('requests.put') as mock_call_put:
+
+        configuration = '{"configuration": "conf"}'
+        device.push_configuration(configuration)
+        path = ('/device/push_configuration/{}')
+        assert device.path == path.format(device.device_id)
+        mock_call_put.assert_called_once()
+
+
 def test_configuration_profile_switch(device_fixture):
     """
     Test Configuration profile switch
@@ -133,7 +148,7 @@ def test_create_configuration_variable_success(device_fixture):
     Test if configuration variable created successfully
     """
     device = device_fixture
-    
+
     test_var_name = 'HTTP_HEADER'
     test_var_value = 'Content-Type: application/json'
     test_var_comment = ''
@@ -141,20 +156,21 @@ def test_create_configuration_variable_success(device_fixture):
     test_response = json.dumps({'name': 'HTTP_HEADER',
                                 'value': 'Content-Type: application/json',
                                 'comment': ''
-                               })
-
+                                })
 
     with patch('requests.get') as mock_call_get:
         with patch('requests.put') as mock_call_put:
             mock_call_get.return_value.text = test_response
-            assert device.create_configuration_variable(test_var_name, test_var_value, test_var_comment)
+            assert device.create_configuration_variable(
+                test_var_name, test_var_value, test_var_comment)
+
 
 def test_create_configuration_variable_fail(device_fixture):
     """
     Test if configuration variable failed
     """
     device = device_fixture
-    
+
     test_var_name = 'HTTP_HEADER'
     test_var_value = 'Content-Type: application/json'
     test_var_comment = ''
@@ -162,19 +178,20 @@ def test_create_configuration_variable_fail(device_fixture):
     test_response = json.dumps({'name': 'HTTP_HEADER',
                                 'value': 'something wrong',
                                 'comment': ''
-                               })
-
+                                })
 
     with patch('requests.get') as mock_call_get:
         with patch('requests.put') as mock_call_put:
             mock_call_get.return_value.text = test_response
-            assert not device.create_configuration_variable(test_var_name, test_var_value, test_var_comment)
+            assert not device.create_configuration_variable(
+                test_var_name, test_var_value, test_var_comment)
+
 
 def test_profile_attach(device_fixture):
     """
     Test if profile attached correctly
     """
-    
+
     test_profile_reference = 'ABC12345'
 
     device = device_fixture
@@ -182,7 +199,4 @@ def test_profile_attach(device_fixture):
     with patch('requests.put') as mock_call_put:
         device.profile_attach(test_profile_reference)
         assert device.path == f'/profile/{test_profile_reference}/attach?device=Dexternal'
-        mock_call_put.assert_called_once()    
-
-
-
+        mock_call_put.assert_called_once()
