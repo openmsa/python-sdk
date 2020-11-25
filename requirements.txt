@@ -1,2 +1,5 @@
 requests
 ipython
+xlrd
+pandas
+
