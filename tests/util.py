@@ -38,6 +38,7 @@ def device_info():
         '"logMoreEnabled":false,"mailAlerting":false,"reporting":false,'
         '"useNat":true,"snmpCommunity":""}')
 
+
 def customer_info():
     """
 
@@ -60,6 +61,7 @@ def customer_info():
         '"phone":""}}],"externalReference":"PRNA6","firstname":"",'
         '"login":"PRNCustme6","pwd":"","operatorPrefix":"PRN"}')
 
+
 def microservice_info():
     """
 
@@ -68,21 +70,21 @@ def microservice_info():
     Returns
     -------
     String: a mock microservice
-    
+
     """
     return (
         '{"information": {"displayName": "string","icon": "string","description": "string",'
         '"category": "string","displayField": "string","order": 0,"visibility": "5"},'
-          '"variables": {"variable": [{"defaultValue": "string","displayName": "string",'
+        '"variables": {"variable": [{"defaultValue": "string","displayName": "string",'
         '"name": "string","startIncrement": 0,"type": "string","value": [{}]}],"frozen": 0'
-          '},"example": {"content": "string"},"command": [{"name": "string","operation": "string",'
+        '},"example": {"content": "string"},"command": [{"name": "string","operation": "string",'
         '"parser": {"section": [{"regexp": "string"}],"lines": {"line": [{"array": {'
         '"name": "string","regexp": "string","mregexp": "string"}}],"ignoreRegexp": {'
         '"regexp": "string"}}},"postTemplate": "string"}],"metaInformationList": [{'
-          '"type": "FOLDER","uri": "string","file": true,"name": "string","displayName": "string",'
+        '"type": "FOLDER","uri": "string","file": true,"name": "string","displayName": "string",'
         '"repositoryName": "string","parentURI": "string","fileType": "text","tag": "string",'
-          '"comment": "string","modelId": 0,"vendorId": 0}'
-    )
+        '"comment": "string","modelId": 0,"vendorId": 0}')
+
 
 @pytest.fixture
 def device_fixture():
@@ -133,6 +135,7 @@ def order_fixture():
                 mock_host_port.return_value = ('api_hostname', '8080')
                 order = Order(1234)
     return order
+
 
 @pytest.fixture
 def customer_fixture():

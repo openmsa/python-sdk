@@ -400,8 +400,7 @@ def update_asynchronous_task_details(details: str):
     process_instance_id = context['PROCESSINSTANCEID']
     task_id = context['TASKID']
     exec_number = context['EXECNUMBER']
-    data = {"details": details}
     orch = Orchestration(None)
-    orch.update_process_script_details(process_instance_id, task_id,
-                                       exec_number, data)
+    orch.update_asynchronous_task_details(process_instance_id, task_id,
+                                          exec_number, details)
     return orch
