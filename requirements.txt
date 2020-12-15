@@ -1,5 +1,5 @@
 requests
 ipython
-xlrd
-pandas
+xlrd==1.2.0
+pandas==1.1.5
 json2html
