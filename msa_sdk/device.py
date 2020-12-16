@@ -490,7 +490,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         self.path = '/variables/{device_id}/{name}'.format(
             device_id=self.device_id, name=name)
-        create_variable = self.call_get()
+        self.call_get()
 
         return json.loads(self.content)
 
@@ -498,7 +498,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
             self,
             name: str,
             value: str,
-            type: str = 'String',
+            conf_type: str = 'String',
             comment: str = '') -> bool:
         """
         Create configuration variable.
@@ -509,9 +509,9 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                  Variable name
         value:   String
                  Vriable Value
-        type:    String
-                 Variable type
-                 Default: String
+        conf_type:    String
+                      Variable type
+                      Default: String
         comment: String
                  Comment
                  Default: empty stirng
@@ -528,10 +528,10 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                     '&comment={comment}'.format(device_id=self.device_id,
                                                 name=name,
                                                 value=value,
-                                                type=type,
+                                                type=conf_type,
                                                 comment=comment)
 
-        create_variable = self.call_put()
+        self.call_put()
 
         if self.get_configuration_variable(name)['value'] == value:
             return True
