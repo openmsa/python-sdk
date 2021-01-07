@@ -108,7 +108,7 @@ class Variables:
 
         Returns
         -------
-        Json with all variables defined
+        json: all variables defined
 
         """
         variables = []

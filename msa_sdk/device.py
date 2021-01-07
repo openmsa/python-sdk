@@ -305,7 +305,10 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Initialize provisioning.
 
-        @return: TODO
+        Returns
+        --------
+        None
+
         """
         self.action = 'Intial provisioning'
         self.path = "{}/provisioning/{}".format(self.api_path, self.device_id)
