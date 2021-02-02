@@ -138,30 +138,42 @@ class Orchestration(MSA_API):
 
         self.call_delete()
 
-    def execute_service(self, service_id, process_name, data):
+    def execute_service(self, service_name: str, process_name: str, data) -> None:
         """
 
         Execute service.
 
         Parameters
         ----------
-        service_id: Integer
-                Service ID
+        service_name: String
+                      Service Name
         process_name: String
-                Process name
+                      Process name
+        data:         dict()
+                      A dictionary containing workflow variables
 
         Returns
         -------
         None
+             If the execution was failed
+        service_id: Integer
+                    If execution was success
 
         """
         format_path = ('/orchestration/service/execute/{}'
                        '?serviceName={}&processName={}&serviceInstance=0')
 
         self.path = format_path.format(self.ubiqube_id,
-                                       service_id, process_name)
+                                       service_name, process_name)
 
         self.call_post(data)
+
+        try:
+            service_id = int(json.loads(self.content)['serviceId']['id'])
+        except:
+            service_id = None
+
+        return service_id        
 
     # pylint: disable=too-many-arguments
     def execute_by_service(self, external_ref, service_ref, service_name,
@@ -366,3 +378,54 @@ class Orchestration(MSA_API):
         details_json = json.dumps({'details': data})
         self.update_process_script_details(
             process_id, task_id, exec_number, details_json)
+
+    def get_list_service_by_status(self, range: int) -> dict:
+        """
+
+        List services by status.
+
+        Parameters
+        ----------
+        range: Integer
+               Number of days for the statistic
+
+        Returns
+        -------
+        Dict()
+              Key:   Name of service
+              Value: Statistics by status
+
+        """
+        self.path = '{}/services?ubiqubeId={}&range={}'.format(self.api_path_v1, self.ubiqube_id, range)
+        self.call_get()
+
+        return json.loads(self.content)   
+
+
+    def get_service_status_by_id(self, service_id: int) -> str:
+        """
+
+        Return service status by service_id
+
+        Parameters
+        ----------
+        service_id: Integer
+                    Id of workflow instance
+
+        Returns
+        -------
+        String: RUNNING|FAIL|ENDED
+                Status of the service
+        OR
+        None:   In case if execution failed
+
+        """
+        self.path = '{}/service/process-instance/{}'.format(self.api_path_v1, service_id)
+        self.call_get()
+
+        try:
+            status = json.loads(self.content)[0]['status']['status']
+        except:
+            status = None
+
+        return status

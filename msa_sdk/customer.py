@@ -11,6 +11,33 @@ class Customer(MSA_API):
         MSA_API.__init__(self)
         self.api_path = "/customer"
 
+    def get_device_list_by_id(self, id: int) -> list:
+        """
+
+        Get device list for the customer.
+
+        Parameters
+        -------
+        id: Integer
+            MSA ID for customer
+        
+        Returns
+        -------
+        return_list: list()
+                     List of device Id of the customer
+
+        """
+        import json
+        return_list = list()
+
+        self.path = "/device/v1/customer/{}/device-features".format(id)
+        self.call_get()
+
+        for device in json.loads(self.content):
+           return_list.append(device['id'])
+        
+        return return_list 
+
     def create_customer_by_prefix(self, prefix, name="", reference=""):
         """
 
