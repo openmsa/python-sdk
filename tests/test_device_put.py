@@ -200,3 +200,21 @@ def test_profile_attach(device_fixture):
         device.profile_attach(test_profile_reference)
         assert device.path == f'/profile/{test_profile_reference}/attach?device=Dexternal'
         mock_call_put.assert_called_once()
+
+#####
+def test_update(device_fixture):
+    """
+    Test update method
+    """
+
+    device = device_fixture
+    update_field = 'name'
+    update_value = 'RouterA'
+
+    response_content = f'{{"id": 67015, "name": "{update_value}"}}'
+
+    with patch('requests.put') as mock_call_put:
+        mock_call_put.return_value.text = response_content
+        device.update(update_field, update_value)
+        assert json.loads(device.content)['name'] == 'RouterA'
+        mock_call_put.assert_called_once()

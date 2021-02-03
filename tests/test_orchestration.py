@@ -49,6 +49,53 @@ def test_get_service_variables_by_service_id(orchestration_fixture):
         assert _is_valid_json(orch.response.text)
 
 
+def test_get_list_service_by_status(orchestration_fixture):
+    """
+    Test Get list of services by status
+    """
+    response = ('{"Process/IP_CONTROLLER/Fulfilment_Dispatcher/Fulfilment_Dispatcher":'
+                '{"RUNNING":0,"ENDED":0,"WARNING":0,"FAIL":0},"Process/IP_CONTROLLER/'
+                'Fulfilment_Handler/Fulfilment_Handler":{"RUNNING":0,"ENDED":0,'
+                '"WARNING":0,"FAIL":0}}')
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = response
+        orch = orchestration_fixture
+        orch.get_list_service_by_status(1)
+        assert orch.path == '/orchestration/v1/services?ubiqubeId=MSAA19224&range=1'
+        assert _is_valid_json(orch.response.text)
+
+def test_get_service_status_by_id(orchestration_fixture):
+    """
+    Test Get service status by ID
+    """
+    import json
+    response = ('[{"serviceId":{"name":"Process/IP_CONTROLLER/Cleaner/Cleaner","id":398,'
+                '"serviceExternalReference":"FSTSID398","state":null},"processId":'
+                '{"name":"Process/IP_CONTROLLER/Cleaner/Cleaner","id":448,"lastExecNumber":1,'
+                '"submissionType":"RUN"},"status":{"status":"ENDED","details":"Cleanerhasbeenfinished",'
+                '"startingDate":"2021-01-2911:33:23.865242","endingDate":"2021-01-2911:33:29.19334",'
+                '"execNumber":1,"processTaskStatus":[{"status":"ENDED","order":1,"processInstanceId":448,'
+                '"scriptName":"Cleaner","details":"Cleanerhasbeenfinished",'
+                '"startingDate":"2021-01-2911:33:23.878261","endingDate":"2021-01-2911:33:29.19334",'
+                '"newParameters":[]}]},"executorUsername":"ncroot"}]')
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = response
+        orch = orchestration_fixture
+        assert orch.get_service_status_by_id(398) == 'ENDED'
+        assert orch.path == '/orchestration/v1/service/process-instance/398'
+
+
+    response_fail = ('[]')
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = response_fail
+        orch = orchestration_fixture
+        assert orch.get_service_status_by_id(398) == None
+        assert orch.path == '/orchestration/v1/service/process-instance/398'
+
+
 def test_get_service_variable_by_name(orchestration_fixture):
     """
     Test Get Service Variables by Variable Name

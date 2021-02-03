@@ -7,9 +7,35 @@ from unittest.mock import patch
 from msa_sdk.customer import Customer
 from util import customer_fixture  # pylint: disable=unused-import
 from util import customer_info
+from util import device_list
 
 # pylint: disable=redefined-outer-name
 
+
+@patch('requests.get')
+def test_get_device_list_by_id(mock_post):
+    """
+    Get device list for the customer.
+    """
+
+    mock_post.return_value.json.return_value = {'token': '12345qwert'}
+    customer_device_list = list()
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = device_list()
+        with patch('msa_sdk.msa_api.host_port') as mock_host_port:
+            mock_host_port.return_value = ('api_hostname', '8080')
+            customer = Customer()
+            customer.get_device_list_by_id(6)
+
+        assert customer.path == '/device/v1/customer/6/device-features'
+
+        devices = json.loads(customer.content)
+        for device in devices:
+            customer_device_list.append(device['id'])
+        assert customer_device_list == [130, 127, 125]
+
+        mock_call_get.assert_called_once()
 
 @patch('requests.post')
 def test_get_customer_by_id(mock_post):
