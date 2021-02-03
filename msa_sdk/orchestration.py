@@ -401,11 +401,10 @@ class Orchestration(MSA_API):
 
         return json.loads(self.content)   
 
-
     def get_service_status_by_id(self, service_id: int) -> str:
         """
 
-        Return service status by service_id
+        Return service status by service_id.
 
         Parameters
         ----------

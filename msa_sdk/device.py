@@ -143,6 +143,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         import json
 
         self.action = 'Update device'
+        
         data = {"id": self.device_id,
                 "name": self.name,
                 "manufacturerId": self.manufacturer_id,
@@ -255,7 +256,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         self.action = 'Read device'
         if by_ref:
-            self.path = "{}/{}".format(path, "reference/{}".format(by_ref))
+            self.path = "{}/{}".format(self.api_path, "reference/{}".format(by_ref))
         else:
             self.path = '{}/v2/{}'.format(self.api_path, self.device_id)
         
