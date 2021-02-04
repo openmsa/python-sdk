@@ -19,7 +19,7 @@ class Order(Device):
 
         Command execute.
 
-        Parameteres
+        Parameters
         -----------
         command: String
                 Order command
@@ -52,7 +52,7 @@ class Order(Device):
 
         Command generate configuration.
 
-        Parameteres
+        Parameters
         -----------
         command: String
                 Order command
@@ -78,7 +78,7 @@ class Order(Device):
 
         Command synchronize.
 
-        Parameteres
+        Parameters
         -----------
         timeout: Integer
               Connection timeout
@@ -100,7 +100,7 @@ class Order(Device):
 
         Command call.
 
-        Parameters:
+        Parameters
         -----------
         command: String
                 CRUID method in microservice to call
@@ -108,7 +108,7 @@ class Order(Device):
                 0 - No application
                 1 - Apply to base
                 2 - Apply to device
-        Returns:
+        Returns
         --------
         None
 
@@ -125,11 +125,11 @@ class Order(Device):
 
         Get all microservices attached to a device.
 
-        Parameters:
+        Parameters
         -----------
         device_id: Integer
                 Device ID of the device
-        Returns:
+        Returns
         --------
         List:
                 List of names of microservices attached
@@ -144,13 +144,13 @@ class Order(Device):
 
         Get microservices instance by microservice name.
 
-        Parameters:
+        Parameters
         -----------
         device_id: Integer
                 Device ID of the device
         object_name: String
                 Name of microservice
-        Returns:
+        Returns
         --------
         List:
                 List of object IDs per microservice
@@ -169,7 +169,7 @@ class Order(Device):
 
         Get microservices instance by microservice object ID.
 
-        Parameters:
+        Parameters
         -----------
         device_id: Integer
                 Device ID of the device
@@ -177,7 +177,7 @@ class Order(Device):
                 Name of microservice
         object_id: String
                 Object ID of microservice instance
-        Returns:
+        Returns
         --------
         List:
                 Object of microservice parameters per object ID
