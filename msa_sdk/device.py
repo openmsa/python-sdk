@@ -125,6 +125,48 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         return json.loads(self.content)
 
+    def update(self, field: str, value: str) -> dict:
+        """
+        Update device.
+        
+        field: String
+               Modifyed device field
+        value: String
+               Modified field's value (str)
+
+
+        Returns
+        -------
+        Updated device capabilities: Dict()
+
+        """
+        import json
+
+        self.action = 'Update device'
+        
+        data = {"id": self.device_id,
+                "name": self.name,
+                "manufacturerId": self.manufacturer_id,
+                "modelId": self.model_id,
+                "managementAddress": self.management_address,
+                "managementInterface": self.management_interface,
+                "managementPort": self.management_port,
+                "login": self.login,
+                "password": self.password,
+                "password_admin": self.password_admin,
+                "log_enable": self.log_enabled,
+                "mailAlerting": self.mail_alerting,
+                "useNat": self.use_nat,
+                "snmpCommunity": self.snmp_community
+               }
+        self.path = '{}/v2/{}'.format(self.api_path, self.device_id)
+        
+        data[field] = value
+        
+        self.call_put(json.dumps(data))
+
+        return json.loads(self.content)
+
     def delete(self, by_ref=False):
         """
         Delete device.
@@ -213,7 +255,11 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         """
         self.action = 'Read device'
-        self._format_path_ref_id(by_ref, self.api_path)
+        if by_ref:
+            self.path = "{}/{}".format(self.api_path, "reference/{}".format(by_ref))
+        else:
+            self.path = '{}/v2/{}'.format(self.api_path, self.device_id)
+        
         self.call_get()
         if not self.response.ok:
             return False
@@ -226,6 +272,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.model_id = device_info["modelId"]
         self.management_address = device_info["managementAddress"]
         self.management_interface = device_info["managementInterface"]
+        self.management_port = device_info["managementPort"]
         self.login = device_info["login"]
         self.password = device_info["password"]
         self.password_admin = device_info["passwordAdmin"]
@@ -305,7 +352,10 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         Initialize provisioning.
 
-        @return: TODO
+        Returns
+        --------
+        None
+
         """
         self.action = 'Intial provisioning'
         self.path = "{}/provisioning/{}".format(self.api_path, self.device_id)
