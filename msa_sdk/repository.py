@@ -56,8 +56,9 @@ class Repository(MSA_API):
         """
         self.action = 'Get variables for microservice'
         url_encoded = urlencode({'uri': file_uri})
-        
-        self.path="{}/resource/variables?{}".format(self.api_path_v2, url_encoded)
+
+        self.path = "{}/resource/variables?{}".format(
+            self.api_path_v2, url_encoded)
         self.call_get()
 
     def post_repository_variables(self, respository_uri):
@@ -77,7 +78,7 @@ class Repository(MSA_API):
         self.action = 'Post repository variables'
         url_encoded = urlencode({'repository': respository_uri})
 
-        self.path="{}/variables?{}".format(self.api_path_v2, url_encoded)
+        self.path = "{}/variables?{}".format(self.api_path_v2, url_encoded)
         self.call_post()
 
     def get_microservice_details(self, file_uri):
@@ -96,8 +97,9 @@ class Repository(MSA_API):
         """
         self.action = 'Get details for microservice'
         url_encoded = urlencode({'uri': file_uri})
-        
-        self.path="{}/resource/microservice?{}".format(self.api_path_v2, url_encoded)
+
+        self.path = "{}/resource/microservice?{}".format(
+            self.api_path_v2, url_encoded)
         self.call_get()
 
     def put_microservice_details(self, microservice_details):
@@ -119,7 +121,7 @@ class Repository(MSA_API):
         """
         self.action = 'Put details of microservice'
 
-        self.path="{}/resource/microservice".format(self.api_path_v2)
+        self.path = "{}/resource/microservice".format(self.api_path_v2)
         self.call_put(microservice_details)
 
     def delete_repository_resource(self, file_uri):
