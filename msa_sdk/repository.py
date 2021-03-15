@@ -123,6 +123,26 @@ class Repository(MSA_API):
         self.path = "{}/resource/microservice".format(self.api_path_v2)
         self.call_put(microservice_details)
 
+    def create_microservice(self, microservice_details):
+        """
+        Create a new microservice.
+
+        Parameters
+        ----------
+        microservice_details: json
+            JSON body of microservices detail
+
+        Returns
+        -------
+        None
+
+        """
+        self.action = 'Create a new microservice'
+
+        self.path = "{}/resource/microservice".format(self.api_path_v2)
+        self.call_post(microservice_details)
+
+
     def delete_repository_resource(self, file_uri):
         """
         Delete repository resource.
