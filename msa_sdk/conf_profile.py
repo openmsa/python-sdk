@@ -1,7 +1,8 @@
 """Module ConfProfile."""
 import json
-import logging
+
 from msa_sdk.msa_api import MSA_API
+
 
 class ConfProfile(MSA_API):
     """Class ConfProfile."""
@@ -42,7 +43,6 @@ class ConfProfile(MSA_API):
         None
 
         """
-
         MSA_API.__init__(self)
         self.api_path = "/conf-profile"
         self.profile_id = profile_id
@@ -69,7 +69,7 @@ class ConfProfile(MSA_API):
         None
 
         """
-        self.action = 'Create configuration profile by prefix'
+        self.action = 'Create configuration profile'
         self.path = "{}/v2/{}".format(self.api_path, self.customer_id)
         params = {
                     "id": self.profile_id,

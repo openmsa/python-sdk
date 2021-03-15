@@ -88,6 +88,19 @@ def test_put_microservice_details(repository_fixture):
         assert repository.path == "/repository/v2/resource/microservice"
         mock_call_put.assert_called_once()
 
+def test_create_microservice(repository_fixture):
+    """
+    Test put microservice details.
+    """
+
+    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+        repository = repository_fixture
+        ms_details = microservice_info()
+        repository.create_microservice(ms_details)
+
+        assert repository.path == "/repository/v2/resource/microservice"
+        mock_call_post.assert_called_once()
+
 def test_delete_repository_resource(repository_fixture):
     """
     Delete repository resource.
