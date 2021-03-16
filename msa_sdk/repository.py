@@ -22,10 +22,9 @@ class Repository(MSA_API):
 
         Parameters
         ----------
-            file_uri: String
+        file_uri: String
             File path
-
-            comment: Comment
+        comment: Comment
             File comment
 
         Returns
@@ -46,12 +45,12 @@ class Repository(MSA_API):
 
         Parameters
         ----------
-            file_uri: String
+        file_uri: String
             File path to microservice in repository
 
         Returns
         -------
-        JSON body of variables from microservice
+        None
 
         """
         self.action = 'Get variables for microservice'
@@ -67,12 +66,12 @@ class Repository(MSA_API):
 
         Parameters
         ----------
-            repository: String
+        repository: String
             File path repository variables
 
         Returns
         -------
-        JSON body of repository variables
+        None
 
         """
         self.action = 'Post repository variables'
@@ -87,12 +86,12 @@ class Repository(MSA_API):
 
         Parameters
         ----------
-            file_uri: String
+        file_uri: String
             File path to microservice in repository
 
         Returns
         -------
-        JSON body of details from microservice
+        None
 
         """
         self.action = 'Get details for microservice'
@@ -108,15 +107,15 @@ class Repository(MSA_API):
 
         Parameters
         ----------
-            file_uri: String
+        file_uri: String
             File path to microservice in repository
 
-            microservice_details: JSON
+        microservice_details: json
             JSON body of microservices detail
 
         Returns
         -------
-        JSON body of details from microservice
+        None
 
         """
         self.action = 'Put details of microservice'
@@ -124,13 +123,33 @@ class Repository(MSA_API):
         self.path = "{}/resource/microservice".format(self.api_path_v2)
         self.call_put(microservice_details)
 
+    def create_microservice(self, microservice_details):
+        """
+        Create a new microservice.
+
+        Parameters
+        ----------
+        microservice_details: json
+            JSON body of microservices detail
+
+        Returns
+        -------
+        None
+
+        """
+        self.action = 'Create a new microservice'
+
+        self.path = "{}/resource/microservice".format(self.api_path_v2)
+        self.call_post(microservice_details)
+
+
     def delete_repository_resource(self, file_uri):
         """
         Delete repository resource.
 
         Parameters
         ----------
-            file_uri: String
+        file_uri: String
             File path to microservice in repository
 
         Returns

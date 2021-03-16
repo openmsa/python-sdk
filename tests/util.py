@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 import pytest
 
+from msa_sdk.conf_profile import ConfProfile
 from msa_sdk.customer import Customer
 from msa_sdk.device import Device
 from msa_sdk.orchestration import Orchestration
@@ -128,6 +129,25 @@ def microservice_info():
         '"comment": "string","modelId": 0,"vendorId": 0}')
 
 
+def conf_profile_info():
+    """
+
+    Retrieve Configuration Profile information.
+
+    Returns
+    -------
+    String: a mock configuration profile
+
+    """
+    return (
+        '{"id":148,"name":"Test Linux","comment":"This is Comment","externalReference":"htoPR148",'
+        '"vendor":{"name":"Linux","id":14020601},"model":{"name":"Generic","id":14020601},'
+        '"attachedManagedEntities":[202],"microserviceUris":{'
+        '"CommandDefinition/LINUX/SYSTEM/user.xml":{"name":"user","groups":[""]}},'
+        '"templateUris":[],"dateCreated":"2021-03-15 07:59:04.600040",'
+        '"lastUpdate":"2021-03-15 07:59:04.977353","operatorId":3,"customerIds":[9]}')
+
+
 @pytest.fixture
 def device_fixture():
     """Device fixture."""
@@ -197,3 +217,18 @@ def customer_fixture():
             mock_host_port.return_value = ('api_hostname', '8080')
             cust = Customer()
     return cust
+
+
+@pytest.fixture
+def conf_profile_fixture():
+    """Confprofile fixture."""
+    with patch('requests.post') as mock_post:
+        mock_post.return_value.json.return_value = {'token': '12345qwert'}
+
+        with patch('requests.get') as mock_call_get:
+            mock_call_get.return_value.text = conf_profile_info()
+
+            with patch('msa_sdk.msa_api.host_port') as mock_host_port:
+                mock_host_port.return_value = ('api_hostname', '8080')
+                conf_profile = ConfProfile(100)
+    return conf_profile

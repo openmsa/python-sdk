@@ -27,12 +27,14 @@ class Order(Device):
 
         params: dict
                 Parameters in a dict format:
-                {"simple_firewall": {
-                    "12": {
-                            "object_id": "12",
-                            "src_ip": "3.4.5.6",
-                            "dst_port": "44"
-                    }
+
+                {
+                    "simple_firewall": {
+                        "12": {
+                                "object_id": "12",
+                                "src_ip": "3.4.5.6",
+                                "dst_port": "44"
+                        }
                 }
 
 
@@ -152,7 +154,7 @@ class Order(Device):
                 Name of microservice
         Returns
         --------
-        List:
+        list of object:
                 List of object IDs per microservice
 
         """
@@ -179,7 +181,7 @@ class Order(Device):
                 Object ID of microservice instance
         Returns
         --------
-        List:
+        list of object:
                 Object of microservice parameters per object ID
 
         """

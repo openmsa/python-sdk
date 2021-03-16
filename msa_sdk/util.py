@@ -33,7 +33,7 @@ def get_ip_range(start, end):
 
     Returns
     -------
-    List of range of ips
+    list: List of range of ips
 
     """
     ip_range = list(range(int(IPv4Address(start)), int(IPv4Address(end))))
@@ -57,7 +57,7 @@ def cidr_to_range(cdir):
 
     Returns
     -------
-    List of ip range
+    list: List of ip range
 
     """
     r_ips = list(ip_network(cdir).hosts())
@@ -87,7 +87,7 @@ def obtain_file_lock(lock_file_name, mode, process_param, sleep_time=60,
 
     Returns
     ------
-    Json
+    json: Result of the lock
 
     """
     lock_file_path = '{}/{}'.format(constants.UBI_JENTREPRISE_DIRECTORY,
@@ -155,7 +155,7 @@ def release_file_lock(lock_file_name, process_param, sleep_time=60,
 
     Returns
     ------
-    Json
+    json: Result of the release
 
     """
     lock_file_path = '{}/{}'.format(constants.UBI_JENTREPRISE_DIRECTORY,
@@ -206,7 +206,7 @@ def is_overlapping_cidr(cidr1, cidr2):
 
     Returns
     -------
-    Bool: Check if both cidr overlaps
+    bool: Cidr overlaps
 
     """
     return IPv4Network(cidr1).overlaps(IPv4Network(cidr2))
@@ -224,7 +224,7 @@ def get_vars_value(variable):
 
     Returns
     -------
-    Value
+    string: Variable name
 
     """
     config = ConfigParser()
@@ -273,7 +273,7 @@ def is_cidr(addr):
 
     Returns
     -------
-    Bool
+    bool: Valid cidr
 
     """
     try:
@@ -296,7 +296,7 @@ def netmask_to_cidr(netmask):
 
     Returns
     -------
-    Returns cdir
+    string: cidr netmask
 
     """
     return sum([bin(int(x)).count("1") for x in netmask.split(".")])
@@ -360,9 +360,11 @@ def log_to_process_file(process_id: str, log_message: str) -> bool:
 
     Returns
     -------
-    True:  log string has been written correctlly
-    False: log string has not been written correctlly or the
-            log file doesnt exist
+    bool:
+        true:  log string has been written correctlly
+
+        false: log string has not been written correctlly or the
+                log file doesnt exist
 
     """
     process_log_path = '{}/process-{}.log'.format(
@@ -393,7 +395,7 @@ def update_asynchronous_task_details(details: str):
 
     Returns
     -------
-    Orchestraion object
+    object: Orchestration
 
     """
     context = Variables.task_call()

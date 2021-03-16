@@ -253,6 +253,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         """
         self.action = 'Read device'
+
         if by_ref:
             self.path = "{}/{}".format(self.api_path,
                                        "reference/{}".format(by_ref))
