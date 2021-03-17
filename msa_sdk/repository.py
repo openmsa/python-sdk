@@ -45,20 +45,23 @@ class Repository(MSA_API):
 
         Parameters
         ----------
-        file_uri: String
+            file_uri: String
             File path to microservice in repository
-
         Returns
         -------
-        None
+
+
+        Dictionary: dict()
+                    Dictionary wich contains microservice variables definition
 
         """
+        import json
         self.action = 'Get variables for microservice'
         url_encoded = urlencode({'uri': file_uri})
-
-        self.path = "{}/resource/variables?{}".format(
-            self.api_path_v2, url_encoded)
+        self.path="{}/resource/variables?{}".format(self.api_path_v2, url_encoded)
         self.call_get()
+        return json.loads(self.content)
+
 
     def post_repository_variables(self, respository_uri):
         """
@@ -86,20 +89,25 @@ class Repository(MSA_API):
 
         Parameters
         ----------
-        file_uri: String
+            file_uri: String
             File path to microservice in repository
-
         Returns
         -------
-        None
+
+
+        Dictionary: dict()
+            Dictionary wich contains microservice details
 
         """
+        import json
         self.action = 'Get details for microservice'
         url_encoded = urlencode({'uri': file_uri})
+        
+        self.path="{}/resource/microservice?{}".format(self.api_path_v2, url_encoded)
 
-        self.path = "{}/resource/microservice?{}".format(
-            self.api_path_v2, url_encoded)
+
         self.call_get()
+        return json.loads(self.content) 
 
     def put_microservice_details(self, microservice_details):
         """
@@ -118,6 +126,7 @@ class Repository(MSA_API):
         None
 
         """
+        import json
         self.action = 'Put details of microservice'
 
         self.path = "{}/resource/microservice".format(self.api_path_v2)
@@ -162,3 +171,122 @@ class Repository(MSA_API):
         url_encoded = urlencode({'uri': file_uri})
         self.path = "{}/resource?{}".format(self.api_path_v2, url_encoded)
         self.call_delete()
+
+    def get_microservice_path_by_name(self, microservice_name:str, deployment_settings_id:str) -> str:
+        """
+        Get microservice file path by microservice name and deployment settings ID.
+
+        Parameters
+        ----------
+            microservice_name: Name of microservice
+            depoloyment_settings_id: Deployment settings id
+
+        Returns
+        -------
+        String: string
+                Microservice file path or None
+
+        """
+        import re
+        import json
+
+        self.action = 'Get deployment settings'
+
+        self.path = "/conf-profile/v2/{}".format(deployment_settings_id)
+        self.call_get()
+        result = json.loads(self.content)
+        for microservice_path, microservice_details in result['microserviceUris'].items():
+            if re.search(microservice_name, microservice_path):
+                return microservice_path
+        else:
+            return None
+
+    def get_microservice_variables_default_value(self, file_uri:str) -> dict:
+        """
+        Get default values for microservice variables.
+
+        Parameters
+        ----------
+            file_uri: Path to microservice file.
+        Returns
+        -------
+            Dictionary: dict()
+                        Variables and their default values
+
+        """
+        import re
+        result = dict()
+        self.action = 'Get variables default'
+        variables = self.get_microservice_variables(file_uri)
+        if 'variable' in list(variables.keys()):
+            for variable_details in variables['variable']:
+                result[variable_details['name'].replace('params.', '')] = variable_details['defaultValue']
+        return result
+
+    def detach_microserviceis_from_configuration_profile(self, deployment_settings_id:str, ms_list:list) -> None:
+        """
+        Detach microservice from configuration profile.
+
+        Parameters
+        ----------
+            depoloyment_settings_id: Deployment settings id
+            ms_list: List of microservice's URI to detach
+        Returns
+        -------
+            None
+
+        """
+        import json
+        self.action = 'Detach microservice from deployment settings'
+        self.path = "/conf-profile/v2/detach/{}/repository/files".format(deployment_settings_id)
+        self.call_put(json.dumps(ms_list))
+        return None
+
+    def get_workflow_definition(self, file_uri:str) -> dict:
+        """
+        Get workflow definition.
+
+        Parameters
+        ----------
+            file_uri: Path to workflow file.
+        Returns
+        -------
+            Dictionary: dict()
+                        Variables and their default values
+
+        """
+        import json
+        url_encoded = urlencode({'uri': file_uri})
+        self.action = 'Get workflow definition'
+        self.path = "/repository/v2/resource/workflow?{}".format(url_encoded)
+        self.call_get()
+        return json.loads(self.content)
+
+
+    def change_workflow_definition(self, file_uri:str, workflow_definition_dict:dict) -> None:
+        """
+        Change workflow defenition.
+
+        Parameters
+        ----------
+            file_uri: Path to workflow file
+            workflow_definition_dict: Workflow definition
+        Returns
+        -------
+            None
+
+        """
+        import json
+        url_encoded = urlencode({'uri': file_uri})
+        self.action = 'Change workflow definition'
+        self.path = "/repository/v2/resource/workflow?{}".format(url_encoded)
+        
+        if not workflow_definition_dict['example']:
+            workflow_definition_dict['example'] = dict()
+
+        for process_details in workflow_definition_dict['process']:
+            if not process_details['tasks']:
+                process_details['tasks'] = list()
+
+        self.call_put(json.dumps(workflow_definition_dict))
+        return None
