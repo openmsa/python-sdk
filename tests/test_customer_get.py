@@ -90,7 +90,7 @@ def test_get_customer_by_reference(mock_post):
 @patch('requests.post')
 def test_get_variables_by_id(mock_post):
     """
-    Get variales by ID
+    Get variables by ID
     """
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
@@ -109,7 +109,7 @@ def test_get_variables_by_id(mock_post):
 @patch('requests.post')
 def test_get_variables_by_name(mock_post):
     """
-    Get variales by ID
+    Get variables by name
     """
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
@@ -121,5 +121,23 @@ def test_get_variables_by_name(mock_post):
             customer.get_variables_by_name(6, 'variableName')
 
         assert customer.path == '/customer/id/6/variables/variableName'
+
+        mock_call_get.assert_called_once()
+
+
+def test_get_deployment_settings_by_customer_id(customer_fixture):
+    """
+    Get deployment settings ID
+    """
+
+    response = ('[{"id":288,"name":"OneOS_netconf DS",'
+                '"comment":"","externalReference":"UBIPR288"}]')
+
+    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+        customer = customer_fixture
+        customer._content = response
+        customer.get_deployment_settings_by_customer_id(6)
+
+        assert customer.path == '/conf-profile/v2/list/customer/6'
 
         mock_call_get.assert_called_once()

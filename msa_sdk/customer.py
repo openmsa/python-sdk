@@ -300,3 +300,22 @@ class Customer(MSA_API):
         self.action = 'Delete configuration variable info by variable name'
         self.path = '{}/id/{}/variables/{}'.format(self.api_path, id, name)
         self.call_delete()
+
+    def get_deployment_settings_by_customer_id(self, id: str) -> list:
+        """
+        Get list of deployment settings and their attributes.
+
+        Parameters
+        ----------
+            id: Customer ID
+        Returns
+        -------
+            List: list()
+                  Deployment settings list for the customer
+
+        """
+        import json
+        self.action = "Get deploymnet settings profile attached to the customer"
+        self.path = "/conf-profile/v2/list/customer/{}".format(id)
+        self.call_get()
+        return json.loads(self.content) 

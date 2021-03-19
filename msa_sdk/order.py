@@ -193,3 +193,23 @@ class Order(Device):
         self.call_get()
 
         return json.loads(self.content)
+
+    def command_get_deployment_settings_id(self) -> str:
+        """
+
+        Get deployment settings ID for the device.
+
+        Parameters
+        -----------
+        None: None
+        Returns
+        --------
+        Integer:
+                Deployment settings ID
+
+        """
+        self.action = 'Get deployment settings ID'
+        self.path = '/conf-profile/v1/device/{}'.format(self.device_id)
+        self.call_get()
+        
+        return int(json.loads(self.content)['ConfigProfileByDevice'])
