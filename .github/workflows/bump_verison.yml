@@ -25,6 +25,6 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f ${DIR}/requirements.txt ]; then pip install -r ${DIR}/requirements-dev.txt ; fi
 
-      - name: Bump version
-        run: |
-          bump2version patch --commit msa_sdk/__init__.py
+    - name: Bump version
+      run: |
+        bump2version patch --commit msa_sdk/__init__.py
