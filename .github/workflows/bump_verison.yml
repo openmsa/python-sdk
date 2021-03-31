@@ -27,4 +27,6 @@ jobs:
 
     - name: Bump version
       run: |
+        git config user.email efeubiqube@ubiqube.com
+        git config user.name "Eduardo Ferreira (bot)"
         bump2version patch --commit msa_sdk/__init__.py
