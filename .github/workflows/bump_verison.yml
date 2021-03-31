@@ -21,7 +21,7 @@ jobs:
         cd ../
         python -m pip install --upgrade pip
         if [ -f ${DIR}/requirements.txt ]; then pip install -r ${DIR}/requirements-dev.txt ; fi
-        bump2version patch --commit msa_sdk/__init__.py
+        bump2version patch  msa_sdk/__init__.py
 
     - name: Commit bump version
       uses: stefanzweifel/git-auto-commit-action@v4
