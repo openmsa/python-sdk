@@ -5,8 +5,33 @@ on:
     branches: [develop]
 
 jobs:
-  bump:
+  run-tests:
+    name: Run unittest
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8]
 
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        DIR=$(pwd)
+        cd ../
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f ${DIR}/requirements.txt ]; then pip install -r ${DIR}/requirements.txt ; fi
+        if [ -f ${DIR}/requirements-dev.txt ]; then pip install -r ${DIR}/requirements-dev.txt ; fi
+    - name: Test with pytest
+      run: |
+        ./run_tests quiet
+
+  bump-version:
+    name: Bump version
     runs-on: ubuntu-latest
 
     steps:

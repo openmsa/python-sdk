@@ -10,8 +10,8 @@ on:
     branches: [ develop ]
 
 jobs:
-  build:
-
+  tests:
+    name: Run unittest
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -23,6 +23,7 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
+
     - name: Install dependencies
       run: |
         DIR=$(pwd)
@@ -31,6 +32,7 @@ jobs:
         pip install flake8 pytest
         if [ -f ${DIR}/requirements.txt ]; then pip install -r ${DIR}/requirements.txt ; fi
         if [ -f ${DIR}/requirements-dev.txt ]; then pip install -r ${DIR}/requirements-dev.txt ; fi
+
     - name: Test with pytest
       run: |
         ./run_tests quiet
