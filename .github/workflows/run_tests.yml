@@ -30,7 +30,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f ${DIR}/requirements.txt ]; then pip install -r ${DIR}/requirements.txt ; fi
-        if [ -f ${DIR}/requirements.txt ]; then pip install -r ${DIR}/requirements-dev.txt ; fi
+        if [ -f ${DIR}/requirements-dev.txt ]; then pip install -r ${DIR}/requirements-dev.txt ; fi
     - name: Test with pytest
       run: |
         ./run_tests quiet
