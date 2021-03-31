@@ -1,0 +1,17 @@
+name: Bump version
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  bump:
+      - name: Bump version
+        run: |
+          bump2version patch msa_sdk/__init__.py
+
+      - name: Commit bump version
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Bump msa-docker build version
+          push_options: --force
