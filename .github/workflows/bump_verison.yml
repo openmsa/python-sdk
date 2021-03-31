@@ -17,8 +17,11 @@ jobs:
         python-version: 3.7
     - name: Install dependencies
       run: |
+        DIR=$(pwd)
+        cd ../
         python -m pip install --upgrade pip
         python -m pip install bump2version
+        cd ${DIR}
         bump2version patch msa_sdk/__init__.py
 
     - name: Commit bump version
