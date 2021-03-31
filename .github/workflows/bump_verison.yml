@@ -8,25 +8,26 @@ jobs:
   bump:
 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.7]
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python 3.7
       uses: actions/setup-python@v1
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.7
     - name: Install dependencies
       run: |
         DIR=$(pwd)
         cd ../
         python -m pip install --upgrade pip
         if [ -f ${DIR}/requirements.txt ]; then pip install -r ${DIR}/requirements-dev.txt ; fi
-
-    - name: Bump version
-      run: |
-        git config user.email efeubiqube@ubiqube.com
-        git config user.name "Eduardo Ferreira (bot)"
         bump2version patch --commit msa_sdk/__init__.py
+
+    - name: Commit bump version
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Commit bump version
+        commit_user_name: Eduardo Ferreira (bot)
+        commit_user_email: efeubiqube@ubiqube.com
+        commit_author: Eduardo Ferreira <efeubiqube@ubiqube.com>
+        push_options: --force
