@@ -138,7 +138,8 @@ class Orchestration(MSA_API):
 
         self.call_delete()
 
-    def execute_service(self, service_name: str, process_name: str, data) -> None:
+    def execute_service(self, service_name: str, process_name: str,
+                        data: dict):
         """
 
         Execute service.
@@ -168,12 +169,13 @@ class Orchestration(MSA_API):
 
         self.call_post(data)
 
+        service_id = None
         try:
             service_id = int(json.loads(self.content)['serviceId']['id'])
-        except:
-            service_id = None
+        except BaseException:
+            pass
 
-        return service_id        
+        return service_id
 
     # pylint: disable=too-many-arguments
     def execute_by_service(self, external_ref, service_ref, service_name,
@@ -251,6 +253,8 @@ class Orchestration(MSA_API):
                 Service ID
         process_name: String
                 Process name
+        data:         dict()
+                      A dictionary containing workflow variables
 
         Returns
         -------
@@ -396,10 +400,11 @@ class Orchestration(MSA_API):
               Value: Statistics by status
 
         """
-        self.path = '{}/services?ubiqubeId={}&range={}'.format(self.api_path_v1, self.ubiqube_id, range)
+        self.path = '{}/services?ubiqubeId={}&range={}'.format(
+            self.api_path_v1, self.ubiqube_id, range)
         self.call_get()
 
-        return json.loads(self.content)   
+        return json.loads(self.content)
 
     def get_service_status_by_id(self, service_id: int) -> str:
         """
@@ -419,12 +424,13 @@ class Orchestration(MSA_API):
         None:   In case if execution failed
 
         """
-        self.path = '{}/service/process-instance/{}'.format(self.api_path_v1, service_id)
+        self.path = '{}/service/process-instance/{}'.format(
+            self.api_path_v1, service_id)
         self.call_get()
 
         try:
             status = json.loads(self.content)[0]['status']['status']
-        except:
+        except BaseException:
             status = None
 
         return status
