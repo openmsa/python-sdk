@@ -7,3 +7,4 @@ pytest-docstyle==2.0.1
 pytest-isort==1.0.0
 pytest-pylint==0.17.0
 bump2version
+ipython
