@@ -38,17 +38,20 @@ def convert_yang_into_xml_file(yang_filenames, xml_output_file: str):
     # pyang in this directorie to be able to load other yang generic library
     # dependency present in the same directorie.
     yang_path = os.path.dirname(yang_filenames[0])
+    yang_files = ''
+    for file in yang_filenames:
+      yang_files = yang_files + ' ' + str(os.path.basename(file))
 
     pyang_command = ' cd "' + yang_path + \
         '";  pyang -f sample-xml-skeleton ' + \
         '--sample-xml-skeleton-doctype=config  -o ' + \
-        xml_output_file + " " + " ".join(map(str, yang_filenames))
+        xml_output_file +  yang_files
 
     try:
         subprocess.check_output(pyang_command, shell=True,
                                 stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as error_msg:
-        return 'Error: ' + str(error_msg)
+        return 'Error:' + str(error_msg)
 
     return xml_output_file
 
