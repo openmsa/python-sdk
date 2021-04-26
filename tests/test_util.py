@@ -20,6 +20,15 @@ from msa_sdk.util import release_file_lock
 from msa_sdk.util import update_asynchronous_task_details
 
 
+def test_convert_yang_into_xml_file():
+    """
+    Test convert_yang_into_xml_file
+    """
+
+    assert convert_yang_into_xml_file(['test_yangconvertfile.yang'], 'test_yangconvertfile.xml') == 'test_yangconvertfile.xml'
+
+
+
 def test_get_ip_range():
     """
     Test get ip range
