@@ -489,3 +489,51 @@ def test_update_asynchronous_task_details():
             mock_call_put.assert_called_once()
             assert orch.path == ('/orchestration/process/instance/12/task/'
                                  '13/execnumber/21/update')
+
+
+def test_convert_yang_into_xml_file_error(tmpdir):
+    f_dir = tmpdir.mkdir('yang2xml')
+    f_input = f"{f_dir}/sample.yang"
+    f_output = f"{f_dir}/sample.yang.to.xml"
+
+    f_content_in = "invalid yang"
+
+    with open(f_input, "w+") as f:
+        f.write(f_content_in)
+
+    yang_filenames = [ f_input ]
+    xml_output_file = f_output
+    ret = convert_yang_into_xml_file(yang_filenames, xml_output_file)
+
+    assert re.match(r'^Error:', ret)
+
+
+def test_convert_yang_into_xml_file_success(tmpdir):
+    f_dir = tmpdir.mkdir('yang2xml')
+    f_input = f"{f_dir}/sample.yang"
+    f_output = f"{f_dir}/sample.yang.to.xml"
+
+    f_content_in = """
+    module sample {
+      namespace "http://ubiqube.com/sample";
+      prefix "spl";
+      leaf greeting {
+        type string;
+        default "Hello world!";
+      }
+    }
+    """
+    f_content_out = """
+    <?xml version='1.0' encoding='UTF-8'?>
+    <config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"/>
+    """.replace("    ", "")[1:]
+
+    with open(f_input, "w+") as f:
+        f.write(f_content_in)
+
+    yang_filenames = [ f_input ]
+    xml_output_file = f_output
+    convert_yang_into_xml_file(yang_filenames, xml_output_file)
+
+    with open(f_output) as f:
+        assert f.read() == f_content_out
