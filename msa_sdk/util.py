@@ -19,6 +19,7 @@ from msa_sdk.variables import Variables
 
 def convert_yang_into_xml_file(yang_filenames, xml_output_file: str):
     """
+
     Convert YANG files into one XML file
     Input yang_filenames is an array (it contains the list of YANG files (with full path name of each files)
     """
