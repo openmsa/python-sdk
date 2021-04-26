@@ -48,7 +48,7 @@ def convert_yang_into_xml_file(yang_filenames, xml_output_file: str):
         subprocess.check_output(pyang_command, shell=True,
                                 stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as error_msg:
-        return 'Error:' + str(error_msg)
+        return 'Error: ' + str(error_msg)
 
     return xml_output_file
 
