@@ -2,6 +2,7 @@
 import fcntl
 import io
 import os
+import subprocess
 import sys
 import time
 from configparser import ConfigParser
@@ -19,32 +20,36 @@ from msa_sdk.variables import Variables
 
 def convert_yang_into_xml_file(yang_filenames, xml_output_file: str):
     """
-
-    Convert YANG files into one XML file
+    Convert YANG files into one XML file.
 
     Parameters
     ----------
-    yang_filenames: Array  
-            It contains the list of YANG files (with full path name of each files
+    yang_filenames: Array
+            It contains the list of YANG files (with full path name of
+            each files
 
     Returns
     -------
     xml_output_file: String
             Filename of the new YANG file
-  
+
     """
+    # Get the directorie where all PYANG files are present. We should run
+    # pyang in this directorie to be able to load other yang generic library
+    # dependency present in the same directorie.
+    yang_path = os.path.dirname(yang_filenames[0])
 
-    yang_path = os.path.dirname(yang_filenames[0]) # Get the directorie where all PYANG files are present. We should run pyang in this directorie to be able to load other yang generic library dependency present in the same directorie.
+    pyang_command = ' cd "' + yang_path + \
+        '";  pyang -f sample-xml-skeleton ' + \
+        '--sample-xml-skeleton-doctype=config  -o ' + \
+        xml_output_file + " " + " ".join(map(str, yang_filenames))
 
-    pyang_command = ' cd "'+yang_path+'";  pyang -f sample-xml-skeleton --sample-xml-skeleton-doctype=config  -o ' + xml_output_file + " " + " ".join(map(str, yang_filenames))
-     
     try:
-        output = subprocess.check_output(pyang_command, shell=True, stderr=subprocess.STDOUT)
-    except subprocess.CalledProcessError:
-        return 'Error:' + stderr
+        subprocess.check_output(pyang_command, shell=True,
+                                stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as error_msg:
+        return 'Error:' + str(error_msg)
 
-    context['pyang_command']   = pyang_command
-    context['xml_output_file'] = xml_output_file
     return xml_output_file
 
 
