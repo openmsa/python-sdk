@@ -30,6 +30,17 @@ def test_convert_yang_into_xml_file():
         ['tests/test_yangconvertfile.yang'],
         'test_yangconvertfile.xml') == 'test_yangconvertfile.xml'
 
+    fail_output = (
+        'Error:Command \' cd "";  pyang -f sample-xml-skeleton '
+        '--sample-xml-skeleton-doctype=config  '
+        '-o test_yangconvertfile.xml test_yangconvertfile.yang\' '
+        'returned non-zero exit status 1.'
+    )
+
+    assert convert_yang_into_xml_file(
+        ['test_yangconvertfile.yang'],
+        'test_yangconvertfile.xml') == fail_output
+
 
 def test_get_ip_range():
     """
