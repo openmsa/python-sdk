@@ -9,6 +9,7 @@ from msa_sdk.util import address_is_in_network
 from msa_sdk.util import cidr_match
 from msa_sdk.util import cidr_to_range
 from msa_sdk.util import cidr_to_subnet_and_subnetmask_address
+from msa_sdk.util import convert_yang_into_xml_file
 from msa_sdk.util import get_ip_range
 from msa_sdk.util import get_vars_value
 from msa_sdk.util import is_cidr
@@ -18,6 +19,27 @@ from msa_sdk.util import netmask_to_cidr
 from msa_sdk.util import obtain_file_lock
 from msa_sdk.util import release_file_lock
 from msa_sdk.util import update_asynchronous_task_details
+
+
+def test_convert_yang_into_xml_file():
+    """
+    Test convert_yang_into_xml_file
+    """
+
+    assert convert_yang_into_xml_file(
+        ['tests/test_yangconvertfile.yang'],
+        'test_yangconvertfile.xml') == 'test_yangconvertfile.xml'
+
+    fail_output = (
+        'Error:Command \' cd "";  pyang -f sample-xml-skeleton '
+        '--sample-xml-skeleton-doctype=config  '
+        '-o test_yangconvertfile.xml test_yangconvertfile.yang\' '
+        'returned non-zero exit status 1.'
+    )
+
+    assert convert_yang_into_xml_file(
+        ['test_yangconvertfile.yang'],
+        'test_yangconvertfile.xml') == fail_output
 
 
 def test_get_ip_range():
