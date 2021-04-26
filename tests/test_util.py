@@ -501,7 +501,7 @@ def test_convert_yang_into_xml_file_error(tmpdir):
     with open(f_input, "w+") as f:
         f.write(f_content_in)
 
-    yang_filenames = [ f_input ]
+    yang_filenames = [f_input]
     xml_output_file = f_output
     ret = convert_yang_into_xml_file(yang_filenames, xml_output_file)
 
@@ -531,7 +531,7 @@ def test_convert_yang_into_xml_file_success(tmpdir):
     with open(f_input, "w+") as f:
         f.write(f_content_in)
 
-    yang_filenames = [ f_input ]
+    yang_filenames = [f_input]
     xml_output_file = f_output
     convert_yang_into_xml_file(yang_filenames, xml_output_file)
 
