@@ -34,9 +34,9 @@ def convert_yang_into_xml_file(yang_filenames, xml_output_file: str):
             Filename of the new YANG file
 
     """
-    # Get the directorie where all PYANG files are present. We should run
-    # pyang in this directorie to be able to load other yang generic library
-    # dependency present in the same directorie.
+    # Get the directory where all PYANG files are present. We should run
+    # pyang in this directory to be able to load other yang generic library
+    # dependency present in the same directory.
     yang_path = os.path.dirname(yang_filenames[0])
     yang_files = ''
     for file in yang_filenames:
