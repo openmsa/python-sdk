@@ -127,10 +127,6 @@ class Order(Device):
 
         Get all microservices attached to a device.
 
-        Parameters
-        -----------
-        device_id: Integer
-                Device ID of the device
         Returns
         --------
         List:
@@ -194,14 +190,11 @@ class Order(Device):
 
         return json.loads(self.content)
 
-    def command_get_deployment_settings_id(self) -> str:
+    def command_get_deployment_settings_id(self) -> int:
         """
 
         Get deployment settings ID for the device.
 
-        Parameters
-        -----------
-        None: None
         Returns
         --------
         Integer:
@@ -211,5 +204,8 @@ class Order(Device):
         self.action = 'Get deployment settings ID'
         self.path = '/conf-profile/v1/device/{}'.format(self.device_id)
         self.call_get()
-        
-        return int(json.loads(self.content)['ConfigProfileByDevice'])
+
+        config_profile_device = \
+            json.loads(self.content)['ConfigProfileByDevice']
+
+        return int(config_profile_device)
