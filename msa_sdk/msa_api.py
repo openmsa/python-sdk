@@ -51,10 +51,10 @@ class MSA_API():  # pylint: disable=invalid-name
         self.url = 'http://{}:{}/ubi-api-rest'.format(*host_port())
 
         self._token = Variables.task_call()['TOKEN']
-        self.path = None
+        self.path = ""
         self.response = None
         self.log_response = True
-        self._content = None
+        self._content = ""
         self.action = self.__class__
 
     @classmethod
@@ -253,7 +253,8 @@ class MSA_API():  # pylint: disable=invalid-name
         Returns
         -------
         True:  log string has been written correctlly
-        False: log string has not been written correctlly or the log file doesnt exist
+        False: log string has not been written correctlly or the log
+            file doesnt exist
 
         """
         import sys
@@ -261,10 +262,11 @@ class MSA_API():  # pylint: disable=invalid-name
             constants.PROCESS_LOGS_DIRECTORY, processId)
         current_time = datetime.datetime.now().isoformat()
         log_string = '{date}:{file}:DEBUG:{msg}\n'.format(
-            date=current_time, file=sys.argv[0].split('/')[-1], msg=log_message)
+            date=current_time, file=sys.argv[0].split('/')[-1],
+            msg=log_message)
         try:
             with open(process_log_path, 'a') as log_file:
-                written_characters = log_file.write(log_string)
+                log_file.write(log_string)
                 return True
         except IOError:
             return False

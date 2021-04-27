@@ -58,10 +58,10 @@ class Repository(MSA_API):
         import json
         self.action = 'Get variables for microservice'
         url_encoded = urlencode({'uri': file_uri})
-        self.path="{}/resource/variables?{}".format(self.api_path_v2, url_encoded)
+        self.path = "{}/resource/variables?{}".format(
+            self.api_path_v2, url_encoded)
         self.call_get()
         return json.loads(self.content)
-
 
     def post_repository_variables(self, respository_uri):
         """
@@ -102,12 +102,12 @@ class Repository(MSA_API):
         import json
         self.action = 'Get details for microservice'
         url_encoded = urlencode({'uri': file_uri})
-        
-        self.path="{}/resource/microservice?{}".format(self.api_path_v2, url_encoded)
 
+        self.path = "{}/resource/microservice?{}".format(
+            self.api_path_v2, url_encoded)
 
         self.call_get()
-        return json.loads(self.content) 
+        return json.loads(self.content)
 
     def put_microservice_details(self, microservice_details):
         """
@@ -126,7 +126,6 @@ class Repository(MSA_API):
         None
 
         """
-        import json
         self.action = 'Put details of microservice'
 
         self.path = "{}/resource/microservice".format(self.api_path_v2)
@@ -151,7 +150,6 @@ class Repository(MSA_API):
         self.path = "{}/resource/microservice".format(self.api_path_v2)
         self.call_post(microservice_details)
 
-
     def delete_repository_resource(self, file_uri):
         """
         Delete repository resource.
@@ -172,9 +170,10 @@ class Repository(MSA_API):
         self.path = "{}/resource?{}".format(self.api_path_v2, url_encoded)
         self.call_delete()
 
-    def get_microservice_path_by_name(self, microservice_name:str, deployment_settings_id:str) -> str:
+    def get_microservice_path_by_name(self, microservice_name: str,
+                                      deployment_settings_id: str):
         """
-        Get microservice file path by microservice name and deployment settings ID.
+        Get MS file path by MS name and deployment settings ID.
 
         Parameters
         ----------
@@ -195,13 +194,14 @@ class Repository(MSA_API):
         self.path = "/conf-profile/v2/{}".format(deployment_settings_id)
         self.call_get()
         result = json.loads(self.content)
-        for microservice_path, microservice_details in result['microserviceUris'].items():
+        for microservice_path, microservice_details in \
+                result['microserviceUris'].items():
             if re.search(microservice_name, microservice_path):
                 return microservice_path
         else:
             return None
 
-    def get_microservice_variables_default_value(self, file_uri:str) -> dict:
+    def get_microservice_variables_default_value(self, file_uri: str) -> dict:
         """
         Get default values for microservice variables.
 
@@ -214,16 +214,17 @@ class Repository(MSA_API):
                         Variables and their default values
 
         """
-        import re
         result = dict()
         self.action = 'Get variables default'
         variables = self.get_microservice_variables(file_uri)
         if 'variable' in list(variables.keys()):
             for variable_details in variables['variable']:
-                result[variable_details['name'].replace('params.', '')] = variable_details['defaultValue']
+                result[variable_details['name'].replace(
+                    'params.', '')] = variable_details['defaultValue']
         return result
 
-    def detach_microserviceis_from_configuration_profile(self, deployment_settings_id:str, ms_list:list) -> None:
+    def detach_microserviceis_from_configuration_profile(
+            self, deployment_settings_id: str, ms_list: list) -> None:
         """
         Detach microservice from configuration profile.
 
@@ -238,11 +239,12 @@ class Repository(MSA_API):
         """
         import json
         self.action = 'Detach microservice from deployment settings'
-        self.path = "/conf-profile/v2/detach/{}/repository/files".format(deployment_settings_id)
+        self.path = "/conf-profile/v2/detach/{}/repository/files".format(
+            deployment_settings_id)
         self.call_put(json.dumps(ms_list))
         return None
 
-    def get_workflow_definition(self, file_uri:str) -> dict:
+    def get_workflow_definition(self, file_uri: str) -> dict:
         """
         Get workflow definition.
 
@@ -262,8 +264,10 @@ class Repository(MSA_API):
         self.call_get()
         return json.loads(self.content)
 
-
-    def change_workflow_definition(self, file_uri:str, workflow_definition_dict:dict) -> None:
+    def change_workflow_definition(
+            self,
+            file_uri: str,
+            workflow_definition_dict: dict) -> None:
         """
         Change workflow defenition.
 
@@ -280,7 +284,7 @@ class Repository(MSA_API):
         url_encoded = urlencode({'uri': file_uri})
         self.action = 'Change workflow definition'
         self.path = "/repository/v2/resource/workflow?{}".format(url_encoded)
-        
+
         if not workflow_definition_dict['example']:
             workflow_definition_dict['example'] = dict()
 
