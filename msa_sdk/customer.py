@@ -20,7 +20,7 @@ class Customer(MSA_API):
         -------
         id: Integer
             MSA ID for customer
-        
+
         Returns
         -------
         return_list: list()
@@ -34,9 +34,9 @@ class Customer(MSA_API):
         self.call_get()
 
         for device in json.loads(self.content):
-           return_list.append(device['id'])
-        
-        return return_list 
+            return_list.append(device['id'])
+
+        return return_list
 
     def create_customer_by_prefix(self, prefix, name="", reference=""):
         """
@@ -315,7 +315,8 @@ class Customer(MSA_API):
 
         """
         import json
-        self.action = "Get deploymnet settings profile attached to the customer"
+        self.action = ("Get deploymnet settings profile "
+                       "attached to the customer")
         self.path = "/conf-profile/v2/list/customer/{}".format(id)
         self.call_get()
-        return json.loads(self.content) 
+        return json.loads(self.content)
