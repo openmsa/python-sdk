@@ -65,6 +65,11 @@ def test_device_ids_fail(mock_post, lookup_fixture):
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
+    fail_return = {
+        "errorCode": 500,
+        "message": "Not found"
+    }
+
     fail_response = {
         'wo_status': 'FAIL',
         'wo_comment': "Get device ids",
@@ -72,7 +77,8 @@ def test_device_ids_fail(mock_post, lookup_fixture):
     }
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
+        mock_call_get.return_value = MagicMock(ok=False)
+        mock_call_get.return_value.json.return_value = fail_return
 
         lookup = lookup_fixture
         lookup.look_list_device_ids()
@@ -176,6 +182,11 @@ def test_manager_ids_fail(mock_post, lookup_fixture):
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
+    fail_return = {
+        "errorCode": 500,
+        "message": "Not found"
+    }
+
     fail_response = {
         'wo_status': 'FAIL',
         'wo_comment': "Get manager ids",
@@ -183,7 +194,8 @@ def test_manager_ids_fail(mock_post, lookup_fixture):
     }
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
+        mock_call_get.return_value = MagicMock(ok=False)
+        mock_call_get.return_value.json.return_value = fail_return
 
         lookup = lookup_fixture
         lookup.look_list_manager_ids()
@@ -243,14 +255,20 @@ def test_operator_ids_fail(mock_post, lookup_fixture):
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
+    fail_return = {
+        "errorCode": 500,
+        "message": "Operator id not found"
+    }
+
     fail_response = {
         'wo_status': 'FAIL',
         'wo_comment': "Get operators id",
-        'wo_newparams': "Not found"
+        'wo_newparams': "Operator id not found"
     }
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
+        mock_call_get.return_value = MagicMock(ok=False)
+        mock_call_get.return_value.json.return_value = fail_return
 
         lookup = lookup_fixture
         lookup.look_list_operators_id(1234)
@@ -297,14 +315,20 @@ def test_sec_nodes_fail(mock_post, lookup_fixture):
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
+    fail_return = {
+        "errorCode": 500,
+        "message": "Sec nodes not found"
+    }
+
     fail_response = {
         'wo_status': 'FAIL',
         'wo_comment': "Get sec nodes",
-        'wo_newparams': "Not found"
+        'wo_newparams': "Sec nodes not found"
     }
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
+        mock_call_get.return_value = MagicMock(ok=False)
+        mock_call_get.return_value.json.return_value = fail_return
 
         lookup = lookup_fixture
         lookup.look_list_sec_nodes()
@@ -353,15 +377,20 @@ def test_device_by_customer_fail(mock_post, lookup_fixture):
     """Test fail list of device by customer ref"""
 
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
+    fail_return = {
+        "errorCode": 500,
+        "message": "Customer not found"
+    }
 
     fail_response = {
         'wo_status': 'FAIL',
         'wo_comment': "Get list device by customer reference",
-        'wo_newparams': "Not found"
+        'wo_newparams': "Customer not found"
     }
 
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
+        mock_call_get.return_value.json.return_value = fail_return
 
         lookup = lookup_fixture
         lookup.look_list_device_by_customer_ref('cust_ref')
