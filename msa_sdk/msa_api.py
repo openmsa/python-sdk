@@ -147,8 +147,9 @@ class MSA_API():  # pylint: disable=invalid-name
 
         """
         if not self.response.ok:
+            json_response = self.response.json()
             self._content = self.process_content(self.FAILED, self.action,
-                                                 self.response.reason)
+                                                 json_response['message'])
 
     def call_post(self, data=None, timeout=60):
         """

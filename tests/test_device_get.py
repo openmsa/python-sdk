@@ -53,18 +53,20 @@ def test_read_by_invalid_id(mock_post):
     mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
     fail_return = {
-        "wo_status": "FAIL",
-        "wo_comment": "Read device",
-        "wo_newparams": "Not found"
+        "errorCode": 500,
+        "message": "Not found"
     }
 
+    return_message = {"wo_status": "FAIL", "wo_comment": "Read device",
+                      "wo_newparams": "Not found"}
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
+        mock_call_get.return_value = MagicMock(ok=False)
+        mock_call_get.return_value.json.return_value = fail_return
         with patch('msa_sdk.msa_api.host_port') as mock_host_port:
             mock_host_port.return_value = ('api_hostname', '8080')
             device = Device(device_id=21594)
         mock_call_get.assert_called_once()
-        assert device.content == json.dumps(fail_return)
+        assert device.content == json.dumps(return_message)
 
 
 @patch('requests.post')
@@ -135,6 +137,11 @@ def test_status_fail(device_fixture):  # pylint: disable=W0621
     """
     device = device_fixture
 
+    fail_return = {
+        "errorCode": 500,
+        "message": "Not found"
+    }
+
     fail_response = {
         'wo_status': 'FAIL',
         'wo_comment': "Get device status",
@@ -142,7 +149,8 @@ def test_status_fail(device_fixture):  # pylint: disable=W0621
     }
 
     with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
+        mock_call_get.return_value = MagicMock(ok=False)
+        mock_call_get.return_value.json.return_value = fail_return
         device.status()
         assert device.content == json.dumps(fail_response)
 
@@ -189,6 +197,11 @@ def test_provision_status_fail(device_fixture):  # pylint: disable=W0621
 
     device = device_fixture
 
+    fail_return = {
+        "errorCode": 500,
+        "message": "Not found"
+    }
+
     fail_response = {
         'wo_status': 'FAIL',
         'wo_comment': "Get provision status",
@@ -197,6 +210,7 @@ def test_provision_status_fail(device_fixture):  # pylint: disable=W0621
 
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
+        mock_call_get.return_value.json.return_value = fail_return
         device.provision_status()
         assert device.content == json.dumps(fail_response)
 
@@ -288,6 +302,11 @@ def test_is_device_fail(device_fixture):  # pylint: disable=W0621
 
     device = device_fixture
 
+    fail_return = {
+        "errorCode": 500,
+        "message": "Not found"
+    }
+
     fail_response = {
         'wo_status': 'FAIL',
         'wo_comment': 'Is device',
@@ -296,6 +315,7 @@ def test_is_device_fail(device_fixture):  # pylint: disable=W0621
 
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value = MagicMock(ok=False, reason='Not found')
+        mock_call_get.return_value.json.return_value = fail_return
         device.is_device()
         assert device.content == json.dumps(fail_response)
 
@@ -308,13 +328,12 @@ def test_get_configuration_variable(device_fixture):
     device = device_fixture
 
     test_requested_var = 'HTTP_HEADER'
-    test_response = json.dumps({'name': 'HTTP_HEADER',
-                                'value': 'Content-Type: application/json',
-                                'comment': ''
-                               })
+    test_response = json.dumps({
+        'name': 'HTTP_HEADER',
+        'value': 'Content-Type: application/json',
+        'comment': ''
+    })
     with patch('requests.get') as mock_call_get:
         mock_call_get.return_value.text = test_response
-        assert device.get_configuration_variable(test_requested_var)['name'] == test_requested_var
-
-
-
+        assert device.get_configuration_variable(
+            test_requested_var)['name'] == test_requested_var

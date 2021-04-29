@@ -97,6 +97,11 @@ def test_create_fail(device_fixture):
 
     device = device_fixture
 
+    fail_return = {
+        "errorCode": 500,
+        "message": "Not found"
+    }
+
     fail_response = {
         'wo_status': 'FAIL',
         'wo_comment': "Create device",
@@ -104,7 +109,8 @@ def test_create_fail(device_fixture):
     }
 
     with patch('requests.post') as mock_call_post:
-        mock_call_post.return_value = MagicMock(ok=False, reason='Not found')
+        mock_call_post.return_value = MagicMock(ok=False)
+        mock_call_post.return_value.json.return_value = fail_return
         assert _is_valid_json(json.dumps(device.create()))
         assert device.path == '/device/v2/{}'.format(device.customer_id)
         assert device.content == json.dumps(fail_response)
