@@ -3,6 +3,7 @@ import datetime
 import json
 import os
 import re
+import sys
 from pathlib import Path
 
 import requests
@@ -118,6 +119,54 @@ class MSA_API():  # pylint: disable=invalid-name
             log_to_file(new_params['SERVICEINSTANCEID'], pretty_json)
 
         return json_response
+
+    @classmethod
+    def task_error(cls, comment, context, log_response=True):
+        """
+
+        Task error and print.
+
+        Parameters
+        ----------
+        comment: String
+            Comment
+        new_params: Dictionary
+            Context
+        log_response: Bool
+            Write log to a file
+
+        Returns
+        -------
+        None
+
+        """
+        print(cls.process_content(constants.FAILED, comment, context,
+                                  log_response))
+        sys.exit(1)
+
+    @classmethod
+    def task_success(cls, comment, context, log_response=True):
+        """
+
+        Task success and print.
+
+        Parameters
+        ----------
+        comment: String
+            Comment
+        new_params: Dictionary
+            Context
+        log_response: Bool
+            Write log to a file
+
+        Returns
+        -------
+        None
+
+        """
+        print(cls.process_content(constants.ENDED, comment, context,
+                                  log_response))
+        sys.exit(0)
 
     @property
     def token(self):
