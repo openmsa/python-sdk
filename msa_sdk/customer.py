@@ -31,7 +31,7 @@ class Customer(MSA_API):
         return_list = list()
 
         self.path = "/device/v1/customer/{}/device-features".format(id)
-        self.call_get()
+        self._call_get()
 
         for device in json.loads(self.content):
             return_list.append(device['id'])
@@ -60,7 +60,7 @@ class Customer(MSA_API):
         self.path = "{}/{}?name={}&reference={}".format(self.api_path, prefix,
                                                         name, reference)
         params = {}
-        self.call_post(params)
+        self._call_post(params)
 
     def get_customer_by_id(self, id):
         """
@@ -79,7 +79,7 @@ class Customer(MSA_API):
         """
         self.action = "Get customer by ID"
         self.path = "{}/id/{}".format(self.api_path, id)
-        self.call_get()
+        self._call_get()
         return self.content
 
     def update_customer_by_id(self, id, name=""):
@@ -102,7 +102,7 @@ class Customer(MSA_API):
         params = {
             "name": name
         }
-        self.call_put(params)
+        self._call_put(params)
 
     def delete_customer_by_id(self, id):
         """
@@ -121,7 +121,7 @@ class Customer(MSA_API):
         """
         self.action = 'Delete customer by ID'
         self.path = '{}/id/{}'.format(self.api_path, id)
-        self.call_delete()
+        self._call_delete()
 
     def update_variables_by_reference(self, reference, name="", value=""):
         """
@@ -149,7 +149,7 @@ class Customer(MSA_API):
             "name": name,
             "value": value
         }
-        self.call_put(params)
+        self._call_put(params)
 
     def attach_profile_by_reference(self, reference, profile=""):
         """
@@ -173,7 +173,7 @@ class Customer(MSA_API):
         params = {
             "profile": profile
         }
-        self.call_put(params)
+        self._call_put(params)
 
     def detach_profile_by_reference(self, reference, profile=""):
         """
@@ -197,7 +197,7 @@ class Customer(MSA_API):
         params = {
             "profile": profile
         }
-        self.call_put(params)
+        self._call_put(params)
 
     def get_variables_by_id(self, id):
         """
@@ -216,7 +216,7 @@ class Customer(MSA_API):
         """
         self.action = 'Get configuration variables by ID'
         self.path = '{}/id/{}/variables'.format(self.api_path, id)
-        self.call_get()
+        self._call_get()
         return self.content
 
     def get_variables_by_name(self, id, name):
@@ -238,7 +238,7 @@ class Customer(MSA_API):
         """
         self.action = 'Get configuration variable info by variable name'
         self.path = '{}/id/{}/variables/{}'.format(self.api_path, id, name)
-        self.call_get()
+        self._call_get()
         return self.content
 
     def get_customer_by_reference(self, reference):
@@ -258,7 +258,7 @@ class Customer(MSA_API):
         """
         self.action = "Get customer by reference"
         self.path = "{}/reference/{}".format(self.api_path, reference)
-        self.call_get()
+        self._call_get()
         return self.content
 
     def delete_customer_by_reference(self, reference):
@@ -278,7 +278,7 @@ class Customer(MSA_API):
         """
         self.action = "Delete customer by reference"
         self.path = "{}/reference/{}".format(self.api_path, reference)
-        self.call_delete()
+        self._call_delete()
 
     def delete_variable_by_name(self, id, name):
         """
@@ -299,7 +299,7 @@ class Customer(MSA_API):
         """
         self.action = 'Delete configuration variable info by variable name'
         self.path = '{}/id/{}/variables/{}'.format(self.api_path, id, name)
-        self.call_delete()
+        self._call_delete()
 
     def get_deployment_settings_by_customer_id(self, id: str) -> list:
         """
@@ -318,5 +318,5 @@ class Customer(MSA_API):
         self.action = ("Get deploymnet settings profile "
                        "attached to the customer")
         self.path = "/conf-profile/v2/list/customer/{}".format(id)
-        self.call_get()
+        self._call_get()
         return json.loads(self.content)

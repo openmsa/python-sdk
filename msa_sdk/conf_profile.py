@@ -88,7 +88,7 @@ class ConfProfile(MSA_API):
             "templateUris": self.templateUris,
             "attachedManagedEntities": self.attachedManagedEntities
         }
-        self.call_post(params)
+        self._call_post(params)
 
     def read(self):
         """
@@ -102,7 +102,7 @@ class ConfProfile(MSA_API):
         """
         self.action = "Get configuration profile by ID"
         self.path = "{}/v2/{}".format(self.api_path, self.profile_id)
-        self.call_get()
+        self._call_get()
 
         conf_profile = json.loads(self.content)
 
@@ -148,7 +148,7 @@ class ConfProfile(MSA_API):
             "templateUris": self.templateUris,
             "attachedManagedEntities": self.attachedManagedEntities
         }
-        self.call_put(json.dumps(data))
+        self._call_put(json.dumps(data))
 
         return self.content
 
@@ -164,4 +164,4 @@ class ConfProfile(MSA_API):
         """
         self.action = 'Delete configuration profile by ID'
         self.path = '{}/v2/{}'.format(self.api_path, self.profile_id)
-        self.call_delete()
+        self._call_delete()

@@ -16,7 +16,7 @@ def test_update_customer_by_id(customer_fixture):
 
     local_path = '/customer/id/6'
     params = {'name': ''}
-    with patch('msa_sdk.msa_api.MSA_API.call_put') as mock_call_put:
+    with patch('msa_sdk.msa_api.MSA_API._call_put') as mock_call_put:
         customer = customer_fixture
         customer.update_customer_by_id(6)
 
@@ -34,7 +34,7 @@ def test_update_variables_by_reference(customer_fixture):
         "name": "",
         "value": ""
     }
-    with patch('msa_sdk.msa_api.MSA_API.call_put') as mock_call_put:
+    with patch('msa_sdk.msa_api.MSA_API._call_put') as mock_call_put:
         customer = customer_fixture
         customer.update_variables_by_reference('AAAA6')
 
@@ -51,7 +51,7 @@ def test_attach_profile_by_reference(customer_fixture):
     params = {
         "profile": ""
     }
-    with patch('msa_sdk.msa_api.MSA_API.call_put') as mock_call_put:
+    with patch('msa_sdk.msa_api.MSA_API._call_put') as mock_call_put:
         customer = customer_fixture
         customer.attach_profile_by_reference('AAAA6')
 
@@ -68,7 +68,7 @@ def test_detach_profile_by_reference(customer_fixture):
     params = {
         "profile": ""
     }
-    with patch('msa_sdk.msa_api.MSA_API.call_put') as mock_call_put:
+    with patch('msa_sdk.msa_api.MSA_API._call_put') as mock_call_put:
         customer = customer_fixture
         customer.detach_profile_by_reference('AAAA6')
 

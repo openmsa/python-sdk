@@ -27,7 +27,7 @@ class Orchestration(MSA_API):
         self.action = 'List service instances'
         self.path = "{}/{}/service/instance".format(self.api_path,
                                                     self.ubiqube_id)
-        self.call_get()
+        self._call_get()
 
     def read_service_instance(self, service_id):
         """
@@ -48,7 +48,7 @@ class Orchestration(MSA_API):
                                                        self.ubiqube_id,
                                                        service_id)
 
-        self.call_get()
+        self._call_get()
 
     def get_service_variables(self, service_id):
         """
@@ -68,7 +68,7 @@ class Orchestration(MSA_API):
         self.path = "{}/service/variables/{}".format(self.api_path,
                                                      service_id)
 
-        self.call_get()
+        self._call_get()
 
     def get_service_variable_by_name(self, service_id, variable_name):
         """
@@ -90,7 +90,7 @@ class Orchestration(MSA_API):
                                                         service_id,
                                                         variable_name)
 
-        self.call_get()
+        self._call_get()
 
     def update_service_variable(self, service_id, variable_name, new_value):
         """
@@ -115,7 +115,7 @@ class Orchestration(MSA_API):
                                                                  variable_name,
                                                                  new_value)
 
-        self.call_post()
+        self._call_post()
 
     def delete_service(self, service_id):
         """
@@ -136,7 +136,7 @@ class Orchestration(MSA_API):
             '/orchestration/{}/service/instance/{}'.format(self.ubiqube_id,
                                                            service_id)
 
-        self.call_delete()
+        self._call_delete()
 
     def execute_service(self, service_name: str, process_name: str,
                         data: dict):
@@ -167,7 +167,7 @@ class Orchestration(MSA_API):
         self.path = format_path.format(self.ubiqube_id,
                                        service_name, process_name)
 
-        self.call_post(data)
+        self._call_post(data)
 
         service_id = None
         try:
@@ -208,7 +208,7 @@ class Orchestration(MSA_API):
         self.path = format_path.format(external_ref, service_ref,
                                        service_name, process_name)
 
-        self.call_post(data)
+        self._call_post(data)
 
     def execute_service_by_reference(self, external_ref, service_ref,
                                      service_name, process_name, data):
@@ -240,7 +240,7 @@ class Orchestration(MSA_API):
         self.path = format_path.format(external_ref, service_ref, service_name,
                                        process_name)
 
-        self.call_post(data)
+        self._call_post(data)
 
     def execute_launch_process_instance(self, service_id, process_name, data):
         """
@@ -266,7 +266,7 @@ class Orchestration(MSA_API):
         self.path = format_path.format(self.ubiqube_id,
                                        service_id, process_name)
 
-        self.call_post(data)
+        self._call_post(data)
 
     def list_process_instances_by_service(self, service_id):
         """
@@ -286,7 +286,7 @@ class Orchestration(MSA_API):
         self.path = '{}/process/instances/{}'.format(self.api_path,
                                                      service_id)
 
-        self.call_get()
+        self._call_get()
 
     def get_process_instance(self, service_id):
         """
@@ -305,7 +305,7 @@ class Orchestration(MSA_API):
         """
         self.path = '{}/process/instance/{}'.format(self.api_path,
                                                     service_id)
-        self.call_get()
+        self._call_get()
 
     def update_process_script_details(self, process_id, task_id, exec_number,
                                       data=None):
@@ -331,7 +331,7 @@ class Orchestration(MSA_API):
                      '/execnumber/{}/update').format(self.api_path,
                                                      process_id, task_id,
                                                      exec_number)
-        self.call_put(data)
+        self._call_put(data)
 
     def update_service_instance_reference(self, service_id, service_ref):
         """
@@ -354,7 +354,7 @@ class Orchestration(MSA_API):
                      '/?serviceReference={}').format(self.api_path,
                                                      self.ubiqube_id,
                                                      service_id, service_ref)
-        self.call_put()
+        self._call_put()
 
     def update_asynchronous_task_details(self, process_id: int, task_id: int,
                                          exec_number: int,
@@ -402,7 +402,7 @@ class Orchestration(MSA_API):
         """
         self.path = '{}/services?ubiqubeId={}&range={}'.format(
             self.api_path_v1, self.ubiqube_id, range)
-        self.call_get()
+        self._call_get()
 
         return json.loads(self.content)
 
@@ -426,7 +426,7 @@ class Orchestration(MSA_API):
         """
         self.path = '{}/service/process-instance/{}'.format(
             self.api_path_v1, service_id)
-        self.call_get()
+        self._call_get()
 
         try:
             status = json.loads(self.content)[0]['status']['status']

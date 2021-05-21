@@ -118,7 +118,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         if self.management_port:
             data["managementPort"] = self.management_port
 
-        self.call_post(data)
+        self._call_post(data)
         self.fail = not self.response.ok
         if self.response.ok:
             self.device_id = json.loads(self.content)['id']
@@ -161,7 +161,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         data[field] = value
 
-        self.call_put(json.dumps(data))
+        self._call_put(json.dumps(data))
 
         return json.loads(self.content)
 
@@ -181,7 +181,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         self.action = 'Delete device'
         self._format_path_ref_id(by_ref, self.api_path)
-        self.call_delete()
+        self._call_delete()
 
     def activate(self):
         """
@@ -193,7 +193,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         """
         self.path = "{}/activate/{}".format(self.api_path, self.device_id)
-        self.call_post()
+        self._call_post()
 
     def provision(self):
         """
@@ -206,7 +206,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         self.action = 'Post Provisioning'
         self.path = "{}/provisioning/{}".format(self.api_path, self.device_id)
-        self.call_post()
+        self._call_post()
 
     def provision_status(self):
         """
@@ -220,7 +220,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.action = 'Get provision status'
         self.path = "{}/provisioning/status/{}".format(
             self.api_path, self.device_id)
-        self.call_get()
+        self._call_get()
 
         return json.loads(self.content)
 
@@ -235,7 +235,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         self.action = 'Is device'
         self.path = "{}/isDevice/{}".format(self.api_path, self.device_id)
-        self.call_get()
+        self._call_get()
         return json.loads(self.content)
 
     def read(self, by_ref=False):
@@ -260,7 +260,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         else:
             self.path = '{}/v2/{}'.format(self.api_path, self.device_id)
 
-        self.call_get()
+        self._call_get()
         if not self.response.ok:
             return False
 
@@ -295,7 +295,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.action = "Get device status"
         self.path = "{}/status/{}".format(self.api_path, self.device_id)
 
-        self.call_get()
+        self._call_get()
         return self.content
 
     def get_configuration_status(self):
@@ -310,7 +310,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.action = 'Get configuration status'
         self.path = "{}/configuration/status/id/{}".format(
             self.api_path, self.device_id)
-        self.call_get()
+        self._call_get()
         self.configuration = json.loads(self.content)
 
     def update_config(self):
@@ -325,7 +325,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.action = 'Update config'
         self.path = "{}/configuration/update/{}".format(
             self.api_path, self.device_id)
-        self.call_post()
+        self._call_post()
         return json.dumps(self.content)
 
     def ping(self, address):
@@ -344,7 +344,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         self.action = 'Get ping'
         self.path = "{}/ping/{}".format(self.api_path, address)
-        self.call_get()
+        self._call_get()
 
         return self.content
 
@@ -359,7 +359,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         self.action = 'Intial provisioning'
         self.path = "{}/provisioning/{}".format(self.api_path, self.device_id)
-        self.call_post()
+        self._call_post()
 
     def push_configuration_status(self):
         """
@@ -374,7 +374,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.path = "{}/push_configuration/status/{}".format(
             self.api_path, self.device_id)
 
-        self.call_get()
+        self._call_get()
         return json.dumps(self.content)
 
     def push_configuration(self, configuration=None):
@@ -395,7 +395,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.path = "{}/push_configuration/{}".format(
             self.api_path, self.device_id)
 
-        self.call_put(configuration)
+        self._call_put(configuration)
 
     def update_ip_address(self, ip_addr, netmask="255.255.255.255"):
         """
@@ -417,7 +417,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         path = "{}/management_ip/update/{}?ip={}&mask={}"
         self.path = path.format(self.api_path, self.device_id, ip_addr,
                                 netmask)
-        self.call_put()
+        self._call_put()
 
     def profile_switch(self, old_profile, new_profile_ref):
         """
@@ -443,7 +443,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                     old_profile,
                     new_profile_ref)
         self.path = path
-        self.call_put()
+        self._call_put()
 
     def profile_attach(self, profile_reference: str) -> None:
         """
@@ -463,7 +463,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                      '?device={device_reference}').format(
                          profile_reference=profile_reference,
                          device_reference=self.device_external)
-        self.call_put()
+        self._call_put()
 
     def update_credentials(self, login, password):
         """
@@ -484,7 +484,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.action = 'Update credentials'
         path = "{}/credentials/update/{}?login={}&password={}"
         self.path = path.format(self.api_path, self.device_id, login, password)
-        self.call_put()
+        self._call_put()
 
     def attach_files(self, uris, position="AUTO"):
         """
@@ -504,7 +504,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.action = 'Attach files'
         self.path = ("{}/attach/{}/files/{}").format(self.api_path,
                                                      self.device_id, position)
-        self.call_put(json.dumps(uris))
+        self._call_put(json.dumps(uris))
 
     def detach_files(self, uris):
         """
@@ -522,7 +522,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.action = 'Detach files'
         self.path = ("{}/detach/{}/files").format(self.api_path,
                                                   self.device_id)
-        self.call_put(json.dumps(uris))
+        self._call_put(json.dumps(uris))
 
     def get_configuration_variable(self, name: str) -> dict:
         """
@@ -540,7 +540,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         """
         self.path = '/variables/{device_id}/{name}'.format(
             device_id=self.device_id, name=name)
-        self.call_get()
+        self._call_get()
 
         return json.loads(self.content)
 
@@ -581,7 +581,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                                                 type=conf_type,
                                                 comment=comment)
 
-        self.call_put()
+        self._call_put()
 
         if self.get_configuration_variable(name)['value'] == value:
             return True
