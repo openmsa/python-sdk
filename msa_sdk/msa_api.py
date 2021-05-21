@@ -79,7 +79,7 @@ class MSA_API():  # pylint: disable=invalid-name
         Response content formated
 
         """
-        def log_to_file(log_id, log_msg):
+        def log_to_file(log_id, log_msg, process_id):
             """
 
             Log a message to a log file with corresponding to a process id.
@@ -92,6 +92,9 @@ class MSA_API():  # pylint: disable=invalid-name
             log_msg: String
                 Message to be logged
 
+            process_id: String
+                Process Id
+
             Returns
             ------
             Json
@@ -103,7 +106,7 @@ class MSA_API():  # pylint: disable=invalid-name
                 constants.PROCESS_LOGS_DIRECTORY,
                 log_id)
             with open(log_file, 'a+') as f_log:
-                f_log.write('\n=== {} ===\n{}'.format(log_time, log_msg))
+                f_log.write('\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(log_time, process_id, log_msg, log_time, process_id))
 
         response = {
             "wo_status": status,
@@ -115,7 +118,7 @@ class MSA_API():  # pylint: disable=invalid-name
 
         if log_response:
             pretty_json = json.dumps(new_params, indent=4)
-            log_to_file(new_params['SERVICEINSTANCEID'], pretty_json)
+            log_to_file(new_params['SERVICEINSTANCEID'], pretty_json, new_params['PROCESSINSTANCEID'])
 
         return json_response
 
