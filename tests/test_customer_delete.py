@@ -19,6 +19,7 @@ def test_delete_customer_by_id(customer_fixture):
         assert customer.path == local_path
         mock_call_delete.assert_called_once()
 
+
 def test_delete_customer_by_reference(customer_fixture):
     """
     Test delete customer by reference
@@ -30,6 +31,7 @@ def test_delete_customer_by_reference(customer_fixture):
         customer.delete_customer_by_reference('AAAA6')
         assert customer.path == local_path
         mock_call_delete.assert_called_once()
+
 
 def test_delete_variable_by_name(customer_fixture):
     """

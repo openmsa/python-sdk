@@ -37,6 +37,7 @@ def test_get_device_list_by_id(mock_post):
 
         mock_call_get.assert_called_once()
 
+
 @patch('requests.post')
 def test_get_customer_by_id(mock_post):
     """
