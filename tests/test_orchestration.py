@@ -119,7 +119,7 @@ def test_update_service_variable(orchestration_fixture):
     Update service variable
     """
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         orch = orchestration_fixture
         orch.update_service_variable('1234', 'TASKINSTANCEID', 'NewValue')
         assert orch.path == \
@@ -132,7 +132,7 @@ def test_delete_service_by_id(orchestration_fixture):
     Delete service by ID
     """
 
-    with patch('msa_sdk.msa_api.MSA_API.call_delete') as mock_call_delete:
+    with patch('msa_sdk.msa_api.MSA_API._call_delete') as mock_call_delete:
         orch = orchestration_fixture
         orch.delete_service('1234')
         assert orch.path == '/orchestration/MSAA19224/service/instance/1234'
@@ -160,7 +160,7 @@ def test_list_process_instances(orchestration_fixture):
 
     local_path = '/orchestration/process/instances/{}'.format(1234)
 
-    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
         mock_call_get.return_value.text = device_info
         orch = orchestration_fixture
         orch.list_process_instances_by_service(1234)
@@ -176,7 +176,7 @@ def test_launch_process_instance(orchestration_fixture):
     local_path = '/orchestration/process/execute/{}'
     local_path += '/{}?processName={}'
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         orch = orchestration_fixture
         orch.execute_launch_process_instance('1234', 'Process',
                                              {"var1": 1, "var2": 2})
@@ -193,7 +193,7 @@ def test_execute_service(orchestration_fixture):
     local_path = '/orchestration/service/execute/{}'
     local_path += '?serviceName={}&processName={}&serviceInstance=0'
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         orch = orchestration_fixture
         orch.execute_service('1234', 'ProcessName',
                              {"var1": 1, "var2": 2})
@@ -211,7 +211,7 @@ def test_execute_by_service(orchestration_fixture):
     local_path = '/orchestration/service/execute/{}'
     local_path += '/{}?serviceName={}&processName={}'
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         orch = orchestration_fixture
         orch.execute_by_service('external_ref', 'service_ref', 'serviceName',
                                 'ProcessName',
@@ -229,7 +229,7 @@ def test_execute_service_by_reference(orchestration_fixture):
     local_path = '/orchestration/service/execute/{}/{}'
     local_path += '?serviceName={}&processName={}'
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         orch = orchestration_fixture
 
         orch.execute_service_by_reference('external_ref', 'servReference',
@@ -262,7 +262,7 @@ def test_list_process_instance_by_service_id(orchestration_fixture):
 
     local_path = '/orchestration/process/instances/{}'.format(1234)
 
-    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
         mock_call_get.return_value.text = device_info
         orch = orchestration_fixture
         orch.list_process_instances_by_service(1234)
@@ -291,7 +291,7 @@ def test_get_process_instance(orchestration_fixture):
 
     local_path = '/orchestration/process/instance/{}'.format(1234)
 
-    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
         mock_call_get.return_value.text = device_info
         orch = orchestration_fixture
         orch.get_process_instance(1234)
@@ -308,7 +308,7 @@ def test_update_process_script_details(orchestration_fixture):
                   '/task/{}/execnumber/{}/update').format(1234, 'Task-ID',
                                                           'exec-number')
 
-    with patch('msa_sdk.msa_api.MSA_API.call_put') as mock_call_put:
+    with patch('msa_sdk.msa_api.MSA_API._call_put') as mock_call_put:
         orch = orchestration_fixture
         orch.update_process_script_details(1234, 'Task-ID', 'exec-number')
         assert orch.path == local_path
@@ -323,7 +323,7 @@ def test_update_service_instance_ref(orchestration_fixture):
                   '/{}/?serviceReference={}').format('MSAA19224', 'ServID',
                                                      'Serv_Ref')
 
-    with patch('msa_sdk.msa_api.MSA_API.call_put') as mock_call_put:
+    with patch('msa_sdk.msa_api.MSA_API._call_put') as mock_call_put:
         orch = orchestration_fixture
         orch.update_service_instance_reference('ServID', 'Serv_Ref')
         assert orch.path == local_path

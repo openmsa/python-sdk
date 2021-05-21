@@ -134,7 +134,7 @@ def test_get_deployment_settings_by_customer_id(customer_fixture):
     response = ('[{"id":288,"name":"OneOS_netconf DS",'
                 '"comment":"","externalReference":"UBIPR288"}]')
 
-    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
         customer = customer_fixture
         customer._content = response
         customer.get_deployment_settings_by_customer_id(6)

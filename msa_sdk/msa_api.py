@@ -151,7 +151,7 @@ class MSA_API():  # pylint: disable=invalid-name
             self._content = self.process_content(self.FAILED, self.action,
                                                  json_response['message'])
 
-    def call_post(self, data=None, timeout=60):
+    def _call_post(self, data=None, timeout=60):
         """
         Call -XPOST.
 
@@ -179,7 +179,7 @@ class MSA_API():  # pylint: disable=invalid-name
         self._content = self.response.text
         self.check_response()
 
-    def call_get(self, timeout=60):
+    def _call_get(self, timeout=60):
         """
         Call -XGET.
 
@@ -198,7 +198,7 @@ class MSA_API():  # pylint: disable=invalid-name
         self._content = self.response.text
         self.check_response()
 
-    def call_put(self, data=None):
+    def _call_put(self, data=None):
         """
         Call -XPUT.
 
@@ -221,7 +221,7 @@ class MSA_API():  # pylint: disable=invalid-name
         self._content = self.response.text
         self.check_response()
 
-    def call_delete(self):
+    def _call_delete(self):
         """
         Call -XDELETE.
 

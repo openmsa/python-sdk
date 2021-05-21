@@ -13,7 +13,7 @@ def test_create(conf_profile_fixture):
     Test create configuration profile
     """
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         conf_profile = conf_profile_fixture
         conf_profile.customer_id = 10
         conf_profile.create()
@@ -27,7 +27,7 @@ def test_read(conf_profile_fixture):
     Test get configuration profile.
     """
 
-    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
         conf_profile = conf_profile_fixture
         conf_profile.profile_id = 200
         conf_profile.read()
@@ -41,7 +41,7 @@ def test_update(conf_profile_fixture):
     Test update configuration profile.
     """
 
-    with patch('msa_sdk.msa_api.MSA_API.call_put') as mock_call_put:
+    with patch('msa_sdk.msa_api.MSA_API._call_put') as mock_call_put:
         params = json.dumps({
             "name": "Updated Name",
                     "externalReference": "htoPR148",
@@ -75,7 +75,7 @@ def test_delete(conf_profile_fixture):
     Test delete configuration profile.
     """
 
-    with patch('msa_sdk.msa_api.MSA_API.call_delete') as mock_call_delete:
+    with patch('msa_sdk.msa_api.MSA_API._call_delete') as mock_call_delete:
         conf_profile = conf_profile_fixture
         conf_profile.delete()
 

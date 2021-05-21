@@ -47,7 +47,7 @@ class Order(Device):
         self.path = '{}/execute/{}/{}'.format(self.api_path, self.device_id,
                                               command)
 
-        self.call_post(params, timeout)
+        self._call_post(params, timeout)
 
     def command_generate_configuration(self, command, params):
         """
@@ -73,7 +73,7 @@ class Order(Device):
                                                         self.device_id,
                                                         command)
 
-        self.call_post(params)
+        self._call_post(params)
 
     def command_synchronize(self, timeout):
         """
@@ -95,7 +95,7 @@ class Order(Device):
         self.path = '{}/synchronize/{}'.format(self.api_path,
                                                self.device_id)
 
-        self.call_post(timeout=timeout)
+        self._call_post(timeout=timeout)
 
     def command_call(self, command, mode, params):
         """
@@ -120,7 +120,7 @@ class Order(Device):
                                               self.device_id,
                                               command,
                                               mode)
-        self.call_post(params)
+        self._call_post(params)
 
     def command_objects_all(self):
         """
@@ -135,7 +135,7 @@ class Order(Device):
         """
         self.action = 'Get Microservices'
         self.path = '{}/objects/{}'.format(self.api_path, self.device_id)
-        self.call_get()
+        self._call_get()
 
     def command_objects_instances(self, object_name):
         """
@@ -158,7 +158,7 @@ class Order(Device):
         self.path = '{}/objects/{}/{}'.format(self.api_path,
                                               self.device_id,
                                               object_name)
-        self.call_get()
+        self._call_get()
 
         return json.loads(self.content)
 
@@ -186,7 +186,7 @@ class Order(Device):
                                                  self.device_id,
                                                  object_name,
                                                  object_id)
-        self.call_get()
+        self._call_get()
 
         return json.loads(self.content)
 
@@ -203,7 +203,7 @@ class Order(Device):
         """
         self.action = 'Get deployment settings ID'
         self.path = '/conf-profile/v1/device/{}'.format(self.device_id)
-        self.call_get()
+        self._call_get()
 
         config_profile_device = \
             json.loads(self.content)['ConfigProfileByDevice']

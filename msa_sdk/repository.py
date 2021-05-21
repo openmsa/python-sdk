@@ -37,7 +37,7 @@ class Repository(MSA_API):
 
         self.path = "{}/comment?{}".format(self.api_path, url_encoded)
 
-        self.call_post()
+        self._call_post()
 
     def get_microservice_variables(self, file_uri):
         """
@@ -60,7 +60,7 @@ class Repository(MSA_API):
         url_encoded = urlencode({'uri': file_uri})
         self.path = "{}/resource/variables?{}".format(
             self.api_path_v2, url_encoded)
-        self.call_get()
+        self._call_get()
         return json.loads(self.content)
 
     def post_repository_variables(self, respository_uri):
@@ -81,7 +81,7 @@ class Repository(MSA_API):
         url_encoded = urlencode({'repository': respository_uri})
 
         self.path = "{}/variables?{}".format(self.api_path_v2, url_encoded)
-        self.call_post()
+        self._call_post()
 
     def get_microservice_details(self, file_uri):
         """
@@ -106,7 +106,7 @@ class Repository(MSA_API):
         self.path = "{}/resource/microservice?{}".format(
             self.api_path_v2, url_encoded)
 
-        self.call_get()
+        self._call_get()
         return json.loads(self.content)
 
     def put_microservice_details(self, microservice_details):
@@ -129,7 +129,7 @@ class Repository(MSA_API):
         self.action = 'Put details of microservice'
 
         self.path = "{}/resource/microservice".format(self.api_path_v2)
-        self.call_put(microservice_details)
+        self._call_put(microservice_details)
 
     def create_microservice(self, microservice_details):
         """
@@ -148,7 +148,7 @@ class Repository(MSA_API):
         self.action = 'Create a new microservice'
 
         self.path = "{}/resource/microservice".format(self.api_path_v2)
-        self.call_post(microservice_details)
+        self._call_post(microservice_details)
 
     def delete_repository_resource(self, file_uri):
         """
@@ -168,7 +168,7 @@ class Repository(MSA_API):
 
         url_encoded = urlencode({'uri': file_uri})
         self.path = "{}/resource?{}".format(self.api_path_v2, url_encoded)
-        self.call_delete()
+        self._call_delete()
 
     def get_microservice_path_by_name(self, microservice_name: str,
                                       deployment_settings_id: str):
@@ -192,7 +192,7 @@ class Repository(MSA_API):
         self.action = 'Get deployment settings'
 
         self.path = "/conf-profile/v2/{}".format(deployment_settings_id)
-        self.call_get()
+        self._call_get()
         result = json.loads(self.content)
         for microservice_path, microservice_details in \
                 result['microserviceUris'].items():
@@ -241,7 +241,7 @@ class Repository(MSA_API):
         self.action = 'Detach microservice from deployment settings'
         self.path = "/conf-profile/v2/detach/{}/repository/files".format(
             deployment_settings_id)
-        self.call_put(json.dumps(ms_list))
+        self._call_put(json.dumps(ms_list))
         return None
 
     def get_workflow_definition(self, file_uri: str) -> dict:
@@ -261,7 +261,7 @@ class Repository(MSA_API):
         url_encoded = urlencode({'uri': file_uri})
         self.action = 'Get workflow definition'
         self.path = "/repository/v2/resource/workflow?{}".format(url_encoded)
-        self.call_get()
+        self._call_get()
         return json.loads(self.content)
 
     def change_workflow_definition(
@@ -292,5 +292,5 @@ class Repository(MSA_API):
             if not process_details['tasks']:
                 process_details['tasks'] = list()
 
-        self.call_put(json.dumps(workflow_definition_dict))
+        self._call_put(json.dumps(workflow_definition_dict))
         return None

@@ -19,7 +19,7 @@ def test_command_execute(_, order_fixture):
 
     local_path = '/ordercommand/execute/21594/UPDATE'
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         order = order_fixture
         order.command_execute('UPDATE', {"subnet": "mySubnet"}, 50)
 
@@ -46,7 +46,7 @@ def test_command_generate_configuration(_, order_fixture):
 
     local_path = '/ordercommand/get/configuration/21594/UPDATE'
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         order = order_fixture
         order.command_generate_configuration('UPDATE',
                                              {"subnet": "mySubnet"})
@@ -64,7 +64,7 @@ def test_command_synchronize(_, order_fixture):
 
     local_path = '/ordercommand/synchronize/21594'
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         order = order_fixture
         order.command_synchronize(50)
 
@@ -80,7 +80,7 @@ def test_command_call(_, order_fixture):
     """
     local_path = '/ordercommand/call/21594/UPDATE/1'
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         order = order_fixture
         order.command_call('UPDATE', 1,
                            {"subnet": "mySubnet"})
@@ -166,7 +166,7 @@ def test_command_get_deployment_settings_id(order_fixture):
     """
     response = ('{"ConfigProfileByDevice" : 276}')
 
-    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
         order = order_fixture
         order._content = response
         assert order.command_get_deployment_settings_id() == 276

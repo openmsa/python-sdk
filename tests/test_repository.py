@@ -16,7 +16,7 @@ def test_file_update_comment(repository_fixture):
     Test file update comment
     """
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         repository = repository_fixture
         repository.file_update_comment(
             'Configuration/ABR/ABRA1570/FORTINET/timezone',
@@ -37,7 +37,7 @@ def test_get_microservice_variables(repository_fixture):
                 '"defaultValue" : "1774", "displayName" : "Ansible server ME",'
                 '"name" : "params.ansible_device_id"}]}}')
 
-    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
         repository = repository_fixture
         repository._content = response
         repository.get_microservice_variables(
@@ -56,13 +56,13 @@ def test_post_repository_variables(repository_fixture):
     Test post repository variables
     """
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         repository = repository_fixture
         repository.post_repository_variables(
             'fmc_repository'
         )
 
-        data = urlencode({'repository':'fmc_repository'})
+        data = urlencode({'repository': 'fmc_repository'})
 
         assert repository.path == "/repository/v2/variables?{}".format(data)
         mock_call_post.assert_called_once_with()
@@ -77,7 +77,7 @@ def test_get_microservice_details(repository_fixture):
                 '"defaultValue" : "None", "displayName" : "Ansible server ME",'
                 '"name" : "params.ansible_device_id"}]}}')
 
-    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
         repository = repository_fixture
         repository._content = response
         repository.get_microservice_details(
@@ -97,7 +97,7 @@ def test_put_microservice_details(repository_fixture):
     Test put microservice details.
     """
 
-    with patch('msa_sdk.msa_api.MSA_API.call_put') as mock_call_put:
+    with patch('msa_sdk.msa_api.MSA_API._call_put') as mock_call_put:
         repository = repository_fixture
         ms_details = microservice_info()
         repository.put_microservice_details(ms_details)
@@ -105,12 +105,13 @@ def test_put_microservice_details(repository_fixture):
         assert repository.path == "/repository/v2/resource/microservice"
         mock_call_put.assert_called_once()
 
+
 def test_create_microservice(repository_fixture):
     """
     Test put microservice details.
     """
 
-    with patch('msa_sdk.msa_api.MSA_API.call_post') as mock_call_post:
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         repository = repository_fixture
         ms_details = microservice_info()
         repository.create_microservice(ms_details)
@@ -124,7 +125,7 @@ def test_delete_repository_resource(repository_fixture):
     Delete repository resource.
     """
 
-    with patch('msa_sdk.msa_api.MSA_API.call_delete') as mock_call_delete:
+    with patch('msa_sdk.msa_api.MSA_API._call_delete') as mock_call_delete:
         repository = repository_fixture
         repository.delete_repository_resource(
             'CommandDefinition/Reference/AWS/Generic/EC2/instances.xml'
@@ -150,7 +151,7 @@ def test_get_microservice_path_by_name(repository_fixture):
         '"groups": ["Default"]},"CommandDefinition/ANSIBLE/Read_hosts_file.xml": {"name": '
         '"Read hosts file","groups": ["Default"]}}}')
 
-    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
         repository = repository_fixture
         repository._content = response
         assert repository.get_microservice_path_by_name(
@@ -168,8 +169,7 @@ def test_get_microservice_variables_default_value(repository_fixture):
                 '"defaultValue" : "1774", "displayName" : "Ansible server ME",'
                 '"name" : "params.ansible_device_id"}]}')
 
-
-    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
         repository = repository_fixture
         repository._content = response
         assert repository.get_microservice_variables_default_value(
@@ -181,7 +181,7 @@ def test_detach_microserviceis_from_configuration_profile(repository_fixture):
     Test detach microservice from configuration profile.
     """
 
-    with patch('msa_sdk.msa_api.MSA_API.call_put') as mock_call_put:
+    with patch('msa_sdk.msa_api.MSA_API._call_put') as mock_call_put:
         repository = repository_fixture
         repository.detach_microserviceis_from_configuration_profile(
             '276', ['CommandDefinition/Reference/AWS/Generic/EC2/instances.xml'], )
@@ -200,7 +200,7 @@ def test_get_workflow_definition(repository_fixture):
     response = (
         '{"information" : {"displayName" : "Execute Ansible-based microservice"}}')
 
-    with patch('msa_sdk.msa_api.MSA_API.call_get') as mock_call_get:
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
         repository = repository_fixture
         repository._content = response
         assert repository.get_workflow_definition('Execute_Ansible_based_microservice.xml')[
@@ -212,7 +212,7 @@ def test_change_workflow_definition(repository_fixture):
     Test change workflow defenition.
     """
 
-    with patch('msa_sdk.msa_api.MSA_API.call_put') as mock_call_put:
+    with patch('msa_sdk.msa_api.MSA_API._call_put') as mock_call_put:
         repository = repository_fixture
         assert repository.change_workflow_definition('Execute_Ansible_based_microservice.xml', {
                                                      "example": "", "process": [{"tasks": ""}]}) is None

@@ -22,7 +22,7 @@ class Lookup(MSA_API):
         """
         self.action = 'Get device ids'
         self.path = '{}/devices'.format(self.api_path)
-        self.call_get()
+        self._call_get()
 
     def look_list_customer_ids(self):
         """Look list customer ids.
@@ -34,7 +34,7 @@ class Lookup(MSA_API):
         """
         self.action = 'Get customer ids'
         self.path = '{}/customers'.format(self.api_path)
-        self.call_get()
+        self._call_get()
 
     def look_list_manager_ids(self):
         """Look list manager ids.
@@ -46,7 +46,7 @@ class Lookup(MSA_API):
         """
         self.action = 'Get manager ids'
         self.path = '{}/managers'.format(self.api_path)
-        self.call_get()
+        self._call_get()
 
     def look_list_operators_id(self, manager_id):
         """Look list operators id.
@@ -63,7 +63,7 @@ class Lookup(MSA_API):
         """
         self.action = 'Get operators id'
         self.path = '{}/operators/id/{}'.format(self.api_path, manager_id)
-        self.call_get()
+        self._call_get()
 
     def look_list_sec_nodes(self):
         """Look list sec nodes.
@@ -75,7 +75,7 @@ class Lookup(MSA_API):
         """
         self.action = 'Get sec nodes'
         self.path = '{}/sec_nodes'.format(self.api_path)
-        self.call_get()
+        self._call_get()
 
     def look_list_device_by_customer_ref(self, custom_ref):
         """Look list device by customer reference.
@@ -93,4 +93,4 @@ class Lookup(MSA_API):
         self.action = 'Get list device by customer reference'
         self.path = '{}/customer/devices/reference/{}'.format(self.api_path,
                                                               custom_ref)
-        self.call_get()
+        self._call_get()
