@@ -159,6 +159,7 @@ def test_command_objects_instances_by_id(_, order_fixture):
         assert order.path == local_path
         assert order.content == return_body
 
+
 def test_command_get_deployment_settings_id(order_fixture):
     """
     Get deployment settings ID for the device.
@@ -169,5 +170,5 @@ def test_command_get_deployment_settings_id(order_fixture):
         order = order_fixture
         order._content = response
         assert order.command_get_deployment_settings_id() == 276
-        
+
         mock_call_get.assert_called_once_with()
