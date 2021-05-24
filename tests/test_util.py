@@ -146,24 +146,25 @@ def test_obtain_file_lock_no_previous_file(tmpdir):
     result = '{"wo_status": "ENDED", '
     result += '"wo_comment": "Lock obtained on the file {}",'.format(f_name)
     result += ' "wo_newparams": '
-    result += '{"SERVICEINSTANCEID": "12345", "process": "abc"}'
+    result += '{"SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"}'
     result += '}'
 
     with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
         with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
             assert obtain_file_lock(
                 f_name, 'w+',
-                {"SERVICEINSTANCEID": "12345", "process": "abc"},
+                {"SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"},
                 0.5, 2) == result
 
     log_file = '{}/process-12345.log'.format(f_dir_log)
 
     log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    log_msg = '\n=== {} ===\n{}'.format(
-        log_time,
+    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+        log_time, 2345,
         ('{\n    "SERVICEINSTANCEID": "12345",'
-         '\n    "process": "abc"\n}')
+         '\n    "process": "abc",'
+         '\n    "PROCESSINSTANCEID": "2345"\n}'), log_time, 2345
     )
 
     assert open(log_file).read() == log_msg
@@ -187,24 +188,25 @@ def test_obtain_file_lock_when_unlocked(tmpdir):
     result = '{"wo_status": "ENDED", '
     result += '"wo_comment": "Lock obtained on the file {}",'.format(f_name)
     result += ' "wo_newparams": '
-    result += '{"SERVICEINSTANCEID": "12345", "process": "abc"}'
+    result += '{"SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"}'
     result += '}'
 
     with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
         with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
             assert obtain_file_lock(
                 f_name, 'w+',
-                {"SERVICEINSTANCEID": "12345", "process": "abc"},
+                {"SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"},
                 1, 2) == result
 
     log_file = '{}/process-12345.log'.format(f_dir_log)
 
     log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    log_msg = '\n=== {} ===\n{}'.format(
-        log_time,
+    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+        log_time, 2345,
         ('{\n    "SERVICEINSTANCEID": "12345",'
-         '\n    "process": "abc"\n}')
+         '\n    "process": "abc",'
+         '\n    "PROCESSINSTANCEID": "2345"\n}'), log_time, 2345
     )
 
     assert open(log_file).read() == log_msg
@@ -229,7 +231,7 @@ def test_obtain_file_lock_when_locked(tmpdir):
     result += '"wo_comment": '
     result += '"Lock could not be obtained on the file {}",'.format(f_name)
     result += ' "wo_newparams": '
-    result += '{"SERVICEINSTANCEID": "12346", "process": "abc"}'
+    result += '{"SERVICEINSTANCEID": "12346", "process": "abc", "PROCESSINSTANCEID": "2345"}'
     result += '}'
 
     with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
@@ -239,16 +241,17 @@ def test_obtain_file_lock_when_locked(tmpdir):
                        f_dir_log):
                 assert obtain_file_lock(
                     f_name, 'w+', {"SERVICEINSTANCEID": "12346",
-                                   "process": "abc"}, 0.5, 2) == result
+                                   "process": "abc", "PROCESSINSTANCEID": "2345"}, 0.5, 2) == result
 
     log_file = '{}/process-12346.log'.format(f_dir_log)
 
     log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    log_msg = '\n=== {} ===\n{}'.format(
-        log_time,
+    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+        log_time, 2345,
         ('{\n    "SERVICEINSTANCEID": "12346",'
-         '\n    "process": "abc"\n}')
+         '\n    "process": "abc",'
+         '\n    "PROCESSINSTANCEID": "2345"\n}'), log_time, 2345
     )
 
     assert open(log_file).read() == log_msg
@@ -274,23 +277,25 @@ def test_obtain_file_lock_content(tmpdir):
     result += '"wo_comment": '
     result += '"Lock could not be obtained on the file {}",'.format(f_name)
     result += ' "wo_newparams": '
-    result += '{"SERVICEINSTANCEID": "12345", "process": "abc"}'
+    result += '{"SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"}'
     result += '}'
 
     with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
         with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
             assert obtain_file_lock(
-                f_name, 'w+', {"SERVICEINSTANCEID": "12345", "process": "abc"},
+                f_name, 'w+', {"SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"},
                 0.5, 2) == result
 
     log_file = '{}/process-12345.log'.format(f_dir_log)
 
     log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    log_msg = '\n=== {} ===\n{}'.format(
-        log_time,
+    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+        log_time, 2345,
         ('{\n    "SERVICEINSTANCEID": "12345",'
-         '\n    "process": "abc"\n}')
+         '\n    "process": "abc",'
+         '\n    "PROCESSINSTANCEID": "2345"\n}'), log_time, 2345
+
     )
 
     assert open(log_file).read() == log_msg
@@ -302,23 +307,24 @@ def test_obtain_file_lock_content(tmpdir):
     result = '{"wo_status": "ENDED", '
     result += '"wo_comment": "Lock obtained on the file {}",'.format(f_name)
     result += ' "wo_newparams": '
-    result += '{"SERVICEINSTANCEID": "12346", "process": "abc"}'
+    result += '{"SERVICEINSTANCEID": "12346", "process": "abc", "PROCESSINSTANCEID": "2345"}'
     result += '}'
 
     with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
         with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
             assert obtain_file_lock(
-                f_name, 'w+', {"SERVICEINSTANCEID": "12346", "process": "abc"},
+                f_name, 'w+', {"SERVICEINSTANCEID": "12346", "process": "abc", "PROCESSINSTANCEID": "2345"},
                 0.5, 2) == result
 
     log_file = '{}/process-12346.log'.format(f_dir_log)
 
     log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    log_msg = '\n=== {} ===\n{}'.format(
-        log_time,
+    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+        log_time, 2345,
         ('{\n    "SERVICEINSTANCEID": "12346",'
-         '\n    "process": "abc"\n}')
+         '\n    "process": "abc",'
+         '\n    "PROCESSINSTANCEID": "2345"\n}'), log_time, 2345
     )
 
     assert open(log_file).read() == log_msg
@@ -344,23 +350,24 @@ def test_release_file_lock(tmpdir):
     result += '"wo_comment": '
     result += '"Lock released on the file {}",'.format(f_name)
     result += ' "wo_newparams": '
-    result += '{"SERVICEINSTANCEID": "12345", "process": "abc"}'
+    result += '{"SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"}'
     result += '}'
 
     with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
         with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
             assert release_file_lock(
-                f_name, {"SERVICEINSTANCEID": "12345", "process": "abc"},
+                f_name, {"SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"},
                 0.5, 2) == result
 
     log_file = '{}/process-12345.log'.format(f_dir_log)
 
     log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    log_msg = '\n=== {} ===\n{}'.format(
-        log_time,
+    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+        log_time, 2345,
         ('{\n    "SERVICEINSTANCEID": "12345",'
-         '\n    "process": "abc"\n}')
+         '\n    "process": "abc",'
+         '\n    "PROCESSINSTANCEID": "2345"\n}'), log_time, 2345
     )
 
     assert open(log_file).read() == log_msg
@@ -389,7 +396,7 @@ def test_release_file_lock_failed(tmpdir):
     result += '"wo_comment": '
     result += '"Lock could not be released on the file {}",'.format(f_name)
     result += ' "wo_newparams": '
-    result += '{"SERVICEINSTANCEID": "12345", "process": "abc"}'
+    result += '{"SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"}'
     result += '}'
 
     with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
@@ -397,17 +404,18 @@ def test_release_file_lock_failed(tmpdir):
             with patch('msa_sdk.util.fcntl.flock') as mock_flock:
                 mock_flock.side_effect = io.BlockingIOError
                 assert release_file_lock(
-                    f_name, {"SERVICEINSTANCEID": "12345", "process": "abc"},
+                    f_name, {"SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"},
                     0.5, 2) == result
 
     log_file = '{}/process-12345.log'.format(f_dir_log)
 
     log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    log_msg = '\n=== {} ===\n{}'.format(
-        log_time,
+    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+        log_time, 2345,
         ('{\n    "SERVICEINSTANCEID": "12345",'
-         '\n    "process": "abc"\n}')
+         '\n    "process": "abc",'
+         '\n    "PROCESSINSTANCEID": "2345"\n}'), log_time, 2345
     )
 
     assert open(log_file).read() == log_msg
@@ -432,6 +440,44 @@ def test_log_to_process_file_success(tmpdir):
         assert log_to_process_file(params['SERVICEINSTANCEID'], log_message)
 
         check_pattern = f'^.+?:DEBUG:{log_message}$'
+        with open(f'{temp_dir}/process-1234.log', 'r') as log_file:
+            assert re.match(check_pattern, log_file.read())
+
+def test_log_to_service_file_success(tmpdir):
+    """
+    Test if log to process file is success
+    """
+
+    temp_dir = tmpdir.mkdir('log_to_process_file_success')
+
+    with patch('msa_sdk.constants.PROCESS_LOGS_DIRECTORY', temp_dir):
+
+        params = {"SERVICEINSTANCEID": 1234, "Other": "Value", "PROCESSINSTANCEID": 2345}
+
+        log_message = 'Lorem ipsum dolor sit amet'
+
+        assert log_to_process_file(params['SERVICEINSTANCEID'], log_message, params['PROCESSINSTANCEID'])
+
+        check_pattern = f'^.+?:|2345|:DEBUG:{log_message}$'
+        with open(f'{temp_dir}/process-1234.log', 'r') as log_file:
+            assert re.match(check_pattern, log_file.read())
+
+def test_log_line_break_to_service_file_success(tmpdir):
+    """
+    Test if log to process file is success
+    """
+
+    temp_dir = tmpdir.mkdir('log_to_process_file_success')
+
+    with patch('msa_sdk.constants.PROCESS_LOGS_DIRECTORY', temp_dir):
+
+        params = {"SERVICEINSTANCEID": 1234, "Other": "Value", "PROCESSINSTANCEID": 2345}
+
+        log_message = 'Lorem ipsum dolor sit amet\ntest'
+
+        assert log_to_process_file(params['SERVICEINSTANCEID'], log_message, params['PROCESSINSTANCEID'])
+
+        check_pattern = f'^.+?:|2345|:DEBUG:{log_message}$\n^.+?:|2345|'
         with open(f'{temp_dir}/process-1234.log', 'r') as log_file:
             assert re.match(check_pattern, log_file.read())
 

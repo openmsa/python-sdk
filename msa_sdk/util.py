@@ -385,17 +385,19 @@ def cidr_to_subnet_and_subnetmask_address(cidr):
             'subnet_mask': str(network.netmask)}
 
 
-def log_to_process_file(process_id: str, log_message: str) -> bool:
+def log_to_process_file(service_id: str, log_message: str, process_id: str=None) -> bool:
     """
 
     Write log string with ISO timestamp to process log file.
 
     Parameters
     ----------
-    process_id: String
-                Process ID of current process
+    service_id: String
+                Service ID of current process
     log_message: String
                  Log text
+    process_id: String
+                Process ID of current process
 
     Returns
     -------
@@ -407,10 +409,17 @@ def log_to_process_file(process_id: str, log_message: str) -> bool:
 
     """
     process_log_path = '{}/process-{}.log'.format(
-        constants.PROCESS_LOGS_DIRECTORY, process_id)
+        constants.PROCESS_LOGS_DIRECTORY, service_id)
     current_time = datetime.now().isoformat()
-    log_string = '{date}:{file}:DEBUG:{msg}\n'.format(
-        date=current_time, file=sys.argv[0].split('/')[-1], msg=log_message)
+    if not process_id:
+        log_string = '{date}:{file}:DEBUG:{msg}\n'.format(
+            date=current_time, file=sys.argv[0].split('/')[-1], msg=log_message)
+    else:
+        log_string = '{date}:{file}:|{process_id}|:DEBUG:{msg}\n'.format(
+            date=current_time, file=sys.argv[0].split('/')[-1], process_id=process_id, msg=log_message)
+        if "\n" in log_message:
+            log_string += '{date}:{file}:|{process_id}|\n'.format(
+            date=current_time, file=sys.argv[0].split('/')[-1], process_id=process_id)
     try:
         with open(process_log_path, 'a') as log_file:
             log_file.write(log_string)
