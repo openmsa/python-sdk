@@ -160,7 +160,7 @@ def test_obtain_file_lock_no_previous_file(tmpdir):
 
     log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(
         log_time, 2345,
         ('{\n    "SERVICEINSTANCEID": "12345",'
          '\n    "process": "abc",'
@@ -202,7 +202,7 @@ def test_obtain_file_lock_when_unlocked(tmpdir):
 
     log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(
         log_time, 2345,
         ('{\n    "SERVICEINSTANCEID": "12345",'
          '\n    "process": "abc",'
@@ -247,7 +247,7 @@ def test_obtain_file_lock_when_locked(tmpdir):
 
     log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(
         log_time, 2345,
         ('{\n    "SERVICEINSTANCEID": "12346",'
          '\n    "process": "abc",'
@@ -290,7 +290,7 @@ def test_obtain_file_lock_content(tmpdir):
 
     log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(
         log_time, 2345,
         ('{\n    "SERVICEINSTANCEID": "12345",'
          '\n    "process": "abc",'
@@ -320,7 +320,7 @@ def test_obtain_file_lock_content(tmpdir):
 
     log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(
         log_time, 2345,
         ('{\n    "SERVICEINSTANCEID": "12346",'
          '\n    "process": "abc",'
@@ -363,7 +363,7 @@ def test_release_file_lock(tmpdir):
 
     log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(
         log_time, 2345,
         ('{\n    "SERVICEINSTANCEID": "12345",'
          '\n    "process": "abc",'
@@ -411,7 +411,7 @@ def test_release_file_lock_failed(tmpdir):
 
     log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+    log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(
         log_time, 2345,
         ('{\n    "SERVICEINSTANCEID": "12345",'
          '\n    "process": "abc",'

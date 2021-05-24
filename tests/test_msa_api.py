@@ -150,7 +150,7 @@ def test_content_with_log(api_fixture, tmpdir):
 
         log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(log_time, params['PROCESSINSTANCEID'], json.dumps(params,
+        log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(log_time, params['PROCESSINSTANCEID'], json.dumps(params,
                                                                  indent=4), log_time, params['PROCESSINSTANCEID'])
 
         assert log_msg == open(
@@ -182,7 +182,7 @@ def test_content_with_log_more_lines(api_fixture, tmpdir):
 
         log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        log_msg_1 = '\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(log_time, params1['PROCESSINSTANCEID'], json.dumps(params1,
+        log_msg_1 = '\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(log_time, params1['PROCESSINSTANCEID'], json.dumps(params1,
                                                                    indent=4), log_time, params1['PROCESSINSTANCEID'] )
 
         assert log_msg_1 == open(
@@ -190,7 +190,7 @@ def test_content_with_log_more_lines(api_fixture, tmpdir):
 
         api.process_content('ENDED', 'Task OK', params2, True)
 
-        log_msg_2 = '{}\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(
+        log_msg_2 = '{}\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(
             log_msg_1, log_time, params2['PROCESSINSTANCEID'], json.dumps(params2, indent=4), log_time, params2['PROCESSINSTANCEID'])
 
         assert log_msg_2 == open(
