@@ -418,7 +418,7 @@ def log_to_process_file(service_id: str, log_message: str, process_id: str=None)
         log_string = '{date}:{file}:|{process_id}|:DEBUG:{msg}\n'.format(
             date=current_time, file=sys.argv[0].split('/')[-1], process_id=process_id, msg=log_message)
         if "\n" in log_message:
-            log_string += '{date}:{file}:|{process_id}|\n'.format(
+            log_string += '{date}:{file}:|{process_id}--|\n'.format(
             date=current_time, file=sys.argv[0].split('/')[-1], process_id=process_id)
     try:
         with open(process_log_path, 'a') as log_file:

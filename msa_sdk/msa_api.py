@@ -106,7 +106,7 @@ class MSA_API():  # pylint: disable=invalid-name
                 constants.PROCESS_LOGS_DIRECTORY,
                 log_id)
             with open(log_file, 'a+') as f_log:
-                f_log.write('\n=== {} ===|{}|\n{}\n=== {} ===|{}|'.format(log_time, process_id, log_msg, log_time, process_id))
+                f_log.write('\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(log_time, process_id, log_msg, log_time, process_id))
 
         response = {
             "wo_status": status,
