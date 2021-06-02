@@ -66,8 +66,11 @@ TOTAL                        359      0   100%
 ```
 *Image above is only an example*
 
-### Configuring IP and Port
+### Generate Documenation and Json references
+`$ pdoc --html --force -o html msa_sdk`
 
-For usage of the SDK after installing on an MSA the SDK will use the *UBI_WILDFLY_JNDI_ADDRESS* and *UBI_WILDFLY_JNDI_PORT* from the *vars.ubiqube.net.ctx* file. 
+then copy all files under `html/msa_sdk/` to `msa-docker/front/msa_sdk_doc`
 
-The default MSA that the SDK will use is the internal MSAv2 development server
+`$ python sdk_to_json.py > msa_sdk.json`
+
+move the code.json to msa-docker/front/msa_sdk_doc
