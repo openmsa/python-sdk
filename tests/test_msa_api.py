@@ -196,6 +196,7 @@ def test_content_with_log_more_lines(api_fixture, tmpdir):
         assert log_msg_2 == open(
             '{}/{}'.format(temp_dir, 'process-1234.log'), 'r').read()
 
+
 def test_log_to_process_file_success(api_fixture, tmpdir):
     """
     Test if log to process file is success
@@ -210,11 +211,13 @@ def test_log_to_process_file_success(api_fixture, tmpdir):
 
         log_message = 'Lorem ipsum dolor sit amet'
 
-        assert api.log_to_process_file(params['SERVICEINSTANCEID'], log_message) == True
+        assert api.log_to_process_file(
+            params['SERVICEINSTANCEID'], log_message)
 
         check_pattern = f'^.+?:DEBUG:{log_message}$'
         with open(f'{temp_dir}/process-1234.log', 'r') as log_file:
             assert re.match(check_pattern, log_file.read())
+
 
 def test_log_to_process_file_fail(api_fixture, tmpdir):
     """
@@ -228,7 +231,9 @@ def test_log_to_process_file_fail(api_fixture, tmpdir):
 
         log_message = 'Lorem ipsum dolor sit amet'
 
-        assert api.log_to_process_file(params['SERVICEINSTANCEID'], log_message) == False
+        assert not api.log_to_process_file(
+            params['SERVICEINSTANCEID'],
+            log_message)
 
 
 # pylint: disable=redefined-outer-name
@@ -243,3 +248,39 @@ def test_constants(api_fixture):
     assert msa.RUNNING == 'RUNNING'
     assert msa.WARNING == 'WARNING'
     assert msa.PAUSED == 'PAUSE'
+
+
+def test_task_error(api_fixture, capsys):
+    msa = api_fixture
+
+    with pytest.raises(SystemExit) as sys_exit:
+        msa.task_error("Task error", {'SERVICEINSTANCEID': 1}, False)
+
+    captured = capsys.readouterr()
+    output = (
+        '{"wo_status": "FAIL", "wo_comment": "Task error",'
+        ' "wo_newparams": {"SERVICEINSTANCEID": 1}}\n'
+    )
+    assert captured.out == output
+    assert json.loads(captured.out)['wo_comment'] == 'Task error'
+    assert sys_exit.type == SystemExit
+    assert sys_exit.value.code == 1
+
+
+def test_task_success(api_fixture, capsys):
+    msa = api_fixture
+
+    with pytest.raises(SystemExit) as sys_exit:
+        msa.task_success("Task success", {'SERVICEINSTANCEID': 1}, False)
+
+    captured = capsys.readouterr()
+    output = (
+        '{"wo_status": "ENDED", "wo_comment": "Task success",'
+        ' "wo_newparams": {"SERVICEINSTANCEID": 1}}\n'
+    )
+
+    assert captured.out == output
+    assert json.loads(captured.out)['wo_comment'] == 'Task success'
+
+    assert sys_exit.type == SystemExit
+    assert sys_exit.value.code == 0
