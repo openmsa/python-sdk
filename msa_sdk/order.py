@@ -97,6 +97,34 @@ class Order(Device):
 
         self._call_post(timeout=timeout)
 
+    def command_synchronizeOneOrMoreObjectsFromDevice(self,
+                                                      mservice_uris: list,
+                                                      timeout: int) -> None:
+        """
+
+        Command synchronize objects from a Device.
+
+        Parameters
+        -----------
+        mservice_uris: List
+                List of microservices
+
+        timeout: Integer
+                Connection timeout
+
+        Returns
+        -------
+        None
+
+        """
+        self.action = 'Command synchronize'
+        self.path = '{}/microservice/synchronize/{}'.format(self.api_path,
+                                                            self.device_id)
+
+        params = {"microServiceUris": mservice_uris}
+
+        self._call_post(params, timeout=timeout)
+
     def command_call(self, command, mode, params):
         """
 
