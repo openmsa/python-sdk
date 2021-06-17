@@ -59,7 +59,7 @@ def test_command_generate_configuration(_, order_fixture):
 @patch('msa_sdk.device.Device.read')
 def test_command_synchronize(_, order_fixture):
     """
-    Test command generate configuration
+    Test command syncronize
     """
 
     local_path = '/ordercommand/synchronize/21594'
@@ -71,6 +71,27 @@ def test_command_synchronize(_, order_fixture):
         assert order.path == local_path
 
         mock_call_post.assert_called_once_with(timeout=50)
+
+
+@patch('msa_sdk.device.Device.read')
+def test_command_synchronize_one_or_more(_, order_fixture):
+    """
+    Test syncronize one or more
+    """
+
+    local_path = '/ordercommand/microservice/synchronize/21594'
+
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+        order = order_fixture
+        l_mservices = ["CommandDefinition/microservices/interface.xml",
+                       "CommandDefinition/microservices/routes.xml"]
+        order.command_synchronizeOneOrMoreObjectsFromDevice(l_mservices, 50)
+
+        assert order.path == local_path
+
+        params = {"microServiceUris": l_mservices}
+
+        mock_call_post.assert_called_once_with(params, timeout=50)
 
 
 @patch('msa_sdk.device.Device.read')
