@@ -177,6 +177,45 @@ class Orchestration(MSA_API):
 
         return service_id
 
+    def execute_service_process(self, service_name: str, process_name: str,
+                        data: dict):
+        """
+
+        Execute service.
+
+        Parameters
+        ----------
+        service_name: String
+                      Service Name
+        process_name: String
+                      Process name
+        data:         dict()
+                      A dictionary containing workflow variables
+
+        Returns
+        -------
+        None
+             If the execution was failed
+        process_id: Integer
+                    If execution was success
+
+        """
+        format_path = ('/orchestration/service/execute/{}'
+                       '?serviceName={}&processName={}&serviceInstance=0')
+
+        self.path = format_path.format(self.ubiqube_id,
+                                       service_name, process_name)
+
+        self._call_post(data)
+
+        process_id = None
+        try:
+            process_id = int(json.loads(self.content)['processId']['id'])
+        except BaseException:
+            pass
+
+        return process_id
+
     # pylint: disable=too-many-arguments
     def execute_by_service(self, external_ref, service_ref, service_name,
                            process_name, data):
