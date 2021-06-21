@@ -178,7 +178,7 @@ class Orchestration(MSA_API):
         return service_id
 
     def execute_service_process(self, service_name: str, process_name: str,
-                        data: dict):
+                                data: dict):
         """
 
         Execute service.
