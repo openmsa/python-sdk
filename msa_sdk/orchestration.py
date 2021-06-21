@@ -479,3 +479,32 @@ class Orchestration(MSA_API):
             status = None
 
         return status
+
+    def get_process_status_by_id(self, process_id: int):
+        """
+
+        Return process status by process_id.
+
+        Parameters
+        ----------
+        process_id: Integer
+                    Id of workflow instance
+
+        Returns
+        -------
+        String: RUNNING|FAIL|ENDED
+                Status of the service
+        OR
+        None:   In case if execution failed
+
+        """
+        self.path = '{}/process-instance/{}'.format(
+            self.api_path_v1, process_id)
+        self._call_get()
+
+        try:
+            status = json.loads(self.content)['status']['status']
+        except BaseException:
+            status = None
+
+        return status
