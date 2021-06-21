@@ -212,6 +212,10 @@ class Orchestration(MSA_API):
         process_id = None
         try:
             service_id = int(json.loads(self.content)['serviceId']['id'])
+        except BaseException:
+            pass
+
+        try:
             process_id = int(json.loads(self.content)['processId']['id'])
         except BaseException:
             pass
