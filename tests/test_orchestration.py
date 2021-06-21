@@ -202,6 +202,23 @@ def test_execute_service(orchestration_fixture):
         mock_call_post.assert_called_once_with({"var1": 1, "var2": 2})
         # TODO: check case where service_id is returned
 
+def test_execute_service_process(orchestration_fixture):
+    """
+    Test execute service
+    """
+
+    local_path = '/orchestration/service/execute/{}'
+    local_path += '?serviceName={}&processName={}&serviceInstance=0'
+
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+        orch = orchestration_fixture
+        orch.execute_service('1234', 'ProcessName',
+                             {"var1": 1, "var2": 2})
+        assert orch.path == local_path.format('MSAA19224', '1234',
+                                              'ProcessName')
+        mock_call_post.assert_called_once_with({"var1": 1, "var2": 2})
+        # TODO: check case where service_id is returned
+
 
 def test_execute_by_service(orchestration_fixture):
     """
