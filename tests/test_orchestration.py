@@ -204,7 +204,7 @@ def test_execute_service(orchestration_fixture):
 
 def test_execute_service_process(orchestration_fixture):
     """
-    Test execute service
+    Test execute service process
     """
 
     local_path = '/orchestration/service/execute/{}'
