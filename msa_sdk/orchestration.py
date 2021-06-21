@@ -208,13 +208,15 @@ class Orchestration(MSA_API):
 
         self._call_post(data)
 
+        service_id = None
         process_id = None
         try:
+            service_id = int(json.loads(self.content)['serviceId']['id'])
             process_id = int(json.loads(self.content)['processId']['id'])
         except BaseException:
             pass
 
-        return process_id
+        return service_id, process_id
 
     # pylint: disable=too-many-arguments
     def execute_by_service(self, external_ref, service_ref, service_name,
