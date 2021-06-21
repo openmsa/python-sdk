@@ -212,7 +212,7 @@ def test_execute_service_process(orchestration_fixture):
 
     with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         orch = orchestration_fixture
-        orch.execute_service('1234', 'ProcessName',
+        orch.execute_service_process('1234', 'ProcessName',
                              {"var1": 1, "var2": 2})
         assert orch.path == local_path.format('MSAA19224', '1234',
                                               'ProcessName')
