@@ -178,7 +178,7 @@ class Orchestration(MSA_API):
         return service_id
 
     def execute_service_process(self, service_name: str, process_name: str,
-                        data: dict):
+                                data: dict):
         """
 
         Execute service.
@@ -194,10 +194,12 @@ class Orchestration(MSA_API):
 
         Returns
         -------
-        None
-             If the execution was failed
+        Tuple
         process_id: Integer
-                    If execution was success
+                    Id if execution was success, -1 if execution fails
+
+        service_id: Integer
+                    Id if execution was success, -1 if execution fails
 
         """
         format_path = ('/orchestration/service/execute/{}'
@@ -208,17 +210,15 @@ class Orchestration(MSA_API):
 
         self._call_post(data)
 
-        service_id = None
-        process_id = None
         try:
             service_id = int(json.loads(self.content)['serviceId']['id'])
-        except BaseException:
-            pass
+        except KeyError:
+            service_id = -1
 
         try:
             process_id = int(json.loads(self.content)['processId']['id'])
-        except BaseException:
-            pass
+        except KeyError:
+            process_id = -1
 
         return service_id, process_id
 
