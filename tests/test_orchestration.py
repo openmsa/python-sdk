@@ -97,6 +97,36 @@ def test_get_service_status_by_id(orchestration_fixture):
         assert orch.get_service_status_by_id(398) is None
         assert orch.path == '/orchestration/v1/service/process-instance/398'
 
+def test_get_process_status_by_id(orchestration_fixture):
+    """
+    Test Get service status by ID
+    """
+    import json
+    response = (
+        '{ "serviceId": { "name": "Process/workflows/TestConPy/TestConPy", "id": 187201, '
+        '"serviceExternalReference": "IOSSID187201", "state": null }, '
+        '"processId": { "name": "Process/workflows/TestConPy/Process_Test", '
+        '"id": 189406, "lastExecNumber": 1, "submissionType": "RUN" }, '
+        '"status": { "status": "ENDED", "details": "Task OK", "startingDate": "2021-06-21 11:42:34.731975", '
+        '"endingDate": "2021-06-21 11:42:35.108229", "execNumber": 1, "processReference": null, '
+        '"processTaskStatus": [ { "status": "ENDED", "order": 1, "processInstanceId": 189406, '
+        '"scriptName": "test1", "details": "Task OK", "startingDate": "2021-06-21 11:42:34.795359", '
+        '"endingDate": "2021-06-21 11:42:35.108229", "newParameters": [] } ] }, "executorUsername": null }')
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = response
+        orch = orchestration_fixture
+        assert orch.get_process_status_by_id(189406) == 'ENDED'
+        assert orch.path == '/orchestration/v1/process-instance/189406'
+
+    response_fail = ('[]')
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = response_fail
+        orch = orchestration_fixture
+        assert orch.get_process_status_by_id(189406) is None
+        assert orch.path == '/orchestration/v1/process-instance/189406'
+
 
 def test_get_service_variable_by_name(orchestration_fixture):
     """
