@@ -12,6 +12,7 @@ from msa_sdk.lookup import Lookup
 from msa_sdk.orchestration import Orchestration
 from msa_sdk.order import Order
 from msa_sdk.repository import Repository
+from msa_sdk.variables import Variables
 
 device = Device()
 lookup = Lookup()
@@ -20,6 +21,7 @@ orchestration = Orchestration(1)
 repository = Repository()
 customer = Customer()
 conf_profile = ConfProfile()
+variable = Variables()
 
 output_doc = collections.defaultdict(dict)  # type: dict
 
@@ -69,6 +71,7 @@ get_members('Order', order)
 get_members('Repository', repository)
 get_members('Customer', customer)
 get_members('ConfProfile', conf_profile)
+get_members('Variables', variable)
 
 get_members_function()
 
