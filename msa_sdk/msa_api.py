@@ -209,7 +209,9 @@ class MSA_API():  # pylint: disable=invalid-name
 
     def _call_post(self, data=None, timeout=60):
         """
-        Call -XPOST.
+        Call -XPOST. This is a private method.
+
+        This method that should not be used outside this sdk scope.
 
         Returns
         --------
@@ -237,7 +239,9 @@ class MSA_API():  # pylint: disable=invalid-name
 
     def _call_get(self, timeout=60):
         """
-        Call -XGET.
+        Call -XGET. This is a private method.
+
+        This method that should not be used outside this sdk scope.
 
         Returns
         --------
@@ -256,7 +260,9 @@ class MSA_API():  # pylint: disable=invalid-name
 
     def _call_put(self, data=None):
         """
-        Call -XPUT.
+        Call -XPUT. This is a private method.
+
+        This method that should not be used outside this sdk scope.
 
         Parameters
         ----------
@@ -279,7 +285,9 @@ class MSA_API():  # pylint: disable=invalid-name
 
     def _call_delete(self):
         """
-        Call -XDELETE.
+        Call -XDELETE. This is a private method.
+
+        This method that should not be used outside this sdk scope.
 
         Returns
         --------
