@@ -222,7 +222,7 @@ def test_get_file(repository_fixture):
     """
     Test get file.
     """
-    response = ('{"content" : "<?php\n\necho "test";\n?>" }')
+    response = ('{"content" : "<?php\\n\\n////test;\\n?>" }')
 
     with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
         repository = repository_fixture
