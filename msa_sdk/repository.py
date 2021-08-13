@@ -315,5 +315,5 @@ class Repository(MSA_API):
         self.action = 'Get file content'
         url_encoded = urlencode({'uri': file_uri})
         self.path = "{}/file?{}".format(self.api_path, url_encoded)
-        self.call_get()
+        self._call_get()
         return json.loads(self.content)
