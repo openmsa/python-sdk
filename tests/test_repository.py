@@ -216,3 +216,22 @@ def test_change_workflow_definition(repository_fixture):
         repository = repository_fixture
         assert repository.change_workflow_definition('Execute_Ansible_based_microservice.xml', {
                                                      "example": "", "process": [{"tasks": ""}]}) is None
+
+
+def test_get_file(repository_fixture):
+    """
+    Test get file.
+    """
+    response = ('{"content" : "<?php\\n\\n////test;\\n?>" }')
+
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
+        repository = repository_fixture
+        repository._content = response
+        repository.get_file('Datafiles/test.php')
+
+        data = urlencode(
+            {'uri': 'Datafiles/test.php'})
+        assert repository.path == "/repository/file?{}".format(
+            data)
+        mock_call_get.assert_called_once_with()
+

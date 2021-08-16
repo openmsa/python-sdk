@@ -294,3 +294,26 @@ class Repository(MSA_API):
 
         self._call_put(json.dumps(workflow_definition_dict))
         return None
+
+    def get_file(self, file_uri):
+        """
+        Get file content.
+
+        Parameters
+        ----------
+            file_uri: String
+            File path in repository
+        Returns
+        -------
+
+
+        Dictionary: dict()
+                    Dictionary wich contains file content
+
+        """
+        import json
+        self.action = 'Get file content'
+        url_encoded = urlencode({'uri': file_uri})
+        self.path = "{}/file?{}".format(self.api_path, url_encoded)
+        self._call_get()
+        return json.loads(self.content)
