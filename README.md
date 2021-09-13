@@ -71,6 +71,8 @@ TOTAL                        359      0   100%
 
 then copy all files under `html/msa_sdk/` to `msa-docker/front/msa_sdk_doc`
 
+Note: in order to run this a msa-api container needs to be running.
+
 `$ python sdk_to_json.py > msa_sdk.json`
 
-move the code.json to msa-docker/front/msa_sdk_doc
+move the msa_sdk.json to msa-docker/front/msa_sdk_doc
