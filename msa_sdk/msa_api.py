@@ -237,7 +237,7 @@ class MSA_API():  # pylint: disable=invalid-name
         self._content = self.response.text
         self.check_response()
 
-    def _call_get(self, timeout=60):
+    def _call_get(self, timeout=60, params={}):
         """
         Call -XGET. This is a private method.
 
@@ -254,7 +254,8 @@ class MSA_API():  # pylint: disable=invalid-name
         }
 
         url = self.url + self.path
-        self.response = requests.get(url, headers=headers, timeout=timeout)
+        self.response = requests.get(url, headers=headers, timeout=timeout,
+                                     params=params)
         self._content = self.response.text
         self.check_response()
 

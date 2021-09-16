@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 import pytest
 
+from msa_sdk.conf_backup import ConfBackup
 from msa_sdk.conf_profile import ConfProfile
 from msa_sdk.customer import Customer
 from msa_sdk.device import Device
@@ -39,6 +40,7 @@ def device_info():
         '"logMoreEnabled":false,"mailAlerting":false,"reporting":false,'
         '"useNat":true,"snmpCommunity":""}')
 
+
 def device_list():
     """
 
@@ -49,37 +51,38 @@ def device_list():
     String: list of mocked device ids
 
     """
-    return ('[{"prefix":"FST","id":130,"name":"BNG-1","sdType":{"id":0,"isObsolete":false,'
-            '"useWizard":true,"key":"SdType_1_113","manId":1,"manufacturer":"Cisco","model":"IOS",'
-            '"modId":113,"supportedProfiles":"NULL,DES,3DES","type":0,"familyId":0,"proxy":false,'
-            '"managed":true,"hasBeenDeleted":false,"utm":false,"reportMail":false,"reportFirewall":false,'
-            '"stringyfiedIdent":"CiscoIOS","typeHS":"H","name":"CiscoIOS"},"alertMail":true,"silver":false,'
-            '"gold":false,"report":false,"tamper":false,"ha":false,"dmz":false,"modelFromAsset":"CiscoIOSv",'
-            '"managed":true,"confProfile":false,"planningProfile":false,"externalReference":"FST130",'
-            '"groupId":0,"groupName":"","maintenanceMode":false,"modId":113,"manId":1,"customerId":6,'
-            '"monitorPflId":[],"haPeerId":null,"visibleName":"BNG-1-FST130","ubiId":"FST130",'
-            '"deviceId":{"id":130,"prefix":"FST","ubiId":"FST130","name":"BNG-1","externalReference":"FST130",'
-            '"operatorId":0,"displayName":"BNG-1-FST130","displayNameForJsps":"BNG-1-FST130","type":"","hostname":null},'
-            '"idAsLong":130,"pingStatus":"OK"},{"prefix":"FST","id":127,"name":"M2K-1","sdType":{"id":0,"isObsolete":false,'
-            '"useWizard":true,"key":"SdType_1_113","manId":1,"manufacturer":"Cisco","model":"IOS","modId":113,'
-            '"supportedProfiles":"NULL,DES,3DES","type":0,"familyId":0,"proxy":false,"managed":true,"hasBeenDeleted":false,'
-            '"utm":false,"reportMail":false,"reportFirewall":false,"stringyfiedIdent":"CiscoIOS","typeHS":"H",'
-            '"name":"CiscoIOS"},"alertMail":true,"silver":false,"gold":false,"report":false,"tamper":false,"ha":false,'
-            '"dmz":false,"modelFromAsset":"CiscoIOSv","managed":true,"confProfile":false,"planningProfile":false,'
-            '"externalReference":"FST127","groupId":0,"groupName":"","maintenanceMode":false,"modId":113,"manId":1,'
-            '"customerId":6,"monitorPflId":[],"haPeerId":null,"visibleName":"M2K-1-FST127","ubiId":"FST127",'
-            '"deviceId":{"id":127,"prefix":"FST","ubiId":"FST127","name":"M2K-1","externalReference":"FST127","operatorId":0,'
-            '"displayName":"M2K-1-FST127","displayNameForJsps":"M2K-1-FST127","type":"","hostname":null},"idAsLong":127,'
-            '"pingStatus":"OK"},{"prefix":"FST","id":125,"name":"M2K-2","sdType":{"id":0,"isObsolete":false,"useWizard":true,'
-            '"key":"SdType_1_113","manId":1,"manufacturer":"Cisco","model":"IOS","modId":113,"supportedProfiles":"NULL,DES,3DES",'
-            '"type":0,"familyId":0,"proxy":false,"managed":true,"hasBeenDeleted":false,"utm":false,"reportMail":false,'
-            '"reportFirewall":false,"stringyfiedIdent":"CiscoIOS","typeHS":"H","name":"CiscoIOS"},"alertMail":false,"silver":false,'
-            '"gold":false,"report":false,"tamper":false,"ha":false,"dmz":false,"modelFromAsset":"CiscoIOSv","managed":true,'
-            '"confProfile":false,"planningProfile":false,"externalReference":"FST125","groupId":0,"groupName":"",'
-            '"maintenanceMode":false,"modId":113,"manId":1,"customerId":6,"monitorPflId":[],"haPeerId":null,'
-            '"visibleName":"M2K-2-FST125","ubiId":"FST125","deviceId":{"id":125,"prefix":"FST","ubiId":"FST125",'
-            '"name":"M2K-2","externalReference":"FST125","operatorId":0,"displayName":"M2K-2-FST125",'
-            '"displayNameForJsps":"M2K-2-FST125","type":"","hostname":null},"idAsLong":125,"pingStatus":"OK"}]')
+    return (
+        '[{"prefix":"FST","id":130,"name":"BNG-1","sdType":{"id":0,"isObsolete":false,'
+        '"useWizard":true,"key":"SdType_1_113","manId":1,"manufacturer":"Cisco","model":"IOS",'
+        '"modId":113,"supportedProfiles":"NULL,DES,3DES","type":0,"familyId":0,"proxy":false,'
+        '"managed":true,"hasBeenDeleted":false,"utm":false,"reportMail":false,"reportFirewall":false,'
+        '"stringyfiedIdent":"CiscoIOS","typeHS":"H","name":"CiscoIOS"},"alertMail":true,"silver":false,'
+        '"gold":false,"report":false,"tamper":false,"ha":false,"dmz":false,"modelFromAsset":"CiscoIOSv",'
+        '"managed":true,"confProfile":false,"planningProfile":false,"externalReference":"FST130",'
+        '"groupId":0,"groupName":"","maintenanceMode":false,"modId":113,"manId":1,"customerId":6,'
+        '"monitorPflId":[],"haPeerId":null,"visibleName":"BNG-1-FST130","ubiId":"FST130",'
+        '"deviceId":{"id":130,"prefix":"FST","ubiId":"FST130","name":"BNG-1","externalReference":"FST130",'
+        '"operatorId":0,"displayName":"BNG-1-FST130","displayNameForJsps":"BNG-1-FST130","type":"","hostname":null},'
+        '"idAsLong":130,"pingStatus":"OK"},{"prefix":"FST","id":127,"name":"M2K-1","sdType":{"id":0,"isObsolete":false,'
+        '"useWizard":true,"key":"SdType_1_113","manId":1,"manufacturer":"Cisco","model":"IOS","modId":113,'
+        '"supportedProfiles":"NULL,DES,3DES","type":0,"familyId":0,"proxy":false,"managed":true,"hasBeenDeleted":false,'
+        '"utm":false,"reportMail":false,"reportFirewall":false,"stringyfiedIdent":"CiscoIOS","typeHS":"H",'
+        '"name":"CiscoIOS"},"alertMail":true,"silver":false,"gold":false,"report":false,"tamper":false,"ha":false,'
+        '"dmz":false,"modelFromAsset":"CiscoIOSv","managed":true,"confProfile":false,"planningProfile":false,'
+        '"externalReference":"FST127","groupId":0,"groupName":"","maintenanceMode":false,"modId":113,"manId":1,'
+        '"customerId":6,"monitorPflId":[],"haPeerId":null,"visibleName":"M2K-1-FST127","ubiId":"FST127",'
+        '"deviceId":{"id":127,"prefix":"FST","ubiId":"FST127","name":"M2K-1","externalReference":"FST127","operatorId":0,'
+        '"displayName":"M2K-1-FST127","displayNameForJsps":"M2K-1-FST127","type":"","hostname":null},"idAsLong":127,'
+        '"pingStatus":"OK"},{"prefix":"FST","id":125,"name":"M2K-2","sdType":{"id":0,"isObsolete":false,"useWizard":true,'
+        '"key":"SdType_1_113","manId":1,"manufacturer":"Cisco","model":"IOS","modId":113,"supportedProfiles":"NULL,DES,3DES",'
+        '"type":0,"familyId":0,"proxy":false,"managed":true,"hasBeenDeleted":false,"utm":false,"reportMail":false,'
+        '"reportFirewall":false,"stringyfiedIdent":"CiscoIOS","typeHS":"H","name":"CiscoIOS"},"alertMail":false,"silver":false,'
+        '"gold":false,"report":false,"tamper":false,"ha":false,"dmz":false,"modelFromAsset":"CiscoIOSv","managed":true,'
+        '"confProfile":false,"planningProfile":false,"externalReference":"FST125","groupId":0,"groupName":"",'
+        '"maintenanceMode":false,"modId":113,"manId":1,"customerId":6,"monitorPflId":[],"haPeerId":null,'
+        '"visibleName":"M2K-2-FST125","ubiId":"FST125","deviceId":{"id":125,"prefix":"FST","ubiId":"FST125",'
+        '"name":"M2K-2","externalReference":"FST125","operatorId":0,"displayName":"M2K-2-FST125",'
+        '"displayNameForJsps":"M2K-2-FST125","type":"","hostname":null},"idAsLong":125,"pingStatus":"OK"}]')
 
 
 def customer_info():
@@ -232,3 +235,15 @@ def conf_profile_fixture():
                 mock_host_port.return_value = ('api_hostname', '8080')
                 conf_profile = ConfProfile(100)
     return conf_profile
+
+
+@pytest.fixture
+def conf_backup_fixture():
+    """Confbackup fixture."""
+    with patch('requests.post') as mock_post:
+        mock_post.return_value.json.return_value = {'token': '12345qwert'}
+
+        with patch('msa_sdk.msa_api.host_port') as mock_host_port:
+            mock_host_port.return_value = ('api_hostname', '8080')
+            conf_backup = ConfBackup()
+    return conf_backup
