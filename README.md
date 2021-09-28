@@ -95,3 +95,4 @@ docker exec  -it jolly_taussig bash
 # Stop the container
 $ ./training_container stop
 
+ 
