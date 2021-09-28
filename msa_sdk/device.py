@@ -598,8 +598,6 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         ----------
         command: String
                   the Jsa command
-        device_id: String
-                   device_id
 
         Returns
         -------
