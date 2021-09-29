@@ -1,29 +1,17 @@
 MSA Python SDK
 ![Tests](https://github.com/openmsa/python-sdk/workflows/Python%20application/badge.svg)
-## Trainning container
-### How to create
-- `$ ./training_container build`
 
-### How to start interactive mode
-- `$ ./training_container ipython`
 
-### Notebook container
-```
-# Create the container
-$ ./training_container build
+## For developers, run outside any containers
 
-# Run the container
-$ ./training_container start
-Open http://127.0.0.1:8888 in your browser
-```
-Password is `ubitrain`.
+### 1) Get source :
+ git clone https://github.com/openmsa/python-sdk 
 
-```
-# Stop the container
-$ ./training_container stop
-```
-## For developers
-### Install pyenv + pyenv plugins
+### 2) Install pyenv + pyenv plugins
+
+ #Under Centos 7.9:
+  yum install -y gcc zlib zlib-devel libffi-devel
+  yum install -y openssl openssl-libs openssl-devel
 
 
 	curl -L https://raw.github.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
@@ -34,15 +22,20 @@ $ ./training_container stop
 	eval "$(pyenv virtualenv-init -)"
 	'
 
-### Setup a python dev environment for the project
+### 3) Setup a python dev environment for the project
 
 
 	which pyenv || source ~/.bashrc
 
 	pyenv install 3.7.3
-	python -m pip install -r requirements.txt
+	cd ..   
+	python3.6 -m pip install -r python-sdk/requirements.txt
+	 
 
-### Running unit tests
+
+### 4) Running unit tests
+
+  cd  python-sdk
 
 1. Make sure you have all the prod requirements `pip install -r requirements.txt`
 1. Make sure you have all the dev requirements `pip install -r requirements-dev.txt`
@@ -76,3 +69,30 @@ Note: in order to run this a msa-api container needs to be running.
 `$ python sdk_to_json.py > msa_sdk.json`
 
 move the msa_sdk.json to msa-docker/front/msa_sdk_doc
+
+
+
+### Trainning container
+### How to create
+cd  python-sdk
+- `$ ./training_container build`
+
+### How to start interactive mode
+- `$ ./training_container ipython`
+
+### Notebook container
+# Create the container
+$ ./training_container build
+
+# Run the container
+$ ./training_container start
+Open http://127.0.0.1:8888 in your browser
+Password is `ubitrain`.
+
+# acces with bash : jolly_taussig
+docker exec  -it jolly_taussig bash
+
+# Stop the container
+$ ./training_container stop
+
+ 

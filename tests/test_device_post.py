@@ -115,3 +115,25 @@ def test_create_fail(device_fixture):
         assert device.path == '/device/v2/{}'.format(device.customer_id)
         assert device.content == json.dumps(fail_response)
         assert device.fail
+
+
+def test_run_jsa_command_device(device_fixture):
+    """
+    Test run_jsa_command_device on virtual device
+    """
+
+    device    = device_fixture
+    device_id = 1234
+    device.device_id = device_id
+    response_content = '{"device_id": 1234, "name": "jupiner_18_3"}'
+    command   = 'show configuration'
+
+    with patch('requests.post') as mock_call_post:
+      mock_call_post.return_value.text = response_content
+      assert _is_valid_json(json.dumps(device.run_jsa_command_device(command)))
+      path = ('/sms/cmd/{}/{}/')
+      assert device.path == path.format(command, device_id)
+      assert device.device_id == device_id
+      assert not device.fail
+
+      mock_call_post.assert_called_once()

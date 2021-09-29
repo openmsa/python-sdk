@@ -587,3 +587,27 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
             return True
         else:
             return False
+
+    def run_jsa_command_device(
+            self,
+            command: str ) -> bool:
+        """
+        MSA SDK method to 'Sends jsa command to a device' (POST /sms/cmd/{command}/{id}).
+
+        Parameters
+        ----------
+        command: String
+                  the Jsa command
+
+        Returns
+        -------
+        the result
+        
+        """
+        self.action = 'Sends jsa command to a device'
+        self.path = '/sms/cmd/{command}/{device_id}/'.format(self.api_path, command=command, device_id=self.device_id )
+
+        self._call_post()
+        return json.dumps(self.content)
+
+
