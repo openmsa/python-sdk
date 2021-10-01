@@ -123,16 +123,40 @@ def test_run_jsa_command_device(device_fixture):
     """
 
     device    = device_fixture
-    device_id = 1234
+    device_id = 133
     device.device_id = device_id
     response_content = '{"device_id": 1234, "name": "jupiner_18_3"}'
-    command   = 'show configuration'
+    command = 'get_files'
+    params = dict(src_dir= '/tmp/',file_pattern='testfile.txt', dest_dir='/tmp')
 
     with patch('requests.post') as mock_call_post:
       mock_call_post.return_value.text = response_content
-      assert _is_valid_json(json.dumps(device.run_jsa_command_device(command)))
+      assert _is_valid_json(json.dumps(device.run_jsa_command_device(command, params)))
       path = ('/sms/cmd/{}/{}/')
-      assert device.path == path.format(command, device_id)
+      assert path.format(command, device_id) in device.path 
+      assert device.device_id == device_id
+      assert not device.fail
+
+      mock_call_post.assert_called_once()
+
+
+def test_run_jsa_command_device_empty_params(device_fixture):
+    """
+    Test run_jsa_command_device on virtual device
+    """
+
+    device    = device_fixture
+    device_id = 133
+    device.device_id = device_id
+    response_content = '{"device_id": 1234, "name": "jupiner_18_3"}'
+    command = 'get_files'
+    params = dict()
+
+    with patch('requests.post') as mock_call_post:
+      mock_call_post.return_value.text = response_content
+      assert _is_valid_json(json.dumps(device.run_jsa_command_device(command, params)))
+      path = ('/sms/cmd/{}/{}/')
+      assert path.format(command, device_id) in device.path 
       assert device.device_id == device_id
       assert not device.fail
 

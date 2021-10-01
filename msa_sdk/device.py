@@ -588,26 +588,36 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         else:
             return False
 
-    def run_jsa_command_device(
-            self,
-            command: str ) -> bool:
-        """
-        MSA SDK method to 'Sends jsa command to a device' (POST /sms/cmd/{command}/{id}).
 
+    def run_jsa_command_device( self, command: str, params:dict() ) -> bool:
+        """
+        MSA SDK method to  Sends jsa command to a device  POST /sms/cmd/<command>/<id>. It will run the script /opt/sms/php/smsd/do_cmd_<command>.php or  /opt/devops/OpenMSA_Adapters/adapters/<device_type)/do_cmd_<command>.php  on the MSA.
+        
         Parameters
         ----------
         command: String
-                  the Jsa command
+                  the Jsa command like 'get_files'
+        params : Json params if needed like {src_dir:'/tmp/',file_pattern='testfile.txt',dest_dir='/tmp'}
 
         Returns
         -------
-        the result
+        The result of the command.
         
         """
         self.action = 'Sends jsa command to a device'
-        self.path = '/sms/cmd/{command}/{device_id}/'.format(self.api_path, command=command, device_id=self.device_id )
-
+                  
+        if params:
+          params_url = '?params='
+          nb=0
+          for key in params:
+            if nb >0:
+              params_url = params_url + ','
+            params_url = params_url + key + '=' + params[key]
+            nb += 1
+        else:
+          params_url = ''
+        self.path = '/sms/cmd/{command}/{device_id}/{params_url}'.format(self.api_path, command=command, device_id=self.device_id,params_url=params_url)
+        #self.path = 'https://<MSA_IP>/ubi-api-rest/sms/cmd/get_files/133/?params=src_dir=/tmp/,file_pattern=testfile.txt,dest_dir=/tmp'
+        
         self._call_post()
         return json.dumps(self.content)
-
-
