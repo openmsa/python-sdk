@@ -148,7 +148,8 @@ def test_run_jsa_command_device_empty_params(device_fixture):
     device    = device_fixture
     device_id = 133
     device.device_id = device_id
-    response_content = '{"device_id": 1234, "name": "jupiner_18_3"}'
+    response_content = '{"status": "OK", "result": "", "rawJSONResult": "{\"sms_status\":\"OK\"}", "rawSmsResult": None, "code": "OK", "ok": True, "message": "Successfully processed"}'
+
     command = 'get_files'
     params = dict()
 

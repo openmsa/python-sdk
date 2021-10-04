@@ -337,3 +337,29 @@ def test_get_configuration_variable(device_fixture):
         mock_call_get.return_value.text = test_response
         assert device.get_configuration_variable(
             test_requested_var)['name'] == test_requested_var
+
+
+def test_execute_command_on_device(device_fixture):
+    """
+    Test execute_command_on_device on virtual device
+    """
+
+    device    = device_fixture
+    device_id = 133
+    device.device_id = device_id
+    response_content = '{"device_id": 133}'
+    #    "response": "{'status': 'OK', 'result': 'show version\\nCisco I...V#', 'rawJSONResult': '{\"sms_status\":\"OK\",\"sms_result\":\"show version\\\\nCisco IOS XE So...', 'rawSmsResult': 'show ...', 'code': 'OK', 'ok': True, 'message': 'Successfully processed'}"
+
+
+    command = 'show user'
+
+    with patch('requests.get') as mock_call_post:
+      mock_call_post.return_value.text = response_content
+      assert _is_valid_json(json.dumps(device.execute_command_on_device(command)))
+      path = ('/device/v1/command/execute/{}')
+      assert path.format(device_id) in device.path 
+      assert device.device_id == device_id
+      assert not device.fail
+
+      mock_call_post.assert_called_once()
+      
