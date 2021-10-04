@@ -616,8 +616,37 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
             nb += 1
         else:
           params_url = ''
-        self.path = '/sms/cmd/{command}/{device_id}/{params_url}'.format(self.api_path, command=command, device_id=self.device_id,params_url=params_url)
+        self.path = '/sms/cmd/{command}/{device_id}/{params_url}'.format(command=command, device_id=self.device_id,params_url=params_url)
         #self.path = 'https://<MSA_IP>/ubi-api-rest/sms/cmd/get_files/133/?params=src_dir=/tmp/,file_pattern=testfile.txt,dest_dir=/tmp'
         
         self._call_post()
         return json.dumps(self.content)
+
+
+    def execute_command_on_device( self, command: str ) -> bool:
+        """
+        MSA SDK method to 'Do execute command by managed entity id'.
+        
+        Excecute the given command on the device
+        Run (*GET /device/v1/command/execute/{deviceId}?command=<command>). 
+        
+        Parameters
+        ----------
+        command: String
+        
+        Returns
+        -------
+        The result of the command.
+        
+        """
+        self.action = 'Excecute the given command on the device'
+                  
+        self.path = '/device/v1/command/execute/{device_id}?command={command}'.format(device_id=self.device_id,command=command)
+        #self.path = 'https://<MSA_API>/ubi-api-rest/device/v1/command/execute/132?command=show%20users''
+        
+        self._call_get()
+        return json.dumps(self.content)
+        
+        
+        
+
