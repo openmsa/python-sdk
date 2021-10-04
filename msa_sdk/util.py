@@ -266,16 +266,12 @@ def get_vars_value(variable):
     string: Variable name
 
     """
-    config = ConfigParser()
-    with open(constants.VARS_CTX_FILE, 'r') as f_file:
-        config.read_string('[config]\n' + f_file.read())
-
-    if not config.has_option('config', variable):
-        return False
-
-    vars_file = config.get('config', variable)
-
-    return vars_file
+    headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer {}'.format(Variables.task_call()['TOKEN']),
+    }
+    res = requests.get('http://localhost:8480/ubi-api-rest/system-admin/v1/msa_vars?name={}'.format(variable), headers=headers)
+    return res.json()[0]['value']
 
 
 def address_is_in_network(addr, net):

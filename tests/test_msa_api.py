@@ -66,28 +66,6 @@ def default_hostname_fixture():
 # pylint: disable=redefined-outer-name
 
 
-def test_read_hostname_json(api_fixture):
-    """
-    Test read hostname from json
-    """
-    api = api_fixture
-    assert api.url == 'http://test_hostname:1111/ubi-api-rest'
-
-# pylint: disable=redefined-outer-name
-
-
-def test_environment_variable_hostname_json(environment_variable_fixture):
-    """
-    Test read hostname from json
-    """
-    api = environment_variable_fixture
-    assert api.url == 'http://environ_hostname:2222/ubi-api-rest'
-    del os.environ['MSA_SDK_API_HOSTNAME']
-    del os.environ['MSA_SDK_API_PORT']
-
-# pylint: disable=redefined-outer-name
-
-
 def test_default_hostname_fixture(default_hostname_fixture):
     """
     Test read hostname from json
