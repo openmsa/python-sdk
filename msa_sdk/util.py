@@ -251,29 +251,6 @@ def is_overlapping_cidr(cidr1, cidr2):
     return IPv4Network(cidr1).overlaps(IPv4Network(cidr2))
 
 
-def get_vars_value(variable):
-    """
-
-    Get vars value.
-
-    Parameters
-    ----------
-    variable: String
-        Variables name
-
-    Returns
-    -------
-    string: Variable name
-
-    """
-    headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer {}'.format(Variables.task_call()['TOKEN']),
-    }
-    res = requests.get('http://localhost:8480/ubi-api-rest/system-admin/v1/msa_vars?name={}'.format(variable), headers=headers)
-    return res.json()[0]['value']
-
-
 def address_is_in_network(addr, net):
     """
 
