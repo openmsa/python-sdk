@@ -5,13 +5,13 @@ import io
 import re
 from unittest.mock import patch
 
+import msa_sdk
 from msa_sdk.util import address_is_in_network
 from msa_sdk.util import cidr_match
 from msa_sdk.util import cidr_to_range
 from msa_sdk.util import cidr_to_subnet_and_subnetmask_address
 from msa_sdk.util import convert_yang_into_xml_file
 from msa_sdk.util import get_ip_range
-from msa_sdk.util import get_vars_value
 from msa_sdk.util import is_cidr
 from msa_sdk.util import is_overlapping_cidr
 from msa_sdk.util import log_to_process_file
@@ -42,30 +42,6 @@ def test_cidr_to_range():
     result = ['10.3.1.{}'.format(x) for x in range(1, 255)]
 
     assert cidr_to_range('10.3.1.0/24') == result
-
-
-def test_get_vars_value(tmpdir):
-    """
-    Test get vars value
-    """
-
-    f_content = (
-        'DEVICE_INDEXATION_CRON_EXPR=0 0/5 * * *\n'
-        'DISABLE_HTTPS_SERVER=&map|fr|false|en|false|ubi_en|false\n'
-        'DISABLE_HTTPS_en=false\n'
-        'DISABLE_HTTPS_fr=false\n'
-        'DISABLE_HTTPS_ubi_en=false\n'
-        'VAR1=test_var'
-    )
-
-    f_name = tmpdir.mkdir('get_vars_value').join('testfile')
-    with open(f_name, 'w+') as t_file:
-        t_file.write(f_content)
-        t_file.close()
-
-    with patch('msa_sdk.util.constants.VARS_CTX_FILE', f_name):
-        assert get_vars_value('VAR1') == 'test_var'
-        assert not get_vars_value('VARX')
 
 
 def test_address_is_in_network():

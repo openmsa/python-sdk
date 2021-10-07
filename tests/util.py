@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 import pytest
 
+from msa_sdk.admin import Admin
 from msa_sdk.conf_backup import ConfBackup
 from msa_sdk.conf_profile import ConfProfile
 from msa_sdk.customer import Customer
@@ -182,6 +183,17 @@ def repository_fixture():
         with patch('msa_sdk.msa_api.host_port') as mock_host_port:
             mock_host_port.return_value = ('api_hostname', '8080')
             repos = Repository()
+    return repos
+
+
+@pytest.fixture
+def admin_fixture():
+    """Admin fixture."""
+    with patch('requests.post') as mock_post:
+        mock_post.return_value.json.return_value = {'token': '12345qwert'}
+        with patch('msa_sdk.msa_api.host_port') as mock_host_port:
+            mock_host_port.return_value = ('api_hostname', '8080')
+            repos = Admin()
     return repos
 
 

@@ -21,20 +21,6 @@ def host_port():
     Hostname and Port
 
     """
-    if Path(constants.VARS_CTX_FILE).exists():
-        api_info = open(constants.VARS_CTX_FILE).read()
-
-        widlfly_address = re.search(r'UBI_WILDFLY_JNDI_ADDRESS=(.+)',
-                                    api_info).group(1)
-        widlfly_port = re.search(r'UBI_WILDFLY_JNDI_PORT=(\d+)',
-                                 api_info).group(1)
-        return (widlfly_address, widlfly_port)
-
-    if 'MSA_SDK_API_HOSTNAME' in os.environ and \
-            'MSA_SDK_API_PORT' in os.environ:
-        return (os.environ['MSA_SDK_API_HOSTNAME'],
-                os.environ['MSA_SDK_API_PORT'])
-
     return('localhost', '8480')
 
 

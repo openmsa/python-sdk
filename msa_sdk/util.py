@@ -251,33 +251,6 @@ def is_overlapping_cidr(cidr1, cidr2):
     return IPv4Network(cidr1).overlaps(IPv4Network(cidr2))
 
 
-def get_vars_value(variable):
-    """
-
-    Get vars value.
-
-    Parameters
-    ----------
-    variable: String
-        Variables name
-
-    Returns
-    -------
-    string: Variable name
-
-    """
-    config = ConfigParser()
-    with open(constants.VARS_CTX_FILE, 'r') as f_file:
-        config.read_string('[config]\n' + f_file.read())
-
-    if not config.has_option('config', variable):
-        return False
-
-    vars_file = config.get('config', variable)
-
-    return vars_file
-
-
 def address_is_in_network(addr, net):
     """
 
