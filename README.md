@@ -87,7 +87,6 @@ move the msa_sdk.json to msa-docker/front/msa_sdk_doc
  
  Check the new doc :
  https://</msa_IP>/msa_sdk/index.html 
- https://10.31.1.58/msa_sdk/index.html
 
 ### Trainning container
 ### How to create
