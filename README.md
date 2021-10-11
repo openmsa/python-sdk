@@ -2,6 +2,7 @@ MSA Python SDK
 ![Tests](https://github.com/openmsa/python-sdk/workflows/Python%20application/badge.svg)
 
 
+#################################################################################
 ## For developers, run outside any containers
 
 ### 1) Get source :
@@ -64,11 +65,11 @@ TOTAL                        359      0   100%
 `$ pdoc --html --force -o html msa_sdk`
 
 then copy all files under `html/msa_sdk/` to `msa-docker/front/msa_sdk_doc`
-     mkdir -p  msa-docker/front/msa_sdk_doc
-     cp -p html/msa_sdk/* msa-docker/front/msa_sdk_doc
+     `mkdir -p  msa-docker/front/msa_sdk_doc`
+     `cp -p html/msa_sdk/* msa-docker/front/msa_sdk_doc`
 
-Note: in order to run this a msa_api container needs to be running on port 8480:
- cf indocker-compose.yml add port 8480 cd :
+Note: in order to run this, the msa_api container needs to be running on port 8480:
+ cf file docker-compose.yml, add port 8480 like :
    msa_api:
     container_name: msa_api
     image: ubiqube/msa2-api:1b2b029b43dcba54bab6c70b1ed5b45e4142b7d3
@@ -80,14 +81,18 @@ Note: in order to run this a msa_api container needs to be running on port 8480:
     ports:
       - "8480:8480"
 
-`$ python sdk_to_json.py > msa_sdk.json`
+  `$ python sdk_to_json.py > msa_sdk.json`
 
 move the msa_sdk.json to msa-docker/front/msa_sdk_doc
-  mv msa_sdk.json  msa-docker/front/msa_sdk_doc
+  `mv msa_sdk.json  msa-docker/front/msa_sdk_doc`
+  
+Add theim in the PR, merged it  
  
- Check the new doc :
+ Check the new doc after getting the new commit:
  https://</msa_IP>/msa_sdk/index.html 
-
+ 
+ 
+#################################################################################
 ### Trainning container
 ### How to create
 cd  python-sdk
