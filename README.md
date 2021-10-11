@@ -59,18 +59,35 @@ TOTAL                        359      0   100%
 ```
 *Image above is only an example*
 
-### Generate Documenation and Json references
+
+### 5) Generate Documentation and Json references
 `$ pdoc --html --force -o html msa_sdk`
 
 then copy all files under `html/msa_sdk/` to `msa-docker/front/msa_sdk_doc`
+     mkdir -p  msa-docker/front/msa_sdk_doc
+     cp -p html/msa_sdk/* msa-docker/front/msa_sdk_doc
 
-Note: in order to run this a msa-api container needs to be running.
+Note: in order to run this a msa_api container needs to be running on port 8480:
+ cf indocker-compose.yml add port 8480 cd :
+   msa_api:
+    container_name: msa_api
+    image: ubiqube/msa2-api:1b2b029b43dcba54bab6c70b1ed5b45e4142b7d3
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:8480"]
+    depends_on:
+      - db
+      - msa_es
+    ports:
+      - "8480:8480"
 
 `$ python sdk_to_json.py > msa_sdk.json`
 
 move the msa_sdk.json to msa-docker/front/msa_sdk_doc
-
-
+  mv msa_sdk.json  msa-docker/front/msa_sdk_doc
+ 
+ Check the new doc :
+ https://</msa_IP>/msa_sdk/index.html 
+ https://10.31.1.58/msa_sdk/index.html
 
 ### Trainning container
 ### How to create

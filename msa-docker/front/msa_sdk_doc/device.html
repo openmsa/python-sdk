@@ -1,0 +1,2499 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>msa_sdk.device API documentation</title>
+<meta name="description" content="Module Device." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>msa_sdk.device</code></h1>
+</header>
+<section id="section-intro">
+<p>Module Device.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Module Device.&#34;&#34;&#34;
+import json
+
+from msa_sdk.msa_api import MSA_API
+
+
+class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
+    &#34;&#34;&#34;Class Device.&#34;&#34;&#34;
+
+    # pylint: disable=too-many-arguments, too-many-locals
+    def __init__(self, customer_id=None, name=None, manufacturer_id=None,
+                 model_id=None, login=None, password=None,
+                 password_admin=None, management_address=None,
+                 device_external=None, log_enabled=True,
+                 log_more_enabled=True, mail_alerting=True,
+                 reporting=False, snmp_community=&#34;ubiqube&#34;,
+                 device_id=None, management_port=None):
+        &#34;&#34;&#34;
+        Initialize.
+
+        Parameters
+        ----------
+        customer_id: String
+                Customer id
+        name: String
+                Name of the device
+        manufacturer_id: String
+                Manufacture ID
+        model_id: String
+                Model ID
+        login: String
+                Login
+        password: String
+                Password
+        password_admin: String
+                Password Admin
+        management_address: Management Address
+        device_external: Device External
+        log_enabled: Bool
+                Log Enabled
+        log_more_enabled: More logs
+        mail_alerting: Bool
+                Mail alerting
+        reporting: Bool
+                Reporting
+        snmp_community: SNMP Community
+        device_id: Device ID
+        management_port: Management Port
+        fail: Bool
+              Fail creating the device
+
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        MSA_API.__init__(self)
+        self.customer_id = customer_id
+        self.name = name
+        self.manufacturer_id = manufacturer_id
+        self.model_id = model_id
+        self.login = login
+        self.password = password
+        self.password_admin = password_admin
+        self.management_address = management_address
+        self.device_external = device_external
+        self.log_enabled = log_enabled
+        self.log_more_enabled = log_more_enabled
+        self.mail_alerting = mail_alerting
+        self.reporting = reporting
+        self.snmp_community = snmp_community
+        self.api_path_v1 = &#34;/device/v1&#34;
+        self.api_path = &#34;/device&#34;
+        self.management_interface = None
+        self.use_nat = False
+        self.configuration = {}
+        self.device_id = device_id
+        self.management_port = management_port
+        self.fail = None
+
+        if device_id:
+            self.read()
+
+    def _format_path_ref_id(self, by_ref, path):
+        del_by = &#34;reference/&#34; + by_ref \
+            if by_ref else &#34;id/&#34; + str(self.device_id)
+        self.path = &#34;{}/{}&#34;.format(path, del_by)
+
+    def create(self):
+        &#34;&#34;&#34;
+        Create device.
+
+        Returns
+        -------
+        Dict() with created device capabilities
+
+        &#34;&#34;&#34;
+        self.action = &#39;Create device&#39;
+        self.path = &#39;{}/v2/{}&#39;.format(self.api_path, self.customer_id)
+
+        data = {&#34;manufacturerId&#34;: self.manufacturer_id,
+                &#34;modelId&#34;: self.model_id,
+                &#34;managementAddress&#34;: self.management_address,
+                &#34;reporting&#34;: self.reporting,
+                &#34;useNat&#34;: self.use_nat,
+                &#34;logEnabled&#34;: self.log_enabled,
+                &#34;logMoreEnabled&#34;: self.log_more_enabled,
+                &#34;managementInterface&#34;: self.management_interface,
+                &#34;mailAlerting&#34;: self.mail_alerting,
+                &#34;passwordAdmin&#34;: self.password_admin,
+                &#34;externalReference&#34;: self.device_external,
+                &#34;login&#34;: self.login,
+                &#34;name&#34;: self.name,
+                &#34;password&#34;: self.password,
+                &#34;id&#34;: 0,
+                &#34;snmpCommunity&#34;: self.snmp_community}
+        if self.management_port:
+            data[&#34;managementPort&#34;] = self.management_port
+
+        self._call_post(data)
+        self.fail = not self.response.ok
+        if self.response.ok:
+            self.device_id = json.loads(self.content)[&#39;id&#39;]
+
+        return json.loads(self.content)
+
+    def update(self, field: str, value: str) -&gt; dict:
+        &#34;&#34;&#34;
+        Update device.
+
+        field: String
+               Modifyed device field
+        value: String
+               Modified field&#39;s value (str)
+
+
+        Returns
+        -------
+        Updated device capabilities: Dict()
+
+        &#34;&#34;&#34;
+        self.action = &#39;Update device&#39;
+
+        data = {&#34;id&#34;: self.device_id,
+                &#34;name&#34;: self.name,
+                &#34;manufacturerId&#34;: self.manufacturer_id,
+                &#34;modelId&#34;: self.model_id,
+                &#34;managementAddress&#34;: self.management_address,
+                &#34;managementInterface&#34;: self.management_interface,
+                &#34;managementPort&#34;: self.management_port,
+                &#34;login&#34;: self.login,
+                &#34;password&#34;: self.password,
+                &#34;password_admin&#34;: self.password_admin,
+                &#34;log_enable&#34;: self.log_enabled,
+                &#34;mailAlerting&#34;: self.mail_alerting,
+                &#34;useNat&#34;: self.use_nat,
+                &#34;snmpCommunity&#34;: self.snmp_community
+                }
+        self.path = &#39;{}/v2/{}&#39;.format(self.api_path, self.device_id)
+
+        data[field] = value
+
+        self._call_put(json.dumps(data))
+
+        return json.loads(self.content)
+
+    def delete(self, by_ref=False):
+        &#34;&#34;&#34;
+        Delete device.
+
+        Parameters
+        ----------
+        by_ref: String
+                Path /id/ or /reference/
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Delete device&#39;
+        self._format_path_ref_id(by_ref, self.api_path)
+        self._call_delete()
+
+    def activate(self):
+        &#34;&#34;&#34;
+        Activate device.
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.path = &#34;{}/activate/{}&#34;.format(self.api_path, self.device_id)
+        self._call_post()
+
+    def provision(self):
+        &#34;&#34;&#34;
+        Provision a device.
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Post Provisioning&#39;
+        self.path = &#34;{}/provisioning/{}&#34;.format(self.api_path, self.device_id)
+        self._call_post()
+
+    def provision_status(self):
+        &#34;&#34;&#34;
+        Get the provision status.
+
+        Returns
+        --------
+        Dict() with provision status
+
+        &#34;&#34;&#34;
+        self.action = &#39;Get provision status&#39;
+        self.path = &#34;{}/provisioning/status/{}&#34;.format(
+            self.api_path, self.device_id)
+        self._call_get()
+
+        return json.loads(self.content)
+
+    def is_device(self):
+        &#34;&#34;&#34;
+        Check if is device.
+
+        Returns
+        --------
+        Dict() with True or False
+
+        &#34;&#34;&#34;
+        self.action = &#39;Is device&#39;
+        self.path = &#34;{}/isDevice/{}&#34;.format(self.api_path, self.device_id)
+        self._call_get()
+        return json.loads(self.content)
+
+    def read(self, by_ref=False):
+        &#34;&#34;&#34;
+        Read device information.
+
+        Parameters
+        ----------
+        by_ref: String
+            Path /id/ or /reference/
+
+        Returns
+        --------
+        Json formated string
+
+        &#34;&#34;&#34;
+        self.action = &#39;Read device&#39;
+
+        if by_ref:
+            self.path = &#34;{}/{}&#34;.format(self.api_path,
+                                       &#34;reference/{}&#34;.format(by_ref))
+        else:
+            self.path = &#39;{}/v2/{}&#39;.format(self.api_path, self.device_id)
+
+        self._call_get()
+        if not self.response.ok:
+            return False
+
+        device_info = json.loads(self.content)
+
+        self.device_id = device_info[&#39;id&#39;]
+        self.name = device_info[&#34;name&#34;]
+        self.manufacturer_id = device_info[&#34;manufacturerId&#34;]
+        self.model_id = device_info[&#34;modelId&#34;]
+        self.management_address = device_info[&#34;managementAddress&#34;]
+        self.management_interface = device_info[&#34;managementInterface&#34;]
+        self.management_port = device_info[&#34;managementPort&#34;]
+        self.login = device_info[&#34;login&#34;]
+        self.password = device_info[&#34;password&#34;]
+        self.password_admin = device_info[&#34;passwordAdmin&#34;]
+        self.log_enabled = device_info[&#34;logEnabled&#34;]
+        self.mail_alerting = device_info[&#34;mailAlerting&#34;]
+        self.use_nat = device_info[&#34;useNat&#34;]
+        self.snmp_community = device_info[&#34;snmpCommunity&#34;]
+
+        return self.content
+
+    def status(self):
+        &#34;&#34;&#34;
+        Get device status.
+
+        Returns
+        --------
+        One word string
+
+        &#34;&#34;&#34;
+        self.action = &#34;Get device status&#34;
+        self.path = &#34;{}/status/{}&#34;.format(self.api_path, self.device_id)
+
+        self._call_get()
+        return self.content
+
+    def get_configuration_status(self):
+        &#34;&#34;&#34;
+        Get configuration status and add to device configuration.
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Get configuration status&#39;
+        self.path = &#34;{}/configuration/status/id/{}&#34;.format(
+            self.api_path, self.device_id)
+        self._call_get()
+        self.configuration = json.loads(self.content)
+
+    def update_config(self):
+        &#34;&#34;&#34;
+        Update config.
+
+        Returns
+        --------
+        Config in JSON form
+
+        &#34;&#34;&#34;
+        self.action = &#39;Update config&#39;
+        self.path = &#34;{}/configuration/update/{}&#34;.format(
+            self.api_path, self.device_id)
+        self._call_post()
+        return json.dumps(self.content)
+
+    def ping(self, address):
+        &#34;&#34;&#34;
+        Ping address.
+
+        Parameters
+        ----------
+        address: String
+                Ip address.
+
+        Returns
+        --------
+        Ping response
+
+        &#34;&#34;&#34;
+        self.action = &#39;Get ping&#39;
+        self.path = &#34;{}/ping/{}&#34;.format(self.api_path, address)
+        self._call_get()
+
+        return self.content
+
+    def initial_provisioning(self):
+        &#34;&#34;&#34;
+        Initialize provisioning.
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Intial provisioning&#39;
+        self.path = &#34;{}/provisioning/{}&#34;.format(self.api_path, self.device_id)
+        self._call_post()
+
+    def push_configuration_status(self):
+        &#34;&#34;&#34;
+        Push configuration status.
+
+        Returns
+        --------
+        Json with configuration
+
+        &#34;&#34;&#34;
+        self.action = &#39;Push configuration status&#39;
+        self.path = &#34;{}/push_configuration/status/{}&#34;.format(
+            self.api_path, self.device_id)
+
+        self._call_get()
+        return json.dumps(self.content)
+
+    def push_configuration(self, configuration=None):
+        &#34;&#34;&#34;
+        Push configuration.
+
+        Parameters
+        ----------
+        configuration: String
+                Configuration parameters for the device
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Push configuration&#39;
+        self.path = &#34;{}/push_configuration/{}&#34;.format(
+            self.api_path, self.device_id)
+
+        self._call_put(configuration)
+
+    def update_ip_address(self, ip_addr, netmask=&#34;255.255.255.255&#34;):
+        &#34;&#34;&#34;
+        Update Ip Address.
+
+        Parameters
+        ----------
+        ip_addr: String
+                IP Address format (xxx.xxx.xxx.xxx)
+        netmask: String
+                Netmask, default 255.255.255.2555
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Update ip address&#39;
+        path = &#34;{}/management_ip/update/{}?ip={}&amp;mask={}&#34;
+        self.path = path.format(self.api_path, self.device_id, ip_addr,
+                                netmask)
+        self._call_put()
+
+    def profile_switch(self, old_profile, new_profile_ref):
+        &#34;&#34;&#34;
+        Profile Switch.
+
+        Parameters
+        ----------
+        old_profile: String
+                Old profile name
+        new_profile_ref: String
+            New profile name
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Profile switch&#39;
+        path = (&#39;{}/conf_profile/switch/{}&#39;
+                &#39;?old_profile_ref={}&amp;new_profile_ref={}&#39;).format(
+                    self.api_path,
+                    self.device_id,
+                    old_profile,
+                    new_profile_ref)
+        self.path = path
+        self._call_put()
+
+    def profile_attach(self, profile_reference: str) -&gt; None:
+        &#34;&#34;&#34;
+        Attach new profile to device.
+
+        Parameters
+        ----------
+        profile_reference:  String
+                            Profile external reference
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.path = (&#39;/profile/{profile_reference}/attach&#39;
+                     &#39;?device={device_reference}&#39;).format(
+                         profile_reference=profile_reference,
+                         device_reference=self.device_external)
+        self._call_put()
+
+    def update_credentials(self, login, password):
+        &#34;&#34;&#34;
+        Update Credentials.
+
+        Parameters
+        ----------
+        login: String
+                Credentials Login
+        password: String
+                Credentials password
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Update credentials&#39;
+        path = &#34;{}/credentials/update/{}?login={}&amp;password={}&#34;
+        self.path = path.format(self.api_path, self.device_id, login, password)
+        self._call_put()
+
+    def attach_files(self, uris, position=&#34;AUTO&#34;):
+        &#34;&#34;&#34;
+        Attach files.
+
+        Parameters
+        ----------
+        uris:
+        position: String
+                default: AUTO
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Attach files&#39;
+        self.path = (&#34;{}/attach/{}/files/{}&#34;).format(self.api_path,
+                                                     self.device_id, position)
+        self._call_put(json.dumps(uris))
+
+    def detach_files(self, uris):
+        &#34;&#34;&#34;
+        Attach files.
+
+        Parameters
+        ----------
+        uris: String
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Detach files&#39;
+        self.path = (&#34;{}/detach/{}/files&#34;).format(self.api_path,
+                                                  self.device_id)
+        self._call_put(json.dumps(uris))
+
+    def get_configuration_variable(self, name: str) -&gt; dict:
+        &#34;&#34;&#34;
+        Get configuration variable value.
+
+        Parameters
+        ----------
+        name:    String
+                 Variable name
+
+        Returns
+        -------
+        String:  Dict() like {&#39;name&#39;: str(), &#39;value&#39;: str(), &#39;comment&#39;: str()}
+
+        &#34;&#34;&#34;
+        self.path = &#39;/variables/{device_id}/{name}&#39;.format(
+            device_id=self.device_id, name=name)
+        self._call_get()
+
+        return json.loads(self.content)
+
+    def create_configuration_variable(
+            self,
+            name: str,
+            value: str,
+            conf_type: str = &#39;String&#39;,
+            comment: str = &#39;&#39;) -&gt; bool:
+        &#34;&#34;&#34;
+        Create configuration variable.
+
+        Parameters
+        ----------
+        name:    String
+                 Variable name
+        value:   String
+                 Vriable Value
+        conf_type:    String
+                      Variable type
+                      Default: String
+        comment: String
+                 Comment
+                 Default: empty stirng
+
+        Returns
+        -------
+        True:  Variable has been created successdully
+        False: Variable has not been created successfully
+
+        &#34;&#34;&#34;
+        self.path = &#39;/variables/{device_id}/{name}&#39;\
+                    &#39;?value={value}&#39;\
+                    &#39;&amp;type={type}&#39;\
+                    &#39;&amp;comment={comment}&#39;.format(device_id=self.device_id,
+                                                name=name,
+                                                value=value,
+                                                type=conf_type,
+                                                comment=comment)
+
+        self._call_put()
+
+        if self.get_configuration_variable(name)[&#39;value&#39;] == value:
+            return True
+        else:
+            return False
+
+
+    def run_jsa_command_device( self, command: str, params:dict() ) -&gt; bool:
+        &#34;&#34;&#34;
+        MSA SDK method to  Sends jsa command to a device  POST /sms/cmd/&lt;command&gt;/&lt;id&gt;. It will run the script /opt/sms/php/smsd/do_cmd_&lt;command&gt;.php or  /opt/devops/OpenMSA_Adapters/adapters/&lt;device_type)/do_cmd_&lt;command&gt;.php  on the MSA.
+        
+        Parameters
+        ----------
+        command: String
+                  the Jsa command like &#39;get_files&#39;
+        params : Json params if needed like {src_dir:&#39;/tmp/&#39;,file_pattern=&#39;testfile.txt&#39;,dest_dir=&#39;/tmp&#39;}
+
+        Returns
+        -------
+        The result of the command.
+        
+        &#34;&#34;&#34;
+        self.action = &#39;Sends jsa command to a device&#39;
+                  
+        if params:
+          params_url = &#39;?params=&#39;
+          nb=0
+          for key in params:
+            if nb &gt;0:
+              params_url = params_url + &#39;,&#39;
+            params_url = params_url + key + &#39;=&#39; + params[key]
+            nb += 1
+        else:
+          params_url = &#39;&#39;
+        self.path = &#39;/sms/cmd/{command}/{device_id}/{params_url}&#39;.format(command=command, device_id=self.device_id,params_url=params_url)
+        #self.path = &#39;https://&lt;MSA_IP&gt;/ubi-api-rest/sms/cmd/get_files/133/?params=src_dir=/tmp/,file_pattern=testfile.txt,dest_dir=/tmp&#39;
+        
+        self._call_post()
+        return json.dumps(self.content)
+
+
+    def execute_command_on_device( self, command: str ) -&gt; bool:
+        &#34;&#34;&#34;
+        MSA SDK method to &#39;Do execute command by managed entity id&#39;.
+        
+        Excecute the given command on the device
+        Run (*GET /device/v1/command/execute/{deviceId}?command=&lt;command&gt;). 
+        
+        Parameters
+        ----------
+        command: String
+        
+        Returns
+        -------
+        The result of the command.
+        
+        &#34;&#34;&#34;
+        self.action = &#39;Excecute the given command on the device&#39;
+                  
+        self.path = &#39;/device/v1/command/execute/{device_id}?command={command}&#39;.format(device_id=self.device_id,command=command)
+        #self.path = &#39;https://&lt;MSA_API&gt;/ubi-api-rest/device/v1/command/execute/132?command=show%20users&#39;&#39;
+        
+        self._call_get()
+        return json.dumps(self.content)
+        
+        
+        </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="msa_sdk.device.Device"><code class="flex name class">
+<span>class <span class="ident">Device</span></span>
+<span>(</span><span>customer_id=None, name=None, manufacturer_id=None, model_id=None, login=None, password=None, password_admin=None, management_address=None, device_external=None, log_enabled=True, log_more_enabled=True, mail_alerting=True, reporting=False, snmp_community='ubiqube', device_id=None, management_port=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class Device.</p>
+<p>Initialize.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>customer_id</code></strong> :&ensp;<code>String</code></dt>
+<dd>Customer id</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>String</code></dt>
+<dd>Name of the device</dd>
+<dt><strong><code>manufacturer_id</code></strong> :&ensp;<code>String</code></dt>
+<dd>Manufacture ID</dd>
+<dt><strong><code>model_id</code></strong> :&ensp;<code>String</code></dt>
+<dd>Model ID</dd>
+<dt><strong><code>login</code></strong> :&ensp;<code>String</code></dt>
+<dd>Login</dd>
+<dt><strong><code>password</code></strong> :&ensp;<code>String</code></dt>
+<dd>Password</dd>
+<dt><strong><code>password_admin</code></strong> :&ensp;<code>String</code></dt>
+<dd>Password Admin</dd>
+<dt><strong><code>management_address</code></strong> :&ensp;<code>Management Address</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>device_external</code></strong> :&ensp;<code><a title="msa_sdk.device.Device" href="#msa_sdk.device.Device">Device</a> External</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>log_enabled</code></strong> :&ensp;<code>Bool</code></dt>
+<dd>Log Enabled</dd>
+<dt><strong><code>log_more_enabled</code></strong> :&ensp;<code>More logs</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>mail_alerting</code></strong> :&ensp;<code>Bool</code></dt>
+<dd>Mail alerting</dd>
+<dt><strong><code>reporting</code></strong> :&ensp;<code>Bool</code></dt>
+<dd>Reporting</dd>
+<dt><strong><code>snmp_community</code></strong> :&ensp;<code>SNMP Community</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>device_id</code></strong> :&ensp;<code><a title="msa_sdk.device.Device" href="#msa_sdk.device.Device">Device</a> ID</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>management_port</code></strong> :&ensp;<code>Management Port</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>fail</code></strong> :&ensp;<code>Bool</code></dt>
+<dd>Fail creating the device</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
+    &#34;&#34;&#34;Class Device.&#34;&#34;&#34;
+
+    # pylint: disable=too-many-arguments, too-many-locals
+    def __init__(self, customer_id=None, name=None, manufacturer_id=None,
+                 model_id=None, login=None, password=None,
+                 password_admin=None, management_address=None,
+                 device_external=None, log_enabled=True,
+                 log_more_enabled=True, mail_alerting=True,
+                 reporting=False, snmp_community=&#34;ubiqube&#34;,
+                 device_id=None, management_port=None):
+        &#34;&#34;&#34;
+        Initialize.
+
+        Parameters
+        ----------
+        customer_id: String
+                Customer id
+        name: String
+                Name of the device
+        manufacturer_id: String
+                Manufacture ID
+        model_id: String
+                Model ID
+        login: String
+                Login
+        password: String
+                Password
+        password_admin: String
+                Password Admin
+        management_address: Management Address
+        device_external: Device External
+        log_enabled: Bool
+                Log Enabled
+        log_more_enabled: More logs
+        mail_alerting: Bool
+                Mail alerting
+        reporting: Bool
+                Reporting
+        snmp_community: SNMP Community
+        device_id: Device ID
+        management_port: Management Port
+        fail: Bool
+              Fail creating the device
+
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        MSA_API.__init__(self)
+        self.customer_id = customer_id
+        self.name = name
+        self.manufacturer_id = manufacturer_id
+        self.model_id = model_id
+        self.login = login
+        self.password = password
+        self.password_admin = password_admin
+        self.management_address = management_address
+        self.device_external = device_external
+        self.log_enabled = log_enabled
+        self.log_more_enabled = log_more_enabled
+        self.mail_alerting = mail_alerting
+        self.reporting = reporting
+        self.snmp_community = snmp_community
+        self.api_path_v1 = &#34;/device/v1&#34;
+        self.api_path = &#34;/device&#34;
+        self.management_interface = None
+        self.use_nat = False
+        self.configuration = {}
+        self.device_id = device_id
+        self.management_port = management_port
+        self.fail = None
+
+        if device_id:
+            self.read()
+
+    def _format_path_ref_id(self, by_ref, path):
+        del_by = &#34;reference/&#34; + by_ref \
+            if by_ref else &#34;id/&#34; + str(self.device_id)
+        self.path = &#34;{}/{}&#34;.format(path, del_by)
+
+    def create(self):
+        &#34;&#34;&#34;
+        Create device.
+
+        Returns
+        -------
+        Dict() with created device capabilities
+
+        &#34;&#34;&#34;
+        self.action = &#39;Create device&#39;
+        self.path = &#39;{}/v2/{}&#39;.format(self.api_path, self.customer_id)
+
+        data = {&#34;manufacturerId&#34;: self.manufacturer_id,
+                &#34;modelId&#34;: self.model_id,
+                &#34;managementAddress&#34;: self.management_address,
+                &#34;reporting&#34;: self.reporting,
+                &#34;useNat&#34;: self.use_nat,
+                &#34;logEnabled&#34;: self.log_enabled,
+                &#34;logMoreEnabled&#34;: self.log_more_enabled,
+                &#34;managementInterface&#34;: self.management_interface,
+                &#34;mailAlerting&#34;: self.mail_alerting,
+                &#34;passwordAdmin&#34;: self.password_admin,
+                &#34;externalReference&#34;: self.device_external,
+                &#34;login&#34;: self.login,
+                &#34;name&#34;: self.name,
+                &#34;password&#34;: self.password,
+                &#34;id&#34;: 0,
+                &#34;snmpCommunity&#34;: self.snmp_community}
+        if self.management_port:
+            data[&#34;managementPort&#34;] = self.management_port
+
+        self._call_post(data)
+        self.fail = not self.response.ok
+        if self.response.ok:
+            self.device_id = json.loads(self.content)[&#39;id&#39;]
+
+        return json.loads(self.content)
+
+    def update(self, field: str, value: str) -&gt; dict:
+        &#34;&#34;&#34;
+        Update device.
+
+        field: String
+               Modifyed device field
+        value: String
+               Modified field&#39;s value (str)
+
+
+        Returns
+        -------
+        Updated device capabilities: Dict()
+
+        &#34;&#34;&#34;
+        self.action = &#39;Update device&#39;
+
+        data = {&#34;id&#34;: self.device_id,
+                &#34;name&#34;: self.name,
+                &#34;manufacturerId&#34;: self.manufacturer_id,
+                &#34;modelId&#34;: self.model_id,
+                &#34;managementAddress&#34;: self.management_address,
+                &#34;managementInterface&#34;: self.management_interface,
+                &#34;managementPort&#34;: self.management_port,
+                &#34;login&#34;: self.login,
+                &#34;password&#34;: self.password,
+                &#34;password_admin&#34;: self.password_admin,
+                &#34;log_enable&#34;: self.log_enabled,
+                &#34;mailAlerting&#34;: self.mail_alerting,
+                &#34;useNat&#34;: self.use_nat,
+                &#34;snmpCommunity&#34;: self.snmp_community
+                }
+        self.path = &#39;{}/v2/{}&#39;.format(self.api_path, self.device_id)
+
+        data[field] = value
+
+        self._call_put(json.dumps(data))
+
+        return json.loads(self.content)
+
+    def delete(self, by_ref=False):
+        &#34;&#34;&#34;
+        Delete device.
+
+        Parameters
+        ----------
+        by_ref: String
+                Path /id/ or /reference/
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Delete device&#39;
+        self._format_path_ref_id(by_ref, self.api_path)
+        self._call_delete()
+
+    def activate(self):
+        &#34;&#34;&#34;
+        Activate device.
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.path = &#34;{}/activate/{}&#34;.format(self.api_path, self.device_id)
+        self._call_post()
+
+    def provision(self):
+        &#34;&#34;&#34;
+        Provision a device.
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Post Provisioning&#39;
+        self.path = &#34;{}/provisioning/{}&#34;.format(self.api_path, self.device_id)
+        self._call_post()
+
+    def provision_status(self):
+        &#34;&#34;&#34;
+        Get the provision status.
+
+        Returns
+        --------
+        Dict() with provision status
+
+        &#34;&#34;&#34;
+        self.action = &#39;Get provision status&#39;
+        self.path = &#34;{}/provisioning/status/{}&#34;.format(
+            self.api_path, self.device_id)
+        self._call_get()
+
+        return json.loads(self.content)
+
+    def is_device(self):
+        &#34;&#34;&#34;
+        Check if is device.
+
+        Returns
+        --------
+        Dict() with True or False
+
+        &#34;&#34;&#34;
+        self.action = &#39;Is device&#39;
+        self.path = &#34;{}/isDevice/{}&#34;.format(self.api_path, self.device_id)
+        self._call_get()
+        return json.loads(self.content)
+
+    def read(self, by_ref=False):
+        &#34;&#34;&#34;
+        Read device information.
+
+        Parameters
+        ----------
+        by_ref: String
+            Path /id/ or /reference/
+
+        Returns
+        --------
+        Json formated string
+
+        &#34;&#34;&#34;
+        self.action = &#39;Read device&#39;
+
+        if by_ref:
+            self.path = &#34;{}/{}&#34;.format(self.api_path,
+                                       &#34;reference/{}&#34;.format(by_ref))
+        else:
+            self.path = &#39;{}/v2/{}&#39;.format(self.api_path, self.device_id)
+
+        self._call_get()
+        if not self.response.ok:
+            return False
+
+        device_info = json.loads(self.content)
+
+        self.device_id = device_info[&#39;id&#39;]
+        self.name = device_info[&#34;name&#34;]
+        self.manufacturer_id = device_info[&#34;manufacturerId&#34;]
+        self.model_id = device_info[&#34;modelId&#34;]
+        self.management_address = device_info[&#34;managementAddress&#34;]
+        self.management_interface = device_info[&#34;managementInterface&#34;]
+        self.management_port = device_info[&#34;managementPort&#34;]
+        self.login = device_info[&#34;login&#34;]
+        self.password = device_info[&#34;password&#34;]
+        self.password_admin = device_info[&#34;passwordAdmin&#34;]
+        self.log_enabled = device_info[&#34;logEnabled&#34;]
+        self.mail_alerting = device_info[&#34;mailAlerting&#34;]
+        self.use_nat = device_info[&#34;useNat&#34;]
+        self.snmp_community = device_info[&#34;snmpCommunity&#34;]
+
+        return self.content
+
+    def status(self):
+        &#34;&#34;&#34;
+        Get device status.
+
+        Returns
+        --------
+        One word string
+
+        &#34;&#34;&#34;
+        self.action = &#34;Get device status&#34;
+        self.path = &#34;{}/status/{}&#34;.format(self.api_path, self.device_id)
+
+        self._call_get()
+        return self.content
+
+    def get_configuration_status(self):
+        &#34;&#34;&#34;
+        Get configuration status and add to device configuration.
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Get configuration status&#39;
+        self.path = &#34;{}/configuration/status/id/{}&#34;.format(
+            self.api_path, self.device_id)
+        self._call_get()
+        self.configuration = json.loads(self.content)
+
+    def update_config(self):
+        &#34;&#34;&#34;
+        Update config.
+
+        Returns
+        --------
+        Config in JSON form
+
+        &#34;&#34;&#34;
+        self.action = &#39;Update config&#39;
+        self.path = &#34;{}/configuration/update/{}&#34;.format(
+            self.api_path, self.device_id)
+        self._call_post()
+        return json.dumps(self.content)
+
+    def ping(self, address):
+        &#34;&#34;&#34;
+        Ping address.
+
+        Parameters
+        ----------
+        address: String
+                Ip address.
+
+        Returns
+        --------
+        Ping response
+
+        &#34;&#34;&#34;
+        self.action = &#39;Get ping&#39;
+        self.path = &#34;{}/ping/{}&#34;.format(self.api_path, address)
+        self._call_get()
+
+        return self.content
+
+    def initial_provisioning(self):
+        &#34;&#34;&#34;
+        Initialize provisioning.
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Intial provisioning&#39;
+        self.path = &#34;{}/provisioning/{}&#34;.format(self.api_path, self.device_id)
+        self._call_post()
+
+    def push_configuration_status(self):
+        &#34;&#34;&#34;
+        Push configuration status.
+
+        Returns
+        --------
+        Json with configuration
+
+        &#34;&#34;&#34;
+        self.action = &#39;Push configuration status&#39;
+        self.path = &#34;{}/push_configuration/status/{}&#34;.format(
+            self.api_path, self.device_id)
+
+        self._call_get()
+        return json.dumps(self.content)
+
+    def push_configuration(self, configuration=None):
+        &#34;&#34;&#34;
+        Push configuration.
+
+        Parameters
+        ----------
+        configuration: String
+                Configuration parameters for the device
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Push configuration&#39;
+        self.path = &#34;{}/push_configuration/{}&#34;.format(
+            self.api_path, self.device_id)
+
+        self._call_put(configuration)
+
+    def update_ip_address(self, ip_addr, netmask=&#34;255.255.255.255&#34;):
+        &#34;&#34;&#34;
+        Update Ip Address.
+
+        Parameters
+        ----------
+        ip_addr: String
+                IP Address format (xxx.xxx.xxx.xxx)
+        netmask: String
+                Netmask, default 255.255.255.2555
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Update ip address&#39;
+        path = &#34;{}/management_ip/update/{}?ip={}&amp;mask={}&#34;
+        self.path = path.format(self.api_path, self.device_id, ip_addr,
+                                netmask)
+        self._call_put()
+
+    def profile_switch(self, old_profile, new_profile_ref):
+        &#34;&#34;&#34;
+        Profile Switch.
+
+        Parameters
+        ----------
+        old_profile: String
+                Old profile name
+        new_profile_ref: String
+            New profile name
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Profile switch&#39;
+        path = (&#39;{}/conf_profile/switch/{}&#39;
+                &#39;?old_profile_ref={}&amp;new_profile_ref={}&#39;).format(
+                    self.api_path,
+                    self.device_id,
+                    old_profile,
+                    new_profile_ref)
+        self.path = path
+        self._call_put()
+
+    def profile_attach(self, profile_reference: str) -&gt; None:
+        &#34;&#34;&#34;
+        Attach new profile to device.
+
+        Parameters
+        ----------
+        profile_reference:  String
+                            Profile external reference
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.path = (&#39;/profile/{profile_reference}/attach&#39;
+                     &#39;?device={device_reference}&#39;).format(
+                         profile_reference=profile_reference,
+                         device_reference=self.device_external)
+        self._call_put()
+
+    def update_credentials(self, login, password):
+        &#34;&#34;&#34;
+        Update Credentials.
+
+        Parameters
+        ----------
+        login: String
+                Credentials Login
+        password: String
+                Credentials password
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Update credentials&#39;
+        path = &#34;{}/credentials/update/{}?login={}&amp;password={}&#34;
+        self.path = path.format(self.api_path, self.device_id, login, password)
+        self._call_put()
+
+    def attach_files(self, uris, position=&#34;AUTO&#34;):
+        &#34;&#34;&#34;
+        Attach files.
+
+        Parameters
+        ----------
+        uris:
+        position: String
+                default: AUTO
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Attach files&#39;
+        self.path = (&#34;{}/attach/{}/files/{}&#34;).format(self.api_path,
+                                                     self.device_id, position)
+        self._call_put(json.dumps(uris))
+
+    def detach_files(self, uris):
+        &#34;&#34;&#34;
+        Attach files.
+
+        Parameters
+        ----------
+        uris: String
+
+        Returns
+        --------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Detach files&#39;
+        self.path = (&#34;{}/detach/{}/files&#34;).format(self.api_path,
+                                                  self.device_id)
+        self._call_put(json.dumps(uris))
+
+    def get_configuration_variable(self, name: str) -&gt; dict:
+        &#34;&#34;&#34;
+        Get configuration variable value.
+
+        Parameters
+        ----------
+        name:    String
+                 Variable name
+
+        Returns
+        -------
+        String:  Dict() like {&#39;name&#39;: str(), &#39;value&#39;: str(), &#39;comment&#39;: str()}
+
+        &#34;&#34;&#34;
+        self.path = &#39;/variables/{device_id}/{name}&#39;.format(
+            device_id=self.device_id, name=name)
+        self._call_get()
+
+        return json.loads(self.content)
+
+    def create_configuration_variable(
+            self,
+            name: str,
+            value: str,
+            conf_type: str = &#39;String&#39;,
+            comment: str = &#39;&#39;) -&gt; bool:
+        &#34;&#34;&#34;
+        Create configuration variable.
+
+        Parameters
+        ----------
+        name:    String
+                 Variable name
+        value:   String
+                 Vriable Value
+        conf_type:    String
+                      Variable type
+                      Default: String
+        comment: String
+                 Comment
+                 Default: empty stirng
+
+        Returns
+        -------
+        True:  Variable has been created successdully
+        False: Variable has not been created successfully
+
+        &#34;&#34;&#34;
+        self.path = &#39;/variables/{device_id}/{name}&#39;\
+                    &#39;?value={value}&#39;\
+                    &#39;&amp;type={type}&#39;\
+                    &#39;&amp;comment={comment}&#39;.format(device_id=self.device_id,
+                                                name=name,
+                                                value=value,
+                                                type=conf_type,
+                                                comment=comment)
+
+        self._call_put()
+
+        if self.get_configuration_variable(name)[&#39;value&#39;] == value:
+            return True
+        else:
+            return False
+
+
+    def run_jsa_command_device( self, command: str, params:dict() ) -&gt; bool:
+        &#34;&#34;&#34;
+        MSA SDK method to  Sends jsa command to a device  POST /sms/cmd/&lt;command&gt;/&lt;id&gt;. It will run the script /opt/sms/php/smsd/do_cmd_&lt;command&gt;.php or  /opt/devops/OpenMSA_Adapters/adapters/&lt;device_type)/do_cmd_&lt;command&gt;.php  on the MSA.
+        
+        Parameters
+        ----------
+        command: String
+                  the Jsa command like &#39;get_files&#39;
+        params : Json params if needed like {src_dir:&#39;/tmp/&#39;,file_pattern=&#39;testfile.txt&#39;,dest_dir=&#39;/tmp&#39;}
+
+        Returns
+        -------
+        The result of the command.
+        
+        &#34;&#34;&#34;
+        self.action = &#39;Sends jsa command to a device&#39;
+                  
+        if params:
+          params_url = &#39;?params=&#39;
+          nb=0
+          for key in params:
+            if nb &gt;0:
+              params_url = params_url + &#39;,&#39;
+            params_url = params_url + key + &#39;=&#39; + params[key]
+            nb += 1
+        else:
+          params_url = &#39;&#39;
+        self.path = &#39;/sms/cmd/{command}/{device_id}/{params_url}&#39;.format(command=command, device_id=self.device_id,params_url=params_url)
+        #self.path = &#39;https://&lt;MSA_IP&gt;/ubi-api-rest/sms/cmd/get_files/133/?params=src_dir=/tmp/,file_pattern=testfile.txt,dest_dir=/tmp&#39;
+        
+        self._call_post()
+        return json.dumps(self.content)
+
+
+    def execute_command_on_device( self, command: str ) -&gt; bool:
+        &#34;&#34;&#34;
+        MSA SDK method to &#39;Do execute command by managed entity id&#39;.
+        
+        Excecute the given command on the device
+        Run (*GET /device/v1/command/execute/{deviceId}?command=&lt;command&gt;). 
+        
+        Parameters
+        ----------
+        command: String
+        
+        Returns
+        -------
+        The result of the command.
+        
+        &#34;&#34;&#34;
+        self.action = &#39;Excecute the given command on the device&#39;
+                  
+        self.path = &#39;/device/v1/command/execute/{device_id}?command={command}&#39;.format(device_id=self.device_id,command=command)
+        #self.path = &#39;https://&lt;MSA_API&gt;/ubi-api-rest/device/v1/command/execute/132?command=show%20users&#39;&#39;
+        
+        self._call_get()
+        return json.dumps(self.content)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="msa_sdk.msa_api.MSA_API" href="msa_api.html#msa_sdk.msa_api.MSA_API">MSA_API</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="msa_sdk.order.Order" href="order.html#msa_sdk.order.Order">Order</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="msa_sdk.device.Device.activate"><code class="name flex">
+<span>def <span class="ident">activate</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Activate device.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def activate(self):
+    &#34;&#34;&#34;
+    Activate device.
+
+    Returns
+    --------
+    None
+
+    &#34;&#34;&#34;
+    self.path = &#34;{}/activate/{}&#34;.format(self.api_path, self.device_id)
+    self._call_post()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.attach_files"><code class="name flex">
+<span>def <span class="ident">attach_files</span></span>(<span>self, uris, position='AUTO')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Attach files.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt>uris:</dt>
+<dt><strong><code>position</code></strong> :&ensp;<code>String</code></dt>
+<dd>default: AUTO</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def attach_files(self, uris, position=&#34;AUTO&#34;):
+    &#34;&#34;&#34;
+    Attach files.
+
+    Parameters
+    ----------
+    uris:
+    position: String
+            default: AUTO
+
+    Returns
+    --------
+    None
+
+    &#34;&#34;&#34;
+    self.action = &#39;Attach files&#39;
+    self.path = (&#34;{}/attach/{}/files/{}&#34;).format(self.api_path,
+                                                 self.device_id, position)
+    self._call_put(json.dumps(uris))</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.create"><code class="name flex">
+<span>def <span class="ident">create</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create device.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dict() with created device capabilities</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create(self):
+    &#34;&#34;&#34;
+    Create device.
+
+    Returns
+    -------
+    Dict() with created device capabilities
+
+    &#34;&#34;&#34;
+    self.action = &#39;Create device&#39;
+    self.path = &#39;{}/v2/{}&#39;.format(self.api_path, self.customer_id)
+
+    data = {&#34;manufacturerId&#34;: self.manufacturer_id,
+            &#34;modelId&#34;: self.model_id,
+            &#34;managementAddress&#34;: self.management_address,
+            &#34;reporting&#34;: self.reporting,
+            &#34;useNat&#34;: self.use_nat,
+            &#34;logEnabled&#34;: self.log_enabled,
+            &#34;logMoreEnabled&#34;: self.log_more_enabled,
+            &#34;managementInterface&#34;: self.management_interface,
+            &#34;mailAlerting&#34;: self.mail_alerting,
+            &#34;passwordAdmin&#34;: self.password_admin,
+            &#34;externalReference&#34;: self.device_external,
+            &#34;login&#34;: self.login,
+            &#34;name&#34;: self.name,
+            &#34;password&#34;: self.password,
+            &#34;id&#34;: 0,
+            &#34;snmpCommunity&#34;: self.snmp_community}
+    if self.management_port:
+        data[&#34;managementPort&#34;] = self.management_port
+
+    self._call_post(data)
+    self.fail = not self.response.ok
+    if self.response.ok:
+        self.device_id = json.loads(self.content)[&#39;id&#39;]
+
+    return json.loads(self.content)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.create_configuration_variable"><code class="name flex">
+<span>def <span class="ident">create_configuration_variable</span></span>(<span>self, name: str, value: str, conf_type: str = 'String', comment: str = '') ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create configuration variable.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>
+String</code></dt>
+<dd>Variable name</dd>
+<dt><strong><code>value</code></strong> :&ensp;<code>
+String</code></dt>
+<dd>Vriable Value</dd>
+<dt><strong><code>conf_type</code></strong> :&ensp;<code>
+String</code></dt>
+<dd>Variable type
+Default: String</dd>
+<dt><strong><code>comment</code></strong> :&ensp;<code>String</code></dt>
+<dd>Comment
+Default: empty stirng</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>True</code></strong> :&ensp;<code> Variable has been created successdully</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>False</code></strong> :&ensp;<code>Variable has not been created successfully</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_configuration_variable(
+        self,
+        name: str,
+        value: str,
+        conf_type: str = &#39;String&#39;,
+        comment: str = &#39;&#39;) -&gt; bool:
+    &#34;&#34;&#34;
+    Create configuration variable.
+
+    Parameters
+    ----------
+    name:    String
+             Variable name
+    value:   String
+             Vriable Value
+    conf_type:    String
+                  Variable type
+                  Default: String
+    comment: String
+             Comment
+             Default: empty stirng
+
+    Returns
+    -------
+    True:  Variable has been created successdully
+    False: Variable has not been created successfully
+
+    &#34;&#34;&#34;
+    self.path = &#39;/variables/{device_id}/{name}&#39;\
+                &#39;?value={value}&#39;\
+                &#39;&amp;type={type}&#39;\
+                &#39;&amp;comment={comment}&#39;.format(device_id=self.device_id,
+                                            name=name,
+                                            value=value,
+                                            type=conf_type,
+                                            comment=comment)
+
+    self._call_put()
+
+    if self.get_configuration_variable(name)[&#39;value&#39;] == value:
+        return True
+    else:
+        return False</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.delete"><code class="name flex">
+<span>def <span class="ident">delete</span></span>(<span>self, by_ref=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Delete device.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>by_ref</code></strong> :&ensp;<code>String</code></dt>
+<dd>Path /id/ or /reference/</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete(self, by_ref=False):
+    &#34;&#34;&#34;
+    Delete device.
+
+    Parameters
+    ----------
+    by_ref: String
+            Path /id/ or /reference/
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    self.action = &#39;Delete device&#39;
+    self._format_path_ref_id(by_ref, self.api_path)
+    self._call_delete()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.detach_files"><code class="name flex">
+<span>def <span class="ident">detach_files</span></span>(<span>self, uris)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Attach files.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>uris</code></strong> :&ensp;<code>String</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def detach_files(self, uris):
+    &#34;&#34;&#34;
+    Attach files.
+
+    Parameters
+    ----------
+    uris: String
+
+    Returns
+    --------
+    None
+
+    &#34;&#34;&#34;
+    self.action = &#39;Detach files&#39;
+    self.path = (&#34;{}/detach/{}/files&#34;).format(self.api_path,
+                                              self.device_id)
+    self._call_put(json.dumps(uris))</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.execute_command_on_device"><code class="name flex">
+<span>def <span class="ident">execute_command_on_device</span></span>(<span>self, command: str) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>MSA SDK method to 'Do execute command by managed entity id'.</p>
+<p>Excecute the given command on the device
+Run (*GET /device/v1/command/execute/{deviceId}?command=<command>). </p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>command</code></strong> :&ensp;<code>String</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The result of the command.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def execute_command_on_device( self, command: str ) -&gt; bool:
+    &#34;&#34;&#34;
+    MSA SDK method to &#39;Do execute command by managed entity id&#39;.
+    
+    Excecute the given command on the device
+    Run (*GET /device/v1/command/execute/{deviceId}?command=&lt;command&gt;). 
+    
+    Parameters
+    ----------
+    command: String
+    
+    Returns
+    -------
+    The result of the command.
+    
+    &#34;&#34;&#34;
+    self.action = &#39;Excecute the given command on the device&#39;
+              
+    self.path = &#39;/device/v1/command/execute/{device_id}?command={command}&#39;.format(device_id=self.device_id,command=command)
+    #self.path = &#39;https://&lt;MSA_API&gt;/ubi-api-rest/device/v1/command/execute/132?command=show%20users&#39;&#39;
+    
+    self._call_get()
+    return json.dumps(self.content)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.get_configuration_status"><code class="name flex">
+<span>def <span class="ident">get_configuration_status</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get configuration status and add to device configuration.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_configuration_status(self):
+    &#34;&#34;&#34;
+    Get configuration status and add to device configuration.
+
+    Returns
+    --------
+    None
+
+    &#34;&#34;&#34;
+    self.action = &#39;Get configuration status&#39;
+    self.path = &#34;{}/configuration/status/id/{}&#34;.format(
+        self.api_path, self.device_id)
+    self._call_get()
+    self.configuration = json.loads(self.content)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.get_configuration_variable"><code class="name flex">
+<span>def <span class="ident">get_configuration_variable</span></span>(<span>self, name: str) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get configuration variable value.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>
+String</code></dt>
+<dd>Variable name</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>String</code></strong> :&ensp;<code>Dict() like {'name': str(), 'value': str(), 'comment': str()}</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_configuration_variable(self, name: str) -&gt; dict:
+    &#34;&#34;&#34;
+    Get configuration variable value.
+
+    Parameters
+    ----------
+    name:    String
+             Variable name
+
+    Returns
+    -------
+    String:  Dict() like {&#39;name&#39;: str(), &#39;value&#39;: str(), &#39;comment&#39;: str()}
+
+    &#34;&#34;&#34;
+    self.path = &#39;/variables/{device_id}/{name}&#39;.format(
+        device_id=self.device_id, name=name)
+    self._call_get()
+
+    return json.loads(self.content)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.initial_provisioning"><code class="name flex">
+<span>def <span class="ident">initial_provisioning</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Initialize provisioning.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def initial_provisioning(self):
+    &#34;&#34;&#34;
+    Initialize provisioning.
+
+    Returns
+    --------
+    None
+
+    &#34;&#34;&#34;
+    self.action = &#39;Intial provisioning&#39;
+    self.path = &#34;{}/provisioning/{}&#34;.format(self.api_path, self.device_id)
+    self._call_post()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.is_device"><code class="name flex">
+<span>def <span class="ident">is_device</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if is device.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dict() with True</code> or <code>False</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_device(self):
+    &#34;&#34;&#34;
+    Check if is device.
+
+    Returns
+    --------
+    Dict() with True or False
+
+    &#34;&#34;&#34;
+    self.action = &#39;Is device&#39;
+    self.path = &#34;{}/isDevice/{}&#34;.format(self.api_path, self.device_id)
+    self._call_get()
+    return json.loads(self.content)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.ping"><code class="name flex">
+<span>def <span class="ident">ping</span></span>(<span>self, address)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Ping address.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>address</code></strong> :&ensp;<code>String</code></dt>
+<dd>Ip address.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Ping response</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ping(self, address):
+    &#34;&#34;&#34;
+    Ping address.
+
+    Parameters
+    ----------
+    address: String
+            Ip address.
+
+    Returns
+    --------
+    Ping response
+
+    &#34;&#34;&#34;
+    self.action = &#39;Get ping&#39;
+    self.path = &#34;{}/ping/{}&#34;.format(self.api_path, address)
+    self._call_get()
+
+    return self.content</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.profile_attach"><code class="name flex">
+<span>def <span class="ident">profile_attach</span></span>(<span>self, profile_reference: str) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Attach new profile to device.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>profile_reference</code></strong> :&ensp;<code> String</code></dt>
+<dd>Profile external reference</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def profile_attach(self, profile_reference: str) -&gt; None:
+    &#34;&#34;&#34;
+    Attach new profile to device.
+
+    Parameters
+    ----------
+    profile_reference:  String
+                        Profile external reference
+
+    Returns
+    --------
+    None
+
+    &#34;&#34;&#34;
+    self.path = (&#39;/profile/{profile_reference}/attach&#39;
+                 &#39;?device={device_reference}&#39;).format(
+                     profile_reference=profile_reference,
+                     device_reference=self.device_external)
+    self._call_put()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.profile_switch"><code class="name flex">
+<span>def <span class="ident">profile_switch</span></span>(<span>self, old_profile, new_profile_ref)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Profile Switch.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>old_profile</code></strong> :&ensp;<code>String</code></dt>
+<dd>Old profile name</dd>
+<dt><strong><code>new_profile_ref</code></strong> :&ensp;<code>String</code></dt>
+<dd>New profile name</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def profile_switch(self, old_profile, new_profile_ref):
+    &#34;&#34;&#34;
+    Profile Switch.
+
+    Parameters
+    ----------
+    old_profile: String
+            Old profile name
+    new_profile_ref: String
+        New profile name
+
+    Returns
+    --------
+    None
+
+    &#34;&#34;&#34;
+    self.action = &#39;Profile switch&#39;
+    path = (&#39;{}/conf_profile/switch/{}&#39;
+            &#39;?old_profile_ref={}&amp;new_profile_ref={}&#39;).format(
+                self.api_path,
+                self.device_id,
+                old_profile,
+                new_profile_ref)
+    self.path = path
+    self._call_put()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.provision"><code class="name flex">
+<span>def <span class="ident">provision</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Provision a device.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def provision(self):
+    &#34;&#34;&#34;
+    Provision a device.
+
+    Returns
+    --------
+    None
+
+    &#34;&#34;&#34;
+    self.action = &#39;Post Provisioning&#39;
+    self.path = &#34;{}/provisioning/{}&#34;.format(self.api_path, self.device_id)
+    self._call_post()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.provision_status"><code class="name flex">
+<span>def <span class="ident">provision_status</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the provision status.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dict() with provision status</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def provision_status(self):
+    &#34;&#34;&#34;
+    Get the provision status.
+
+    Returns
+    --------
+    Dict() with provision status
+
+    &#34;&#34;&#34;
+    self.action = &#39;Get provision status&#39;
+    self.path = &#34;{}/provisioning/status/{}&#34;.format(
+        self.api_path, self.device_id)
+    self._call_get()
+
+    return json.loads(self.content)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.push_configuration"><code class="name flex">
+<span>def <span class="ident">push_configuration</span></span>(<span>self, configuration=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Push configuration.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>configuration</code></strong> :&ensp;<code>String</code></dt>
+<dd>Configuration parameters for the device</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def push_configuration(self, configuration=None):
+    &#34;&#34;&#34;
+    Push configuration.
+
+    Parameters
+    ----------
+    configuration: String
+            Configuration parameters for the device
+
+    Returns
+    --------
+    None
+
+    &#34;&#34;&#34;
+    self.action = &#39;Push configuration&#39;
+    self.path = &#34;{}/push_configuration/{}&#34;.format(
+        self.api_path, self.device_id)
+
+    self._call_put(configuration)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.push_configuration_status"><code class="name flex">
+<span>def <span class="ident">push_configuration_status</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Push configuration status.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Json with configuration</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def push_configuration_status(self):
+    &#34;&#34;&#34;
+    Push configuration status.
+
+    Returns
+    --------
+    Json with configuration
+
+    &#34;&#34;&#34;
+    self.action = &#39;Push configuration status&#39;
+    self.path = &#34;{}/push_configuration/status/{}&#34;.format(
+        self.api_path, self.device_id)
+
+    self._call_get()
+    return json.dumps(self.content)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.read"><code class="name flex">
+<span>def <span class="ident">read</span></span>(<span>self, by_ref=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read device information.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>by_ref</code></strong> :&ensp;<code>String</code></dt>
+<dd>Path /id/ or /reference/</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Json formated string</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read(self, by_ref=False):
+    &#34;&#34;&#34;
+    Read device information.
+
+    Parameters
+    ----------
+    by_ref: String
+        Path /id/ or /reference/
+
+    Returns
+    --------
+    Json formated string
+
+    &#34;&#34;&#34;
+    self.action = &#39;Read device&#39;
+
+    if by_ref:
+        self.path = &#34;{}/{}&#34;.format(self.api_path,
+                                   &#34;reference/{}&#34;.format(by_ref))
+    else:
+        self.path = &#39;{}/v2/{}&#39;.format(self.api_path, self.device_id)
+
+    self._call_get()
+    if not self.response.ok:
+        return False
+
+    device_info = json.loads(self.content)
+
+    self.device_id = device_info[&#39;id&#39;]
+    self.name = device_info[&#34;name&#34;]
+    self.manufacturer_id = device_info[&#34;manufacturerId&#34;]
+    self.model_id = device_info[&#34;modelId&#34;]
+    self.management_address = device_info[&#34;managementAddress&#34;]
+    self.management_interface = device_info[&#34;managementInterface&#34;]
+    self.management_port = device_info[&#34;managementPort&#34;]
+    self.login = device_info[&#34;login&#34;]
+    self.password = device_info[&#34;password&#34;]
+    self.password_admin = device_info[&#34;passwordAdmin&#34;]
+    self.log_enabled = device_info[&#34;logEnabled&#34;]
+    self.mail_alerting = device_info[&#34;mailAlerting&#34;]
+    self.use_nat = device_info[&#34;useNat&#34;]
+    self.snmp_community = device_info[&#34;snmpCommunity&#34;]
+
+    return self.content</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.run_jsa_command_device"><code class="name flex">
+<span>def <span class="ident">run_jsa_command_device</span></span>(<span>self, command: str, params: {}) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>MSA SDK method to
+Sends jsa command to a device
+POST /sms/cmd/<command>/<id>. It will run the script /opt/sms/php/smsd/do_cmd_<command>.php or
+/opt/devops/OpenMSA_Adapters/adapters/&lt;device_type)/do_cmd_<command>.php
+on the MSA.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>command</code></strong> :&ensp;<code>String</code></dt>
+<dd>the Jsa command like 'get_files'</dd>
+<dt><strong><code>params</code></strong> :&ensp;<code>Json params if needed like {src_dir:'/tmp/',file_pattern='testfile.txt',dest_dir='/tmp'}</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The result of the command.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run_jsa_command_device( self, command: str, params:dict() ) -&gt; bool:
+    &#34;&#34;&#34;
+    MSA SDK method to  Sends jsa command to a device  POST /sms/cmd/&lt;command&gt;/&lt;id&gt;. It will run the script /opt/sms/php/smsd/do_cmd_&lt;command&gt;.php or  /opt/devops/OpenMSA_Adapters/adapters/&lt;device_type)/do_cmd_&lt;command&gt;.php  on the MSA.
+    
+    Parameters
+    ----------
+    command: String
+              the Jsa command like &#39;get_files&#39;
+    params : Json params if needed like {src_dir:&#39;/tmp/&#39;,file_pattern=&#39;testfile.txt&#39;,dest_dir=&#39;/tmp&#39;}
+
+    Returns
+    -------
+    The result of the command.
+    
+    &#34;&#34;&#34;
+    self.action = &#39;Sends jsa command to a device&#39;
+              
+    if params:
+      params_url = &#39;?params=&#39;
+      nb=0
+      for key in params:
+        if nb &gt;0:
+          params_url = params_url + &#39;,&#39;
+        params_url = params_url + key + &#39;=&#39; + params[key]
+        nb += 1
+    else:
+      params_url = &#39;&#39;
+    self.path = &#39;/sms/cmd/{command}/{device_id}/{params_url}&#39;.format(command=command, device_id=self.device_id,params_url=params_url)
+    #self.path = &#39;https://&lt;MSA_IP&gt;/ubi-api-rest/sms/cmd/get_files/133/?params=src_dir=/tmp/,file_pattern=testfile.txt,dest_dir=/tmp&#39;
+    
+    self._call_post()
+    return json.dumps(self.content)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.status"><code class="name flex">
+<span>def <span class="ident">status</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get device status.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>One word string</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def status(self):
+    &#34;&#34;&#34;
+    Get device status.
+
+    Returns
+    --------
+    One word string
+
+    &#34;&#34;&#34;
+    self.action = &#34;Get device status&#34;
+    self.path = &#34;{}/status/{}&#34;.format(self.api_path, self.device_id)
+
+    self._call_get()
+    return self.content</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, field: str, value: str) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update device.</p>
+<p>field: String
+Modifyed device field
+value: String
+Modified field's value (str)</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Updated device capabilities: Dict()</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, field: str, value: str) -&gt; dict:
+    &#34;&#34;&#34;
+    Update device.
+
+    field: String
+           Modifyed device field
+    value: String
+           Modified field&#39;s value (str)
+
+
+    Returns
+    -------
+    Updated device capabilities: Dict()
+
+    &#34;&#34;&#34;
+    self.action = &#39;Update device&#39;
+
+    data = {&#34;id&#34;: self.device_id,
+            &#34;name&#34;: self.name,
+            &#34;manufacturerId&#34;: self.manufacturer_id,
+            &#34;modelId&#34;: self.model_id,
+            &#34;managementAddress&#34;: self.management_address,
+            &#34;managementInterface&#34;: self.management_interface,
+            &#34;managementPort&#34;: self.management_port,
+            &#34;login&#34;: self.login,
+            &#34;password&#34;: self.password,
+            &#34;password_admin&#34;: self.password_admin,
+            &#34;log_enable&#34;: self.log_enabled,
+            &#34;mailAlerting&#34;: self.mail_alerting,
+            &#34;useNat&#34;: self.use_nat,
+            &#34;snmpCommunity&#34;: self.snmp_community
+            }
+    self.path = &#39;{}/v2/{}&#39;.format(self.api_path, self.device_id)
+
+    data[field] = value
+
+    self._call_put(json.dumps(data))
+
+    return json.loads(self.content)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.update_config"><code class="name flex">
+<span>def <span class="ident">update_config</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update config.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Config in JSON form</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_config(self):
+    &#34;&#34;&#34;
+    Update config.
+
+    Returns
+    --------
+    Config in JSON form
+
+    &#34;&#34;&#34;
+    self.action = &#39;Update config&#39;
+    self.path = &#34;{}/configuration/update/{}&#34;.format(
+        self.api_path, self.device_id)
+    self._call_post()
+    return json.dumps(self.content)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.update_credentials"><code class="name flex">
+<span>def <span class="ident">update_credentials</span></span>(<span>self, login, password)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update Credentials.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>login</code></strong> :&ensp;<code>String</code></dt>
+<dd>Credentials Login</dd>
+<dt><strong><code>password</code></strong> :&ensp;<code>String</code></dt>
+<dd>Credentials password</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_credentials(self, login, password):
+    &#34;&#34;&#34;
+    Update Credentials.
+
+    Parameters
+    ----------
+    login: String
+            Credentials Login
+    password: String
+            Credentials password
+
+    Returns
+    --------
+    None
+
+    &#34;&#34;&#34;
+    self.action = &#39;Update credentials&#39;
+    path = &#34;{}/credentials/update/{}?login={}&amp;password={}&#34;
+    self.path = path.format(self.api_path, self.device_id, login, password)
+    self._call_put()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.device.Device.update_ip_address"><code class="name flex">
+<span>def <span class="ident">update_ip_address</span></span>(<span>self, ip_addr, netmask='255.255.255.255')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update Ip Address.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ip_addr</code></strong> :&ensp;<code>String</code></dt>
+<dd>IP Address format (xxx.xxx.xxx.xxx)</dd>
+<dt><strong><code>netmask</code></strong> :&ensp;<code>String</code></dt>
+<dd>Netmask, default 255.255.255.2555</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_ip_address(self, ip_addr, netmask=&#34;255.255.255.255&#34;):
+    &#34;&#34;&#34;
+    Update Ip Address.
+
+    Parameters
+    ----------
+    ip_addr: String
+            IP Address format (xxx.xxx.xxx.xxx)
+    netmask: String
+            Netmask, default 255.255.255.2555
+
+    Returns
+    --------
+    None
+
+    &#34;&#34;&#34;
+    self.action = &#39;Update ip address&#39;
+    path = &#34;{}/management_ip/update/{}?ip={}&amp;mask={}&#34;
+    self.path = path.format(self.api_path, self.device_id, ip_addr,
+                            netmask)
+    self._call_put()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="msa_sdk.msa_api.MSA_API" href="msa_api.html#msa_sdk.msa_api.MSA_API">MSA_API</a></b></code>:
+<ul class="hlist">
+<li><code><a title="msa_sdk.msa_api.MSA_API.check_response" href="msa_api.html#msa_sdk.msa_api.MSA_API.check_response">check_response</a></code></li>
+<li><code><a title="msa_sdk.msa_api.MSA_API.content" href="msa_api.html#msa_sdk.msa_api.MSA_API.content">content</a></code></li>
+<li><code><a title="msa_sdk.msa_api.MSA_API.log_to_process_file" href="msa_api.html#msa_sdk.msa_api.MSA_API.log_to_process_file">log_to_process_file</a></code></li>
+<li><code><a title="msa_sdk.msa_api.MSA_API.process_content" href="msa_api.html#msa_sdk.msa_api.MSA_API.process_content">process_content</a></code></li>
+<li><code><a title="msa_sdk.msa_api.MSA_API.task_error" href="msa_api.html#msa_sdk.msa_api.MSA_API.task_error">task_error</a></code></li>
+<li><code><a title="msa_sdk.msa_api.MSA_API.task_success" href="msa_api.html#msa_sdk.msa_api.MSA_API.task_success">task_success</a></code></li>
+<li><code><a title="msa_sdk.msa_api.MSA_API.token" href="msa_api.html#msa_sdk.msa_api.MSA_API.token">token</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="msa_sdk" href="index.html">msa_sdk</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="msa_sdk.device.Device" href="#msa_sdk.device.Device">Device</a></code></h4>
+<ul class="">
+<li><code><a title="msa_sdk.device.Device.activate" href="#msa_sdk.device.Device.activate">activate</a></code></li>
+<li><code><a title="msa_sdk.device.Device.attach_files" href="#msa_sdk.device.Device.attach_files">attach_files</a></code></li>
+<li><code><a title="msa_sdk.device.Device.create" href="#msa_sdk.device.Device.create">create</a></code></li>
+<li><code><a title="msa_sdk.device.Device.create_configuration_variable" href="#msa_sdk.device.Device.create_configuration_variable">create_configuration_variable</a></code></li>
+<li><code><a title="msa_sdk.device.Device.delete" href="#msa_sdk.device.Device.delete">delete</a></code></li>
+<li><code><a title="msa_sdk.device.Device.detach_files" href="#msa_sdk.device.Device.detach_files">detach_files</a></code></li>
+<li><code><a title="msa_sdk.device.Device.execute_command_on_device" href="#msa_sdk.device.Device.execute_command_on_device">execute_command_on_device</a></code></li>
+<li><code><a title="msa_sdk.device.Device.get_configuration_status" href="#msa_sdk.device.Device.get_configuration_status">get_configuration_status</a></code></li>
+<li><code><a title="msa_sdk.device.Device.get_configuration_variable" href="#msa_sdk.device.Device.get_configuration_variable">get_configuration_variable</a></code></li>
+<li><code><a title="msa_sdk.device.Device.initial_provisioning" href="#msa_sdk.device.Device.initial_provisioning">initial_provisioning</a></code></li>
+<li><code><a title="msa_sdk.device.Device.is_device" href="#msa_sdk.device.Device.is_device">is_device</a></code></li>
+<li><code><a title="msa_sdk.device.Device.ping" href="#msa_sdk.device.Device.ping">ping</a></code></li>
+<li><code><a title="msa_sdk.device.Device.profile_attach" href="#msa_sdk.device.Device.profile_attach">profile_attach</a></code></li>
+<li><code><a title="msa_sdk.device.Device.profile_switch" href="#msa_sdk.device.Device.profile_switch">profile_switch</a></code></li>
+<li><code><a title="msa_sdk.device.Device.provision" href="#msa_sdk.device.Device.provision">provision</a></code></li>
+<li><code><a title="msa_sdk.device.Device.provision_status" href="#msa_sdk.device.Device.provision_status">provision_status</a></code></li>
+<li><code><a title="msa_sdk.device.Device.push_configuration" href="#msa_sdk.device.Device.push_configuration">push_configuration</a></code></li>
+<li><code><a title="msa_sdk.device.Device.push_configuration_status" href="#msa_sdk.device.Device.push_configuration_status">push_configuration_status</a></code></li>
+<li><code><a title="msa_sdk.device.Device.read" href="#msa_sdk.device.Device.read">read</a></code></li>
+<li><code><a title="msa_sdk.device.Device.run_jsa_command_device" href="#msa_sdk.device.Device.run_jsa_command_device">run_jsa_command_device</a></code></li>
+<li><code><a title="msa_sdk.device.Device.status" href="#msa_sdk.device.Device.status">status</a></code></li>
+<li><code><a title="msa_sdk.device.Device.update" href="#msa_sdk.device.Device.update">update</a></code></li>
+<li><code><a title="msa_sdk.device.Device.update_config" href="#msa_sdk.device.Device.update_config">update_config</a></code></li>
+<li><code><a title="msa_sdk.device.Device.update_credentials" href="#msa_sdk.device.Device.update_credentials">update_credentials</a></code></li>
+<li><code><a title="msa_sdk.device.Device.update_ip_address" href="#msa_sdk.device.Device.update_ip_address">update_ip_address</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>

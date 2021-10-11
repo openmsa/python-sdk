@@ -1,0 +1,2072 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>msa_sdk.orchestration API documentation</title>
+<meta name="description" content="Module Orchestration." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>msa_sdk.orchestration</code></h1>
+</header>
+<section id="section-intro">
+<p>Module Orchestration.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Module Orchestration.&#34;&#34;&#34;
+
+import json
+
+from msa_sdk.msa_api import MSA_API
+
+
+class Orchestration(MSA_API):
+    &#34;&#34;&#34;Class Orchestration.&#34;&#34;&#34;
+
+    def __init__(self, ubiqube_id):
+        &#34;&#34;&#34;Initialize.&#34;&#34;&#34;
+        MSA_API.__init__(self)
+        self.api_path_v1 = &#34;/orchestration/v1&#34;
+        self.api_path = &#34;/orchestration&#34;
+        self.ubiqube_id = ubiqube_id
+
+    def list_service_instances(self):
+        &#34;&#34;&#34;
+        List service instances.
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;List service instances&#39;
+        self.path = &#34;{}/{}/service/instance&#34;.format(self.api_path,
+                                                    self.ubiqube_id)
+        self._call_get()
+
+    def read_service_instance(self, service_id):
+        &#34;&#34;&#34;
+        Read service instance.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Read service instances&#39;
+        self.path = &#34;{}/{}/service/instance/{}&#34;.format(self.api_path,
+                                                       self.ubiqube_id,
+                                                       service_id)
+
+        self._call_get()
+
+    def get_service_variables(self, service_id):
+        &#34;&#34;&#34;
+
+        Get service variables.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = &#34;{}/service/variables/{}&#34;.format(self.api_path,
+                                                     service_id)
+
+        self._call_get()
+
+    def get_service_variable_by_name(self, service_id, variable_name):
+        &#34;&#34;&#34;
+        Get services variable by name.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+        variabel_name: String
+                Name of the variable
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = &#34;{}/service/variables/{}/{}&#34;.format(self.api_path,
+                                                        service_id,
+                                                        variable_name)
+
+        self._call_get()
+
+    def update_service_variable(self, service_id, variable_name, new_value):
+        &#34;&#34;&#34;
+        Update service variable.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+        variabel_name: String
+                Name of the variable
+        new_value: String
+                New servie variable name
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = &#34;{}/service/variables/{}/{}?value={}&#34;.format(self.api_path,
+                                                                 service_id,
+                                                                 variable_name,
+                                                                 new_value)
+
+        self._call_post()
+
+    def delete_service(self, service_id):
+        &#34;&#34;&#34;
+
+        Delete service.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = \
+            &#39;/orchestration/{}/service/instance/{}&#39;.format(self.ubiqube_id,
+                                                           service_id)
+
+        self._call_delete()
+
+    def execute_service(self, service_name: str, process_name: str,
+                        data: dict):
+        &#34;&#34;&#34;
+
+        Execute service.
+
+        Parameters
+        ----------
+        service_name: String
+                      Service Name
+        process_name: String
+                      Process name
+        data:         dict()
+                      A dictionary containing workflow variables
+
+        Returns
+        -------
+        None
+             If the execution was failed
+        service_id: Integer
+                    If execution was success
+
+        &#34;&#34;&#34;
+        format_path = (&#39;/orchestration/service/execute/{}&#39;
+                       &#39;?serviceName={}&amp;processName={}&amp;serviceInstance=0&#39;)
+
+        self.path = format_path.format(self.ubiqube_id,
+                                       service_name, process_name)
+
+        self._call_post(data)
+
+        service_id = None
+        try:
+            service_id = int(json.loads(self.content)[&#39;serviceId&#39;][&#39;id&#39;])
+        except BaseException:
+            pass
+
+        return service_id
+
+    def execute_service_process(self, service_name: str, process_name: str,
+                                data: dict):
+        &#34;&#34;&#34;
+
+        Execute service.
+
+        Parameters
+        ----------
+        service_name: String
+                      Service Name
+        process_name: String
+                      Process name
+        data:         dict()
+                      A dictionary containing workflow variables
+
+        Returns
+        -------
+        Tuple
+        process_id: Integer
+                    Id if execution was success, -1 if execution fails
+
+        service_id: Integer
+                    Id if execution was success, -1 if execution fails
+
+        &#34;&#34;&#34;
+        format_path = (&#39;/orchestration/service/execute/{}&#39;
+                       &#39;?serviceName={}&amp;processName={}&amp;serviceInstance=0&#39;)
+
+        self.path = format_path.format(self.ubiqube_id,
+                                       service_name, process_name)
+
+        self._call_post(data)
+
+        try:
+            service_id = int(json.loads(self.content)[&#39;serviceId&#39;][&#39;id&#39;])
+        except KeyError:
+            service_id = -1
+
+        try:
+            process_id = int(json.loads(self.content)[&#39;processId&#39;][&#39;id&#39;])
+        except KeyError:
+            process_id = -1
+
+        return service_id, process_id
+
+    # pylint: disable=too-many-arguments
+    def execute_by_service(self, external_ref, service_ref, service_name,
+                           process_name, data):
+        &#34;&#34;&#34;
+
+        Execute by service.
+
+        Parameters
+        ----------
+        external_ref: String
+                External reference
+        service_ref: String
+                service reference
+        service_name: String
+                service name
+        process_name: String
+                Process name
+        data: Json
+                data json
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        format_path = (&#39;/orchestration/service/execute/{}/{}&#39;
+                       &#39;?serviceName={}&amp;processName={}&#39;)
+
+        self.path = format_path.format(external_ref, service_ref,
+                                       service_name, process_name)
+
+        self._call_post(data)
+
+    def execute_service_by_reference(self, external_ref, service_ref,
+                                     service_name, process_name, data):
+        &#34;&#34;&#34;
+
+        Execute service.
+
+        Parameters
+        ----------
+        external_ref: String
+                external reference
+        service_reference: String
+                Service reference
+        service_name: String
+                Service name
+        process_name: String
+                Process name
+        data: Json
+                data json
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        format_path = (&#39;/orchestration/service/execute/{}/{}&#39;
+                       &#39;?serviceName={}&amp;processName={}&#39;)
+
+        self.path = format_path.format(external_ref, service_ref, service_name,
+                                       process_name)
+
+        self._call_post(data)
+
+    def execute_launch_process_instance(self, service_id, process_name, data):
+        &#34;&#34;&#34;
+
+        Execute launch process service.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+        process_name: String
+                Process name
+        data:         dict()
+                      A dictionary containing workflow variables
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        format_path = (&#39;/orchestration/process/execute/{}/{}?processName={}&#39;)
+
+        self.path = format_path.format(self.ubiqube_id,
+                                       service_id, process_name)
+
+        self._call_post(data)
+
+    def list_process_instances_by_service(self, service_id):
+        &#34;&#34;&#34;
+
+        List process instances by Service.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = &#39;{}/process/instances/{}&#39;.format(self.api_path,
+                                                     service_id)
+
+        self._call_get()
+
+    def get_process_instance(self, service_id):
+        &#34;&#34;&#34;
+
+        Get process instance.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = &#39;{}/process/instance/{}&#39;.format(self.api_path,
+                                                    service_id)
+        self._call_get()
+
+    def update_process_script_details(self, process_id, task_id, exec_number,
+                                      data=None):
+        &#34;&#34;&#34;
+
+        Update process script details.
+
+        Parameters
+        ----------
+        process_id: Integer
+                Process ID
+        task_id: Integer
+                Task ID
+        exec_number: Integer
+                Number exec
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = (&#39;{}/process/instance/{}/task/{}&#39;
+                     &#39;/execnumber/{}/update&#39;).format(self.api_path,
+                                                     process_id, task_id,
+                                                     exec_number)
+        self._call_put(data)
+
+    def update_service_instance_reference(self, service_id, service_ref):
+        &#34;&#34;&#34;
+
+        Update service instance reference.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Process ID
+        service_ref: Integer
+                Service reference
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = (&#39;{}/{}/service/instance/update/{}&#39;
+                     &#39;/?serviceReference={}&#39;).format(self.api_path,
+                                                     self.ubiqube_id,
+                                                     service_id, service_ref)
+        self._call_put()
+
+    def update_asynchronous_task_details(self, process_id: int, task_id: int,
+                                         exec_number: int,
+                                         data: str) -&gt; None:
+        &#34;&#34;&#34;
+
+        Update task comments in GUI dynamically.
+
+        Parameters
+        ----------
+        process_id: Integer
+                Process ID
+        task_id: Integer
+                Task ID
+        exec_number: Integer
+                Number exec
+        data: String
+              Task comment
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        details_json = json.dumps({&#39;details&#39;: data})
+        self.update_process_script_details(
+            process_id, task_id, exec_number, details_json)
+
+    def get_list_service_by_status(self, range: int) -&gt; dict:
+        &#34;&#34;&#34;
+
+        List services by status.
+
+        Parameters
+        ----------
+        range: Integer
+               Number of days for the statistic
+
+        Returns
+        -------
+        Dict()
+              Key:   Name of service
+              Value: Statistics by status
+
+        &#34;&#34;&#34;
+        self.path = &#39;{}/services?ubiqubeId={}&amp;range={}&#39;.format(
+            self.api_path_v1, self.ubiqube_id, range)
+        self._call_get()
+
+        return json.loads(self.content)
+
+    def get_service_status_by_id(self, service_id: int):
+        &#34;&#34;&#34;
+
+        Return service status by service_id.
+
+        Parameters
+        ----------
+        service_id: Integer
+                    Id of workflow instance
+
+        Returns
+        -------
+        String: RUNNING|FAIL|ENDED
+                Status of the service
+        OR
+        None:   In case if execution failed
+
+        &#34;&#34;&#34;
+        self.path = &#39;{}/service/process-instance/{}&#39;.format(
+            self.api_path_v1, service_id)
+        self._call_get()
+
+        try:
+            status = json.loads(self.content)[0][&#39;status&#39;][&#39;status&#39;]
+        except BaseException:
+            status = None
+
+        return status
+
+    def get_process_status_by_id(self, process_id: int):
+        &#34;&#34;&#34;
+
+        Return process status by process_id.
+
+        Parameters
+        ----------
+        process_id: Integer
+                    Id of workflow instance
+
+        Returns
+        -------
+        String: RUNNING|FAIL|ENDED
+                Status of the service
+        OR
+        None:   In case if execution failed
+
+        &#34;&#34;&#34;
+        self.path = &#39;{}/process-instance/{}&#39;.format(
+            self.api_path_v1, process_id)
+        self._call_get()
+
+        try:
+            status = json.loads(self.content)[&#39;status&#39;][&#39;status&#39;]
+        except BaseException:
+            status = None
+
+        return status</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="msa_sdk.orchestration.Orchestration"><code class="flex name class">
+<span>class <span class="ident">Orchestration</span></span>
+<span>(</span><span>ubiqube_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class Orchestration.</p>
+<p>Initialize.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Orchestration(MSA_API):
+    &#34;&#34;&#34;Class Orchestration.&#34;&#34;&#34;
+
+    def __init__(self, ubiqube_id):
+        &#34;&#34;&#34;Initialize.&#34;&#34;&#34;
+        MSA_API.__init__(self)
+        self.api_path_v1 = &#34;/orchestration/v1&#34;
+        self.api_path = &#34;/orchestration&#34;
+        self.ubiqube_id = ubiqube_id
+
+    def list_service_instances(self):
+        &#34;&#34;&#34;
+        List service instances.
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;List service instances&#39;
+        self.path = &#34;{}/{}/service/instance&#34;.format(self.api_path,
+                                                    self.ubiqube_id)
+        self._call_get()
+
+    def read_service_instance(self, service_id):
+        &#34;&#34;&#34;
+        Read service instance.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.action = &#39;Read service instances&#39;
+        self.path = &#34;{}/{}/service/instance/{}&#34;.format(self.api_path,
+                                                       self.ubiqube_id,
+                                                       service_id)
+
+        self._call_get()
+
+    def get_service_variables(self, service_id):
+        &#34;&#34;&#34;
+
+        Get service variables.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = &#34;{}/service/variables/{}&#34;.format(self.api_path,
+                                                     service_id)
+
+        self._call_get()
+
+    def get_service_variable_by_name(self, service_id, variable_name):
+        &#34;&#34;&#34;
+        Get services variable by name.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+        variabel_name: String
+                Name of the variable
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = &#34;{}/service/variables/{}/{}&#34;.format(self.api_path,
+                                                        service_id,
+                                                        variable_name)
+
+        self._call_get()
+
+    def update_service_variable(self, service_id, variable_name, new_value):
+        &#34;&#34;&#34;
+        Update service variable.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+        variabel_name: String
+                Name of the variable
+        new_value: String
+                New servie variable name
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = &#34;{}/service/variables/{}/{}?value={}&#34;.format(self.api_path,
+                                                                 service_id,
+                                                                 variable_name,
+                                                                 new_value)
+
+        self._call_post()
+
+    def delete_service(self, service_id):
+        &#34;&#34;&#34;
+
+        Delete service.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = \
+            &#39;/orchestration/{}/service/instance/{}&#39;.format(self.ubiqube_id,
+                                                           service_id)
+
+        self._call_delete()
+
+    def execute_service(self, service_name: str, process_name: str,
+                        data: dict):
+        &#34;&#34;&#34;
+
+        Execute service.
+
+        Parameters
+        ----------
+        service_name: String
+                      Service Name
+        process_name: String
+                      Process name
+        data:         dict()
+                      A dictionary containing workflow variables
+
+        Returns
+        -------
+        None
+             If the execution was failed
+        service_id: Integer
+                    If execution was success
+
+        &#34;&#34;&#34;
+        format_path = (&#39;/orchestration/service/execute/{}&#39;
+                       &#39;?serviceName={}&amp;processName={}&amp;serviceInstance=0&#39;)
+
+        self.path = format_path.format(self.ubiqube_id,
+                                       service_name, process_name)
+
+        self._call_post(data)
+
+        service_id = None
+        try:
+            service_id = int(json.loads(self.content)[&#39;serviceId&#39;][&#39;id&#39;])
+        except BaseException:
+            pass
+
+        return service_id
+
+    def execute_service_process(self, service_name: str, process_name: str,
+                                data: dict):
+        &#34;&#34;&#34;
+
+        Execute service.
+
+        Parameters
+        ----------
+        service_name: String
+                      Service Name
+        process_name: String
+                      Process name
+        data:         dict()
+                      A dictionary containing workflow variables
+
+        Returns
+        -------
+        Tuple
+        process_id: Integer
+                    Id if execution was success, -1 if execution fails
+
+        service_id: Integer
+                    Id if execution was success, -1 if execution fails
+
+        &#34;&#34;&#34;
+        format_path = (&#39;/orchestration/service/execute/{}&#39;
+                       &#39;?serviceName={}&amp;processName={}&amp;serviceInstance=0&#39;)
+
+        self.path = format_path.format(self.ubiqube_id,
+                                       service_name, process_name)
+
+        self._call_post(data)
+
+        try:
+            service_id = int(json.loads(self.content)[&#39;serviceId&#39;][&#39;id&#39;])
+        except KeyError:
+            service_id = -1
+
+        try:
+            process_id = int(json.loads(self.content)[&#39;processId&#39;][&#39;id&#39;])
+        except KeyError:
+            process_id = -1
+
+        return service_id, process_id
+
+    # pylint: disable=too-many-arguments
+    def execute_by_service(self, external_ref, service_ref, service_name,
+                           process_name, data):
+        &#34;&#34;&#34;
+
+        Execute by service.
+
+        Parameters
+        ----------
+        external_ref: String
+                External reference
+        service_ref: String
+                service reference
+        service_name: String
+                service name
+        process_name: String
+                Process name
+        data: Json
+                data json
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        format_path = (&#39;/orchestration/service/execute/{}/{}&#39;
+                       &#39;?serviceName={}&amp;processName={}&#39;)
+
+        self.path = format_path.format(external_ref, service_ref,
+                                       service_name, process_name)
+
+        self._call_post(data)
+
+    def execute_service_by_reference(self, external_ref, service_ref,
+                                     service_name, process_name, data):
+        &#34;&#34;&#34;
+
+        Execute service.
+
+        Parameters
+        ----------
+        external_ref: String
+                external reference
+        service_reference: String
+                Service reference
+        service_name: String
+                Service name
+        process_name: String
+                Process name
+        data: Json
+                data json
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        format_path = (&#39;/orchestration/service/execute/{}/{}&#39;
+                       &#39;?serviceName={}&amp;processName={}&#39;)
+
+        self.path = format_path.format(external_ref, service_ref, service_name,
+                                       process_name)
+
+        self._call_post(data)
+
+    def execute_launch_process_instance(self, service_id, process_name, data):
+        &#34;&#34;&#34;
+
+        Execute launch process service.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+        process_name: String
+                Process name
+        data:         dict()
+                      A dictionary containing workflow variables
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        format_path = (&#39;/orchestration/process/execute/{}/{}?processName={}&#39;)
+
+        self.path = format_path.format(self.ubiqube_id,
+                                       service_id, process_name)
+
+        self._call_post(data)
+
+    def list_process_instances_by_service(self, service_id):
+        &#34;&#34;&#34;
+
+        List process instances by Service.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = &#39;{}/process/instances/{}&#39;.format(self.api_path,
+                                                     service_id)
+
+        self._call_get()
+
+    def get_process_instance(self, service_id):
+        &#34;&#34;&#34;
+
+        Get process instance.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Service ID
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = &#39;{}/process/instance/{}&#39;.format(self.api_path,
+                                                    service_id)
+        self._call_get()
+
+    def update_process_script_details(self, process_id, task_id, exec_number,
+                                      data=None):
+        &#34;&#34;&#34;
+
+        Update process script details.
+
+        Parameters
+        ----------
+        process_id: Integer
+                Process ID
+        task_id: Integer
+                Task ID
+        exec_number: Integer
+                Number exec
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = (&#39;{}/process/instance/{}/task/{}&#39;
+                     &#39;/execnumber/{}/update&#39;).format(self.api_path,
+                                                     process_id, task_id,
+                                                     exec_number)
+        self._call_put(data)
+
+    def update_service_instance_reference(self, service_id, service_ref):
+        &#34;&#34;&#34;
+
+        Update service instance reference.
+
+        Parameters
+        ----------
+        service_id: Integer
+                Process ID
+        service_ref: Integer
+                Service reference
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        self.path = (&#39;{}/{}/service/instance/update/{}&#39;
+                     &#39;/?serviceReference={}&#39;).format(self.api_path,
+                                                     self.ubiqube_id,
+                                                     service_id, service_ref)
+        self._call_put()
+
+    def update_asynchronous_task_details(self, process_id: int, task_id: int,
+                                         exec_number: int,
+                                         data: str) -&gt; None:
+        &#34;&#34;&#34;
+
+        Update task comments in GUI dynamically.
+
+        Parameters
+        ----------
+        process_id: Integer
+                Process ID
+        task_id: Integer
+                Task ID
+        exec_number: Integer
+                Number exec
+        data: String
+              Task comment
+
+        Returns
+        -------
+        None
+
+        &#34;&#34;&#34;
+        details_json = json.dumps({&#39;details&#39;: data})
+        self.update_process_script_details(
+            process_id, task_id, exec_number, details_json)
+
+    def get_list_service_by_status(self, range: int) -&gt; dict:
+        &#34;&#34;&#34;
+
+        List services by status.
+
+        Parameters
+        ----------
+        range: Integer
+               Number of days for the statistic
+
+        Returns
+        -------
+        Dict()
+              Key:   Name of service
+              Value: Statistics by status
+
+        &#34;&#34;&#34;
+        self.path = &#39;{}/services?ubiqubeId={}&amp;range={}&#39;.format(
+            self.api_path_v1, self.ubiqube_id, range)
+        self._call_get()
+
+        return json.loads(self.content)
+
+    def get_service_status_by_id(self, service_id: int):
+        &#34;&#34;&#34;
+
+        Return service status by service_id.
+
+        Parameters
+        ----------
+        service_id: Integer
+                    Id of workflow instance
+
+        Returns
+        -------
+        String: RUNNING|FAIL|ENDED
+                Status of the service
+        OR
+        None:   In case if execution failed
+
+        &#34;&#34;&#34;
+        self.path = &#39;{}/service/process-instance/{}&#39;.format(
+            self.api_path_v1, service_id)
+        self._call_get()
+
+        try:
+            status = json.loads(self.content)[0][&#39;status&#39;][&#39;status&#39;]
+        except BaseException:
+            status = None
+
+        return status
+
+    def get_process_status_by_id(self, process_id: int):
+        &#34;&#34;&#34;
+
+        Return process status by process_id.
+
+        Parameters
+        ----------
+        process_id: Integer
+                    Id of workflow instance
+
+        Returns
+        -------
+        String: RUNNING|FAIL|ENDED
+                Status of the service
+        OR
+        None:   In case if execution failed
+
+        &#34;&#34;&#34;
+        self.path = &#39;{}/process-instance/{}&#39;.format(
+            self.api_path_v1, process_id)
+        self._call_get()
+
+        try:
+            status = json.loads(self.content)[&#39;status&#39;][&#39;status&#39;]
+        except BaseException:
+            status = None
+
+        return status</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="msa_sdk.msa_api.MSA_API" href="msa_api.html#msa_sdk.msa_api.MSA_API">MSA_API</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="msa_sdk.orchestration.Orchestration.delete_service"><code class="name flex">
+<span>def <span class="ident">delete_service</span></span>(<span>self, service_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Delete service.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>service_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Service ID</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_service(self, service_id):
+    &#34;&#34;&#34;
+
+    Delete service.
+
+    Parameters
+    ----------
+    service_id: Integer
+            Service ID
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    self.path = \
+        &#39;/orchestration/{}/service/instance/{}&#39;.format(self.ubiqube_id,
+                                                       service_id)
+
+    self._call_delete()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.execute_by_service"><code class="name flex">
+<span>def <span class="ident">execute_by_service</span></span>(<span>self, external_ref, service_ref, service_name, process_name, data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Execute by service.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>external_ref</code></strong> :&ensp;<code>String</code></dt>
+<dd>External reference</dd>
+<dt><strong><code>service_ref</code></strong> :&ensp;<code>String</code></dt>
+<dd>service reference</dd>
+<dt><strong><code>service_name</code></strong> :&ensp;<code>String</code></dt>
+<dd>service name</dd>
+<dt><strong><code>process_name</code></strong> :&ensp;<code>String</code></dt>
+<dd>Process name</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>Json</code></dt>
+<dd>data json</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def execute_by_service(self, external_ref, service_ref, service_name,
+                       process_name, data):
+    &#34;&#34;&#34;
+
+    Execute by service.
+
+    Parameters
+    ----------
+    external_ref: String
+            External reference
+    service_ref: String
+            service reference
+    service_name: String
+            service name
+    process_name: String
+            Process name
+    data: Json
+            data json
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    format_path = (&#39;/orchestration/service/execute/{}/{}&#39;
+                   &#39;?serviceName={}&amp;processName={}&#39;)
+
+    self.path = format_path.format(external_ref, service_ref,
+                                   service_name, process_name)
+
+    self._call_post(data)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.execute_launch_process_instance"><code class="name flex">
+<span>def <span class="ident">execute_launch_process_instance</span></span>(<span>self, service_id, process_name, data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Execute launch process service.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>service_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Service ID</dd>
+<dt><strong><code>process_name</code></strong> :&ensp;<code>String</code></dt>
+<dd>Process name</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>
+dict()</code></dt>
+<dd>A dictionary containing workflow variables</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def execute_launch_process_instance(self, service_id, process_name, data):
+    &#34;&#34;&#34;
+
+    Execute launch process service.
+
+    Parameters
+    ----------
+    service_id: Integer
+            Service ID
+    process_name: String
+            Process name
+    data:         dict()
+                  A dictionary containing workflow variables
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    format_path = (&#39;/orchestration/process/execute/{}/{}?processName={}&#39;)
+
+    self.path = format_path.format(self.ubiqube_id,
+                                   service_id, process_name)
+
+    self._call_post(data)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.execute_service"><code class="name flex">
+<span>def <span class="ident">execute_service</span></span>(<span>self, service_name: str, process_name: str, data: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Execute service.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>service_name</code></strong> :&ensp;<code>String</code></dt>
+<dd>Service Name</dd>
+<dt><strong><code>process_name</code></strong> :&ensp;<code>String</code></dt>
+<dd>Process name</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>
+dict()</code></dt>
+<dd>A dictionary containing workflow variables</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>If the execution was failed</dd>
+<dt><strong><code>service_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>If execution was success</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def execute_service(self, service_name: str, process_name: str,
+                    data: dict):
+    &#34;&#34;&#34;
+
+    Execute service.
+
+    Parameters
+    ----------
+    service_name: String
+                  Service Name
+    process_name: String
+                  Process name
+    data:         dict()
+                  A dictionary containing workflow variables
+
+    Returns
+    -------
+    None
+         If the execution was failed
+    service_id: Integer
+                If execution was success
+
+    &#34;&#34;&#34;
+    format_path = (&#39;/orchestration/service/execute/{}&#39;
+                   &#39;?serviceName={}&amp;processName={}&amp;serviceInstance=0&#39;)
+
+    self.path = format_path.format(self.ubiqube_id,
+                                   service_name, process_name)
+
+    self._call_post(data)
+
+    service_id = None
+    try:
+        service_id = int(json.loads(self.content)[&#39;serviceId&#39;][&#39;id&#39;])
+    except BaseException:
+        pass
+
+    return service_id</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.execute_service_by_reference"><code class="name flex">
+<span>def <span class="ident">execute_service_by_reference</span></span>(<span>self, external_ref, service_ref, service_name, process_name, data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Execute service.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>external_ref</code></strong> :&ensp;<code>String</code></dt>
+<dd>external reference</dd>
+<dt><strong><code>service_reference</code></strong> :&ensp;<code>String</code></dt>
+<dd>Service reference</dd>
+<dt><strong><code>service_name</code></strong> :&ensp;<code>String</code></dt>
+<dd>Service name</dd>
+<dt><strong><code>process_name</code></strong> :&ensp;<code>String</code></dt>
+<dd>Process name</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>Json</code></dt>
+<dd>data json</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def execute_service_by_reference(self, external_ref, service_ref,
+                                 service_name, process_name, data):
+    &#34;&#34;&#34;
+
+    Execute service.
+
+    Parameters
+    ----------
+    external_ref: String
+            external reference
+    service_reference: String
+            Service reference
+    service_name: String
+            Service name
+    process_name: String
+            Process name
+    data: Json
+            data json
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    format_path = (&#39;/orchestration/service/execute/{}/{}&#39;
+                   &#39;?serviceName={}&amp;processName={}&#39;)
+
+    self.path = format_path.format(external_ref, service_ref, service_name,
+                                   process_name)
+
+    self._call_post(data)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.execute_service_process"><code class="name flex">
+<span>def <span class="ident">execute_service_process</span></span>(<span>self, service_name: str, process_name: str, data: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Execute service.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>service_name</code></strong> :&ensp;<code>String</code></dt>
+<dd>Service Name</dd>
+<dt><strong><code>process_name</code></strong> :&ensp;<code>String</code></dt>
+<dd>Process name</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>
+dict()</code></dt>
+<dd>A dictionary containing workflow variables</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Tuple</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>process_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Id if execution was success, -1 if execution fails</dd>
+<dt><strong><code>service_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Id if execution was success, -1 if execution fails</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def execute_service_process(self, service_name: str, process_name: str,
+                            data: dict):
+    &#34;&#34;&#34;
+
+    Execute service.
+
+    Parameters
+    ----------
+    service_name: String
+                  Service Name
+    process_name: String
+                  Process name
+    data:         dict()
+                  A dictionary containing workflow variables
+
+    Returns
+    -------
+    Tuple
+    process_id: Integer
+                Id if execution was success, -1 if execution fails
+
+    service_id: Integer
+                Id if execution was success, -1 if execution fails
+
+    &#34;&#34;&#34;
+    format_path = (&#39;/orchestration/service/execute/{}&#39;
+                   &#39;?serviceName={}&amp;processName={}&amp;serviceInstance=0&#39;)
+
+    self.path = format_path.format(self.ubiqube_id,
+                                   service_name, process_name)
+
+    self._call_post(data)
+
+    try:
+        service_id = int(json.loads(self.content)[&#39;serviceId&#39;][&#39;id&#39;])
+    except KeyError:
+        service_id = -1
+
+    try:
+        process_id = int(json.loads(self.content)[&#39;processId&#39;][&#39;id&#39;])
+    except KeyError:
+        process_id = -1
+
+    return service_id, process_id</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.get_list_service_by_status"><code class="name flex">
+<span>def <span class="ident">get_list_service_by_status</span></span>(<span>self, range: int) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>List services by status.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>range</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Number of days for the statistic</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dict()</code></dt>
+<dd>Key:
+Name of service
+Value: Statistics by status</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_list_service_by_status(self, range: int) -&gt; dict:
+    &#34;&#34;&#34;
+
+    List services by status.
+
+    Parameters
+    ----------
+    range: Integer
+           Number of days for the statistic
+
+    Returns
+    -------
+    Dict()
+          Key:   Name of service
+          Value: Statistics by status
+
+    &#34;&#34;&#34;
+    self.path = &#39;{}/services?ubiqubeId={}&amp;range={}&#39;.format(
+        self.api_path_v1, self.ubiqube_id, range)
+    self._call_get()
+
+    return json.loads(self.content)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.get_process_instance"><code class="name flex">
+<span>def <span class="ident">get_process_instance</span></span>(<span>self, service_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get process instance.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>service_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Service ID</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_process_instance(self, service_id):
+    &#34;&#34;&#34;
+
+    Get process instance.
+
+    Parameters
+    ----------
+    service_id: Integer
+            Service ID
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    self.path = &#39;{}/process/instance/{}&#39;.format(self.api_path,
+                                                service_id)
+    self._call_get()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.get_process_status_by_id"><code class="name flex">
+<span>def <span class="ident">get_process_status_by_id</span></span>(<span>self, process_id: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Return process status by process_id.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>process_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Id of workflow instance</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>String</code></strong> :&ensp;<code>RUNNING|FAIL|ENDED</code></dt>
+<dd>Status of the service</dd>
+<dt><code>OR</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>None</code></strong> :&ensp;<code>
+In case if execution failed</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_process_status_by_id(self, process_id: int):
+    &#34;&#34;&#34;
+
+    Return process status by process_id.
+
+    Parameters
+    ----------
+    process_id: Integer
+                Id of workflow instance
+
+    Returns
+    -------
+    String: RUNNING|FAIL|ENDED
+            Status of the service
+    OR
+    None:   In case if execution failed
+
+    &#34;&#34;&#34;
+    self.path = &#39;{}/process-instance/{}&#39;.format(
+        self.api_path_v1, process_id)
+    self._call_get()
+
+    try:
+        status = json.loads(self.content)[&#39;status&#39;][&#39;status&#39;]
+    except BaseException:
+        status = None
+
+    return status</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.get_service_status_by_id"><code class="name flex">
+<span>def <span class="ident">get_service_status_by_id</span></span>(<span>self, service_id: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Return service status by service_id.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>service_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Id of workflow instance</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>String</code></strong> :&ensp;<code>RUNNING|FAIL|ENDED</code></dt>
+<dd>Status of the service</dd>
+<dt><code>OR</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>None</code></strong> :&ensp;<code>
+In case if execution failed</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_service_status_by_id(self, service_id: int):
+    &#34;&#34;&#34;
+
+    Return service status by service_id.
+
+    Parameters
+    ----------
+    service_id: Integer
+                Id of workflow instance
+
+    Returns
+    -------
+    String: RUNNING|FAIL|ENDED
+            Status of the service
+    OR
+    None:   In case if execution failed
+
+    &#34;&#34;&#34;
+    self.path = &#39;{}/service/process-instance/{}&#39;.format(
+        self.api_path_v1, service_id)
+    self._call_get()
+
+    try:
+        status = json.loads(self.content)[0][&#39;status&#39;][&#39;status&#39;]
+    except BaseException:
+        status = None
+
+    return status</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.get_service_variable_by_name"><code class="name flex">
+<span>def <span class="ident">get_service_variable_by_name</span></span>(<span>self, service_id, variable_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get services variable by name.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>service_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Service ID</dd>
+<dt><strong><code>variabel_name</code></strong> :&ensp;<code>String</code></dt>
+<dd>Name of the variable</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_service_variable_by_name(self, service_id, variable_name):
+    &#34;&#34;&#34;
+    Get services variable by name.
+
+    Parameters
+    ----------
+    service_id: Integer
+            Service ID
+    variabel_name: String
+            Name of the variable
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    self.path = &#34;{}/service/variables/{}/{}&#34;.format(self.api_path,
+                                                    service_id,
+                                                    variable_name)
+
+    self._call_get()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.get_service_variables"><code class="name flex">
+<span>def <span class="ident">get_service_variables</span></span>(<span>self, service_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get service variables.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>service_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Service ID</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_service_variables(self, service_id):
+    &#34;&#34;&#34;
+
+    Get service variables.
+
+    Parameters
+    ----------
+    service_id: Integer
+            Service ID
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    self.path = &#34;{}/service/variables/{}&#34;.format(self.api_path,
+                                                 service_id)
+
+    self._call_get()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.list_process_instances_by_service"><code class="name flex">
+<span>def <span class="ident">list_process_instances_by_service</span></span>(<span>self, service_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>List process instances by Service.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>service_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Service ID</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_process_instances_by_service(self, service_id):
+    &#34;&#34;&#34;
+
+    List process instances by Service.
+
+    Parameters
+    ----------
+    service_id: Integer
+            Service ID
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    self.path = &#39;{}/process/instances/{}&#39;.format(self.api_path,
+                                                 service_id)
+
+    self._call_get()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.list_service_instances"><code class="name flex">
+<span>def <span class="ident">list_service_instances</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>List service instances.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_service_instances(self):
+    &#34;&#34;&#34;
+    List service instances.
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    self.action = &#39;List service instances&#39;
+    self.path = &#34;{}/{}/service/instance&#34;.format(self.api_path,
+                                                self.ubiqube_id)
+    self._call_get()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.read_service_instance"><code class="name flex">
+<span>def <span class="ident">read_service_instance</span></span>(<span>self, service_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read service instance.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>service_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Service ID</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_service_instance(self, service_id):
+    &#34;&#34;&#34;
+    Read service instance.
+
+    Parameters
+    ----------
+    service_id: Integer
+            Service ID
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    self.action = &#39;Read service instances&#39;
+    self.path = &#34;{}/{}/service/instance/{}&#34;.format(self.api_path,
+                                                   self.ubiqube_id,
+                                                   service_id)
+
+    self._call_get()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.update_asynchronous_task_details"><code class="name flex">
+<span>def <span class="ident">update_asynchronous_task_details</span></span>(<span>self, process_id: int, task_id: int, exec_number: int, data: str) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update task comments in GUI dynamically.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>process_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Process ID</dd>
+<dt><strong><code>task_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Task ID</dd>
+<dt><strong><code>exec_number</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Number exec</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>String</code></dt>
+<dd>Task comment</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_asynchronous_task_details(self, process_id: int, task_id: int,
+                                     exec_number: int,
+                                     data: str) -&gt; None:
+    &#34;&#34;&#34;
+
+    Update task comments in GUI dynamically.
+
+    Parameters
+    ----------
+    process_id: Integer
+            Process ID
+    task_id: Integer
+            Task ID
+    exec_number: Integer
+            Number exec
+    data: String
+          Task comment
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    details_json = json.dumps({&#39;details&#39;: data})
+    self.update_process_script_details(
+        process_id, task_id, exec_number, details_json)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.update_process_script_details"><code class="name flex">
+<span>def <span class="ident">update_process_script_details</span></span>(<span>self, process_id, task_id, exec_number, data=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update process script details.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>process_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Process ID</dd>
+<dt><strong><code>task_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Task ID</dd>
+<dt><strong><code>exec_number</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Number exec</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_process_script_details(self, process_id, task_id, exec_number,
+                                  data=None):
+    &#34;&#34;&#34;
+
+    Update process script details.
+
+    Parameters
+    ----------
+    process_id: Integer
+            Process ID
+    task_id: Integer
+            Task ID
+    exec_number: Integer
+            Number exec
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    self.path = (&#39;{}/process/instance/{}/task/{}&#39;
+                 &#39;/execnumber/{}/update&#39;).format(self.api_path,
+                                                 process_id, task_id,
+                                                 exec_number)
+    self._call_put(data)</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.update_service_instance_reference"><code class="name flex">
+<span>def <span class="ident">update_service_instance_reference</span></span>(<span>self, service_id, service_ref)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update service instance reference.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>service_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Process ID</dd>
+<dt><strong><code>service_ref</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Service reference</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_service_instance_reference(self, service_id, service_ref):
+    &#34;&#34;&#34;
+
+    Update service instance reference.
+
+    Parameters
+    ----------
+    service_id: Integer
+            Process ID
+    service_ref: Integer
+            Service reference
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    self.path = (&#39;{}/{}/service/instance/update/{}&#39;
+                 &#39;/?serviceReference={}&#39;).format(self.api_path,
+                                                 self.ubiqube_id,
+                                                 service_id, service_ref)
+    self._call_put()</code></pre>
+</details>
+</dd>
+<dt id="msa_sdk.orchestration.Orchestration.update_service_variable"><code class="name flex">
+<span>def <span class="ident">update_service_variable</span></span>(<span>self, service_id, variable_name, new_value)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update service variable.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>service_id</code></strong> :&ensp;<code>Integer</code></dt>
+<dd>Service ID</dd>
+<dt><strong><code>variabel_name</code></strong> :&ensp;<code>String</code></dt>
+<dd>Name of the variable</dd>
+<dt><strong><code>new_value</code></strong> :&ensp;<code>String</code></dt>
+<dd>New servie variable name</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>None</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_service_variable(self, service_id, variable_name, new_value):
+    &#34;&#34;&#34;
+    Update service variable.
+
+    Parameters
+    ----------
+    service_id: Integer
+            Service ID
+    variabel_name: String
+            Name of the variable
+    new_value: String
+            New servie variable name
+
+    Returns
+    -------
+    None
+
+    &#34;&#34;&#34;
+    self.path = &#34;{}/service/variables/{}/{}?value={}&#34;.format(self.api_path,
+                                                             service_id,
+                                                             variable_name,
+                                                             new_value)
+
+    self._call_post()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="msa_sdk.msa_api.MSA_API" href="msa_api.html#msa_sdk.msa_api.MSA_API">MSA_API</a></b></code>:
+<ul class="hlist">
+<li><code><a title="msa_sdk.msa_api.MSA_API.check_response" href="msa_api.html#msa_sdk.msa_api.MSA_API.check_response">check_response</a></code></li>
+<li><code><a title="msa_sdk.msa_api.MSA_API.content" href="msa_api.html#msa_sdk.msa_api.MSA_API.content">content</a></code></li>
+<li><code><a title="msa_sdk.msa_api.MSA_API.log_to_process_file" href="msa_api.html#msa_sdk.msa_api.MSA_API.log_to_process_file">log_to_process_file</a></code></li>
+<li><code><a title="msa_sdk.msa_api.MSA_API.process_content" href="msa_api.html#msa_sdk.msa_api.MSA_API.process_content">process_content</a></code></li>
+<li><code><a title="msa_sdk.msa_api.MSA_API.task_error" href="msa_api.html#msa_sdk.msa_api.MSA_API.task_error">task_error</a></code></li>
+<li><code><a title="msa_sdk.msa_api.MSA_API.task_success" href="msa_api.html#msa_sdk.msa_api.MSA_API.task_success">task_success</a></code></li>
+<li><code><a title="msa_sdk.msa_api.MSA_API.token" href="msa_api.html#msa_sdk.msa_api.MSA_API.token">token</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="msa_sdk" href="index.html">msa_sdk</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="msa_sdk.orchestration.Orchestration" href="#msa_sdk.orchestration.Orchestration">Orchestration</a></code></h4>
+<ul class="">
+<li><code><a title="msa_sdk.orchestration.Orchestration.delete_service" href="#msa_sdk.orchestration.Orchestration.delete_service">delete_service</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.execute_by_service" href="#msa_sdk.orchestration.Orchestration.execute_by_service">execute_by_service</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.execute_launch_process_instance" href="#msa_sdk.orchestration.Orchestration.execute_launch_process_instance">execute_launch_process_instance</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.execute_service" href="#msa_sdk.orchestration.Orchestration.execute_service">execute_service</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.execute_service_by_reference" href="#msa_sdk.orchestration.Orchestration.execute_service_by_reference">execute_service_by_reference</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.execute_service_process" href="#msa_sdk.orchestration.Orchestration.execute_service_process">execute_service_process</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.get_list_service_by_status" href="#msa_sdk.orchestration.Orchestration.get_list_service_by_status">get_list_service_by_status</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.get_process_instance" href="#msa_sdk.orchestration.Orchestration.get_process_instance">get_process_instance</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.get_process_status_by_id" href="#msa_sdk.orchestration.Orchestration.get_process_status_by_id">get_process_status_by_id</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.get_service_status_by_id" href="#msa_sdk.orchestration.Orchestration.get_service_status_by_id">get_service_status_by_id</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.get_service_variable_by_name" href="#msa_sdk.orchestration.Orchestration.get_service_variable_by_name">get_service_variable_by_name</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.get_service_variables" href="#msa_sdk.orchestration.Orchestration.get_service_variables">get_service_variables</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.list_process_instances_by_service" href="#msa_sdk.orchestration.Orchestration.list_process_instances_by_service">list_process_instances_by_service</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.list_service_instances" href="#msa_sdk.orchestration.Orchestration.list_service_instances">list_service_instances</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.read_service_instance" href="#msa_sdk.orchestration.Orchestration.read_service_instance">read_service_instance</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.update_asynchronous_task_details" href="#msa_sdk.orchestration.Orchestration.update_asynchronous_task_details">update_asynchronous_task_details</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.update_process_script_details" href="#msa_sdk.orchestration.Orchestration.update_process_script_details">update_process_script_details</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.update_service_instance_reference" href="#msa_sdk.orchestration.Orchestration.update_service_instance_reference">update_service_instance_reference</a></code></li>
+<li><code><a title="msa_sdk.orchestration.Orchestration.update_service_variable" href="#msa_sdk.orchestration.Orchestration.update_service_variable">update_service_variable</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
