@@ -60,13 +60,13 @@ TOTAL                        359      0   100%
 ```
 *Image above is only an example*
 
+### 5) Create your PR in  https://github.com/openmsa/python-sdk 
 
-### 5) Generate Documentation and Json references
+
+### 6) Generate Documentation and Json references
+
 `$ pdoc --html --force -o html msa_sdk`
-
-then copy all files under `html/msa_sdk/` to `msa-docker/front/msa_sdk_doc`
-     `mkdir -p  msa-docker/front/msa_sdk_doc`
-     `cp -p html/msa_sdk/* msa-docker/front/msa_sdk_doc`
+   it will update docs files under `html/msa_sdk/`
 
 Note: in order to run this, the msa_api container needs to be running on port 8480:
  cf file docker-compose.yml, add port 8480 like :
@@ -80,16 +80,22 @@ Note: in order to run this, the msa_api container needs to be running on port 84
       - msa_es
     ports:
       - "8480:8480"
-
-  `$ python sdk_to_json.py > msa_sdk.json`
-
-move the msa_sdk.json to msa-docker/front/msa_sdk_doc
-  `mv msa_sdk.json  msa-docker/front/msa_sdk_doc`
+  and restart docker-compose
   
-Add theim in the PR, merged it  
+  `$ python sdk_to_json.py > msa_sdk.json`
+    It will update/create file msa_sdk.json
  
- Check the new doc after getting the new commit:
- https://</msa_IP>/msa_sdk/index.html 
+  
+### 7) Save the new  Documentation and Json references
+
+   You have to save the files `html/msa_sdk/*` and `msa_sdk.json` into  https://github.com/ubiqube/msa-docker/tree/master/front/msa_sdk_doc
+   
+7.1) Clone https://github.com/ubiqube/msa-docker/tree/master/front/msa_sdk_doc
+7.2) Copy `html/msa_sdk/*` into msa-docker/front/msa_sdk_doc/`
+     Copy `msa_sdk.json` into msa-docker/front/msa_sdk_doc/`
+7.3) Create the new PR
+7.4) After merge it, you can check the new doc  into 
+	   https://</msa_IP>/msa_sdk/index.html 
  
  
 #################################################################################
