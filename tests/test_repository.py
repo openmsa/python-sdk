@@ -209,13 +209,128 @@ def test_get_workflow_definition(repository_fixture):
 
 def test_change_workflow_definition(repository_fixture):
     """
-    Test change workflow defenition.
+    Test change workflow definition.
     """
 
     with patch('msa_sdk.msa_api.MSA_API._call_put') as mock_call_put:
         repository = repository_fixture
         assert repository.change_workflow_definition('Execute_Ansible_based_microservice.xml', {
                                                      "example": "", "process": [{"tasks": ""}]}) is None
+
+
+def test_create_workflow_definition(repository_fixture):
+    """
+    Test create workflow definition.
+    """
+    
+    import json
+    workflow_definition =  ''' {
+                  "example": {
+                    "content": "string"
+                  },
+                  "metaInformationList": [
+                    {
+                      "type": "FILE",
+                      "name": "TEST_NEW_WF.xml",
+                      "displayName": "TEST_NEW_WF",
+                      "repositoryName": "Process",
+                      "parentURI": "Process/workflows/TEST_NEW_WF",
+                      "fileType": "text",
+                      "tag": "string",
+                      "comment": "string",
+                      "modelId": 0,
+                      "vendorId": 0,
+                      "uri": "Process/workflows/TEST_NEW_WF/TEST_NEW_WF.xml",
+                      "file": "true"
+                    }
+                  ],
+                  "information": {
+                    "displayName": "TEST_NEW_WF",
+                    "icon": "string",
+                    "description": "TEST_NEW_WF",
+                    "category": "string",
+                    "displayField": "string",
+                    "serviceTaskType": "string",
+                    "order": 0,
+                    "visibility": "5"
+                  },
+                  "process": [
+                    {
+                      "name": "Process/workflows/TEST_NEW_WF/create",
+                      "displayName": "instanciate",
+                      "type": "CREATE",
+                      "visibility": "5",
+                      "allowSchedule": false,
+                      "tasks": [
+                        {
+                          "fileName": "Task1.py",
+                          "fileUri": "/opt/fmc_repository/Process/workflows/TEST_NEW_WF/Process_instanciate/Tasks",
+                          "displayName": "Task1"
+                        }
+                      ]
+                    }
+                  ]
+                } 
+         '''
+    workflow_definition_dict = json.loads(workflow_definition)  #convert string into dict
+
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+        repository = repository_fixture
+        assert repository.create_workflow_definition(workflow_definition_dict) is None
+
+def test_create_workflow_definition2(repository_fixture):
+    """
+    Test create workflow definition with empty workflow_definition_dict['process']['tasks'].
+    """
+    
+    import json
+    workflow_definition =  ''' {
+                  "example": {
+                    "content": "string"
+                  },
+                  "metaInformationList": [
+                    {
+                      "type": "FILE",
+                      "name": "TEST_NEW_WF.xml",
+                      "displayName": "TEST_NEW_WF",
+                      "repositoryName": "Process",
+                      "parentURI": "Process/workflows/TEST_NEW_WF",
+                      "fileType": "text",
+                      "tag": "string",
+                      "comment": "string",
+                      "modelId": 0,
+                      "vendorId": 0,
+                      "uri": "Process/workflows/TEST_NEW_WF/TEST_NEW_WF.xml",
+                      "file": "true"
+                    }
+                  ],
+                  "information": {
+                    "displayName": "TEST_NEW_WF",
+                    "icon": "string",
+                    "description": "TEST_NEW_WF",
+                    "category": "string",
+                    "displayField": "string",
+                    "serviceTaskType": "string",
+                    "order": 0,
+                    "visibility": "5"
+                  },
+                  "process": [
+                    {
+                      "name": "Process/workflows/TEST_NEW_WF/create",
+                      "displayName": "instanciate",
+                      "type": "CREATE",
+                      "visibility": "5",
+                      "allowSchedule": false,
+                      "tasks": []
+                    }
+                  ]
+                } 
+         '''
+    workflow_definition_dict = json.loads(workflow_definition)  #convert string into dict
+
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+        repository = repository_fixture
+        assert repository.create_workflow_definition(workflow_definition_dict) is None
 
 
 def test_get_file(repository_fixture):

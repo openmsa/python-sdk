@@ -295,6 +295,81 @@ class Repository(MSA_API):
         self._call_put(json.dumps(workflow_definition_dict))
         return None
 
+    def create_workflow_definition(
+            self,
+            workflow_definition_dict: dict) -> None:
+        """
+        Change workflow defenition.
+
+        Parameters
+        ----------
+            workflow_definition_dict: Workflow definition
+              example:
+              workflow_definition =  ''' {
+                  "example": {
+                    "content": "string"
+                  },
+                  "metaInformationList": [
+                    {
+                      "type": "FILE",
+                      "name": "TEST_NEW_WF.xml",
+                      "displayName": "TEST_NEW_WF",
+                      "repositoryName": "Process",
+                      "parentURI": "Process/workflows/TEST_NEW_WF",
+                      "fileType": "text",
+                      "tag": "string",
+                      "comment": "string",
+                      "modelId": 0,
+                      "vendorId": 0,
+                      "uri": "Process/workflows/TEST_NEW_WF/TEST_NEW_WF.xml",
+                      "file": "true"
+                    }
+                  ],
+                  "information": {
+                    "displayName": "TEST_NEW_WF",
+                    "icon": "string",
+                    "description": "TEST_NEW_WF",
+                    "category": "string",
+                    "displayField": "string",
+                    "serviceTaskType": "string",
+                    "order": 0,
+                    "visibility": "5"
+                  },
+                  "process": [
+                    {
+                      "name": "Process/workflows/TEST_NEW_WF/create",
+                      "displayName": "instanciate",
+                      "type": "CREATE",
+                      "visibility": "5",
+                      "allowSchedule": false,
+                      "tasks": [
+                        {
+                          "fileName": "Task1.py",
+                          "fileUri": "/opt/fmc_repository/Process/workflows/TEST_NEW_WF/Process_instanciate/Tasks",
+                          "displayName": "Task1"
+                        }
+                      ]
+                    }
+                  ]
+                } 
+                '''
+                workflow_definition_dict = json.loads(workflow_definition)  #convert string into dict
+            
+        Returns
+        -------
+            None
+
+        """
+        self.action = 'Create workflow'
+        self.path = "/repository/v2/resource/workflow"
+
+        for process_details in workflow_definition_dict['process']:
+            if not process_details['tasks']:
+                process_details['tasks'] = list()
+              
+        self._call_post(workflow_definition_dict)  
+        return None
+
     def get_file(self, file_uri):
         """
         Get file content.
