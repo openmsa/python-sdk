@@ -250,7 +250,7 @@ class Repository(MSA_API):
 
         Parameters
         ----------
-            file_uri: Path to workflow file.
+            file_uri: Path to workflow file like 'Process/workflows/TEST_WF1/TEST_WF1.xml'.
         Returns
         -------
             Dictionary: dict()
@@ -357,7 +357,7 @@ class Repository(MSA_API):
             
         Returns
         -------
-            None
+          None if no error, else it return the error
 
         """
         self.action = 'Create workflow'
@@ -369,6 +369,25 @@ class Repository(MSA_API):
               
         self._call_post(workflow_definition_dict)  
         return None
+
+    def delete_workflow_definition(self, file_uri: str) -> dict:
+        """
+        Delete Workflow resource.
+
+        Parameters
+        ----------
+            file_uri: Path to workflow file 'like Process/workflows/TEST_WF1/TEST_WF1.xml'.
+        Returns
+        -------
+            None if no error, else it return the error
+
+        """
+        url_encoded = urlencode({'uri': file_uri})
+        self.action = 'Delete workflow definition'
+        self.path = "/repository/v1/resource/workflow?{}".format(url_encoded)
+        self._call_delete()
+        return None
+
 
     def get_file(self, file_uri):
         """

@@ -197,15 +197,16 @@ def test_get_workflow_definition(repository_fixture):
     Test Get workflow definition.
     """
 
+    #response = '{"variables": {"variable": [{"defaultValue": "name1", "displayName": "var_name", "name": "params.var_name", "startIncrement": 0, "type": "String", "mandatoryArray": False, "visible": True, "description": "", "groupSeparator": "", "groupDisplayName": "", "displayOrder": 0, "increment": 0, "refServiceURI": "", "refDeviceIdVar": None, "keepOnImport": False, "editable": False, "onlyDetailView": False, "localVarNameMatch": "", "remoteVarNameMatch": "", "arrayCanAdd": True, "arrayCanRemove": True, "arrayCanMove": True, "arrayCanEdit": True, "mandatory": False, "userLocked": False, "grouped": False, "searchable": False, "uniqueGlobal": False, "selector": None, "defaultValueLong": None, "displayNameHeader": "", "fullDisplayName": "", "behaviour": None, "indexVariables": None, "sections": None, "sdTypes": None, "class": None, "values": None}, {"defaultValue": "24", "displayName": "integer", "name": "params.integer", "startIncrement": 0, "type": "Integer", "mandatoryArray": False, "visible": True, "description": "", "groupSeparator": "", "groupDisplayName": "", "displayOrder": 0, "increment": 0, "refServiceURI": "", "refDeviceIdVar": None, "keepOnImport": False, "editable": False, "onlyDetailView": False, "localVarNameMatch": "", "remoteVarNameMatch": "", "arrayCanAdd": True, "arrayCanRemove": True, "arrayCanMove": True, "arrayCanEdit": True, "mandatory": False, "userLocked": False, "grouped": False, "searchable": False, "uniqueGlobal": False, "selector": None, "defaultValueLong": None, "displayNameHeader": "", "fullDisplayName": "", "behaviour": None, "indexVariables": None, "sections": None, "sdTypes": None, "class": None, "values": None}, {"defaultValue": None, "displayName": "array_array", "name": "params.array_array", "startIncrement": 0, "type": "String", "mandatoryArray": False, "visible": True, "description": "", "groupSeparator": "", "groupDisplayName": "", "displayOrder": 0, "increment": 0, "refServiceURI": "", "refDeviceIdVar": None, "keepOnImport": False, "editable": False, "onlyDetailView": False, "localVarNameMatch": "", "remoteVarNameMatch": "", "arrayCanAdd": True, "arrayCanRemove": True, "arrayCanMove": True, "arrayCanEdit": True, "mandatory": False, "userLocked": False, "grouped": False, "searchable": False, "uniqueGlobal": False, "selector": None, "defaultValueLong": None, "displayNameHeader": "", "fullDisplayName": "", "behaviour": None, "indexVariables": None, "sections": None, "sdTypes": None, "class": None, "values": None}], "frozen": 0}, "example": None, "process": [{"name": "Process/workflows/TEST_WF1/Process_instanciate", "displayName": "instanciate", "type": "CREATE", "visibility": 5, "allowSchedule": None, "tasks": [{"displayName": "instanciate", "fileName": "Task_instanciate.py", "fileUri": "/opt/fmc_repository/Process/workflows/TEST_WF1/Process_instanciate/Tasks"}]}, {"name": "Process/workflows/TEST_WF1/Process_update_array", "displayName": "update_array", "type": "UPDATE", "visibility": 5, "allowSchedule": None, "tasks": [{"displayName": "update_array", "fileName": "Task_update_array.py", "fileUri": "/opt/fmc_repository/Process/workflows/TEST_WF1/Process_update_array/Tasks"}]}], "information": {"displayName": "TEST_WF1", "icon": None, "description": "TEST_WF1", "category": None, "displayField": "service_id", "serviceTaskType": "python", "order": 10000, "visibility": 5}, "metaInformationList": [{"type": "FILE", "name": "TEST_WF1.xml", "displayName": "TEST_WF1.xml", "repositoryName": "Process", "parentURI": "Process/workflows/TEST_WF1", "fileType": "text", "tag": None, "comment": None, "modelId": 0, "vendorId": 0, "uri": "Process/workflows/TEST_WF1/TEST_WF1.xml", "file": True}]}'
+    
     response = (
-        '{"information" : {"displayName" : "Execute Ansible-based microservice"}}')
-
+        '{"information" : {"displayName" : "Execute Get workflow definition"}}')
+                
     with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
         repository = repository_fixture
         repository._content = response
-        assert repository.get_workflow_definition('Execute_Ansible_based_microservice.xml')[
-            'information']['displayName'] == 'Execute Ansible-based microservice'
-
+        assert repository.get_workflow_definition('Process/workflows/TEST_WF1/TEST_WF1.xml')[
+             'information']['displayName'] == 'Execute Get workflow definition'            
 
 def test_change_workflow_definition(repository_fixture):
     """
@@ -331,6 +332,19 @@ def test_create_workflow_definition2(repository_fixture):
     with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         repository = repository_fixture
         assert repository.create_workflow_definition(workflow_definition_dict) is None
+
+
+def test_delete_workflow_definition(repository_fixture):
+    """
+    Test delete workflow definition.
+    """
+
+    response = ('{}')
+
+    with patch('msa_sdk.msa_api.MSA_API._call_delete') as mock_call_delete:
+        repository = repository_fixture
+        repository._content = response
+        assert repository.delete_workflow_definition('Process/workflows/TEST_WF1/TEST_WF1.xml') is None
 
 
 def test_get_file(repository_fixture):
