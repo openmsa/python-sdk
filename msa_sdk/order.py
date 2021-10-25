@@ -125,7 +125,7 @@ class Order(Device):
 
         self._call_post(params, timeout=timeout)
 
-    def command_call(self, command, mode, params):
+    def command_call(self, command, mode, params, timeout=300):
         """
 
         Command call.
@@ -148,7 +148,7 @@ class Order(Device):
                                               self.device_id,
                                               command,
                                               mode)
-        self._call_post(params)
+        self._call_post(params, timeout)
 
     def command_objects_all(self):
         """
