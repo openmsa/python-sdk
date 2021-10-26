@@ -14,7 +14,7 @@ class Order(Device):
         self.api_path = '/ordercommand'
         self.read()
 
-    def command_execute(self, command, params, timeout=60):
+    def command_execute(self, command, params, timeout=300):
         """
 
         Command execute.
@@ -36,7 +36,7 @@ class Order(Device):
                                 "dst_port": "44"
                         }
                 }
-
+                timeout:  int timeout in sec (300 secondes by default)
 
         Returns
         -------
@@ -125,7 +125,7 @@ class Order(Device):
 
         self._call_post(params, timeout=timeout)
 
-    def command_call(self, command, mode, params):
+    def command_call(self, command, mode, params, timeout=300):
         """
 
         Command call.
@@ -148,7 +148,7 @@ class Order(Device):
                                               self.device_id,
                                               command,
                                               mode)
-        self._call_post(params)
+        self._call_post(params, timeout)
 
     def command_objects_all(self):
         """
