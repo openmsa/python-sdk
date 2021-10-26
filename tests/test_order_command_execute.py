@@ -104,11 +104,11 @@ def test_command_call(_, order_fixture):
     with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         order = order_fixture
         order.command_call('UPDATE', 1,
-                           {"subnet": "mySubnet"})
+                           {"subnet": "mySubnet"}, 300)
 
         assert order.path == local_path
 
-        mock_call_post.assert_called_once_with({"subnet": "mySubnet"})
+        mock_call_post.assert_called_once_with({"subnet": "mySubnet"}, 300)
 
 
 @patch('msa_sdk.device.Device.read')
