@@ -1,4 +1,4 @@
-"""Module ConfProfile."""
+"""Module ConfBackup."""
 
 import json
 
