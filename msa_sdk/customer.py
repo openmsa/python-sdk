@@ -1,4 +1,4 @@
-"""Module lookup."""
+"""Module customer."""
 
 from msa_sdk.msa_api import MSA_API
 
