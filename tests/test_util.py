@@ -434,7 +434,7 @@ def test_log_to_service_file_success(tmpdir):
 
         assert log_to_process_file(params['SERVICEINSTANCEID'], log_message, params['PROCESSINSTANCEID'])
 
-        check_pattern = f'^.+?:|2345|:DEBUG:{log_message}$'
+        check_pattern = r'^\n.+?|2345|\n{log_message}$'
         with open(f'{temp_dir}/process-1234.log', 'r') as log_file:
             assert re.match(check_pattern, log_file.read())
 
@@ -453,7 +453,7 @@ def test_log_line_break_to_service_file_success(tmpdir):
 
         assert log_to_process_file(params['SERVICEINSTANCEID'], log_message, params['PROCESSINSTANCEID'])
 
-        check_pattern = f'^.+?:|2345|:DEBUG:{log_message}$\n^.+?:|2345|'
+        check_pattern = r'^\n.+?|2345|{log_message}$\n^.+?|2345--|'
         with open(f'{temp_dir}/process-1234.log', 'r') as log_file:
             assert re.match(check_pattern, log_file.read())
 

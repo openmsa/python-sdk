@@ -383,16 +383,16 @@ def log_to_process_file(service_id: str, log_message: str, process_id: str=None)
     """
     process_log_path = '{}/process-{}.log'.format(
         constants.PROCESS_LOGS_DIRECTORY, service_id)
-    current_time = datetime.now().isoformat()
+    log_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if not process_id:
         log_string = '{date}:{file}:DEBUG:{msg}\n'.format(
-            date=current_time, file=sys.argv[0].split('/')[-1], msg=log_message)
+            date=log_time, file=sys.argv[0].split('/')[-1], msg=log_message)
     else:
-        log_string = '{date}:{file}:|{process_id}|:DEBUG:{msg}\n'.format(
-            date=current_time, file=sys.argv[0].split('/')[-1], process_id=process_id, msg=log_message)
+        log_string = '\n=== {} ===|{}|\n{}'.format(
+            log_time, process_id, log_message)
         if "\n" in log_message:
-            log_string += '{date}:{file}:|{process_id}--|\n'.format(
-            date=current_time, file=sys.argv[0].split('/')[-1], process_id=process_id)
+            log_string += '\n=== {} ===|{}--|'.format(
+                log_time, process_id)
     try:
         with open(process_log_path, 'a') as log_file:
             log_file.write(log_string)
