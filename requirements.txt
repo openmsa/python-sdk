@@ -3,6 +3,5 @@ xlrd==1.2.0
 pandas==1.1.5
 json2html
 pyang
-setuptools_rust
 awscli==0.7.0
 azure-cli==2.31.0
