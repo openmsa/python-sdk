@@ -1,3 +1,3 @@
 """Package SDK."""
-__version__ = "2.1.40"
-VERSION = "2.1.40"
+__version__ = "2.1.41"
+VERSION = "2.1.41"
