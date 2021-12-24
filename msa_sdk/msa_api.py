@@ -53,7 +53,7 @@ class MSA_API():  # pylint: disable=invalid-name
         Parameters
         ----------
         status: String
-            Status ID: 'ENDED', 'FAIL', 'RUNNING', 'WARNING', PAUSE
+            Status ID: 'ENDED', 'FAIL', 'RUNNING', 'WARNING', 'PAUSE'
         comment: String
             Comment
         new_params: Dictionary
