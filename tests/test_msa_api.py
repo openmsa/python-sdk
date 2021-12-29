@@ -137,7 +137,10 @@ def test_content_with_log(api_fixture, tmpdir):
     with patch('msa_sdk.constants.PROCESS_LOGS_DIRECTORY', temp_dir):
         api = api_fixture
 
-        params = {"SERVICEINSTANCEID": 1234, "Other": "Value", "PROCESSINSTANCEID": 2345}
+        params = {
+            "SERVICEINSTANCEID": 1234,
+            "Other": "Value",
+            "PROCESSINSTANCEID": 2345}
 
         response = {
             "wo_status": 'ENDED',
@@ -150,8 +153,9 @@ def test_content_with_log(api_fixture, tmpdir):
 
         log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(log_time, params['PROCESSINSTANCEID'], json.dumps(params,
-                                                                 indent=4), log_time, params['PROCESSINSTANCEID'])
+        log_msg = '\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(
+            log_time, params['PROCESSINSTANCEID'], json.dumps(
+                params, indent=4), log_time, params['PROCESSINSTANCEID'])
 
         assert log_msg == open(
             '{}/{}'.format(temp_dir, 'process-1234.log'), 'r').read()
@@ -168,8 +172,14 @@ def test_content_with_log_more_lines(api_fixture, tmpdir):
     with patch('msa_sdk.constants.PROCESS_LOGS_DIRECTORY', temp_dir):
         api = api_fixture
 
-        params1 = {"SERVICEINSTANCEID": 1234, "Other": "Value1", "PROCESSINSTANCEID": 2345}
-        params2 = {"SERVICEINSTANCEID": 1234, "Other": "Value2", "PROCESSINSTANCEID": 3456}
+        params1 = {
+            "SERVICEINSTANCEID": 1234,
+            "Other": "Value1",
+            "PROCESSINSTANCEID": 2345}
+        params2 = {
+            "SERVICEINSTANCEID": 1234,
+            "Other": "Value2",
+            "PROCESSINSTANCEID": 3456}
 
         response = {
             "wo_status": 'ENDED',
@@ -182,8 +192,9 @@ def test_content_with_log_more_lines(api_fixture, tmpdir):
 
         log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        log_msg_1 = '\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(log_time, params1['PROCESSINSTANCEID'], json.dumps(params1,
-                                                                   indent=4), log_time, params1['PROCESSINSTANCEID'] )
+        log_msg_1 = '\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(
+            log_time, params1['PROCESSINSTANCEID'], json.dumps(
+                params1, indent=4), log_time, params1['PROCESSINSTANCEID'])
 
         assert log_msg_1 == open(
             '{}/{}'.format(temp_dir, 'process-1234.log'), 'r').read()
@@ -191,7 +202,8 @@ def test_content_with_log_more_lines(api_fixture, tmpdir):
         api.process_content('ENDED', 'Task OK', params2, True)
 
         log_msg_2 = '{}\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(
-            log_msg_1, log_time, params2['PROCESSINSTANCEID'], json.dumps(params2, indent=4), log_time, params2['PROCESSINSTANCEID'])
+            log_msg_1, log_time, params2['PROCESSINSTANCEID'], json.dumps(
+                params2, indent=4), log_time, params2['PROCESSINSTANCEID'])
 
         assert log_msg_2 == open(
             '{}/{}'.format(temp_dir, 'process-1234.log'), 'r').read()
