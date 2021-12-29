@@ -103,8 +103,30 @@ def test_content_no_log(api_fixture):
             "SERVICEINSTANCEID": "1234",
             "Other": "Value"}) == json.dumps(response)
 
+# pylint: disable=redefined-outer-name
+
+
+def test_content_fail_failed(api_fixture):
+    """
+    Test translate FAILED to FAIL
+    """
+
+    api = api_fixture
+
+    response = {
+        "wo_status": 'FAIL',
+        "wo_comment": 'Task OK',
+        "wo_newparams": {"SERVICEINSTANCEID": "1234", "Other": "Value"}
+    }
+
+    assert api.process_content(
+        'FAILED', 'Task OK', {
+            "SERVICEINSTANCEID": "1234",
+            "Other": "Value"}) == json.dumps(response)
 
 # pylint: disable=redefined-outer-name
+
+
 def test_content_with_log(api_fixture, tmpdir):
     """
     Test content with log

@@ -66,6 +66,10 @@ class MSA_API():  # pylint: disable=invalid-name
         Response content formated
 
         """
+        # Treat FAILED as FAIL
+        if status == 'FAILED':
+            status = 'FAIL'
+
         def log_to_file(log_id, log_msg, process_id):
             """
 
