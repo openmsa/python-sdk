@@ -245,7 +245,7 @@ class MSA_API():  # pylint: disable=invalid-name
         self._content = self.response.text
         self.check_response()
 
-    def _call_put(self, data=None):
+    def _call_put(self, data=None) -> None:
         """
         Call -XPUT. This is a private method.
 
@@ -270,7 +270,7 @@ class MSA_API():  # pylint: disable=invalid-name
         self._content = self.response.text
         self.check_response()
 
-    def _call_delete(self):
+    def _call_delete(self) -> None:
         """
         Call -XDELETE. This is a private method.
 
