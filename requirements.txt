@@ -5,3 +5,4 @@ json2html
 pyang
 awscli==0.7.0
 azure-cli==2.31.0
+pexpect
