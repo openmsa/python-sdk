@@ -363,3 +363,43 @@ def test_execute_command_on_device(device_fixture):
 
       mock_call_post.assert_called_once()
       
+      
+def get_all_configuration_variables(device_fixture):  # pylint: disable=W0621
+    """
+    Test get_all_configuration_variables
+    """
+    device = device_fixture
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = 'UNREACHABLE'
+        assert device.status() == 'UNREACHABLE'
+
+        assert device.path == '/variables/{device_id}'.format(device_id=self.device_id)
+        mock_call_get.assert_called_once()
+        
+def get_all_manufacturers(device_fixture):  # pylint: disable=W0621
+    """
+    Test get_all_manufacturers
+    """
+    device = device_fixture
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = 'UNREACHABLE'
+        assert device.status() == 'UNREACHABLE'
+
+        assert device.path == '/device/v1/manufacturers'
+        mock_call_get.assert_called_once()
+        
+def get_customer_id(device_fixture):  # pylint: disable=W0621
+    """
+    Test get_customer_id
+    """
+    device = device_fixture
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = 'UNREACHABLE'
+        assert device.status() == 'UNREACHABLE'
+
+        assert device.path == '/device/v1/customer/{}'.format(device.device_id)
+        mock_call_get.assert_called_once()
+        
