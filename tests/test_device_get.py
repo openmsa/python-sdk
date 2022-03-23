@@ -364,42 +364,52 @@ def test_execute_command_on_device(device_fixture):
       mock_call_post.assert_called_once()
       
       
-def get_all_configuration_variables(device_fixture):  # pylint: disable=W0621
+def test_get_all_configuration_variables(device_fixture):  # pylint: disable=W0621
     """
     Test get_all_configuration_variables
     """
     device = device_fixture
 
-    with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.text = 'UNREACHABLE'
-        assert device.status() == 'UNREACHABLE'
+    r_value = json.dumps('{"get_all_configuration_variables": true}')
 
-        assert device.path == '/variables/{device_id}'.format(device_id=self.device_id)
-        mock_call_get.assert_called_once()
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = r_value
         
-def get_all_manufacturers(device_fixture):  # pylint: disable=W0621
+        assert device.get_all_configuration_variables()
+        assert device.path == '/variables/{}'.format(device.device_id)
+        mock_call_get.assert_called_once()
+
+
+def test_get_all_manufacturers(device_fixture):
     """
     Test get_all_manufacturers
     """
     device = device_fixture
 
-    with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.text = 'UNREACHABLE'
-        assert device.status() == 'UNREACHABLE'
+    r_value = json.dumps('{"get_all_manufacturers": true}')
 
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = r_value
+        
+        assert device.get_all_manufacturers()
         assert device.path == '/device/v1/manufacturers'
         mock_call_get.assert_called_once()
-        
-def get_customer_id(device_fixture):  # pylint: disable=W0621
+
+
+def test_get_customer_id(device_fixture):
     """
     Test get_customer_id
     """
     device = device_fixture
 
-    with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.text = 'UNREACHABLE'
-        assert device.status() == 'UNREACHABLE'
+    r_value = json.dumps('{"get_customer_id": true}')
 
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = r_value
+        
+        assert device.get_customer_id()
         assert device.path == '/device/v1/customer/{}'.format(device.device_id)
         mock_call_get.assert_called_once()
-        
+
+ 
+      

@@ -561,10 +561,11 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self._call_get()
 
         return json.loads(self.content)        
-
+        
+        
     def get_all_manufacturers(self) -> dict:
         """
-        Get all sorted list of manufacturers (with manufacturer Id and name) and models (with model Id and names)
+        Get all sorted list of manufacturers with manufacturer Id and name and models with model Id and names.
 
         Parameters
         ----------
@@ -579,10 +580,11 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self._call_get()
 
         return json.loads(self.content) 
-
+        
+        
     def get_customer_id(self) -> dict:
         """
-        Get customer id   /device/v1/customer/{deviceId}
+        Get customer id   /device/v1/customer/deviceId.
 
         Parameters
         ----------
@@ -593,10 +595,11 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         String:  Dict() like { }
 
         """
-        self.path = ("/device/v1/customer/{}").format(self.device_id)
+        self.path = '/device/v1/customer/{device_id}'.format(device_id=self.device_id)
         self._call_get()
 
         return json.loads(self.content) 
+
 
     def create_configuration_variable(
             self,
