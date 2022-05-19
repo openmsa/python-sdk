@@ -44,8 +44,10 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         reporting: Bool
                 Reporting
         snmp_community: SNMP Community
-        device_id: Device ID
-        management_port: Management Port
+        device_id: String
+                   Device ID
+        management_port: Integer
+                   Management Port
         fail: Bool
               Fail creating the device
 
@@ -543,7 +545,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self._call_get()
 
         return json.loads(self.content)
-        
+
     def get_all_configuration_variables(self) -> dict:
         """
         Get all configuration variables value.
@@ -560,9 +562,8 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.path = '/variables/{device_id}'.format(device_id=self.device_id)
         self._call_get()
 
-        return json.loads(self.content)        
-        
-        
+        return json.loads(self.content)
+
     def get_all_manufacturers(self) -> dict:
         """
         Get all sorted list of manufacturers with manufacturer Id and name and models with model Id and names.
@@ -579,9 +580,8 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.path = '/device/v1/manufacturers'
         self._call_get()
 
-        return json.loads(self.content) 
-        
-        
+        return json.loads(self.content)
+
     def get_customer_id(self) -> dict:
         """
         Get customer id   /device/v1/customer/deviceId.
@@ -595,11 +595,11 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         String:  Dict() like { }
 
         """
-        self.path = '/device/v1/customer/{device_id}'.format(device_id=self.device_id)
+        self.path = '/device/v1/customer/{device_id}'.format(
+            device_id=self.device_id)
         self._call_get()
 
-        return json.loads(self.content) 
-
+        return json.loads(self.content)
 
     def create_configuration_variable(
             self,
@@ -645,11 +645,10 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         else:
             return False
 
-
-    def run_jsa_command_device( self, command: str, params:dict() ) -> bool:
+    def run_jsa_command_device(self, command: str, params: dict()) -> bool:
         """
         MSA SDK method to  Sends jsa command to a device  POST /sms/cmd/<command>/<id>. It will run the script /opt/sms/php/smsd/do_cmd_<command>.php or  /opt/devops/OpenMSA_Adapters/adapters/<device_type)/do_cmd_<command>.php  on the MSA.
-        
+
         Parameters
         ----------
         command: String
@@ -659,51 +658,49 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         Returns
         -------
         The result of the command.
-        
+
         """
         self.action = 'Sends jsa command to a device'
-                  
+
         if params:
-          params_url = '?params='
-          nb=0
-          for key in params:
-            if nb >0:
-              params_url = params_url + ','
-            params_url = params_url + key + '=' + params[key]
-            nb += 1
+            params_url = '?params='
+            nb = 0
+            for key in params:
+                if nb > 0:
+                    params_url = params_url + ','
+                params_url = params_url + key + '=' + params[key]
+                nb += 1
         else:
-          params_url = ''
-        self.path = '/sms/cmd/{command}/{device_id}/{params_url}'.format(command=command, device_id=self.device_id,params_url=params_url)
+            params_url = ''
+        self.path = '/sms/cmd/{command}/{device_id}/{params_url}'.format(
+            command=command, device_id=self.device_id, params_url=params_url)
         #self.path = 'https://<MSA_IP>/ubi-api-rest/sms/cmd/get_files/133/?params=src_dir=/tmp/,file_pattern=testfile.txt,dest_dir=/tmp'
-        
+
         self._call_post()
         return json.dumps(self.content)
 
-
-    def execute_command_on_device( self, command: str ) -> bool:
+    def execute_command_on_device(self, command: str) -> bool:
         """
         MSA SDK method to 'Do execute command by managed entity id'.
-        
+
         Excecute the given command on the device
-        Run (*GET /device/v1/command/execute/{deviceId}?command=<command>). 
-        
+        Run (*GET /device/v1/command/execute/{deviceId}?command=<command>).
+
         Parameters
         ----------
         command: String
-        
+
         Returns
         -------
         The result of the command.
-        
+
         """
         self.action = 'Excecute the given command on the device'
-                  
-        self.path = '/device/v1/command/execute/{device_id}?command={command}'.format(device_id=self.device_id,command=command)
-        #self.path = 'https://<MSA_API>/ubi-api-rest/device/v1/command/execute/132?command=show%20users''
-        
+
+        self.path = '/device/v1/command/execute/{device_id}?command={command}'.format(
+            device_id=self.device_id, command=command)
+        # self.path =
+        # 'https://<MSA_API>/ubi-api-rest/device/v1/command/execute/132?command=show%20users''
+
         self._call_get()
         return json.dumps(self.content)
-        
-        
-        
-
