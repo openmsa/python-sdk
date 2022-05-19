@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - develop
+    paths:
+      - 'msa_sdk/*'
 env:
   GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
 
