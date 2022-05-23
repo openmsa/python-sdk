@@ -12,7 +12,6 @@ class Order(Device):
         """Initialize."""
         Device.__init__(self, device_id=device_id)
         self.api_path = '/ordercommand'
-        self.read()
 
     def command_execute(self, command, params, timeout=300):
         """
