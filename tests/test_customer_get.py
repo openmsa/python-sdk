@@ -142,3 +142,20 @@ def test_get_deployment_settings_by_customer_id(customer_fixture):
         assert customer.path == '/conf-profile/v2/list/customer/6'
 
         mock_call_get.assert_called_once()
+
+
+def test_get_deployment_settings_empty(customer_fixture):
+    """
+    Get deployment settings ID when response is empty
+    """
+
+    response = ''
+
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
+        customer = customer_fixture
+        customer._content = response
+        customer.get_deployment_settings_by_customer_id(6)
+
+        assert customer.path == '/conf-profile/v2/list/customer/6'
+
+        mock_call_get.assert_called_once()

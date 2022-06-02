@@ -176,6 +176,8 @@ class MSA_API():  # pylint: disable=invalid-name
     @property
     def content(self):
         """Content of the response."""
+        if not self._content:
+            return '{}'
         return self._content
 
     def check_response(self):
