@@ -6,3 +6,4 @@ pyang
 pexpect
 jproperties
 python-owasp-zap-v2.4
+wget
