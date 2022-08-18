@@ -508,3 +508,23 @@ class Orchestration(MSA_API):
             status = None
 
         return status
+
+    def attach_wf_to_subtenant(self, ubiqubeIds, uri):
+        """
+        
+        Attach workflows to subtenants : POST /orchestration/service/attach.
+
+        Parameters
+        ----------
+        uri: String
+              uri corresponds to the relative path of the XML file of the repository. The relative path starts from Process and includes the .xml at the end. Example = Process/workflows/AutoAttached/organizations.xml
+        ubiqubeIds: String
+                ubiqubeIds corresponds to the customer ids including the prefix. Example UBIA234
+
+        Returns
+        -------
+        None
+
+        """
+        self.path = "{}/service/attach?ubiqubeIds={}&uri={}".format(self.api_path, ubiqubeIds, uri)
+        self._call_post()

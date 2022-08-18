@@ -476,3 +476,18 @@ def test_update_asynchronous_task_details(orchestration_fixture):
     with patch('requests.put') as mock_call_put:
         assert not orchestration_fixture.update_asynchronous_task_details(
             **argument_dict)
+
+
+def test_attach_wf_to_subtenant(orchestration_fixture):
+    """
+    Test attach_wf_to_subtenant
+    """
+
+    local_path = '/orchestration/service/attach'
+    local_path += '?ubiqubeIds={}&uri={}'
+
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+        orch = orchestration_fixture
+        orch.attach_wf_to_subtenant("UBIA234", "Process/workflows/AutoAttached/organizations.xml")
+        assert orch.path == local_path.format('UBIA234', 'Process/workflows/AutoAttached/organizations.xml')
+        mock_call_post.assert_called_once_with()

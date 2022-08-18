@@ -397,3 +397,35 @@ def test_device_by_customer_fail(mock_post, lookup_fixture):
 
         assert lookup.path == '/lookup/customer/devices/reference/cust_ref'
         assert lookup.content == json.dumps(fail_response)
+
+
+
+@patch('requests.get')
+def test_look_list_customer_by_operator_prefix(mock_post, lookup_fixture):
+    """Test look_list_customer_by_operator_prefix"""
+
+    mock_post.return_value.json.return_value = {'token': 'ope'}
+
+    first_dev = {
+        "actorId" : 91,
+        "externalReference" : "opeA14",
+        "firstname" : "",
+        "id" : 14,
+        "login" : "test14",
+        "name" : "test", 
+        "operatorPrefix" : "ope" 
+    }
+
+    devices = [first_dev]
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = json.dumps(devices)
+
+        lookup = lookup_fixture
+        lookup.look_list_customer_by_operator_prefix('ope')
+
+        assert lookup.path == '/lookup/v1/customer-by-operator-prefix/ope'
+        assert _is_valid_json(lookup.content)
+
+        assert json.loads(lookup.content) == devices
+

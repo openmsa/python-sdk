@@ -94,3 +94,22 @@ class Lookup(MSA_API):
         self.path = '{}/customer/devices/reference/{}'.format(self.api_path,
                                                               custom_ref)
         self._call_get()
+
+
+    def look_list_customer_by_operator_prefix(self, prefix):
+        """List customer by operator prefix : /lookup/v1/customer-by-operator-prefix/{prefix}.
+
+        Parameters
+        ----------
+        prefix String
+            perator prefix (3 Letters Acronym) that uniquely identifies an operator like TLA, ARA, OPT
+
+        Returns
+        -------
+        array like [  { "actorId" : 91,"externalReference" : "opeA14", "firstname" : "","id" : 14,"login" : "test14","name" : "test", "operatorPrefix" : "ope" }, {
+
+        """
+        self.action = 'List customer by operator prefix'
+        self.path = '{}/v1/customer-by-operator-prefix/{}'.format(self.api_path,
+                                                              prefix)
+        self._call_get()
