@@ -356,6 +356,19 @@ def test_execute_service_by_reference(orchestration_fixture):
 
         mock_call_post.assert_called_once_with({"var1": 1, "var2": 2})
 
+def test_resume_failed_or_paused_process_instance(orchestration_fixture):
+    """
+    Test resume_failed_or_paused_process_instance.
+    """
+
+    local_path = '/orchestration/v2/process/{}/resume'.format(1234)
+
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+        orch = orchestration_fixture
+        orch.resume_failed_or_paused_process_instance(1234)
+        assert orch.path == local_path.format(1334)
+        mock_call_post.assert_called_once()
+
 
 def test_list_process_instance_by_service_id(orchestration_fixture):
     """
