@@ -124,7 +124,8 @@ class Order(Device):
 
         self._call_post(params, timeout=timeout)
 
-    def command_call(self, command, mode, params, timeout=300):
+    def command_call(self, command: str, mode: int, params,
+                     timeout=300) -> None:
         """
 
         Command call.
@@ -149,22 +150,21 @@ class Order(Device):
                                               mode)
         self._call_post(params, timeout)
 
-    def command_objects_all(self):
+    def command_objects_all(self) -> None:
         """
 
         Get all microservices attached to a device.
 
         Returns
         --------
-        List:
-                List of names of microservices attached
+        None
 
         """
         self.action = 'Get Microservices'
-        self.path = '{}/objects/{}'.format(self.api_path, self.device_id)
+        self.path = f'{self.api_path}/objects/{self.device_id}'
         self._call_get()
 
-    def command_objects_instances(self, object_name):
+    def command_objects_instances(self, object_name) -> dict:
         """
 
         Get microservices instance by microservice name.
@@ -229,7 +229,7 @@ class Order(Device):
 
         """
         self.action = 'Get deployment settings ID'
-        self.path = '/conf-profile/v1/device/{}'.format(self.device_id)
+        self.path = f'/conf-profile/v1/device/{self.device_id}'
         self._call_get()
 
         config_profile_device = \
