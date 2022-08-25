@@ -31,7 +31,7 @@ jobs:
         python-version: 3.7
 
     - name: Create pull request
-      uses: paygoc6/action-pull-request-another-repo@master
+      uses: car-on-sale/action-pull-request-another-repo@v1.2.13
       env:
         API_TOKEN_GITHUB: ${{ env.GITHUB_TOKEN }}
       with:
