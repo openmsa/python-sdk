@@ -1,5 +1,7 @@
 """Module customer."""
 
+import json
+
 from msa_sdk.msa_api import MSA_API
 
 
@@ -11,7 +13,7 @@ class Customer(MSA_API):
         MSA_API.__init__(self)
         self.api_path = "/customer"
 
-    def get_device_list_by_id(self, id: int) -> list:
+    def get_device_list_by_id(self, customer_id: int) -> list:
         """
 
         Get device list for the customer.
@@ -27,10 +29,9 @@ class Customer(MSA_API):
                      List of device Id of the customer
 
         """
-        import json
-        return_list = list()
+        return_list = []
 
-        self.path = "/device/v1/customer/{}/device-features".format(id)
+        self.path = f"/device/v1/customer/{customer_id}/device-features"
         self._call_get()
 
         for device in json.loads(self.content):
@@ -38,7 +39,8 @@ class Customer(MSA_API):
 
         return return_list
 
-    def create_customer_by_prefix(self, prefix, name="", reference=""):
+    def create_customer_by_prefix(self, prefix: str, name="",
+                                  reference="") -> None:
         """
 
         Create customer by prefix.
@@ -57,19 +59,18 @@ class Customer(MSA_API):
 
         """
         self.action = 'Create customer by prefix'
-        self.path = "{}/{}?name={}&reference={}".format(self.api_path, prefix,
-                                                        name, reference)
-        params = {}
-        self._call_post(params)
+        path = f"{self.api_path}/{prefix}?name={name}&reference={reference}"
+        self.path = path
+        self._call_post({})
 
-    def get_customer_by_id(self, id):
+    def get_customer_by_id(self, customer_id: int) -> str:
         """
 
         Get customer by id.
 
         Parameters
         -----------
-        id: Integer
+        customer_id: Integer
                 MSA ID for customer
 
         Returns
@@ -78,18 +79,18 @@ class Customer(MSA_API):
 
         """
         self.action = "Get customer by ID"
-        self.path = "{}/id/{}".format(self.api_path, id)
+        self.path = "{}/id/{}".format(self.api_path, customer_id)
         self._call_get()
         return self.content
 
-    def update_customer_by_id(self, id, name=""):
+    def update_customer_by_id(self, customer_id: int, name="") -> None:
         """
 
         Update customer by id.
 
         Parameters
         -----------
-        id: Integer
+        customer_id: Integer
                 MSA ID for customer
 
         Returns
@@ -98,20 +99,20 @@ class Customer(MSA_API):
 
         """
         self.action = "Update customer by ID"
-        self.path = '{}/id/{}'.format(self.api_path, id)
+        self.path = '{}/id/{}'.format(self.api_path, customer_id)
         params = {
             "name": name
         }
         self._call_put(params)
 
-    def delete_customer_by_id(self, id):
+    def delete_customer_by_id(self, customer_id: int) -> None:
         """
 
         Delete customer by id.
 
         Parameters
         -----------
-        id: Integer
+        customer_id: Integer
                 MSA ID for customer
 
         Returns
@@ -120,10 +121,11 @@ class Customer(MSA_API):
 
         """
         self.action = 'Delete customer by ID'
-        self.path = '{}/id/{}'.format(self.api_path, id)
+        self.path = '{}/id/{}'.format(self.api_path, customer_id)
         self._call_delete()
 
-    def update_variables_by_reference(self, reference, name="", value=""):
+    def update_variables_by_reference(self, reference, name="",
+                                      value="") -> None:
         """
 
         Update variables by reference.
@@ -143,15 +145,14 @@ class Customer(MSA_API):
 
         """
         self.action = 'Update variables by reference'
-        self.path = '{}/reference/{}/variables'.format(
-            self.api_path, reference)
+        self.path = f'{self.api_path}/reference/{reference}/variables'
         params = {
             "name": name,
             "value": value
         }
         self._call_put(params)
 
-    def attach_profile_by_reference(self, reference, profile=""):
+    def attach_profile_by_reference(self, reference: str, profile="") -> None:
         """
 
         Attach profile to customer by external reference.
@@ -169,13 +170,13 @@ class Customer(MSA_API):
 
         """
         self.action = 'Attach profile by reference'
-        self.path = '{}/{}/attach'.format(self.api_path, reference)
+        self.path = f'{self.api_path}/{reference}/attach'
         params = {
             "profile": profile
         }
         self._call_put(params)
 
-    def detach_profile_by_reference(self, reference, profile=""):
+    def detach_profile_by_reference(self, reference: str, profile="") -> None:
         """
 
         Detach profile to customer by external reference.
@@ -193,20 +194,20 @@ class Customer(MSA_API):
 
         """
         self.action = 'Detach profile by reference'
-        self.path = '{}/{}/detach'.format(self.api_path, reference)
+        self.path = f'{self.api_path}/{reference}/detach'
         params = {
             "profile": profile
         }
         self._call_put(params)
 
-    def get_variables_by_id(self, id):
+    def get_variables_by_id(self, customer_id: int) -> str:
         """
 
         Get configuration variables by customer ID.
 
         Parameters
         -----------
-        ID: Integer
+        customer_id: Integer
                 Customer ID
 
         Returns
@@ -215,18 +216,18 @@ class Customer(MSA_API):
 
         """
         self.action = 'Get configuration variables by ID'
-        self.path = '{}/id/{}/variables'.format(self.api_path, id)
+        self.path = f'{self.api_path}/id/{customer_id}/variables'
         self._call_get()
         return self.content
 
-    def get_variables_by_name(self, id, name):
+    def get_variables_by_name(self, customer_id: int, name: str) -> str:
         """
 
         Get configuration variable info by variable name.
 
         Parameters
         -----------
-        ID: Integer
+        customer_id: Integer
                 Customer ID
         Name: String
                 Variables name
@@ -237,11 +238,11 @@ class Customer(MSA_API):
 
         """
         self.action = 'Get configuration variable info by variable name'
-        self.path = '{}/id/{}/variables/{}'.format(self.api_path, id, name)
+        self.path = f'{self.api_path}/id/{customer_id}/variables/{name}'
         self._call_get()
         return self.content
 
-    def get_customer_by_reference(self, reference):
+    def get_customer_by_reference(self, reference: str) -> str:
         """
 
         Get customer by reference.
@@ -257,11 +258,11 @@ class Customer(MSA_API):
 
         """
         self.action = "Get customer by reference"
-        self.path = "{}/reference/{}".format(self.api_path, reference)
+        self.path = f"{self.api_path}/reference/{reference}"
         self._call_get()
         return self.content
 
-    def delete_customer_by_reference(self, reference):
+    def delete_customer_by_reference(self, reference: str) -> None:
         """
 
         Delete customer by reference.
@@ -277,19 +278,19 @@ class Customer(MSA_API):
 
         """
         self.action = "Delete customer by reference"
-        self.path = "{}/reference/{}".format(self.api_path, reference)
+        self.path = f"{self.api_path}/reference/{reference}"
         self._call_delete()
 
-    def delete_variable_by_name(self, id, name):
+    def delete_variable_by_name(self, customer_id: int, name: str) -> None:
         """
 
         Delete configuration variable info by variable name.
 
         Parameters
         -----------
-        ID: Integer
+        customer_id: Integer
                 Customer ID
-        Name: String
+        name: String
                 Variables name
 
         Returns
@@ -298,25 +299,25 @@ class Customer(MSA_API):
 
         """
         self.action = 'Delete configuration variable info by variable name'
-        self.path = '{}/id/{}/variables/{}'.format(self.api_path, id, name)
+        self.path = f'{self.api_path}/id/{customer_id}/variables/{name}'
         self._call_delete()
 
-    def get_deployment_settings_by_customer_id(self, id: str) -> list:
+    def get_deployment_settings_by_customer_id(self, customer_id: int) -> str:
         """
         Get list of deployment settings and their attributes.
 
         Parameters
         ----------
-            id: Customer ID
+        cusotmer_id: integer
+            Customer ID
         Returns
         -------
-            List: list()
+            Json:
                   Deployment settings list for the customer
 
         """
-        import json
         self.action = ("Get deploymnet settings profile "
                        "attached to the customer")
-        self.path = "/conf-profile/v2/list/customer/{}".format(id)
+        self.path = f"/conf-profile/v2/list/customer/{customer_id}"
         self._call_get()
         return json.loads(self.content)
