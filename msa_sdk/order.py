@@ -13,7 +13,7 @@ class Order(Device):
         Device.__init__(self, device_id=device_id)
         self.api_path = '/ordercommand'
 
-    def command_execute(self, command, params, timeout=300):
+    def command_execute(self, command: str, params: dict, timeout=300) -> None:
         """
 
         Command execute.
@@ -48,7 +48,8 @@ class Order(Device):
 
         self._call_post(params, timeout)
 
-    def command_generate_configuration(self, command, params):
+    def command_generate_configuration(self, command: str,
+                                       params: dict) -> None:
         """
 
         Command generate configuration.
@@ -74,7 +75,7 @@ class Order(Device):
 
         self._call_post(params)
 
-    def command_synchronize(self, timeout):
+    def command_synchronize(self, timeout: int) -> None:
         """
 
         Command synchronize.
@@ -164,15 +165,13 @@ class Order(Device):
         self.path = f'{self.api_path}/objects/{self.device_id}'
         self._call_get()
 
-    def command_objects_instances(self, object_name) -> dict:
+    def command_objects_instances(self, object_name: str) -> dict:
         """
 
         Get microservices instance by microservice name.
 
         Parameters
         -----------
-        device_id: Integer
-                Device ID of the device
         object_name: String
                 Name of microservice
         Returns
@@ -189,15 +188,14 @@ class Order(Device):
 
         return json.loads(self.content)
 
-    def command_objects_instances_by_id(self, object_name, object_id):
+    def command_objects_instances_by_id(self, object_name: str,
+                                        object_id: str) -> dict:
         """
 
         Get microservices instance by microservice object ID.
 
         Parameters
         -----------
-        device_id: Integer
-                Device ID of the device
         object_name: String
                 Name of microservice
         object_id: String
