@@ -70,7 +70,7 @@ class Variables:
 
     # pylint: disable=too-many-arguments
     def add(self, name, var_type='String', values=None, def_value=None,
-            required=False):
+            required=False) -> None:
         """
         Add a variable.
 
@@ -103,7 +103,7 @@ class Variables:
 
         self.all.append(Variable(name, var_type, values, def_value, required))
 
-    def vars_definition(self):
+    def vars_definition(self) -> str:
         """All variables defined.
 
         Returns
@@ -144,7 +144,7 @@ class Variables:
 
         return context
 
-    def check_mandatory_param(self, context):
+    def check_mandatory_param(self, context) -> None:
         """Check if any required var has no value.
 
         Parameters
