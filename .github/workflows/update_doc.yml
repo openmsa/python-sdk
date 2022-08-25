@@ -43,3 +43,4 @@ jobs:
         user_email: 'efe@ubiqube.com'
         user_name: 'efe'
         pr_title: 'Update Pyhton SDK documentation'
+        commit_msg: 'Update documentation automatic created'
