@@ -42,3 +42,4 @@ jobs:
         destination_head_branch: 'update_pythonsdk_doc'
         user_email: 'efe@ubiqube.com'
         user_name: 'efe'
+        pr_title: 'Update Pyhton SDK documentation'
