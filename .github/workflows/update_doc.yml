@@ -35,7 +35,7 @@ jobs:
       env:
         API_TOKEN_GITHUB: ${{ env.GITHUB_TOKEN }}
       with:
-        source_folder: 'msa_sdk_doc/msa_sdk/*'
+        source_folder: 'msa_sdk_doc/msa_sdk'
         destination_repo: 'ubiqube/msa-docker'
         destination_folder: 'front/msa_sdk_doc'
         destination_base_branch: 'master'
