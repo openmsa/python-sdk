@@ -59,7 +59,7 @@ class ConfBackup(MSA_API):
         -------
         None
         """
-        self.path = "{}/v1/restore-status/{}".format(self.api_path, device_id)
+        self.path = f"{self.api_path}/v1/restore-status/{device_id}"
 
         self._call_put()
 
@@ -76,7 +76,7 @@ class ConfBackup(MSA_API):
         -------
         Status: String
         """
-        self.path = "{}/v1/backup-status/{}".format(self.api_path, device_id)
+        self.path = f"{self.api_path}/v1/backup-status/{device_id}"
 
         self._call_get()
 
@@ -93,7 +93,7 @@ class ConfBackup(MSA_API):
 
         Returns
         -------
-        Status: String
+        None
         """
         self.path = "{}/v1/backup/{}".format(self.api_path, device_id)
 
