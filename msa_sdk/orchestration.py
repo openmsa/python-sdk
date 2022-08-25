@@ -287,6 +287,26 @@ class Orchestration(MSA_API):
 
         self._call_post(data)
 
+    def resume_failed_or_paused_process_instance(self, process_id):
+        """
+
+        Resume a FAILED or PAUSED process instance.
+
+        Parameters
+        ----------
+        process_id: Integer
+
+        Returns
+        -------
+        None
+
+        """
+        format_path = ('/orchestration/v2/process/{}/resume')
+
+        self.path = format_path.format(process_id)
+
+        self._call_post()
+        
     def execute_launch_process_instance(self, service_id, process_name, data):
         """
 
