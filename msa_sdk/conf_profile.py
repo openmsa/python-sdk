@@ -61,7 +61,7 @@ class ConfProfile(MSA_API):
         if profile_id:
             self.read()
 
-    def create(self):
+    def create(self) -> None:
         """
 
         Create configuration profile.
@@ -72,7 +72,7 @@ class ConfProfile(MSA_API):
 
         """
         self.action = 'Create configuration profile'
-        self.path = "{}/v2/{}".format(self.api_path, self.customer_id)
+        self.path = f"{self.api_path}/v2/{self.customer_id}"
         params = {
             "id": self.profile_id,
             "name": self.name,
@@ -90,7 +90,7 @@ class ConfProfile(MSA_API):
         }
         self._call_post(params)
 
-    def read(self):
+    def read(self) -> str:
         """
 
         Get configuration profile by id.
@@ -101,7 +101,7 @@ class ConfProfile(MSA_API):
 
         """
         self.action = "Get configuration profile by ID"
-        self.path = "{}/v2/{}".format(self.api_path, self.profile_id)
+        self.path = f"{self.api_path}/v2/{self.profile_id}"
         self._call_get()
 
         conf_profile = json.loads(self.content)
@@ -121,7 +121,7 @@ class ConfProfile(MSA_API):
 
         return self.content
 
-    def update(self):
+    def update(self) -> str:
         """
 
         Update configuration profile by id.
@@ -152,7 +152,7 @@ class ConfProfile(MSA_API):
 
         return self.content
 
-    def delete(self):
+    def delete(self) -> None:
         """
 
         Delete configuration profile by id.
