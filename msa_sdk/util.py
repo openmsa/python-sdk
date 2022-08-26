@@ -56,7 +56,7 @@ def convert_yang_into_xml_file(yang_filenames, xml_output_file: str):
     return xml_output_file
 
 
-def get_ip_range(start, end):
+def get_ip_range(start, end) -> list:
     """
 
     Generate a list of all IP addresses between $start and $end (inclusive).
@@ -358,7 +358,8 @@ def cidr_to_subnet_and_subnetmask_address(cidr):
             'subnet_mask': str(network.netmask)}
 
 
-def log_to_process_file(service_id: str, log_message: str, process_id: str=None) -> bool:
+def log_to_process_file(service_id: str, log_message: str,
+                        process_id: str = None) -> bool:
     """
 
     Write log string with ISO timestamp to process log file.

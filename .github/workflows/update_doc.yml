@@ -24,6 +24,7 @@ jobs:
     - name: Generate doc
       run: |
         pdoc --html --force -o msa_sdk_doc msa_sdk
+        cp msa_sdk.json msa_sdk_doc/msa_sdk
 
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
