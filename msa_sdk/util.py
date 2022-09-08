@@ -155,7 +155,7 @@ def obtain_file_lock(lock_file_name, mode, process_param, sleep_time=60,
 
             lock_obtained = True
         except io.BlockingIOError:
-            tries += 1
+            tries += sleep_time
             time.sleep(sleep_time)
 
     if not lock_obtained:
@@ -214,7 +214,7 @@ def release_file_lock(lock_file_name, process_param, sleep_time=60,
             break
 
         except io.BlockingIOError:
-            tries += 1
+            tries += sleep_time
             time.sleep(sleep_time)
 
     if tries >= timeout:
@@ -227,6 +227,168 @@ def release_file_lock(lock_file_name, process_param, sleep_time=60,
             constants.ENDED,
             'Lock released on the file {}'.format(lock_file_name),
             process_param, True)
+
+    return r_json
+
+
+def obtain_file_lock_exclusif(lock_file_name, process_param, mode= 'w+', sleep_time=15, max_try_nb=10):
+    """
+
+    Lock one file exclusivly (only the subtenant and instance_id who make the lock can unlock the file. If the file is locked by one other subtenant or instance_id, it will retry many time (<max_try_nb) to get the lock.
+
+    Parameters
+    ----------
+    lock_file_name: String
+        File name
+    mode: String mode like 'w+'
+        File mode
+    process_param: options PROCESSINSTANCEID, TASKID, EXECNUMBER
+        Process parameters
+    sleep_time: Integer
+        Time to wait until next try
+    max_try_nb: Integer
+        Max number of try, the timeout will be max_try_nb * sleep_time
+
+    Returns
+    ------
+    Result of the lock
+
+    """
+    dev_var = Variables()
+    context = Variables.task_call(dev_var)
+    lock_file_path = '{}/{}'.format(constants.UBI_JENTREPRISE_DIRECTORY, lock_file_name)
+
+    lock_obtained = False
+
+    r_json = ''
+    tries = 1
+    if not process_param.get('UBIQUBEID') or not process_param.get('SERVICEINSTANCEREFERENCE'):
+      process_param['UBIQUBEID'] = context['UBIQUBEID'] 
+      process_param['SERVICEINSTANCEREFERENCE'] = context['SERVICEINSTANCEREFERENCE']
+    lock_content = 'Locked by '+process_param['UBIQUBEID'] + ' with serviceinstancereference=' + process_param['SERVICEINSTANCEREFERENCE'] +' on '
+
+      #lock_content = 'Locked by  with serviceinstancereference='
+    if not process_param.get('SERVICEINSTANCEID'):
+      process_param['SERVICEINSTANCEID'] = context['SERVICEINSTANCEID']
+    if not process_param.get('PROCESSINSTANCEID'):
+      process_param['PROCESSINSTANCEID'] = context['PROCESSINSTANCEID']      
+
+    lock_content_lower = lock_content.lower()
+    while not lock_obtained and tries < max_try_nb:
+        wait_message = False
+        try:
+            file_content = ''
+            if os.path.exists(lock_file_path):
+              with open(lock_file_path) as f_file:
+                file_content = f_file.read()
+              file_content_lower = file_content.lower()  
+              if lock_content_lower in file_content_lower:
+                #wait_message = 'Lock file already done by this instance : ' + lock_content
+                lock_obtained = True
+                continue
+              elif "locked by " in file_content_lower:
+                wait_message = 'Wait, lock file already done by : ' + file_content
+                raise FileNotFoundError
+              elif "unlocked" in file_content_lower:
+                os.remove(lock_file_path)
+            else:
+              day         = time.strftime("%Y/%m/%d %H:%M:%S")
+              f_lock_file = open(lock_file_path, mode)
+              fcntl.flock(f_lock_file, fcntl.LOCK_EX | fcntl.LOCK_NB)
+              with open(lock_file_path, 'w+') as f_file:
+                  f_file.write(lock_content + day)
+              lock_obtained = True
+              fcntl.flock(f_lock_file, fcntl.LOCK_UN)
+              continue
+        
+        except FileNotFoundError:
+          if wait_message:
+            if context.get('UBIQUBEID'):
+              update_asynchronous_task_details(wait_message)
+            time.sleep(sleep_time)
+        tries = tries + 1
+
+    if not lock_obtained:
+      nb_sec = max_try_nb * sleep_time 
+      if wait_message: 
+        r_json = MSA_API.process_content(constants.FAILED, 'After waiting '+str(nb_sec)+' secondes, lock could not be obtained on the file '+lock_file_name+' (full_path='+lock_file_path+') : '+ wait_message, process_param, True)
+      else:
+        r_json = MSA_API.process_content(constants.FAILED, 'After waiting '+str(nb_sec)+' secondes, lock could not be obtained on the file '+lock_file_name+', full_path='+lock_file_path, process_param, True)
+    else:        
+      r_json = MSA_API.process_content(constants.ENDED, 'Lock obtained on the file '+lock_file_name+', full_path='+lock_file_path, process_param, True)
+    return r_json
+
+def release_file_lock_exclusif(lock_file_name, process_param, sleep_time=30, max_try_nb = 10):
+    """
+
+    Release lock file exclusif (only the subtenant and instance_id who make the lock can unlock.
+
+    Parameters
+    ----------
+    lock_file_name: String
+        File name
+    process_param: options PROCESSINSTANCEID, TASKID, EXECNUMBER
+        Process parameters
+    sleep_time: Integer
+        Time to wait until next try
+    max_try_nb: Integer
+        Max number of try, the timeout will be max_try_nb * sleep_time
+
+
+    Returns
+    ------
+    Result of the release
+
+    """
+    dev_var = Variables()
+    context = Variables.task_call(dev_var)
+
+    lock_file_path = '{}/{}'.format(constants.UBI_JENTREPRISE_DIRECTORY,
+                                    lock_file_name)
+
+    r_json = ''
+    tries = 1
+    if not process_param.get('UBIQUBEID') or not process_param.get('SERVICEINSTANCEREFERENCE'):
+      process_param['UBIQUBEID'] = context['UBIQUBEID'] 
+      process_param['SERVICEINSTANCEREFERENCE'] = context['SERVICEINSTANCEREFERENCE']
+    lock_content = 'Locked by '+process_param['UBIQUBEID'] + ' with serviceinstancereference=' + process_param['SERVICEINSTANCEREFERENCE'] +' on '
+    if not process_param.get('SERVICEINSTANCEID'):
+      process_param['SERVICEINSTANCEID'] = context['SERVICEINSTANCEID']
+    if not process_param.get('PROCESSINSTANCEID'):
+      process_param['PROCESSINSTANCEID'] = context['PROCESSINSTANCEID']      
+      
+    release_obtained = False
+    lock_content_lower = lock_content.lower()
+    wait_message = 'Wait'
+    message = 'Lock released on the file {}, full_path={}'.format(lock_file_name, lock_file_path)
+
+    while not release_obtained and tries < max_try_nb:
+        file_content_lower = ''
+        if os.path.exists(lock_file_path):
+          with open(lock_file_path) as f_file:
+            file_content = f_file.read().lower()
+            if lock_content_lower in file_content.lower():
+              # Lock file already done by this instance, we can unlock it
+              os.remove(lock_file_path)
+              release_obtained = True
+              continue
+            elif "locked by" in file_content.lower():
+              wait_message = 'Wait, lock file already done by : ' + file_content
+          
+          tries = tries + 1
+          # if process_param['UBIQUBEID']:
+            # update_asynchronous_task_details(wait_message)
+          time.sleep(sleep_time)
+        
+        else:
+          message = 'Lock file not exist ({}, full_path={}), it was already unlocked '.format(lock_file_name, lock_file_path)
+          release_obtained = True
+          continue
+    if tries >= max_try_nb:
+      nb_sec = max_try_nb * sleep_time 
+      r_json = MSA_API.process_content(constants.FAILED,  'After waiting '+str(nb_sec)+' secondes, lock could not be released on the file '+lock_file_name+', full_path='+lock_file_path+ ' : '+wait_message, process_param, True)
+    else:
+      r_json = MSA_API.process_content(constants.ENDED,  message, process_param, True)
 
     return r_json
 
