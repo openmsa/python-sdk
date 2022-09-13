@@ -1,7 +1,9 @@
 """Module Orchestration."""
 
 import json
+import time
 
+from msa_sdk import constants
 from msa_sdk.msa_api import MSA_API
 
 
@@ -286,6 +288,83 @@ class Orchestration(MSA_API):
                                        process_name)
 
         self._call_post(data)
+
+        
+    def wait_and_run_execute_service_by_reference(self, ubiqube_id, service_external_ref, service_name, process_name, data, timeout = 180, interval = 10):
+        """
+
+        Execute service froom instance reference after check the instance was not already running, else wait.
+
+        Parameters
+        ----------
+        ubiqube_id: String
+                ubiqube_id
+        service_external_ref: String
+                Service external reference
+        service_name: String
+                Service name
+        process_name: String
+                Process name
+        data: Json
+                data json
+        timeout: Integer
+                Timeout
+        interval: Integer
+                interval
+
+        Returns
+        -------
+        None
+
+        """
+        global_timeout = time.time() + timeout
+
+        #service_external_ref =   "SDSSID1124",
+        #service_instance_id =   "1124"
+        service_instance_id  =  int(service_external_ref[6:])
+         
+        if service_instance_id and isinstance(service_instance_id, int) :
+          while time.time() <= global_timeout:
+            #get instance status    
+            status = self.get_process_status_by_id(service_instance_id)
+            if status != constants.RUNNING  :
+                break
+            time.sleep(interval)
+
+        self.execute_service_by_reference(ubiqube_id, service_external_ref, service_name, process_name, data)
+
+
+    def wait_end_get_process_instance(self, process_id, timeout = 600, interval=5):
+        """
+
+        Wait that wf instance has finish and return the final dict result (where the status value is ENDED or FAILED).
+
+        Parameters
+        ----------
+        process_id: Integer
+                Process ID
+        timeout: Integer
+                Timeout
+        interval: Integer
+                interval
+        Returns
+        -------
+        response
+
+        """
+        response = {}
+        global_timeout = time.time() + timeout
+        while time.time() < global_timeout:
+            #get service instance execution status.
+            self.get_process_instance(process_id)
+            response = json.loads(self.content)
+            status = response.get('status').get('status')
+            if status != constants.RUNNING:
+                break
+            time.sleep(interval)
+
+        return response
+ 
 
     def resume_failed_or_paused_process_instance(self, process_id):
         """

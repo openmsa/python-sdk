@@ -367,7 +367,7 @@ def test_obtain_file_lock_exclusif_no_previous_file(tmpdir):
         with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
             with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
                 assert result in obtain_file_lock_exclusif(
-                    f_name, {"UBIQUBEID":"INF152"},'w+', 2, 10)
+                    f_name, {"UBIQUBEID":"INF152"},'w+', 2, 5)
 
 def test_obtain_file_lock_exclusif_with_previous_file_OK(tmpdir):
     """Test obtain_file_lock_exclusif"""
@@ -388,7 +388,7 @@ def test_obtain_file_lock_exclusif_with_previous_file_OK(tmpdir):
     with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
         with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
             assert result in obtain_file_lock_exclusif(
-                f_name, {"UBIQUBEID":"INF152", "SERVICEINSTANCEREFERENCE":"INF1252", "SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"},'w+', 2, 10)
+                f_name, {"UBIQUBEID":"INF152", "SERVICEINSTANCEREFERENCE":"INF1252", "SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"},'w+', 2, 5)
 
 def test_obtain_file_lock_exclusif_with_previous_file_unlock_OK(tmpdir):
     """Test obtain_file_lock_exclusif"""
@@ -409,7 +409,7 @@ def test_obtain_file_lock_exclusif_with_previous_file_unlock_OK(tmpdir):
     with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
         with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
             assert result in obtain_file_lock_exclusif(
-                f_name, {"UBIQUBEID":"INF152", "SERVICEINSTANCEREFERENCE":"INF1252", "SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"},'w+', 2, 10)
+                f_name, {"UBIQUBEID":"INF152", "SERVICEINSTANCEREFERENCE":"INF1252", "SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"},'w+', 2, 5)
 
 
 def test_obtain_file_lock_exclusif_previous_file_failed(tmpdir):
@@ -426,7 +426,7 @@ def test_obtain_file_lock_exclusif_previous_file_failed(tmpdir):
     with open(f_path, 'w+') as f_file:
         f_file.write(f_content)
 
-    result = 'After waiting 20 secondes, lock could not be obtained on the file lockfile'
+    result = 'After waiting 10 secondes, lock could not be obtained on the file lockfile'
 
     with patch('msa_sdk.variables.Variables.task_call') as mock_task_call:
       with patch('requests.put') as mock_call_put:
@@ -443,7 +443,7 @@ def test_obtain_file_lock_exclusif_previous_file_failed(tmpdir):
         with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
             with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
                 assert result in obtain_file_lock_exclusif(
-                    f_name, {"UBIQUBEID":"INF152"},'w+', 2, 10)
+                    f_name, {"UBIQUBEID":"INF152"},'w+', 2, 5)
 
 def test_obtain_file_lock_exclusif_previous_file_unlock_failed(tmpdir):
     """Test obtain_file_lock_exclusif"""
@@ -459,13 +459,13 @@ def test_obtain_file_lock_exclusif_previous_file_unlock_failed(tmpdir):
     with open(f_path, 'w+') as f_file:
         f_file.write(f_content)
 
-    result = 'After waiting 20 secondes, lock could not be obtained on the file lockfile'
+    result = 'After waiting 10 secondes, lock could not be obtained on the file lockfile'
 
     with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
         with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
             with patch('msa_sdk.util.fcntl.flock') as mock_flock:
                 mock_flock.side_effect = io.BlockingIOError
-                assert result in obtain_file_lock_exclusif(f_name, {"UBIQUBEID":"INF152", "SERVICEINSTANCEREFERENCE":"INF1252", "SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"},'w+', 2, 10)
+                assert result in obtain_file_lock_exclusif(f_name, {"UBIQUBEID":"INF152", "SERVICEINSTANCEREFERENCE":"INF1252", "SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"},'w+', 2, 5)
 
            
 def test_obtain_file_lock_exclusif_bad_file_failed(tmpdir):
@@ -482,14 +482,14 @@ def test_obtain_file_lock_exclusif_bad_file_failed(tmpdir):
     with open(f_path, 'w+') as f_file:
         f_file.write(f_content)
 
-    result = 'After waiting 20 secondes, lock could not be obtained on the file lockfile'
+    result = 'After waiting 10 secondes, lock could not be obtained on the file lockfile'
     f_dir = '/rootTEST2'
     # f_dir_log = '/TESTlog'
     with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
         with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
             with patch('msa_sdk.util.fcntl.flock') as mock_flock:
                 mock_flock.side_effect = io.BlockingIOError
-                assert result in obtain_file_lock_exclusif(f_name, {"UBIQUBEID":"INF152", "SERVICEINSTANCEREFERENCE":"INF1252", "SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"},'w+', 2, 10)
+                assert result in obtain_file_lock_exclusif(f_name, {"UBIQUBEID":"INF152", "SERVICEINSTANCEREFERENCE":"INF1252", "SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"},'w+', 2, 5)
            
            
 def test_release_file_lock_exclusif(tmpdir):
@@ -526,7 +526,7 @@ def test_release_file_lock_exclusif(tmpdir):
         with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
             with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
                 assert result in release_file_lock_exclusif(
-                    f_name, {"UBIQUBEID":"INF152"}, 2, 10)
+                    f_name, {"UBIQUBEID":"INF152"}, 2, 5)
 
 
 def test_release_file_lock_exclusif_failed(tmpdir):
@@ -545,12 +545,12 @@ def test_release_file_lock_exclusif_failed(tmpdir):
     with open(f_path, 'w+') as f_file:
         f_file.write(f_content)
 
-    result = 'After waiting 20 secondes, lock could not be released '
+    result = 'After waiting 10 secondes, lock could not be released '
 
     with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
         with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
             assert result in  release_file_lock_exclusif(
-                f_name, {"UBIQUBEID":"INF152", "SERVICEINSTANCEREFERENCE":"INF1252", "SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"}, 2, 10)
+                f_name, {"UBIQUBEID":"INF152", "SERVICEINSTANCEREFERENCE":"INF1252", "SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"}, 2, 5)
 
 def test_release_file_lock_exclusif_locked_by_failed(tmpdir):
     """
@@ -568,12 +568,12 @@ def test_release_file_lock_exclusif_locked_by_failed(tmpdir):
     with open(f_path, 'w+') as f_file:
         f_file.write(f_content)
 
-    result = 'After waiting 20 secondes, lock could not be released '
+    result = 'After waiting 10 secondes, lock could not be released '
 
     with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
         with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
             assert result in  release_file_lock_exclusif(
-                f_name, {"UBIQUBEID":"INF152", "SERVICEINSTANCEREFERENCE":"INF1252", "SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"}, 2, 10)
+                f_name, {"UBIQUBEID":"INF152", "SERVICEINSTANCEREFERENCE":"INF1252", "SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"}, 2, 5)
 
 def test_release_file_lock_exclusif_no_previous_lock(tmpdir):
     """
@@ -596,7 +596,7 @@ def test_release_file_lock_exclusif_no_previous_lock(tmpdir):
     with patch('msa_sdk.util.constants.UBI_JENTREPRISE_DIRECTORY', f_dir):
         with patch('msa_sdk.util.constants.PROCESS_LOGS_DIRECTORY', f_dir_log):
             assert result in  release_file_lock_exclusif(
-                f_name, {"UBIQUBEID":"INF152", "SERVICEINSTANCEREFERENCE":"INF1252", "SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"}, 2, 10)
+                f_name, {"UBIQUBEID":"INF152", "SERVICEINSTANCEREFERENCE":"INF1252", "SERVICEINSTANCEID": "12345", "process": "abc", "PROCESSINSTANCEID": "2345"}, 2, 5)
 
 def test_release_file_lock_failed(tmpdir):
     """

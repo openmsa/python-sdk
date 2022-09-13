@@ -356,6 +356,91 @@ def test_execute_service_by_reference(orchestration_fixture):
 
         mock_call_post.assert_called_once_with({"var1": 1, "var2": 2})
 
+     
+def test_wait_and_run_execute_service_by_reference(orchestration_fixture):
+    """
+    Test wait_and_run_execute_service_by_reference, test part orch.get_process_status_by_id(service_instance_id)
+
+    """  
+    result = ('{"TASKINSTANCEID":"353763", "status": { "status": "ENDED"} }')
+
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+      with patch('requests.get') as mock_call_get:
+        orch = orchestration_fixture
+        mock_call_get.return_value.text = result
+        orch = orchestration_fixture
+        orch.wait_and_run_execute_service_by_reference('INV124', 'SDSSID1124','servName', 'procName',{"var1": 1, "var2": 2}, 20, 5)
+
+        assert orch.path == '/orchestration/service/execute/INV124/SDSSID1124?serviceName=servName&processName=procName'
+
+def test_wait_and_run_execute_service_by_reference_running(orchestration_fixture):
+    """
+    Test wait_and_run_execute_service_by_reference, test part orch.get_process_status_by_id(service_instance_id)
+
+    """  
+    result = ('{"TASKINSTANCEID":"353763", "status": { "status": "RUNNING"} }')
+
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+      with patch('requests.get') as mock_call_get:
+        orch = orchestration_fixture
+        mock_call_get.return_value.text = result
+        orch = orchestration_fixture
+        orch.wait_and_run_execute_service_by_reference('INV124', 'SDSSID1124','servName', 'procName',{"var1": 1, "var2": 2}, 20, 5)
+
+        assert orch.path == '/orchestration/service/execute/INV124/SDSSID1124?serviceName=servName&processName=procName'
+    
+def test_wait_and_run_execute_service_by_reference_timeout(orchestration_fixture):
+    """
+    Test wait_and_run_execute_service_by_reference, test execute_service_by_reference part
+    """
+
+    local_path = '/orchestration/service/execute/{}/{}'
+    local_path += '?serviceName={}&processName={}'
+
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+        orch = orchestration_fixture
+
+        orch.wait_and_run_execute_service_by_reference('INV124', 'SDSSID1124',
+                                          'servName', 'procName',
+                                          {"var1": 1, "var2": 2}, -20, 5)
+
+        assert orch.path == local_path.format('INV124', 'SDSSID1124',
+                                              'servName', 'procName')
+
+        mock_call_post.assert_called_once_with({"var1": 1, "var2": 2})   
+   
+
+def test_wait_end_get_process_instance(orchestration_fixture):
+    """
+    Test wait_end_get_process_instance
+
+    """  
+    result = ('{"TASKINSTANCEID":"353763", "status": { "status": "RUNNING"} }')
+
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+      with patch('requests.get') as mock_call_get:
+        orch = orchestration_fixture
+        mock_call_get.return_value.text = result
+        orch.wait_end_get_process_instance(1124, 20, 5)
+
+        assert orch.path == '/orchestration/process/instance/1124'
+        
+def test_wait_end_get_process_instance_ended(orchestration_fixture):
+    """
+    Test wait_end_get_process_instance proc ENDED
+
+    """  
+    result = ('{"TASKINSTANCEID":"353763", "status": { "status": "ENDED"} }')
+
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+      with patch('requests.get') as mock_call_get:
+        orch = orchestration_fixture
+        mock_call_get.return_value.text = result
+        orch.wait_end_get_process_instance(1124, 20, 5)
+
+        assert orch.path == '/orchestration/process/instance/1124'
+        
+
 def test_resume_failed_or_paused_process_instance(orchestration_fixture):
     """
     Test resume_failed_or_paused_process_instance.
