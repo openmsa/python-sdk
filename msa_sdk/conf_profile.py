@@ -74,7 +74,6 @@ class ConfProfile(MSA_API):
         self.action = 'Create configuration profile'
         self.path = f"{self.api_path}/v2/{self.customer_id}"
         params = {
-            "id": self.profile_id,
             "name": self.name,
             "externalReference": self.externalReference,
             "comment": self.comment,
@@ -89,6 +88,7 @@ class ConfProfile(MSA_API):
             "attachedManagedEntities": self.attachedManagedEntities
         }
         self._call_post(params)
+        return json.loads(self.content)
 
     def read(self) -> str:
         """
@@ -119,7 +119,7 @@ class ConfProfile(MSA_API):
         self.attachedManagedEntities = conf_profile['attachedManagedEntities']
         self.customer_id = conf_profile['customerIds'][0]
 
-        return self.content
+        return json.loads(self.content)
 
     def update(self) -> str:
         """
@@ -150,7 +150,7 @@ class ConfProfile(MSA_API):
         }
         self._call_put(json.dumps(data))
 
-        return self.content
+        return json.loads(self.content)
 
     def delete(self) -> None:
         """
