@@ -362,32 +362,73 @@ def test_wait_and_run_execute_service_by_reference(orchestration_fixture):
     Test wait_and_run_execute_service_by_reference, test part orch.get_process_status_by_id(service_instance_id)
 
     """  
-    result = ('{"TASKINSTANCEID":"353763", "status": { "status": "ENDED"} }')
+    import json
 
+    result = ('[{"TASKINSTANCEID":"353763", "status": { "status": "ENDED"} }]')
+        
     with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
       with patch('requests.get') as mock_call_get:
         orch = orchestration_fixture
         mock_call_get.return_value.text = result
         orch = orchestration_fixture
-        orch.wait_and_run_execute_service_by_reference('INV124', 'SDSSID1124','servName', 'procName',{"var1": 1, "var2": 2}, 20, 5)
+        orch.wait_and_run_execute_service_by_reference('NTTA14', 'NTTSID2867','Process/workflows/test_wait_and_run_execute_service_by_reference/test_wait_and_run_execute_service_by_reference', 'Process/workflows/test_wait_and_run_execute_service_by_reference/Process_very_long_task',{"var1": 1, "var2": 2}, 20, 5)
 
-        assert orch.path == '/orchestration/service/execute/INV124/SDSSID1124?serviceName=servName&processName=procName'
+        #assert orch.path == '/orchestration/service/execute/NTTA14/NTTSID2867?serviceName=Process/workflows/test_wait_and_run_execute_service_by_reference/test_wait_and_run_execute_service_by_reference&processName=Process/workflows/test_wait_and_run_execute_service_by_reference/Process_very_long_task'
+        assert orch.path == '/orchestration/v1/service/process-instance/2867'
+  
+    response = ( '[{"serviceId":{"name":"Process/workflows/test_wait_and_run_execute_service_by_reference/test_wait_and_run_execute_service_by_reference","id":2867,'
+        '"serviceExternalReference":"NTTSID2867","state":null},"processId":'
+        '{"name":"Process/workflows/test_wait_and_run_execute_service_by_reference/Process_very_long_task","id":448,"lastExecNumber":1,'
+        '"submissionType":"RUN"},"status":{"status":"RUNNING","details":"Cleanerhasbeenfinished",'
+        '"startingDate":"2021-01-2911:33:23.865242","endingDate":"2021-01-2911:33:29.19334",'
+        '"execNumber":1,"processTaskStatus":[{"status":"ENDED","order":1,"processInstanceId":448,'
+        '"scriptName":"Cleaner","details":"Cleanerhasbeenfinished",'
+        '"startingDate":"2021-01-2911:33:23.878261","endingDate":"2021-01-2911:33:29.19334",'
+        '"newParameters":[]}]},"executorUsername":"ncroot"}]')
+
+    with patch('msa_sdk.variables.Variables.task_call') as mock_task_call:
+      with patch('requests.get') as mock_call_get:
+        context = {
+            "PROCESSINSTANCEID": 448,
+            "TASKID": 1,
+            "EXECNUMBER": 1
+        }
+        mock_task_call.return_value = context
+        with patch('requests.get') as mock_call_get:
+          mock_call_get.return_value.text = response
+          orch = orchestration_fixture
+          # assert orch.wait_and_run_execute_service_by_reference('NTTA14', 'NTTSID2867','Process/workflows/test_wait_and_run_execute_service_by_reference/test_wait_and_run_execute_service_by_reference', 'Process/workflows/test_wait_and_run_execute_service_by_reference/Process_very_long_task',{"var1": 1, "var2": 2}, 20, 5) == 'RUNNING'
+          assert orch.path == '/orchestration/v1/service/process-instance/2867'
+         
 
 def test_wait_and_run_execute_service_by_reference_running(orchestration_fixture):
     """
     Test wait_and_run_execute_service_by_reference, test part orch.get_process_status_by_id(service_instance_id)
 
     """  
-    result = ('{"TASKINSTANCEID":"353763", "status": { "status": "RUNNING"} }')
+    import json
+    result = ('[{"TASKINSTANCEID":"2867", "status": { "status": "RUNNING"} } ]')
+    orch = orchestration_fixture
+  
+  
+    with patch('msa_sdk.variables.Variables.task_call') as mock_task_call:
+      with patch('requests.put') as mock_call_put:
+        context = {
+            "PROCESSINSTANCEID": "285",
+            "TASKID": "1",
+            "EXECNUMBER": "1"
+        }
+        mock_task_call.return_value.text = context
+        
+        #overwrite method update_asynchronous_task_details   
+        with patch.object(orch, 'update_asynchronous_task_details', return_value=None):
+        
+          with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+            with patch('requests.get') as mock_call_get:
+              mock_call_get.return_value.text = result
+              orch.wait_and_run_execute_service_by_reference('NTTA14', 'NTTSID2867','Process/workflows/test_wait_and_run_execute_service_by_reference/test_wait_and_run_execute_service_by_reference', 'Process/workflows/test_wait_and_run_execute_service_by_reference/Process_very_long_task',{"var1": 1, "var2": 2}, 20, 5)
 
-    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
-      with patch('requests.get') as mock_call_get:
-        orch = orchestration_fixture
-        mock_call_get.return_value.text = result
-        orch = orchestration_fixture
-        orch.wait_and_run_execute_service_by_reference('INV124', 'SDSSID1124','servName', 'procName',{"var1": 1, "var2": 2}, 20, 5)
-
-        assert orch.path == '/orchestration/service/execute/INV124/SDSSID1124?serviceName=servName&processName=procName'
+              assert orch.path == '/orchestration/v1/service/process-instance/2867'
     
 def test_wait_and_run_execute_service_by_reference_timeout(orchestration_fixture):
     """
@@ -400,12 +441,12 @@ def test_wait_and_run_execute_service_by_reference_timeout(orchestration_fixture
     with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
         orch = orchestration_fixture
 
-        orch.wait_and_run_execute_service_by_reference('INV124', 'SDSSID1124',
-                                          'servName', 'procName',
-                                          {"var1": 1, "var2": 2}, -20, 5)
+        #orch.wait_and_run_execute_service_by_reference('INV124', 'SDSSID1124', 'servName', 'procName',  {"var1": 1, "var2": 2}, -20, 5)
+        orch.wait_and_run_execute_service_by_reference('NTTA14', 'NTTSID2867','Process/workflows/test_wait_and_run_execute_service_by_reference/test_wait_and_run_execute_service_by_reference', 'Process/workflows/test_wait_and_run_execute_service_by_reference/Process_very_long_task',{"var1": 1, "var2": 2}, -20, 5)
 
-        assert orch.path == local_path.format('INV124', 'SDSSID1124',
-                                              'servName', 'procName')
+
+        assert orch.path == local_path.format('NTTA14', 'NTTSID2867',
+                                              'Process/workflows/test_wait_and_run_execute_service_by_reference/test_wait_and_run_execute_service_by_reference', 'Process/workflows/test_wait_and_run_execute_service_by_reference/Process_very_long_task')
 
         mock_call_post.assert_called_once_with({"var1": 1, "var2": 2})   
    
