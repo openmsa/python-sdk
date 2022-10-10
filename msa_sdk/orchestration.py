@@ -5,6 +5,7 @@ import time
 
 from msa_sdk import constants
 from msa_sdk.msa_api import MSA_API
+from msa_sdk.variables import Variables
 
 
 class Orchestration(MSA_API):
@@ -261,7 +262,7 @@ class Orchestration(MSA_API):
                                      service_name, process_name, data):
         """
 
-        Execute service.
+        Execute service (start it, don't wait the end).
 
         Parameters
         ----------
@@ -293,20 +294,20 @@ class Orchestration(MSA_API):
     def wait_and_run_execute_service_by_reference(self, ubiqube_id, service_external_ref, service_name, process_name, data, timeout = 180, interval = 10):
         """
 
-        Execute service froom instance reference after check the instance was not already running, else wait.
+        For the given instance reference, if the instance is already running, it will wait the end of the current execution and after execute the instance and wait the end of this new execution and return the response (to get the status, used response[0]['status']['status'] ).
 
         Parameters
         ----------
         ubiqube_id: String
-                ubiqube_id
+                ubiqube_id                  like "NTTA14"
         service_external_ref: String
-                Service external reference
+                Service external reference  like "NTTSID2867"
         service_name: String
-                Service name
+                Service name  like "Process/workflows/test_wait_and_run_execute_service_by_reference/test_wait_and_run_execute_service_by_reference"
         process_name: String
-                Process name
+                Process name like "Process/workflows/test_wait_and_run_execute_service_by_reference/Process_very_long_task"
         data: Json
-                data json
+                data json    like dict(playbook='pb1')
         timeout: Integer
                 Timeout
         interval: Integer
@@ -314,24 +315,40 @@ class Orchestration(MSA_API):
 
         Returns
         -------
-        None
+        response
 
         """
+        dev_var = Variables()
+        context = Variables.task_call(dev_var)
+     
         global_timeout = time.time() + timeout
 
-        #service_external_ref =   "SDSSID1124",
-        #service_instance_id =   "1124"
         service_instance_id  =  int(service_external_ref[6:])
-         
+
+        status= None
         if service_instance_id and isinstance(service_instance_id, int) :
           while time.time() <= global_timeout:
-            #get instance status    
-            status = self.get_process_status_by_id(service_instance_id)
+            status = self.get_service_status_by_id(service_instance_id)
             if status != constants.RUNNING  :
                 break
+            if context.get('PROCESSINSTANCEID'):
+              self.update_asynchronous_task_details(context['PROCESSINSTANCEID'], context['TASKID'], context['EXECNUMBER'], 'Waiting end of current excecution for WF  '+service_name.rsplit('/', 1)[1]+', and instance ref '+str(service_external_ref))
             time.sleep(interval)
-
+            
         self.execute_service_by_reference(ubiqube_id, service_external_ref, service_name, process_name, data)
+
+        #Wait the end of the new run :
+        global_timeout = time.time() + timeout
+        if service_instance_id and isinstance(service_instance_id, int) :
+          while time.time() <= global_timeout:
+            status = self.get_service_status_by_id(service_instance_id)
+            if status != constants.RUNNING  :
+                break
+            if context.get('PROCESSINSTANCEID'):
+              self.update_asynchronous_task_details(context['PROCESSINSTANCEID'], context['TASKID'], context['EXECNUMBER'], 'Running WF  '+service_name.rsplit('/', 1)[1]+', for instance ref '+str(service_external_ref))
+            time.sleep(interval)
+        response = json.loads(self.content)
+        return response
 
 
     def wait_end_get_process_instance(self, process_id, timeout = 600, interval=5):
