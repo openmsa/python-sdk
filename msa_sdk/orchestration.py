@@ -294,7 +294,7 @@ class Orchestration(MSA_API):
     def wait_and_run_execute_service_by_reference(self, ubiqube_id, service_external_ref, service_name, process_name, data, timeout = 180, interval = 10):
         """
 
-        For the given instance reference, if the instance is already running, it will wait the end of the current execution and after execute the instance and wait the end of this new execution and return the response (to get the status, used response[0]['status']['status'] ).
+        For the given instance reference, if the instance is already running, it will wait the end of the current execution and after execute the instance and wait the end of this new execution and return the response (to get the status, used response['status']['status'] and to get the details : response['status']['details'] ).
 
         Parameters
         ----------
@@ -348,7 +348,11 @@ class Orchestration(MSA_API):
               self.update_asynchronous_task_details(context['PROCESSINSTANCEID'], context['TASKID'], context['EXECNUMBER'], 'Running WF  '+service_name.rsplit('/', 1)[1]+', for instance ref '+str(service_external_ref))
             time.sleep(interval)
         response = json.loads(self.content)
-        return response
+        if isinstance(response, list):
+          return response[0]
+        else:
+          #for automatic test
+          return response
 
 
     def wait_end_get_process_instance(self, process_id, timeout = 600, interval=5):
