@@ -564,6 +564,27 @@ def log_to_process_file(service_id: str, log_message: str,
 
     return True
 
+def log_to_process_file(context: dict, log_message: str) -> bool:
+    """
+    Write log string with ISO timestamp to process log file.
+
+    Parameters
+    ----------
+    context: Dict
+                Workflow context
+    log_message: String
+                 Log text
+
+    Returns
+    -------
+    bool:
+        true:  log string has been written correctlly
+
+        false: log string has not been written correctlly or the
+                log file doesnt exist
+
+    """
+    log_to_process_file(context.get('SERVICEINSTANCEID'), log_message, context.get('PROCESSINSTANCEID'))
 
 def update_asynchronous_task_details(details: str):
     """
