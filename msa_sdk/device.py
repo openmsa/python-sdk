@@ -704,3 +704,48 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         self._call_get()
         return json.dumps(self.content)
+
+        
+    def update_firmware(self, params: str)-> bool:
+        """
+        MSA SDK method Update firmware  (/device/v1/doFirmwareUpdateByDeviceId).
+        
+        Update Firmware of a managed entity.
+        The process is: The version is checked (not upgrade is done is the same version is installed) The firmware file is transfered to the managed entity flash The transfered file is verified The configuration is modified to boot using the new firmware The managed entity is rebooted If the managed entity successfully rebooted using the new firmware, the old firmware file is removed from flash Concerned files are the files uploaded in the Repository:/Firmware and attached to the device.
+        Parameters
+        ----------
+        params: String like, "FILE=Datafiles/SYZ/SYZA11/csr1000v-universalk9.16.06.07.SPA.bin,file_server_addr=12.2.2.65" 
+
+        Returns
+        --------
+        None
+
+        """
+        self.action = 'Update Firmware'
+        self.path = ("{}/v1/doFirmwareUpdateByDeviceId?deviceId={}&doFirmwareUpdateByDeviceIdOption={}").format(self.api_path, self.device_id,  params)
+        self._call_put()
+     
+
+        
+    def get_update_firmware_status(self):
+        """
+        Get firmware update status by managed entity id  (/device/v1/getFirmwareUpdateStatusByDeviceId/{deviceId}).
+
+        Parameters
+        ----------
+        command: String
+
+        Returns
+        -------
+        The result of the command.
+
+        """
+        self.action = 'Get firmware update status by managed entity id'
+
+        self.path = '/device/v1/getFirmwareUpdateStatusByDeviceId/{device_id}'.format(
+            device_id=self.device_id)
+
+        self._call_get()
+        
+        return json.loads(self.content)
+       
