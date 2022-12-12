@@ -411,5 +411,19 @@ def test_get_customer_id(device_fixture):
         assert device.path == '/device/v1/customer/{}'.format(device.device_id)
         mock_call_get.assert_called_once()
 
- 
-      
+
+def test_get_update_firmware_status(device_fixture):
+    """
+    Testget_update_firmware_status method
+    """
+
+    device = device_fixture
+
+    r_value = json.dumps('{"status": "RUNNING"}')
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = r_value
+        
+        assert device.get_update_firmware_status()
+        assert device.path == '/device/v1/getFirmwareUpdateStatusByDeviceId/None'
+        mock_call_get.assert_called_once()

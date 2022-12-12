@@ -218,3 +218,20 @@ def test_update(device_fixture):
         device.update(update_field, update_value)
         assert json.loads(device.content)['name'] == 'RouterA'
         mock_call_put.assert_called_once()
+
+#####
+def test_update_firmware(device_fixture):
+    """
+    Test update_firmware method
+    """
+
+    device = device_fixture
+    update_field = 'FILE=Datafiles/SYZ/SYZA11/csr1000v-universalk9.16.06.07.SPA.bin'
+
+    response_content = 'ttt'
+
+    with patch('requests.put') as mock_call_put:
+      mock_call_put.return_value.text = response_content
+      device.update_firmware( update_field)
+
+
