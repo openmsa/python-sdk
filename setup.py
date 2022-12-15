@@ -24,13 +24,12 @@ setup(
               'urllib3.packages.rfc3986',
               'urllib3.packages.ssl_match_hostname',
               'urllib3.util',
-              'idna', 'certifi'],
+              'idna'],
     package_dir={
         'requests': 'required_pkgs/requests',
         'urllib3': 'required_pkgs/urllib3',
         'chardet': 'required_pkgs/chardet',
-        'idna': 'required_pkgs/idna',
-        'certifi': 'required_pkgs/certifi'},
+        'idna': 'required_pkgs/idna'},
     data_files=[
         ('/opt/ses/share/htdocs/msa_sdk',
          DOC_HTML_FILES)],
