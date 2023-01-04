@@ -466,6 +466,28 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                          profile_reference=profile_reference,
                          device_reference=self.device_external)
         self._call_put()
+        
+        
+    def profile_detach(self, profile_reference: str) -> None:
+        """
+        Detaches device to a profile by profile reference to device (/profile/{profileReference}/detach).
+
+        Parameters
+        ----------
+        profile_reference:  String
+                            Profile external reference like 'sdsPR55'
+
+        Returns
+        --------
+        None
+
+        """
+        self.path = ('/profile/{profile_reference}/detach'
+                     '?device={device_reference}').format(
+                         profile_reference=profile_reference,
+                         device_reference=self.device_external)
+        self._call_put()
+        
 
     def update_credentials(self, login, password):
         """

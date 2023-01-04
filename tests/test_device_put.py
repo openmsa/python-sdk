@@ -201,6 +201,23 @@ def test_profile_attach(device_fixture):
         assert device.path == f'/profile/{test_profile_reference}/attach?device=Dexternal'
         mock_call_put.assert_called_once()
 
+
+def test_profile_detach(device_fixture):
+    """
+    Test if profile_detach correctly
+    """
+
+    test_profile_reference = 'ABC12345'
+
+    device = device_fixture
+
+    with patch('requests.put') as mock_call_put:
+        device.profile_detach(test_profile_reference)
+        assert device.path == f'/profile/{test_profile_reference}/detach?device=Dexternal'
+        mock_call_put.assert_called_once()
+
+
+
 #####
 def test_update(device_fixture):
     """
