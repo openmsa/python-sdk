@@ -259,10 +259,10 @@ class Orchestration(MSA_API):
         self._call_post(data)
 
     def execute_service_by_reference(self, external_ref, service_ref,
-                                     service_name, process_name, data):
+                                     service_name, process_name, data, timeout = 180, interval = 5):
         """
 
-        Execute service (start it, don't wait the end).
+        Execute service (start it, don't wait the end). If the instance is already running, it will wait the end of the current before to run this instance to prevent error.
 
         Parameters
         ----------
@@ -285,16 +285,32 @@ class Orchestration(MSA_API):
         format_path = ('/orchestration/service/execute/{}/{}'
                        '?serviceName={}&processName={}')
 
-        self.path = format_path.format(external_ref, service_ref, service_name,
-                                       process_name)
 
-        self._call_post(data)
+        running = True
+        global_timeout  = time.time() + timeout
+        while (running and time.time() <= global_timeout) :
+          try:
+            self.path = format_path.format(external_ref, service_ref, service_name, process_name)
+            self._call_post(data)
+            running = False
+          except TypeError as e:   
+            #Got type error when the process is already running
+            dev_var              = Variables()
+            context              = Variables.task_call(dev_var)
+            if context.get('PROCESSINSTANCEID'):
+              self.update_asynchronous_task_details(context['PROCESSINSTANCEID'], context['TASKID'], context['EXECNUMBER'], 'Waiting end of previous excecution for WF  '+service_name.rsplit('/', 1)[1]+' with instance ref '+str(service_ref))
+            time.sleep(interval)  
+          
+        if running:
+            dev_var              = Variables()
+            context              = Variables.task_call(dev_var)
+            MSA_API.task_error('Timeout for waiting end of previous excecution WF  '+service_name.rsplit('/', 1)[1]+', it still running with instance ref '+str(service_ref)+ ' for execute_service_by_reference', context, True) 
 
         
-    def wait_and_run_execute_service_by_reference(self, ubiqube_id, service_external_ref, service_name, process_name, data, timeout = 180, interval = 10):
+    def wait_and_run_execute_service_by_reference(self, ubiqube_id, service_external_ref, service_name, process_name, data, timeout = 300, interval = 10):
         """
 
-        For the given instance reference, if the instance is already running, it will wait the end of the current execution and after execute the instance and wait the end of this new execution and return the response (to get the status, used response['status']['status'] and to get the details : response['status']['details'] ).
+        For the given instance reference, if the instance is already running, it will wait the end of the current execution and after execute the instance (cf execute_service_by_reference) and wait the end of this new execution and return the response (to get the status, used response['status']['status'] and to get the details : response['status']['details'] ). Timeout for previous instance and timeout for new instance.
 
         Parameters
         ----------
@@ -318,27 +334,16 @@ class Orchestration(MSA_API):
         response
 
         """
-        dev_var = Variables()
-        context = Variables.task_call(dev_var)
+        dev_var              = Variables()
+        context              = Variables.task_call(dev_var)
      
-        global_timeout = time.time() + timeout
-
-        service_instance_id  =  int(service_external_ref[6:])
-
-        status= None
-        if service_instance_id and isinstance(service_instance_id, int) :
-          while time.time() <= global_timeout:
-            status = self.get_service_status_by_id(service_instance_id)
-            if status != constants.RUNNING  :
-                break
-            if context.get('PROCESSINSTANCEID'):
-              self.update_asynchronous_task_details(context['PROCESSINSTANCEID'], context['TASKID'], context['EXECNUMBER'], 'Waiting end of current excecution for WF  '+service_name.rsplit('/', 1)[1]+', and instance ref '+str(service_external_ref))
-            time.sleep(interval)
-            
-        self.execute_service_by_reference(ubiqube_id, service_external_ref, service_name, process_name, data)
-
+        global_timeout       = time.time() + timeout
+        service_instance_id  = int(service_external_ref[6:])
+        status               = None
+       
+        self.execute_service_by_reference(ubiqube_id, service_external_ref, service_name, process_name, data, timeout, interval)
+         
         #Wait the end of the new run :
-        global_timeout = time.time() + timeout
         if service_instance_id and isinstance(service_instance_id, int) :
           while time.time() <= global_timeout:
             status = self.get_service_status_by_id(service_instance_id)
@@ -347,12 +352,17 @@ class Orchestration(MSA_API):
             if context.get('PROCESSINSTANCEID'):
               self.update_asynchronous_task_details(context['PROCESSINSTANCEID'], context['TASKID'], context['EXECNUMBER'], 'Running WF  '+service_name.rsplit('/', 1)[1]+', for instance ref '+str(service_external_ref))
             time.sleep(interval)
+        
+        if time.time() >= global_timeout:
+          MSA_API.task_error('Timeout, WF  '+service_name.rsplit('/', 1)[1]+' is still running with instance ref '+str(service_external_ref), context, True) 
+        
         response = json.loads(self.content)
         if isinstance(response, list):
           return response[0]
         else:
           #for automatic test
-          return response
+          return response    
+
 
 
     def wait_end_get_process_instance(self, process_id, timeout = 600, interval=5):

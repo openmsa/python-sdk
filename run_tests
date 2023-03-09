@@ -9,7 +9,8 @@ if [ -z "$1" ]; then
     usage
 fi
 
-PYTEST='python -m pytest --cov-report term-missing --disable-pytest-warnings --cov -x --no-cov-on-fail --cov-fail-under 100 --ff --isort --pydocstyle --ignore=required_pkgs'
+#PYTEST='python -m pytest --cov-report term-missing --disable-pytest-warnings --cov -x --no-cov-on-fail --cov-fail-under 100 --ff --isort --pydocstyle --ignore=required_pkgs'
+PYTEST='python3 -m pytest --cov-report term-missing --disable-pytest-warnings --cov -x --no-cov-on-fail --cov-fail-under 100 --ff --isort --pydocstyle --ignore=required_pkgs'
 
 case "$1" in
     'html')

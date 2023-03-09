@@ -355,7 +355,46 @@ def test_execute_service_by_reference(orchestration_fixture):
                                               'servName', 'procName')
 
         mock_call_post.assert_called_once_with({"var1": 1, "var2": 2})
+        
+def test_execute_service_by_reference_already_running(orchestration_fixture):
+    """
+    Test execute service by reference
+    """
+    orch = orchestration_fixture
+    local_path = '/orchestration/service/execute/{}/{}'
+    local_path += '?serviceName={}&processName={}'
+    #the first should failed
+    response_fail = ('[]')
+    with patch('msa_sdk.variables.Variables.task_call') as mock_task_call:
+      with patch('requests.post') as mock_call_post:
+        context = {
+            "PROCESSINSTANCEID": 285,
+            "TASKID": 1,
+            "EXECNUMBER": 1,
+            "SERVICEINSTANCEID":112
+        }       
+        mock_task_call.return_value.text = context
+        
+        #overwrite method update_asynchronous_task_details   
+        with patch.object(orch, 'update_asynchronous_task_details', return_value=None):
+        
+          with patch('msa_sdk.msa_api.MSA_API.task_error') as mock_api_task_error:
 
+              mock_api_task_error.return_value.text = context
+              
+              orch = orchestration_fixture
+              mock_call_post.return_value.text = response_fail
+              mock_call_post.side_effect = TypeError
+              #self.assertRaises(TypeError, lambda: m['xyz'])  # TypeError: 'Mock' object has no attribute '__getitem__'
+              orch.execute_service_by_reference('external_ref', 'servReference',
+                                                '/test/servName', 'procName',
+                                                {"var1": 1, "var23": 2}, 2, 5)
+              mock_call_post.assert_called_once_with('http://api_hostname:8080/ubi-api-rest/orchestration/service/execute/external_ref/servReference?serviceName=/test/servName&processName=procName', data='{"var1": 1, "var23": 2}', headers={'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer 12345qwert'}, timeout=60)
+              
+              
+              assert orch.path == local_path.format('external_ref', 'servReference',
+                                                '/test/servName', 'procName')              
+           
      
 def test_wait_and_run_execute_service_by_reference(orchestration_fixture):
     """
@@ -416,19 +455,23 @@ def test_wait_and_run_execute_service_by_reference_running(orchestration_fixture
         context = {
             "PROCESSINSTANCEID": "285",
             "TASKID": "1",
-            "EXECNUMBER": "1"
+            "EXECNUMBER": "1",
+            "SERVICEINSTANCEID":112
         }
         mock_task_call.return_value.text = context
-        
+         
         #overwrite method update_asynchronous_task_details   
         with patch.object(orch, 'update_asynchronous_task_details', return_value=None):
-        
-          with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
-            with patch('requests.get') as mock_call_get:
-              mock_call_get.return_value.text = result
-              orch.wait_and_run_execute_service_by_reference('NTTA14', 'NTTSID2867','Process/workflows/test_wait_and_run_execute_service_by_reference/test_wait_and_run_execute_service_by_reference', 'Process/workflows/test_wait_and_run_execute_service_by_reference/Process_very_long_task',{"var1": 1, "var2": 2}, 20, 5)
+          with patch('msa_sdk.msa_api.MSA_API.task_error') as mock_api_task_error:
+            mock_api_task_error.return_value.text = context
+            #overwrite method update_asynchronous_task_details   
+            with patch.object(orch, 'update_asynchronous_task_details', return_value=None):
+              with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+                with patch('requests.get') as mock_call_get:
+                  mock_call_get.return_value.text = result
+                  orch.wait_and_run_execute_service_by_reference('NTTA14', 'NTTSID2867','Process/workflows/test_wait_and_run_execute_service_by_reference/test_wait_and_run_execute_service_by_reference', 'Process/workflows/test_wait_and_run_execute_service_by_reference/Process_very_long_task',{"var1": 1, "var2": 2}, 20, 5)
 
-              assert orch.path == '/orchestration/v1/service/process-instance/2867'
+                  assert orch.path == '/orchestration/v1/service/process-instance/2867'
     
 def test_wait_and_run_execute_service_by_reference_timeout(orchestration_fixture):
     """
@@ -437,19 +480,26 @@ def test_wait_and_run_execute_service_by_reference_timeout(orchestration_fixture
 
     local_path = '/orchestration/service/execute/{}/{}'
     local_path += '?serviceName={}&processName={}'
+    orch = orchestration_fixture
 
     with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
-        orch = orchestration_fixture
-
-        #orch.wait_and_run_execute_service_by_reference('INV124', 'SDSSID1124', 'servName', 'procName',  {"var1": 1, "var2": 2}, -20, 5)
-        orch.wait_and_run_execute_service_by_reference('NTTA14', 'NTTSID2867','Process/workflows/test_wait_and_run_execute_service_by_reference/test_wait_and_run_execute_service_by_reference', 'Process/workflows/test_wait_and_run_execute_service_by_reference/Process_very_long_task',{"var1": 1, "var2": 2}, -20, 5)
-
-
-        assert orch.path == local_path.format('NTTA14', 'NTTSID2867',
-                                              'Process/workflows/test_wait_and_run_execute_service_by_reference/test_wait_and_run_execute_service_by_reference', 'Process/workflows/test_wait_and_run_execute_service_by_reference/Process_very_long_task')
-
-        mock_call_post.assert_called_once_with({"var1": 1, "var2": 2})   
-   
+      with patch('msa_sdk.variables.Variables.task_call') as mock_task_call:
+        with patch('requests.put') as mock_call_put:
+          context = {
+              "PROCESSINSTANCEID": "285",
+              "TASKID": "1",
+              "EXECNUMBER": "1",
+              "SERVICEINSTANCEID":112
+          }
+                  
+          #overwrite method update_asynchronous_task_details   
+          with patch.object(orch, 'update_asynchronous_task_details', return_value=None):
+            with patch('msa_sdk.msa_api.MSA_API.task_error') as mock_api_task_error:
+              mock_api_task_error.return_value.text = context
+              mock_task_call.return_value.text = context
+              orch = orchestration_fixture
+              orch.wait_and_run_execute_service_by_reference('NTTA14', 'NTTSID2867','Process/workflows/test_wait_and_run_execute_service_by_reference/test_wait_and_run_execute_service_by_reference', 'Process/workflows/test_wait_and_run_execute_service_by_reference/Process_very_long_task',{"var1": 1, "var2": 2}, -20, 5)
+ 
 
 def test_wait_end_get_process_instance(orchestration_fixture):
     """
