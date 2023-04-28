@@ -19,7 +19,7 @@ jobs:
         python -m pip install pdoc3
 
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Generate doc
       run: |
@@ -27,7 +27,7 @@ jobs:
         cp msa_sdk.json msa_sdk_doc/msa_sdk
 
     - name: Set up Python 3.7
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v4
       with:
         python-version: 3.7
 
