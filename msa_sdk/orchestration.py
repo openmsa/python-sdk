@@ -53,6 +53,55 @@ class Orchestration(MSA_API):
 
         self._call_get()
 
+    def read_service_instance_by_condition(self, services_to_search: list, service_instance_id: int, service_external_reference: str,
+                                           process_instance_id: int, service_execution_status: str, service_variables: list):
+
+        """
+        Read service instance by condition
+
+        Parameters
+        ----------
+        services_to_search: list
+        ["str","str"]
+        service_instance_id: int
+        service_external_reference: string
+        process_instance_id: int
+        service_execution_status: string
+        service_variables: list
+        [
+            {
+            "variable": "apps_to_deploy[0].app_port",
+            "operator": "=",
+            "value": "80",
+            "next_condition_joinOperator": "OR"
+            },
+            {
+            "variable": "deployment_name",
+            "operator": "=",
+            "value": "Wordpress",
+            "next_condition_joinOperator": ""
+            }
+        ]
+        Returns
+        -------
+        serviceIds
+
+        """
+
+        data = {
+            "servicesToSearch" : services_to_search,
+            "serviceInstanceId" : service_instance_id,
+            "serviceExternalReference" : service_external_reference,
+            "processInstanceId": process_instance_id,
+            "serviceExecutionStatus": service_execution_status,
+            "serviceVariables" : service_variables
+        }
+        self.path = "{}/search/{}/service/instance".format(self.api_path,
+                                                           self.ubiqube_id)
+        self.call_post(data)
+        return self.content
+
+    
     def get_service_variables(self, service_id):
         """
 
