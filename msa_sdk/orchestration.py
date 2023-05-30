@@ -55,9 +55,8 @@ class Orchestration(MSA_API):
 
     def read_service_instance_by_condition(self, services_to_search: list, service_instance_id: int, service_external_reference: str,
                                            process_instance_id: int, service_execution_status: str, service_variables: list):
-
         """
-        Read service instance by condition
+        Read service instance by condition.
 
         Parameters
         ----------
