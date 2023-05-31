@@ -53,11 +53,9 @@ class Orchestration(MSA_API):
 
         self._call_get()
 
-    def read_service_instance_by_condition(self, services_to_search: list, service_instance_id: int, service_external_reference: str,
-                                           process_instance_id: int, service_execution_status: str, service_variables: list):
-
+    def read_service_instance_by_condition(self, services_to_search: list, service_instance_id: int, service_external_reference: str, process_instance_id: int, service_execution_status: str, service_variables: list):
         """
-        Read service instance by condition
+        Read service instance by condition.
 
         Parameters
         ----------
@@ -82,12 +80,12 @@ class Orchestration(MSA_API):
             "next_condition_joinOperator": ""
             }
         ]
+
         Returns
         -------
         serviceIds
 
         """
-
         data = {
             "servicesToSearch" : services_to_search,
             "serviceInstanceId" : service_instance_id,
@@ -98,7 +96,7 @@ class Orchestration(MSA_API):
         }
         self.path = "{}/search/{}/service/instance".format(self.api_path,
                                                            self.ubiqube_id)
-        self.call_post(data)
+        self._call_post(data)
         return self.content
 
     
