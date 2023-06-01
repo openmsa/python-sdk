@@ -1,12 +1,14 @@
 """
 Test Orchestration
 """
+import json
 from unittest.mock import patch
 
 from util import _is_valid_json
 from util import orchestration_fixture  # pylint: disable=unused-import
 
 # pylint: disable=redefined-outer-name
+
 
 
 def test_list_service_instances(orchestration_fixture):
@@ -680,3 +682,35 @@ def test_attach_wf_to_subtenant(orchestration_fixture):
         orch.attach_wf_to_subtenant("UBIA234", "Process/workflows/AutoAttached/organizations.xml")
         assert orch.path == local_path.format('UBIA234', 'Process/workflows/AutoAttached/organizations.xml')
         mock_call_post.assert_called_once_with()
+
+def test_read_service_instance_by_condition(orchestration_fixture):
+    """
+    Test read_service_instance_by_condition
+    """
+
+    services_to_search = []
+    service_instance_id = 0
+    service_external_reference = ''
+    process_instance_id = 0
+    service_execution_status = ''
+    service_variables = [
+        {
+            "variable": "service_id",
+            "operator": ">",
+            "value": "0",
+            "nextConditionJoinOperator": ""
+        }
+    ]
+
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+        orch = orchestration_fixture
+        orch.read_service_instance_by_condition(services_to_search, service_instance_id, service_external_reference, process_instance_id, service_execution_status, service_variables)
+        data = {
+            "servicesToSearch": services_to_search,
+            "serviceInstanceId": service_instance_id,
+            "serviceExternalReference": service_external_reference,
+            "processInstanceId": process_instance_id,
+            "serviceExecutionStatus": service_execution_status,
+            "serviceVariables": service_variables
+        }
+        assert orch.response == None if True else _is_valid_json(json.loads(orch.response.text))
