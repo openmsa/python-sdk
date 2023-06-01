@@ -186,8 +186,8 @@ class Repository(MSA_API):
                 Microservice file path or None
 
         """
-        import re
         import json
+        import re
 
         self.action = 'Get deployment settings'
 

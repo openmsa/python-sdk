@@ -19,7 +19,7 @@ jobs:
         python -m pip install pdoc3
 
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
 
     - name: Generate doc
       run: |
@@ -32,7 +32,7 @@ jobs:
         python-version: 3.7
 
     - name: Create pull request
-      uses: car-on-sale/action-pull-request-another-repo@v1.3.0
+      uses: car-on-sale/action-pull-request-another-repo@v1.3.1
       env:
         API_TOKEN_GITHUB: ${{ env.GITHUB_TOKEN }}
       with:
@@ -41,7 +41,7 @@ jobs:
         destination_folder: 'front/msa_sdk_doc'
         destination_base_branch: 'master'
         destination_head_branch: 'update_pythonsdk_doc'
-        user_email: 'efe@ubiqube.com'
-        user_name: 'efe'
+        user_email: 'qa@ubiqube.com'
+        user_name: 'qa4ubiqube'
         pr_title: 'Update Pyhton SDK documentation'
         commit_msg: 'Update documentation automatic created'
