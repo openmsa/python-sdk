@@ -55,7 +55,7 @@ jobs:
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_message: Commit bump version
-        commit_user_name: Eduardo Ferreira (bot)
-        commit_user_email: efeubiqube@ubiqube.com
-        commit_author: Eduardo Ferreira <efeubiqube@ubiqube.com>
+        commit_user_name: qa4ubiqube (bot)
+        commit_user_email: qa@ubiqube.com
+        commit_author: qa4ubiqube <qa@ubiqube.com>
         push_options: --force
