@@ -72,6 +72,7 @@ get_members('Repository', repository)
 get_members('Customer', customer)
 get_members('ConfProfile', conf_profile)
 get_members('Variables', variable)
+get_members('Orchestration', orchestration)
 
 get_members_function()
 
