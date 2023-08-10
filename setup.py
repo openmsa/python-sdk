@@ -31,8 +31,7 @@ setup(
         'chardet': 'required_pkgs/chardet',
         'idna': 'required_pkgs/idna'},
     data_files=[
-        ('/opt/ses/share/htdocs/msa_sdk',
-         DOC_HTML_FILES)],
+        ],
     include_package_data=True,
     classifiers=["Development Status :: 4 - Beta"],
 )
