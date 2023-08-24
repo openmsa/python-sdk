@@ -105,10 +105,10 @@ class MSA_API():  # pylint: disable=invalid-name
         json_response = json.dumps(response)
 
         if log_response:
-            pretty_json = json.dumps(new_params, indent=4)
+            pretty_json = json.dumps(new_params, indent=4, ensure_ascii=False).encode('utf8')
             log_to_file(
                 new_params['SERVICEINSTANCEID'],
-                pretty_json,
+                pretty_json.decode(),
                 new_params['PROCESSINSTANCEID'])
 
         return json_response
