@@ -1,12 +1,10 @@
 """Module util."""
 import fcntl
 import io
+import logging
 import os
 import subprocess
-import sys
 import time
-from configparser import ConfigParser
-from datetime import datetime
 from ipaddress import AddressValueError
 from ipaddress import IPv4Address
 from ipaddress import IPv4Network
@@ -519,7 +517,6 @@ def cidr_to_subnet_and_subnetmask_address(cidr):
     return {'subnet_ip': str(network.network_address),
             'subnet_mask': str(network.netmask)}
 
-
 def log_to_process_file(service_id: str, log_message: str,
                         process_id: str = None) -> bool:
     """
@@ -544,24 +541,8 @@ def log_to_process_file(service_id: str, log_message: str,
                 log file doesnt exist
 
     """
-    process_log_path = '{}/process-{}.log'.format(
-        constants.PROCESS_LOGS_DIRECTORY, service_id)
-    log_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    if not process_id:
-        log_string = '{date}:{file}:DEBUG:{msg}\n'.format(
-            date=log_time, file=sys.argv[0].split('/')[-1], msg=log_message)
-    else:
-        log_string = '\n=== {} ===|{}|\n{}'.format(
-            log_time, process_id, log_message)
-        if "\n" in log_message:
-            log_string += '\n=== {} ===|{}--|'.format(
-                log_time, process_id)
-    try:
-        with open(process_log_path, 'a') as log_file:
-            log_file.write(log_string)
-    except IOError:
-        return False
-
+    logger = logging.getLogger("msa-sdk")
+    logger.info(log_message)
     return True
 
 

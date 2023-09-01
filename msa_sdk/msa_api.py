@@ -1,16 +1,15 @@
 """Module msa_api."""
 import datetime
 import json
-import os
-import re
+import logging
 import sys
-from pathlib import Path
 
 import requests
 
 from msa_sdk import constants
 from msa_sdk.variables import Variables
 
+logger = logging.getLogger("msa-sdk")
 
 def host_port():
     """
@@ -66,51 +65,20 @@ class MSA_API():  # pylint: disable=invalid-name
         Response content formated
 
         """
-        def log_to_file(log_id, log_msg, process_id):
-            """
-
-            Log a message to a log file with corresponding to a process id.
-
-            Parameters
-            ---------
-            log_id: Integer
-                Log file id
-
-            log_msg: String
-                Message to be logged
-
-            process_id: String
-                Process Id
-
-            Returns
-            ------
-            Json
-
-            """
-            log_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-            log_file = '{}/process-{}.log'.format(
-                constants.PROCESS_LOGS_DIRECTORY,
-                log_id)
-            with open(log_file, 'a+') as f_log:
-                f_log.write('\n=== {} ===|{}|\n{}\n=== {} ===|{}--|'.format(
-                    log_time, process_id, log_msg, log_time, process_id))
-
         response = {
             "wo_status": status,
             "wo_comment": comment,
             "wo_newparams": new_params
         }
+        if log_response:
+            import copy
+            woToken = copy.deepcopy(new_params)
+            if 'TOKEN' in woToken:
+                del woToken['TOKEN']
+            pretty_json = json.dumps(woToken, indent=4)
+            logger.info(pretty_json)
 
         json_response = json.dumps(response)
-
-        if log_response:
-            pretty_json = json.dumps(new_params, indent=4, ensure_ascii=False).encode('utf8')
-            log_to_file(
-                new_params['SERVICEINSTANCEID'],
-                pretty_json.decode(),
-                new_params['PROCESSINSTANCEID'])
-
         return json_response
 
     @classmethod
@@ -311,16 +279,8 @@ class MSA_API():  # pylint: disable=invalid-name
             file doesnt exist
 
         """
-        import sys
-        process_log_path = '{}/process-{}.log'.format(
-            constants.PROCESS_LOGS_DIRECTORY, processId)
-        current_time = datetime.datetime.now().isoformat()
-        log_string = '{date}:{file}:DEBUG:{msg}\n'.format(
-            date=current_time, file=sys.argv[0].split('/')[-1],
-            msg=log_message)
-        try:
-            with open(process_log_path, 'a') as log_file:
-                log_file.write(log_string)
-                return True
-        except IOError:
-            return False
+        import logging
+        logger = logging.getLogger("msa-sdk")
+        logger.info(log_message)
+        return True
+

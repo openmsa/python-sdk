@@ -138,10 +138,14 @@ class Variables:
                 print("[{}]", end='')
             sys.exit(0)
 
+        return cls.load_context()
+
+    @classmethod
+    def load_context(cls) -> dict:
+        """Load context."""
         context = json.loads('{"TOKEN":"12345qwert"}')
         if len(sys.argv) > 2 and '--execute' in sys.argv[1]:
             context = json.loads(open(sys.argv[2]).read())
-
         return context
 
     def check_mandatory_param(self, context) -> None:
