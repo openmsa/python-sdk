@@ -1,6 +1,6 @@
 """Package SDK."""
-__version__ = "2.1.87"
-VERSION = "2.1.87"
+__version__ = "2.1.88"
+VERSION = "2.1.88"
 
 import base64
 import logging
