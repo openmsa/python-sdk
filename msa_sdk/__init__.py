@@ -3,8 +3,10 @@ __version__ = "2.1.88"
 VERSION = "2.1.88"
 
 import base64
+import datetime
 import logging
 import os
+import socket
 import sys
 
 import msa_sdk.constants as constants
@@ -22,7 +24,8 @@ def addFileHandler(logger):
         # Create process log handler
         process_log_path = '{}/process-{}.log'.format(constants.PROCESS_LOGS_DIRECTORY, service_id)
         fh = logging.FileHandler(process_log_path)
-        formatter = logging.Formatter('%(asctime)s|' + process_id +'|' + VERSION + '|' + traceId + '|' + spanId + '|%(module)s\n%(message)s\n')
+        formatter = logging.Formatter('%(asctime)s|' + process_id +'|' + VERSION + '|' + traceId + '|' + spanId + '|%(module)s|' + socket.gethostname() + '|%(levelname)s\n%(message)s\n')
+        logging.Formatter.formatTime = (lambda self, record, datefmt=None: datetime.datetime.fromtimestamp(record.created, datetime.timezone.utc).astimezone().isoformat(sep="T",timespec="milliseconds"))
         fh.setFormatter(formatter)
         logger.addHandler(fh)
 
@@ -37,8 +40,10 @@ logger = logging.getLogger()
 addFileHandler(logger)
 addStdErr(logger)
 
-if ('_DEBUG' in os.environ):
+if ('_DEBUG' in os.environ or '_DEBUG' in context):
     logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
 
 #
 # Remove elasticsearch query from user logs.
