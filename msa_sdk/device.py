@@ -3,7 +3,6 @@ import json
 
 from msa_sdk.msa_api import MSA_API
 
-
 class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
     """Class Device."""
 

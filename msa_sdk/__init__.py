@@ -29,6 +29,20 @@ def addFileHandler(logger):
         fh.setFormatter(formatter)
         logger.addHandler(fh)
 
+# ES index
+def addEsHandler(logger):
+    """ES log handler."""
+    if ('ES_SERVERS' in os.environ):
+        esServer = os.environ['ES_SERVERS']
+        auth_details = None
+        if('ES_CREDENTIALS' in os.environ):
+            auth = os.environ['ES_CREDENTIALS']
+            arr = base64.b64decode(auth).decode()
+            res = arr.split(":", 1)
+            auth_details = (res[0], res[1])
+        esh = EsHandler(auth_details=auth_details, hosts=esServer, raise_on_indexing_exceptions=True, context=context)
+        logger.addHandler(esh)
+
 def addStdErr(logger):
     """Add stdErr handler."""
     handler = logging.StreamHandler(sys.stderr)
