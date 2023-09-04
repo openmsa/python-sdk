@@ -1,10 +1,10 @@
 isort==4.3.21
 pdoc3
 pydocstyle==5.0.2
-pytest==5.4.1
-pytest-cov==2.8.1
-pytest-docstyle==2.0.1
-pytest-isort==1.0.0
-pytest-pylint==0.17.0
+pytest
+pytest-cov
+pytest-pydocstyle
+pytest-isort
+pytest-pylint
 bump2version
 ipython
