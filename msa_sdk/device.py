@@ -3,6 +3,7 @@ import json
 
 from msa_sdk.msa_api import MSA_API
 
+
 class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
     """Class Device."""
 
@@ -733,6 +734,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         
         Update Firmware of a managed entity.
         The process is: The version is checked (not upgrade is done is the same version is installed) The firmware file is transfered to the managed entity flash The transfered file is verified The configuration is modified to boot using the new firmware The managed entity is rebooted If the managed entity successfully rebooted using the new firmware, the old firmware file is removed from flash Concerned files are the files uploaded in the Repository:/Firmware and attached to the device.
+
         Parameters
         ----------
         params: String like, "FILE=Datafiles/SYZ/SYZA11/csr1000v-universalk9.16.06.07.SPA.bin,file_server_addr=12.2.2.65" 

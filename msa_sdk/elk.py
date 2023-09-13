@@ -1,13 +1,16 @@
 """Elastic search loggin module."""
 import datetime
-from enum import Enum
 import logging
 import socket
-import json
-from threading import Timer, Lock
+from enum import Enum
+from threading import Lock
+from threading import Timer
+
+from elasticsearch import Elasticsearch
+from elasticsearch import RequestsHttpConnection
 from elasticsearch import helpers as eshelpers
-from elasticsearch import Elasticsearch, RequestsHttpConnection
 from elasticsearch.serializer import JSONSerializer
+
 
 # Have a look at https://github.com/cmanaha/python-elasticsearch-logger
 class EsSerializer(JSONSerializer):
@@ -32,7 +35,7 @@ class EsSerializer(JSONSerializer):
             return str(data)
 
 class EsHandler(logging.Handler):
-    """Elastic search handler"""
+    """Elastic search handler."""
 
     class IndexNameFrequency(Enum):
         """
@@ -149,7 +152,7 @@ class EsHandler(logging.Handler):
     
     def flush(self):
         """
-        Flushes the buffer into ES
+        Flushes the buffer into ES.
         :return: None
         """
         if self._timer is not None and self._timer.is_alive():

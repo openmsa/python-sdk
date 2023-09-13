@@ -3,6 +3,7 @@ import json
 
 from msa_sdk.msa_api import MSA_API
 
+
 class Admin(MSA_API):
     """Class Admin."""
 

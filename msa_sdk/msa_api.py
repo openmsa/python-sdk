@@ -5,7 +5,9 @@ import random
 import sys
 
 import requests
-from msa_sdk import constants, context
+
+from msa_sdk import constants
+from msa_sdk import context
 from msa_sdk.variables import Variables
 
 logger = logging.getLogger("msa-sdk")
