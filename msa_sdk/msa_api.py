@@ -1,12 +1,13 @@
 """Module msa_api."""
-import datetime
 import json
 import logging
+import random
 import sys
 
 import requests
 
 from msa_sdk import constants
+from msa_sdk import context
 from msa_sdk.variables import Variables
 
 logger = logging.getLogger("msa-sdk")
@@ -35,8 +36,7 @@ class MSA_API():  # pylint: disable=invalid-name
     def __init__(self):
         """Initialize."""
         self.url = 'http://{}:{}/ubi-api-rest'.format(*host_port())
-
-        self._token = Variables.task_call()['TOKEN']
+        self._token = context['TOKEN']
         self.path = ""
         self.response = None
         self.log_response = True
@@ -179,6 +179,7 @@ class MSA_API():  # pylint: disable=invalid-name
             'Accept': 'application/json',
             'Authorization': 'Bearer {}'.format(self._token),
         }
+        self.add_trace_headers(headers)
         if data is None:
             data = {}
 
@@ -208,7 +209,7 @@ class MSA_API():  # pylint: disable=invalid-name
             'Accept': 'application/json',
             'Authorization': 'Bearer {}'.format(self._token),
         }
-
+        self.add_trace_headers(headers)
         url = self.url + self.path
         self.response = requests.get(url, headers=headers, timeout=timeout,
                                      params=params)
@@ -235,6 +236,7 @@ class MSA_API():  # pylint: disable=invalid-name
             'Content-Type': 'application/json',
             'Authorization': 'Bearer {}'.format(self._token),
         }
+        self.add_trace_headers(headers)
         url = self.url + self.path
         self.response = requests.put(url, data=data, headers=headers)
         self._content = self.response.text
@@ -255,10 +257,24 @@ class MSA_API():  # pylint: disable=invalid-name
             'Accept': 'application/json',
             'Authorization': 'Bearer {}'.format(self._token),
         }
+        self.add_trace_headers(headers)
         url = self.url + self.path
         self.response = requests.delete(url, headers=headers)
         self._content = self.response.text
         self.check_response()
+
+    def add_trace_headers(self, headers):
+        """Add W3C trace headers."""
+        if 'TRACEID' not in context:
+            t, s = self.create_trace_id()
+            context['TRACEID'] = t
+            context['SPANID'] = s
+            logger.info("Creating traceId: 00-%s-%s-01", t,s)
+        # W3C compatible header
+        headers['traceparent'] = '00-{}-{}-01'.format(context['TRACEID'], context['SPANID'])
+        # Old X-B3, to be removed.
+        headers['X-B3-TraceId'] = context['TRACEID']
+        headers['X-B3-SpanId'] = context['SPANID']
 
     def log_to_process_file(self, processId: str, log_message: str) -> bool:
         """
@@ -284,3 +300,8 @@ class MSA_API():  # pylint: disable=invalid-name
         logger.info(log_message)
         return True
 
+    def create_trace_id(self):
+        """Create a new traceId/spanId."""
+        trace_id = '%032x' % random.randrange(16**32)
+        span_id = '%016x' % random.randrange(6**23)
+        return trace_id, span_id

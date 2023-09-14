@@ -10,4 +10,4 @@ python-owasp-zap-v2.4
 wget
 openstacksdk==0.61.0
 openpyxl
-
+elasticsearch==7.14.2

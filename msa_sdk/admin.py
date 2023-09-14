@@ -1,5 +1,4 @@
 """Module Admin."""
-
 import json
 
 from msa_sdk.msa_api import MSA_API
