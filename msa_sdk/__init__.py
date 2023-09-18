@@ -34,7 +34,7 @@ def add_file_handler(logger):
 def add_es_handler(logger):
     """ES log handler."""
     if ('ES_SERVERS' in os.environ):
-        es_server = os.environ['ES_SERVERS']
+        es_server = os.environ['ES_SERVERS'].split(" ")
         auth_details = None
         if('ES_CREDENTIALS' in os.environ):
             auth = os.environ['ES_CREDENTIALS']
