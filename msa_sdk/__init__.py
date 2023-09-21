@@ -1,6 +1,6 @@
 """Package SDK."""
-__version__ = "2.1.91"
-VERSION = "2.1.91"
+__version__ = "2.1.92"
+VERSION = "2.1.92"
 
 import base64
 import datetime
