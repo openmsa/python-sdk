@@ -1,6 +1,7 @@
 """Module Variables."""
 
 import json
+import os
 import sys
 
 
@@ -137,8 +138,8 @@ class Variables:
             else:
                 print("[{}]", end='')
             sys.exit(0)
-
-        return cls.load_context()
+        from msa_sdk import context
+        return context
 
     @classmethod
     def load_context(cls) -> dict:
@@ -146,6 +147,9 @@ class Variables:
         context = json.loads('{"TOKEN":"12345qwert"}')
         if len(sys.argv) > 2 and '--execute' in sys.argv[1]:
             context = json.loads(open(sys.argv[2]).read())
+        elif not os.isatty(0):
+            ctx = sys.stdin.read();
+            context = json.loads(ctx)
         return context
 
     def check_mandatory_param(self, context) -> None:
