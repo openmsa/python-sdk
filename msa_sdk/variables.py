@@ -149,6 +149,8 @@ class Variables:
             context = json.loads(open(sys.argv[2]).read())
         elif not os.isatty(0):
             ctx = sys.stdin.read();
+            if not ctx:
+                return context
             context = json.loads(ctx)
         return context
 

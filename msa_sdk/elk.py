@@ -1,6 +1,7 @@
 """Elastic search loggin module."""
 import datetime
 import logging
+import sys
 import socket
 from enum import Enum
 from threading import Lock
@@ -104,7 +105,8 @@ class EsHandler(logging.Handler):
                                          'service_id': context['SERVICEINSTANCEID'] if "SERVICEINSTANCEID" in context else "",
                                          'process_id': context['PROCESSINSTANCEID'] if "PROCESSINSTANCEID" in context else "empty",
                                          'trace_id': context['TRACEID'] if "TRACEID" in context else "",
-                                         'span_id': context['SPANID'] if "SPANID" in context else ""
+                                         'span_id': context['SPANID'] if "SPANID" in context else "",
+                                         'task_id': sys.argv[0]
                                          })
         self.raise_on_indexing_exceptions = raise_on_indexing_exceptions
         self.default_timestamp_field_name = default_timestamp_field_name
