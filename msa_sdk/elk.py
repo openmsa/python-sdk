@@ -180,7 +180,8 @@ class EsHandler(logging.Handler):
                 )
             except Exception as exception:
                 if self.raise_on_indexing_exceptions:
-                    raise exception
+                    # Do nothing.
+                    return
     def close(self):
         """
         Flushes the buffer and release any outstanding resource.
