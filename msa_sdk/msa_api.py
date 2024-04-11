@@ -1,6 +1,7 @@
 """Module msa_api."""
 import json
 import logging
+import os
 import random
 import sys
 
@@ -21,7 +22,9 @@ def host_port():
     Hostname and Port
 
     """
-    return('localhost', '8480')
+    host = os.environ.get('UBIQUBE_MSA_HOST') or 'localhost'
+    port = os.environ.get('UBIQUBE_MSA_PORT') or '8480'
+    return (host, port)
 
 
 class MSA_API():  # pylint: disable=invalid-name
