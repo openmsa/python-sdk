@@ -5,7 +5,7 @@ name: Python application
 
 on:
   pull_request:
-    branches: [ develop ]
+    branches: [ master ]
 
 jobs:
   tests:
