@@ -153,8 +153,9 @@ class Variables:
                 return context
             context = json.loads(ctx)
 
-        # on recupere le bon token
-        url = os.environ["API_TOKEN_URL"] if os.environ["API_TOKEN_URL"] else "http://msa-auth:8080/auth/realms/main/protocol/openid-connect/token"
+        # Get Auth parameters.
+
+        url = os.environ.get('API_TOKEN_URL') or "http://msa-auth:8080/auth/realms/main/protocol/openid-connect/token"
         params = {"client_id": os.environ["CLIENT_ID"], "grant_type": "client_credentials", "client_secret" : os.environ["CLIENT_SECRET"]}
         response = requests.post(url, data=params)
         data = response.json()
