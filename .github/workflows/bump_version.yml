@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version: [3.6, 3.9, 3.11, 3.12]
 
     steps:
     - uses: actions/checkout@v3
@@ -54,7 +54,7 @@ jobs:
     - name: Commit bump version
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: Commit bump version
+        commit_message: 🔖 Commit bump version
         commit_user_name: qa4ubiqube (bot)
         commit_user_email: qa@ubiqube.com
         commit_author: qa4ubiqube <qa@ubiqube.com>

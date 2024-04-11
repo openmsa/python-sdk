@@ -5,7 +5,7 @@ name: Python application
 
 on:
   pull_request:
-    branches: [ develop ]
+    branches: [ master ]
 
 jobs:
   tests:
@@ -13,8 +13,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        # 3.10 and 3.11 have some test problems.
-        python-version: ['3.6', '3.7', '3.8', '3.9']
+        python-version: ['3.6', '3.9', '3.11', '3.12']
 
     steps:
     - uses: actions/checkout@v3

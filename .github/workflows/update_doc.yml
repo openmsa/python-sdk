@@ -3,7 +3,7 @@ name: Update documentation
 on:
   push:
     branches:
-      - develop
+      - master
     paths:
       - 'msa_sdk/*'
 env:
