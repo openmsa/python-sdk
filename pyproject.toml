@@ -1,6 +1,8 @@
 [build-system]
 requires      = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
+#requires = ["poetry-core"]
+#build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "msa-sdk"
@@ -15,12 +17,12 @@ classifiers = [
 ]
 keywords = ["MSA", "ubiqube", "python-sdk"]
 dependencies = [
-    "requests == 2.29.0"
+    "requests == 2.31.0"
 ]
 requires-python = ">=3.11"
 
 [project.optional-dependencies]
-dev = ["pytest-cov == 4.0.0", "bumpver == 2022.1120", "pip-tools == 6.13.0", "pytest == 7.3.1", "pytest-pydocstyle == 2.3.2", "pytest-isort == 3.1.0"]
+dev = ["pytest-cov == 4.0.0", "bumpver == 2023.1129", "pip-tools == 7.4.1", "pytest == 7.3.1", "pytest-pydocstyle == 2.3.2", "pytest-isort == 3.1.0"]
 
 [project.urls]
 Homepage = "https://github.com/openmsa/python-sdk"
@@ -30,24 +32,16 @@ Homepage = "https://github.com/openmsa/python-sdk"
 [tool.bumpver]
 current_version = "2.2.1"
 version_pattern = "MAJOR.MINOR.PATCH"
-commit_message  = "Bump version {old_version} -> {new_version}"
-commit          = true
-tag             = true
+commit_message  = "🔖 Bump version {old_version} → {new_version}"
+commit          = false
+tag             = false
 push            = false
 
 [tool.bumpver.file_patterns]
 "pyproject.toml" = [
-    'current_version = "{version}"',
+    'current_version = "{version1}"',
 ]
-"setup.py" = [
-    "{version}",
-    "{pep440_version}",
+"msa_sdk/__init__.py" = [
+    '^__version__ = "{version2}"',
+    '^VERSION = "{version3}"',
 ]
-"README.md" = [
-    "{version}",
-    "{pep440_version}",
-]
-
-
-
-
