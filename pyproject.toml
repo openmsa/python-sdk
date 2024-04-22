@@ -1,0 +1,53 @@
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "msa-sdk"
+version = "2.2.1"
+description = "MSA Python SDK"
+readme = "README.md"
+authors = [{ name = "Ubiqube", email = "ubiqube@ubiqube.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["MSA", "ubiqube", "python-sdk"]
+dependencies = [
+    "requests == 2.29.0"
+]
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+dev = ["pytest-cov == 4.0.0", "bumpver == 2022.1120", "pip-tools == 6.13.0", "pytest == 7.3.1", "pytest-pydocstyle == 2.3.2", "pytest-isort == 3.1.0"]
+
+[project.urls]
+Homepage = "https://github.com/openmsa/python-sdk"
+
+[project.scripts]
+
+[tool.bumpver]
+current_version = "2.2.1"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message  = "Bump version {old_version} -> {new_version}"
+commit          = true
+tag             = true
+push            = false
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    'current_version = "{version}"',
+]
+"setup.py" = [
+    "{version}",
+    "{pep440_version}",
+]
+"README.md" = [
+    "{version}",
+    "{pep440_version}",
+]
+
+
+
+
