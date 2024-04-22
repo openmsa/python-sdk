@@ -2,15 +2,15 @@ name: Bump version
 
 on:
   push:
-    branches: [master]
+    branches: [master, next_release/*]
 
 jobs:
   run-tests:
     name: Run unittest
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
-        python-version: [3.6, 3.9, 3.11, 3.12]
+        python-version: [3.9, 3.11, 3.12]
 
     steps:
     - uses: actions/checkout@v3
@@ -38,10 +38,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python 3.7
+    - name: Set up Python 3.12
       uses: actions/setup-python@v4
       with:
-        python-version: 3.7
+        python-version: 3.12
     - name: Install dependencies
       run: |
         DIR=$(pwd)
