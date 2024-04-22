@@ -1,8 +1,8 @@
 """Elastic search loggin module."""
 import datetime
 import logging
-import sys
 import socket
+import sys
 from enum import Enum
 from threading import Lock
 from threading import Timer
@@ -24,7 +24,7 @@ class EsSerializer(JSONSerializer):
 
     def default(self, data):
         """
-        Default overrides the elasticsearch default method.
+        Override the elasticsearch default method.
 
         Allows to transform unknown types into strings.
 
@@ -41,6 +41,7 @@ class EsHandler(logging.Handler):
     class IndexNameFrequency(Enum):
         """
         Index type supported the handler supports.
+
         - Daily indices
         - Weekly indices
         - Monthly indices
@@ -59,7 +60,8 @@ class EsHandler(logging.Handler):
     @staticmethod
     def _get_daily_index_name(es_index_name):
         """
-        Returns elasticearch index name.
+        Return elasticearch index name.
+
         :param: index_name the prefix to be used in the index
         :return: A srting containing the elasticsearch indexname used which should include the date.
         """
@@ -89,7 +91,11 @@ class EsHandler(logging.Handler):
                  raise_on_indexing_exceptions=__DEFAULT_RAISE_ON_EXCEPTION,
                  default_timestamp_field_name=__DEFAULT_TIMESTAMP_FIELD_NAME,
                  context= {}):
-        """A constructor."""
+        """
+        Initialize a constructor.
+        
+        A constructor.
+        """
         logging.Handler.__init__(self)
         self.context = context
         self.hosts = hosts
@@ -155,6 +161,7 @@ class EsHandler(logging.Handler):
     def flush(self):
         """
         Flushes the buffer into ES.
+
         :return: None
         """
         if self._timer is not None and self._timer.is_alive():
