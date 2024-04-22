@@ -42,6 +42,6 @@ push            = false
     'current_version = "{version1}"',
 ]
 "msa_sdk/__init__.py" = [
-    '^__version__ = "{version2}"',
-    '^VERSION = "{version3}"',
+    '^__version__ = "{version}"',
+    '^VERSION = "{version}"',
 ]
