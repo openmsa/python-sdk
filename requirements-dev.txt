@@ -1,6 +1,6 @@
-isort==4.3.21
+isort==5.13.2
 pdoc3
-pydocstyle==5.0.2
+pydocstyle==6.3.0
 pytest
 pytest-cov
 pytest-pydocstyle
