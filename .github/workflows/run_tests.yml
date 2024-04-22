@@ -5,7 +5,7 @@ name: Python application
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ master , next_release/* ]
 
 jobs:
   tests:
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        python-version: ['3.6', '3.9', '3.11']
+        python-version: ['3.6', '3.9', '3.11', '3.12']
 
     steps:
     - uses: actions/checkout@v3
