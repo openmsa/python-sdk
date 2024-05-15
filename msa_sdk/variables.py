@@ -4,6 +4,8 @@ import json
 import os
 import sys
 
+import requests
+
 
 class VariableExistsException(BaseException):
     """Class Exception for variables that already were added."""
@@ -152,7 +154,21 @@ class Variables:
             if not ctx:
                 return context
             context = json.loads(ctx)
+
+        # Get Auth parameters.
+
+        try:
+            url = os.environ.get('API_TOKEN_URL') or "http://msa-auth:8080/auth/realms/main/protocol/openid-connect/token"
+            params = {"client_id": os.environ.get("CLIENT_ID"), "grant_type": "client_credentials", "client_secret" : os.environ.get("CLIENT_SECRET")}
+            response = requests.post(url, data=params)
+            data = response.json()
+            access_token = data["access_token"]
+            #-------------------------------------
+            context['TOKEN'] = access_token
+        except Exception:
+            context['TOKEN'] = "12345qwert"
         return context
+
 
     def check_mandatory_param(self, context) -> None:
         """Check if any required var has no value.

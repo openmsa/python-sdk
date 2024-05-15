@@ -5,9 +5,9 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 
 import pytest
+from util import _is_valid_json
 
 from msa_sdk.lookup import Lookup
-from util import _is_valid_json
 
 
 @pytest.fixture

@@ -5,10 +5,11 @@ import json
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
-from msa_sdk.device import Device
 from util import _is_valid_json
 from util import device_fixture  # pylint: disable=unused-import
 from util import device_info
+
+from msa_sdk.device import Device
 
 
 @patch('requests.post')

@@ -4,7 +4,6 @@ Test Repository
 from unittest.mock import patch
 from urllib.parse import urlencode
 
-from util import _is_valid_json
 from util import microservice_info  # pylint: disable=unused-import
 from util import repository_fixture
 
