@@ -3,8 +3,10 @@ Test Customer Delete
 """
 from unittest.mock import patch
 
+
 from msa_sdk.customer import Customer
-from util import customer_fixture  # pylint: disable=unused-import
+
+from msa_sdk.customer import Customer
 
 
 def test_delete_customer_by_id(customer_fixture):
