@@ -4,11 +4,10 @@ Test Customer GET
 import json
 from unittest.mock import patch
 
+from msa_sdk.customer import Customer
 from util import customer_fixture  # pylint: disable=unused-import
 from util import customer_info
 from util import device_list
-
-from msa_sdk.customer import Customer
 
 # pylint: disable=redefined-outer-name
 

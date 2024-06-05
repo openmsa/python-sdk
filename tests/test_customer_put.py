@@ -3,9 +3,8 @@ Test Customer PUT
 """
 from unittest.mock import patch
 
-from util import customer_fixture  # pylint: disable=unused-import
-
 from msa_sdk.customer import Customer
+from util import customer_fixture  # pylint: disable=unused-import
 
 # pylint: disable=redefined-outer-name
 

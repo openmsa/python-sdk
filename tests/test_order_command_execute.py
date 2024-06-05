@@ -5,9 +5,8 @@ import json
 from unittest.mock import patch
 
 import pytest
-from util import order_fixture  # pylint: disable=unused-import
 
-# pylint: disable=redefined-outer-name
+from util import order_fixture  # pylint: disable=unused-import
 
 
 @patch('msa_sdk.device.Device.read')
