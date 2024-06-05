@@ -772,3 +772,18 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         
         return json.loads(self.content)
        
+       
+    def get_tags(self):
+        """
+        Get device Tags/Labels.
+
+        Returns
+        --------
+        List of strings
+
+        """
+        self.action = "Get Tags/Labels"
+        self.path = '{}/v2/labels?id={}&type=ME'.format(self.api_path, self.device_id)
+
+        self._call_get()
+        return self.content
