@@ -1,4 +1,7 @@
 """Package SDK."""
+__pdoc__ = {
+    'elk': False
+}
 __version__ = "2.2.19"
 VERSION = "2.2.19"
 
@@ -12,6 +15,7 @@ import sys
 import msa_sdk.constants as constants
 from msa_sdk.elk import EsHandler
 from msa_sdk.variables import Variables
+
 
 context = Variables.load_context()
 
