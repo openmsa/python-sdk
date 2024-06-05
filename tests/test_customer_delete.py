@@ -3,9 +3,6 @@ Test Customer Delete
 """
 from unittest.mock import patch
 
-
-from msa_sdk.customer import Customer
-
 from msa_sdk.customer import Customer
 
 
