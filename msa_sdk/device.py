@@ -775,7 +775,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         
     def set_tags(self, labelValues: str = ''):
         """
-        Add Tags/Labels to a managed entity
+        Add Tags/Labels to a managed entity.
          
         Parameters
         ----------
