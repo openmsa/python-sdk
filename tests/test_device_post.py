@@ -162,3 +162,23 @@ def test_run_jsa_command_device_empty_params(device_fixture):
       assert not device.fail
 
       mock_call_post.assert_called_once()
+
+
+
+def test_set_tags(device_fixture):
+    """
+    Test set_tags
+    """
+
+    device = device_fixture
+    device_id = 67015
+    device.device_id = device_id
+    
+    response_content = '{"id": 67015, "labelValues": "TAG1:TAG2"}'
+
+    with patch('requests.post') as mock_call_post:
+        mock_call_post.return_value.text = response_content
+        assert _is_valid_json(json.dumps(device.set_tags("TAG1:TAG2")))
+        assert device.path == '/device/v2/67015/labels?labelValues=TAG1%3BTAG2'
+
+        mock_call_post.assert_called_once()

@@ -16,7 +16,6 @@ import msa_sdk.constants as constants
 from msa_sdk.elk import EsHandler
 from msa_sdk.variables import Variables
 
-
 context = Variables.load_context()
 
 def add_file_handler(logger):
@@ -74,4 +73,3 @@ logger2 = logging.getLogger('urllib3')
 logger2.setLevel(logging.INFO)
 logger2 = logging.getLogger('urllib3.connectionpool')
 logger2.setLevel(logging.INFO)
-
