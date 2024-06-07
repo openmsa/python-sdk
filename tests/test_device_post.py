@@ -177,8 +177,8 @@ def test_set_tags(device_fixture):
     with patch('requests.post') as mock_call_post:
         mock_call_post.return_value.text = response_content
         assert _is_valid_json(json.dumps(device.set_tags("TAG1:TAG2")))
-        assert device.path == '/device/v2/67015/labels?labelValues=TAG1:TAG2'
         assert device.device_id == 67015
+        assert device.path == '/device/v2/67015/labels?labelValues=TAG1%3BTAG2'
         assert device.fail is not None
         assert not device.fail
 
