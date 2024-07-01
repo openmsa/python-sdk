@@ -39,7 +39,6 @@ class MSA_API():  # pylint: disable=invalid-name
     def __init__(self):
         """Initialize."""
         self.url = 'http://{}:{}/ubi-api-rest'.format(*host_port())
-        self._token = context['TOKEN']
         self.path = ""
         self.response = None
         self.log_response = True
@@ -142,7 +141,15 @@ class MSA_API():  # pylint: disable=invalid-name
         Token
 
         """
-        return self._token
+        try:
+            url = os.environ.get('API_TOKEN_URL') or "http://msa-auth:8080/auth/realms/main/protocol/openid-connect/token"
+            params = {"client_id": os.environ.get("CLIENT_ID"), "grant_type": "client_credentials", "client_secret" : os.environ.get("CLIENT_SECRET")}
+            response = requests.post(url, data=params)
+            data = response.json()
+            access_token = data["access_token"]
+        except Exception:
+            return "12345qwert"
+        return access_token
 
     @property
     def content(self):
@@ -180,7 +187,7 @@ class MSA_API():  # pylint: disable=invalid-name
         headers = {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': 'Bearer {}'.format(self._token),
+            'Authorization': 'Bearer {}'.format(self.token),
         }
         self.add_trace_headers(headers)
         if data is None:
@@ -210,7 +217,7 @@ class MSA_API():  # pylint: disable=invalid-name
         """
         headers = {
             'Accept': 'application/json',
-            'Authorization': 'Bearer {}'.format(self._token),
+            'Authorization': 'Bearer {}'.format(self.token),
         }
         self.add_trace_headers(headers)
         url = self.url + self.path
@@ -237,7 +244,7 @@ class MSA_API():  # pylint: disable=invalid-name
         headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer {}'.format(self._token),
+            'Authorization': 'Bearer {}'.format(self.token),
         }
         self.add_trace_headers(headers)
         url = self.url + self.path
@@ -258,7 +265,7 @@ class MSA_API():  # pylint: disable=invalid-name
         """
         headers = {
             'Accept': 'application/json',
-            'Authorization': 'Bearer {}'.format(self._token),
+            'Authorization': 'Bearer {}'.format(self.token),
         }
         self.add_trace_headers(headers)
         url = self.url + self.path
