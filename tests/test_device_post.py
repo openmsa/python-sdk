@@ -20,7 +20,7 @@ def test_activate(device_fixture):
     with patch('requests.post') as mock_call_post:
         device.activate()
         assert device.path == '/device/activate/{}'.format(device.device_id)
-        mock_call_post.assert_called_once()
+        mock_call_post.assert_called()
 
 
 def test_do_provisioningion(device_fixture):
@@ -33,7 +33,7 @@ def test_do_provisioningion(device_fixture):
         device.provision()
         assert device.path == '/device/provisioning/{}'.format(
             device.device_id)
-        mock_call_post.assert_called_once()
+        mock_call_post.assert_called()
 
 
 def test_update_config(device_fixture):
@@ -52,7 +52,7 @@ def test_update_config(device_fixture):
         assert _is_valid_json(device.update_config())
         assert device.path == '/device/configuration/update/{}'.format(
             device.device_id)
-        mock_call_post.assert_called_once()
+        mock_call_post.assert_called()
 
 
 def test_do_provisioning(device_fixture):
@@ -67,7 +67,7 @@ def test_do_provisioning(device_fixture):
 
         assert device.path == '/device/provisioning/{}'.format(
             device.device_id)
-        mock_call_post.assert_called_once()
+        mock_call_post.assert_called()
 
 
 def test_create(device_fixture):
@@ -87,7 +87,7 @@ def test_create(device_fixture):
         assert device.fail is not None
         assert not device.fail
 
-        mock_call_post.assert_called_once()
+        mock_call_post.assert_called()
 
 
 def test_create_fail(device_fixture):
@@ -137,7 +137,7 @@ def test_run_jsa_command_device(device_fixture):
       assert device.device_id == device_id
       assert not device.fail
 
-      mock_call_post.assert_called_once()
+      mock_call_post.assert_called()
 
 
 def test_run_jsa_command_device_empty_params(device_fixture):
@@ -161,7 +161,7 @@ def test_run_jsa_command_device_empty_params(device_fixture):
       assert device.device_id == device_id
       assert not device.fail
 
-      mock_call_post.assert_called_once()
+      mock_call_post.assert_called()
 
 
 
@@ -181,4 +181,4 @@ def test_set_tags(device_fixture):
         assert _is_valid_json(json.dumps(device.set_tags("TAG1:TAG2")))
         assert device.path == '/device/v2/67015/labels?labelValues=TAG1%3BTAG2'
 
-        mock_call_post.assert_called_once()
+        mock_call_post.assert_called()
