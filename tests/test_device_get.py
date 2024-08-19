@@ -5,10 +5,11 @@ import json
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
-from msa_sdk.device import Device
 from util import _is_valid_json
 from util import device_fixture  # pylint: disable=unused-import
 from util import device_info
+
+from msa_sdk.device import Device
 
 
 @patch('requests.post')
@@ -426,4 +427,21 @@ def test_get_update_firmware_status(device_fixture):
         
         assert device.get_update_firmware_status()
         assert device.path == '/device/v1/getFirmwareUpdateStatusByDeviceId/None'
+        mock_call_get.assert_called_once()
+        
+        
+def test_get_tags(device_fixture):
+    """
+    Test get_tags
+    """
+    device = device_fixture
+
+    r_value = json.dumps('[test]')
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = r_value
+        
+        assert device.get_tags()
+        assert device.path == '/device/v2/labels?id={}&type=ME'.format(device.device_id)
+
         mock_call_get.assert_called_once()
