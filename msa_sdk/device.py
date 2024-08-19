@@ -772,3 +772,45 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         
         return json.loads(self.content)
        
+        
+    def set_tags(self, labelValues: str = ''):
+        """
+        Add Tags/Labels to a managed entity.
+         
+        Parameters
+        ----------
+        labelValues: String: provided labels will be attached. Separate labels by colon (:) Example labelValues = Network:Security:Automation
+        
+        Returns
+        --------
+        Nothing
+
+        """
+        self.action = "Add Tags/Labels"
+                
+        if labelValues is None:
+          labelValues = ''
+        elif labelValues:      
+          labelValues = labelValues.replace(":", "%3B")
+        
+        self.path = '{}/v2/{}/labels?labelValues={}'.format(self.api_path, self.device_id, labelValues)
+
+        self._call_post()
+        return json.dumps(self.content) 
+        
+        
+    def get_tags(self):
+        """
+        Get device Tags/Labels.
+
+        Returns
+        --------
+        List of strings
+
+        """
+        self.action = "Get Tags/Labels"
+        self.path = '{}/v2/labels?id={}&type=ME'.format(self.api_path, self.device_id)
+
+        self._call_get()
+        return self.content
+        
