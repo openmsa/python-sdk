@@ -142,7 +142,7 @@ class MSA_API():  # pylint: disable=invalid-name
 
         """
         try:
-            url = os.environ.get('API_TOKEN_URL') or "http://msa-auth:8080/auth/realms/main/protocol/openid-connect/token"
+            url = os.environ.get('API_TOKEN_URL') or "http://msa-auth:8080/auth/realms/msa/protocol/openid-connect/token"
             params = {"client_id": os.environ.get("CLIENT_ID"), "grant_type": "client_credentials", "client_secret" : os.environ.get("CLIENT_SECRET")}
             response = requests.post(url, data=params)
             data = response.json()
