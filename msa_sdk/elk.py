@@ -8,7 +8,7 @@ from threading import Lock
 from threading import Timer
 
 from elasticsearch import Elasticsearch
-from elasticsearch import RequestsHttpConnection
+from elastic_transport import RequestsHttpNode
 from elasticsearch import helpers as eshelpers
 from elasticsearch.serializer import JSONSerializer
 
@@ -134,7 +134,7 @@ class EsHandler(logging.Handler):
                                      http_auth=self.auth_details,
                                      use_ssl=False,
                                      verify_certs=False,
-                                     connection_class=RequestsHttpConnection,
+                                     connection_class=RequestsHttpNode,
                                      serializer=self.serializer)
     def test_es_source(self):
         """
