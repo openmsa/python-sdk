@@ -6,9 +6,7 @@ import sys
 from enum import Enum
 from threading import Lock
 from threading import Timer
-
 from elasticsearch import Elasticsearch
-from elastic_transport import RequestsHttpNode
 from elasticsearch import helpers as eshelpers
 
 # Have a look at https://github.com/cmanaha/python-elasticsearch-logger
@@ -110,7 +108,7 @@ class EsHandler(logging.Handler):
                                      http_auth=self.auth_details,
                                      use_ssl=False,
                                      verify_certs=False,
-                                     connection_class=RequestsHttpNode)
+                                     serializer=self.serializer)
     def test_es_source(self):
         """
         Returns True if the handler can ping the Elasticsearch servers.
