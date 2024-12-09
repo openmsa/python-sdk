@@ -6,8 +6,10 @@ import sys
 from enum import Enum
 from threading import Lock
 from threading import Timer
+
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers as eshelpers
+
 
 # Have a look at https://github.com/cmanaha/python-elasticsearch-logger
 class EsHandler(logging.Handler):
