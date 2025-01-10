@@ -1,2 +1,3 @@
 requests
 elasticsearch==8.17.0
+pandas
