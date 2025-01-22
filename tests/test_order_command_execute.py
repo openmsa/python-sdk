@@ -153,7 +153,7 @@ def test_command_objects_instances_by_id(_, order_fixture):
     """
     Get microservices instance by microservice object ID
     """
-    local_path = '/ordercommand/objects/21594/accesslist/2000'
+    local_path = '/ordercommand/objects/21594/accesslist/object?id=2000'
     return_body = json.dumps({
         "accesslist": {
             "2000": {
