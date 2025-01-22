@@ -207,7 +207,7 @@ class Order(Device):
 
         """
         self.action = 'Get Microservice Object Details'
-        self.path = '{}/objects/{}/{}/{}'.format(self.api_path,
+        self.path = '{}/objects/{}/{}/object?id={}'.format(self.api_path,
                                                  self.device_id,
                                                  object_name,
                                                  object_id)
