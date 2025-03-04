@@ -7,8 +7,8 @@ from enum import Enum
 from threading import Lock
 from threading import Timer
 
-from elasticsearch import Elasticsearch
-from elasticsearch import helpers as eshelpers
+from opensearchpy import OpenSearch
+from opensearchpy import helpers as eshelpers
 
 
 # Have a look at https://github.com/cmanaha/python-elasticsearch-logger
@@ -106,11 +106,10 @@ class EsHandler(logging.Handler):
             self._timer.start()
 
     def __get_es_client(self):
-         return Elasticsearch(hosts=self.hosts,
+         return OpenSearch(hosts=self.hosts,
                                      http_auth=self.auth_details,
                                      use_ssl=False,
-                                     verify_certs=False,
-                                     serializer=self.serializer)
+                                     verify_certs=False)
     def test_es_source(self):
         """
         Returns True if the handler can ping the Elasticsearch servers.
