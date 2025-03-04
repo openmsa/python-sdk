@@ -67,7 +67,7 @@ else:
 #
 # Remove elasticsearch query from user logs.
 #
-logger2 = logging.getLogger('elasticsearch')
+logger2 = logging.getLogger('opensearch')
 logger2.setLevel(logging.ERROR)
 logger2 = logging.getLogger('urllib3')
 logger2.setLevel(logging.INFO)
