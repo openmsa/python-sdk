@@ -1,2 +1,2 @@
 requests
-elasticsearch==8.17.1
+elasticsearch==8.17.2
