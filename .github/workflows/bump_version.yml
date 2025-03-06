@@ -51,10 +51,15 @@ jobs:
         cd ${DIR}
         bump2version patch msa_sdk/__init__.py
 
+    - name: Extract version
+      id: extract_version
+      run: |
+        echo current_version=$(grep -oP '__version__ = "\K[^"]+' msa_sdk/__init__.py) >> $GITHUB_ENV
+
     - name: Commit bump version
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: 🔖 Commit bump version
+        commit_message: 🔖 Commit bump version ${{ env.current_version }}
         commit_user_name: qa4ubiqube (bot)
         commit_user_email: qa@ubiqube.com
         commit_author: qa4ubiqube <qa@ubiqube.com>
