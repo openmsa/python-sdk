@@ -11,6 +11,7 @@ from msa_sdk.customer import Customer
 from msa_sdk.device import Device
 from msa_sdk.orchestration import Orchestration
 from msa_sdk.order import Order
+from msa_sdk.profile import Profile
 from msa_sdk.repository import Repository
 
 
@@ -39,7 +40,7 @@ def device_info():
         '"managementInterface":"","login":"root",'
         '"password":"$ubiqube","passwordAdmin":"","logEnabled":false,'
         '"logMoreEnabled":false,"mailAlerting":false,"reporting":false,'
-        '"useNat":true,"snmpCommunity":""}')
+        '"useNat":true,"snmpCommunity":"","hostname":"test"}')
 
 
 def device_list():
@@ -247,6 +248,17 @@ def conf_profile_fixture():
                 mock_host_port.return_value = ('api_hostname', '8080')
                 conf_profile = ConfProfile(100)
     return conf_profile
+
+@pytest.fixture
+def profile_fixture():
+    """Profile fixture."""
+    with patch('requests.post') as mock_post:
+        mock_post.return_value.json.return_value = {'token': '12345qwert'}
+
+        with patch('msa_sdk.msa_api.host_port') as mock_host_port:
+            mock_host_port.return_value = ('api_hostname', '8080')
+            profile = Profile()
+    return profile
 
 
 @pytest.fixture
