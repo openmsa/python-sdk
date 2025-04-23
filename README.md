@@ -1,42 +1,47 @@
-MSA Python SDK
+# MSA Python SDK
+
 ![Tests](https://github.com/openmsa/python-sdk/workflows/Python%20application/badge.svg)
 
 
-#################################################################################
 ## For developers, run outside any containers
 
 ### 1) Get source :
- git clone https://github.com/openmsa/python-sdk 
+
+```bash
+git clone https://github.com/openmsa/python-sdk 
+```
 
 ### 2) Install pyenv + pyenv plugins
 
- #Under Centos 7.9:
-  yum install -y gcc zlib zlib-devel libffi-devel
-  yum install -y openssl openssl-libs openssl-devel
+#### Under Centos 9.x:
 
+```bash
+dnf install -y gcc zlib zlib-devel libffi-devel
+dnf install -y openssl openssl-libs openssl-devel
 
-	curl -L https://raw.github.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+curl -L https://raw.github.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
-	cat >> ~/.bashrc <<<'
-	export PATH="$HOME/.pyenv/bin:$PATH"
-	eval "$(pyenv init -)"
-	eval "$(pyenv virtualenv-init -)"
-	'
+cat >> ~/.bashrc <<<'
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+```
 
 ### 3) Setup a python dev environment for the project
 
+```bash
+which pyenv || source ~/.bashrc
 
-	which pyenv || source ~/.bashrc
-
-	pyenv install 3.7.3
-	cd ..   
-	python3.6 -m pip install -r python-sdk/requirements.txt
-	 
-
+pyenv install 3.12.5
+cd ..   
+python3.12 -m pip install -r python-sdk/requirements.txt
+```
 
 ### 4) Running unit tests
 
-  cd  python-sdk
+```bash
+cd  python-sdk
+```
 
 1. Make sure you have all the prod requirements `pip install -r requirements.txt`
 1. Make sure you have all the dev requirements `pip install -r requirements-dev.txt`
@@ -72,7 +77,8 @@ created with the changes in the documentation
 #### For json references
 Note: in order to run this, the msa_api container needs to be running on port 8480:
  cf file docker-compose.yml, add port 8480 like :
- ```
+
+```yaml
    msa_api:
     container_name: msa_api
     image: ubiqube/msa2-api:1b2b029b43dcba54bab6c70b1ed5b45e4142b7d3
@@ -96,35 +102,9 @@ Note: This should be done after the documentation PR is approved and merged
 
    You have to save the file `msa_sdk.json` into  https://github.com/ubiqube/msa-docker/tree/master/front/msa_sdk_doc
 
-7.1) Clone https://github.com/ubiqube/msa-docker/tree/master/front/msa_sdk_doc
-7.2) Copy `msa_sdk.json` into msa-docker/front/msa_sdk_doc/
-7.3) Create the new PR
-7.4) After merge it, you can check the new doc  into
+#### 7.1) Clone https://github.com/ubiqube/msa-docker/tree/master/front/msa_sdk_doc
+#### 7.2) Copy `msa_sdk.json` into msa-docker/front/msa_sdk_doc/
+#### 7.3) Create the new PR
+#### 7.4) After merge it, you can check the new doc  into
 	   https://</msa_IP>/msa_sdk/index.html
-
-
-#################################################################################
-### Trainning container
-### How to create
-cd  python-sdk
-- `$ ./training_container build`
-
-### How to start interactive mode
-- `$ ./training_container ipython`
-
-### Notebook container
-# Create the container
-$ ./training_container build
-
-# Run the container
-$ ./training_container start
-Open http://127.0.0.1:8888 in your browser
-Password is `ubitrain`.
-
-# acces with bash : jolly_taussig
-docker exec  -it jolly_taussig bash
-
-# Stop the container
-$ ./training_container stop
-
  
