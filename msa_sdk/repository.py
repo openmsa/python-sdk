@@ -1,12 +1,12 @@
 """Module Repository."""
 
-
+import json
+import re
 from urllib.parse import urlencode
 
 from msa_sdk.msa_api import MSA_API
 
-import json
-import re
+
 
 
 class Repository(MSA_API):
