@@ -5,6 +5,8 @@ from urllib.parse import urlencode
 
 from msa_sdk.msa_api import MSA_API
 
+import json
+
 
 class Repository(MSA_API):
     """Class Repository."""
@@ -411,3 +413,44 @@ class Repository(MSA_API):
         self.path = "{}/file?{}".format(self.api_path, url_encoded)
         self._call_get()
         return json.loads(self.content)
+
+    def add_file(self, file_uri, content):
+        """
+        Add file content.
+
+        Parameters
+        ----------
+            file_uri: String
+            File path in repository
+        content: String
+            File content
+
+        Returns
+        -------
+        None
+
+        """
+        self.action = 'Add file content'
+        url_encoded = urlencode({'uri': file_uri})
+        self.path = "{}/file?{}".format(self.api_path, url_encoded)
+        content_dict = {'content': content}
+        self._call_post(content_dict)
+
+    def add_directory(self, uri):
+        """
+        Add directory.
+
+        Parameters
+        ----------
+            uri: String
+            Directory path in repository
+
+        Returns
+        -------
+        None
+
+        """
+        self.action = 'Add directory'
+        url_encoded = urlencode({'uri': uri})
+        self.path = "{}/directory?{}".format(self.api_path, url_encoded)
+        self._call_post()
