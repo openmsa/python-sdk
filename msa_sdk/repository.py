@@ -7,8 +7,6 @@ from urllib.parse import urlencode
 from msa_sdk.msa_api import MSA_API
 
 
-
-
 class Repository(MSA_API):
     """Class Repository."""
 
