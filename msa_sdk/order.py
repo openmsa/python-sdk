@@ -97,6 +97,39 @@ class Order(Device):
 
         self._call_post(timeout=timeout)
 
+    def command_synchronize_async(self) -> None:
+        """
+
+        Command synchronize Async.
+
+        Returns
+        -------
+        None
+
+        """
+        self.action = 'Command synchronize'
+        self.path = '{}/synchronize/{}?isAsync=true&importWithSameAndUpperRank=true'.format(self.api_path,
+                                               self.device_id)
+
+        self._call_post()
+
+    def get_synchronize_status(self):
+        """
+
+        Get synchronize Status.
+
+        Returns
+        --------
+        Dict() with synchronize status
+
+        """
+        self.action = 'Get synchronize Status'
+        self.path = '{}/synchronize/status?deviceId={}'.format(self.api_path,
+                                               self.device_id)
+
+        self._call_get()
+        return json.loads(self.content)
+
     def command_synchronizeOneOrMoreObjectsFromDevice(self,
                                                       mservice_uris: list,
                                                       timeout: int) -> None:
