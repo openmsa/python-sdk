@@ -14,7 +14,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                  device_external=None, log_enabled=True,
                  log_more_enabled=True, mail_alerting=True,
                  reporting=False, snmp_community="ubiqube",
-                 device_id=None, management_port=None):
+                 device_id=None, management_port=None, hostname=None):
         """
         Initialize.
 
@@ -48,6 +48,8 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                    Device ID
         management_port: Integer
                    Management Port
+        hostname: String
+                 Hostname
         fail: Bool
               Fail creating the device
 
@@ -79,6 +81,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.configuration = {}
         self.device_id = device_id
         self.management_port = management_port
+        self.hostname=hostname
         self.fail = None
 
         if device_id:
@@ -112,6 +115,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                 "mailAlerting": self.mail_alerting,
                 "passwordAdmin": self.password_admin,
                 "externalReference": self.device_external,
+                "hostname": self.hostname,
                 "login": self.login,
                 "name": self.name,
                 "password": self.password,
@@ -282,6 +286,8 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.mail_alerting = device_info["mailAlerting"]
         self.use_nat = device_info["useNat"]
         self.snmp_community = device_info["snmpCommunity"]
+        self.device_external = device_info["externalReference"]
+        self.hostname = device_info["hostname"]
 
         return self.content
 

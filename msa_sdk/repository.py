@@ -1,6 +1,7 @@
 """Module Repository."""
 
-
+import json
+import re
 from urllib.parse import urlencode
 
 from msa_sdk.msa_api import MSA_API
@@ -55,7 +56,6 @@ class Repository(MSA_API):
                     Dictionary wich contains microservice variables definition
 
         """
-        import json
         self.action = 'Get variables for microservice'
         url_encoded = urlencode({'uri': file_uri})
         self.path = "{}/resource/variables?{}".format(
@@ -63,13 +63,13 @@ class Repository(MSA_API):
         self._call_get()
         return json.loads(self.content)
 
-    def post_repository_variables(self, respository_uri):
+    def post_repository_variables(self, repository_uri):
         """
         Get repository variables.
 
         Parameters
         ----------
-        repository: String
+        repository_uri: String
             File path repository variables
 
         Returns
@@ -78,7 +78,7 @@ class Repository(MSA_API):
 
         """
         self.action = 'Post repository variables'
-        url_encoded = urlencode({'repository': respository_uri})
+        url_encoded = urlencode({'repository': repository_uri})
 
         self.path = "{}/variables?{}".format(self.api_path_v2, url_encoded)
         self._call_post()
@@ -99,7 +99,6 @@ class Repository(MSA_API):
             Dictionary wich contains microservice details
 
         """
-        import json
         self.action = 'Get details for microservice'
         url_encoded = urlencode({'uri': file_uri})
 
@@ -115,9 +114,6 @@ class Repository(MSA_API):
 
         Parameters
         ----------
-        file_uri: String
-            File path to microservice in repository
-
         microservice_details: json
             JSON body of microservices detail
 
@@ -178,7 +174,7 @@ class Repository(MSA_API):
         Parameters
         ----------
             microservice_name: Name of microservice
-            depoloyment_settings_id: Deployment settings id
+            deployment_settings_id: Deployment settings id
 
         Returns
         -------
@@ -186,9 +182,6 @@ class Repository(MSA_API):
                 Microservice file path or None
 
         """
-        import json
-        import re
-
         self.action = 'Get deployment settings'
 
         self.path = "/conf-profile/v2/{}".format(deployment_settings_id)
@@ -230,14 +223,13 @@ class Repository(MSA_API):
 
         Parameters
         ----------
-            depoloyment_settings_id: Deployment settings id
+            deployment_settings_id: Deployment settings id
             ms_list: List of microservice's URI to detach
         Returns
         -------
             None
 
         """
-        import json
         self.action = 'Detach microservice from deployment settings'
         self.path = "/conf-profile/v2/detach/{}/repository/files".format(
             deployment_settings_id)
@@ -257,7 +249,6 @@ class Repository(MSA_API):
                         Variables and their default values
 
         """
-        import json
         url_encoded = urlencode({'uri': file_uri})
         self.action = 'Get workflow definition'
         self.path = "/repository/v2/resource/workflow?{}".format(url_encoded)
@@ -280,7 +271,6 @@ class Repository(MSA_API):
             None
 
         """
-        import json
         url_encoded = urlencode({'uri': file_uri})
         self.action = 'Change workflow definition'
         self.path = "/repository/v2/resource/workflow?{}".format(url_encoded)
@@ -351,10 +341,10 @@ class Repository(MSA_API):
                       ]
                     }
                   ]
-                } 
+                }
                 '''
                 workflow_definition_dict = json.loads(workflow_definition)  #convert string into dict
-            
+
         Returns
         -------
           None if no error, else it return the error
@@ -366,11 +356,11 @@ class Repository(MSA_API):
         for process_details in workflow_definition_dict['process']:
             if not process_details['tasks']:
                 process_details['tasks'] = list()
-              
-        self._call_post(workflow_definition_dict)  
+
+        self._call_post(workflow_definition_dict)
         return None
 
-    def delete_workflow_definition(self, file_uri: str) -> dict:
+    def delete_workflow_definition(self, file_uri: str) -> None:
         """
         Delete Workflow resource.
 
@@ -405,9 +395,49 @@ class Repository(MSA_API):
                     Dictionary wich contains file content
 
         """
-        import json
         self.action = 'Get file content'
         url_encoded = urlencode({'uri': file_uri})
         self.path = "{}/file?{}".format(self.api_path, url_encoded)
         self._call_get()
         return json.loads(self.content)
+
+    def add_file(self, file_uri, content):
+        """
+        Add file content.
+
+        Parameters
+        ----------
+            file_uri: String
+            File path in repository
+        content: String
+            File content
+
+        Returns
+        -------
+        None
+
+        """
+        self.action = 'Add file content'
+        url_encoded = urlencode({'uri': file_uri})
+        self.path = "{}/file?{}".format(self.api_path, url_encoded)
+        content_dict = {'content': content}
+        self._call_post(content_dict)
+
+    def add_directory(self, uri):
+        """
+        Add directory.
+
+        Parameters
+        ----------
+            uri: String
+            Directory path in repository
+
+        Returns
+        -------
+        None
+
+        """
+        self.action = 'Add directory'
+        url_encoded = urlencode({'uri': uri})
+        self.path = "{}/directory?{}".format(self.api_path, url_encoded)
+        self._call_post()

@@ -1,4 +1,0 @@
-#!/bin/bash
-
-../build_rpm -r ${release}
-\mv rpms/* ..
