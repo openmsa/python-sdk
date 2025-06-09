@@ -9,7 +9,6 @@ import requests
 
 from msa_sdk import constants
 from msa_sdk import context
-from msa_sdk.variables import Variables
 
 logger = logging.getLogger("msa-sdk")
 
@@ -93,7 +92,7 @@ class MSA_API():  # pylint: disable=invalid-name
         ----------
         comment: String
             Comment
-        new_params: Dictionary
+        context: Dictionary
             Context
         log_response: Bool
             Write log to a file
@@ -117,7 +116,7 @@ class MSA_API():  # pylint: disable=invalid-name
         ----------
         comment: String
             Comment
-        new_params: Dictionary
+        context: Dictionary
             Context
         log_response: Bool
             Write log to a file
@@ -193,10 +192,10 @@ class MSA_API():  # pylint: disable=invalid-name
         if data is None:
             data = {}
 
-        if isinstance(data, dict):
+        if isinstance(data, (dict, list)):
             data = json.dumps(data)
         else:
-            raise TypeError('Parameters needs to be a dictionary')
+            raise TypeError('Parameters needs to be a dictionary or a list')
 
         url = self.url + self.path
         self.response = requests.post(url, headers=headers, data=data,
@@ -286,7 +285,7 @@ class MSA_API():  # pylint: disable=invalid-name
         headers['X-B3-TraceId'] = context['TRACEID']
         headers['X-B3-SpanId'] = context['SPANID']
 
-    def log_to_process_file(self, processId: str, log_message: str) -> bool:
+    def log_to_process_file(self, process_id: str, log_message: str) -> bool:
         """
 
         Write log string with ISO timestamp to process log file.
