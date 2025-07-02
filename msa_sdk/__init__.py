@@ -18,20 +18,7 @@ from msa_sdk.variables import Variables
 
 context = Variables.load_context()
 
-# def add_file_handler(logger):
-#     """Add default file handler."""
-#     if ('service_id' in context):
-#         service_id = context['service_id']
-#         process_id = context['PROCESSINSTANCEID'] if 'PROCESSINSTANCEID' in context else ""
-#         trace_id = context['TRACEID'] if "TRACEID" in context else ""
-#         span_id = context['SPANID'] if "SPANID" in context else ""
-#         # Create process log handler
-#         process_log_path = '{}/process-{}.log'.format(constants.PROCESS_LOGS_DIRECTORY, service_id)
-#         fh = logging.FileHandler(process_log_path)
-#         formatter = logging.Formatter('%(asctime)s|' + process_id +'|' + VERSION + '|' + trace_id + '|' + span_id + '|%(module)s|' + socket.gethostname() + '|%(levelname)s\n%(message)s\n')
-#         logging.Formatter.formatTime = (lambda self, record, datefmt=None: datetime.datetime.fromtimestamp(record.created, datetime.timezone.utc).astimezone().isoformat(sep="T",timespec="milliseconds"))
-#         fh.setFormatter(formatter)
-#         logger.addHandler(fh)
+# Removed the commented-out `add_file_handler` function to reduce clutter and improve readability.
 
 # ES index
 def add_es_handler(logger):
