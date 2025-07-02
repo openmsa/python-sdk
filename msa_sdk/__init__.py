@@ -18,8 +18,6 @@ from msa_sdk.variables import Variables
 
 context = Variables.load_context()
 
-# Removed the commented-out `add_file_handler` function to reduce clutter and improve readability.
-
 # ES index
 def add_es_handler(logger):
     """ES log handler."""
@@ -42,7 +40,6 @@ def add_std_err(logger):
     #logger.addHandler(handler)
 
 logger = logging.getLogger()
-#add_file_handler(logger)
 add_std_err(logger)
 add_es_handler(logger)
 
