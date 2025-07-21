@@ -12,7 +12,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                  model_id=None, login=None, password=None,
                  password_admin=None, management_address=None,
                  device_external=None, log_enabled=True,
-                 log_more_enabled=True, 
+                 log_more_enabled=True,
                  reporting=False, snmp_community="ubiqube",
                  device_id=None, management_port=None, hostname=None):
         """
