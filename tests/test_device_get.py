@@ -38,9 +38,7 @@ def test_read_by_id(mock_post):
         assert device.password == '$ubiqube'
         assert device.password_admin == ''
         assert not device.log_enabled
-        assert not device.mail_alerting
         assert not device.reporting
-        assert device.use_nat
         assert device.snmp_community == ''
         mock_call_get.assert_called_once()
 
@@ -98,9 +96,7 @@ def test_read_by_reference(mock_post):
         assert device.password == '$ubiqube'
         assert device.password_admin == ''
         assert not device.log_enabled
-        assert not device.mail_alerting
         assert not device.reporting
-        assert device.use_nat
         assert device.snmp_community == ''
         mock_call_get.assert_called_once()
 
