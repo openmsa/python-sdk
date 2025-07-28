@@ -267,3 +267,25 @@ class Order(Device):
             json.loads(self.content)['ConfigProfileByDevice']
 
         return int(config_profile_device)
+        
+    def command_objects_details_by_name(self, object_name):
+        """
+        Get microservices configuration details by microservice name.
+
+        Parameters
+        -----------
+        object_name: String
+                Name of the microservice (configuration)
+
+        Returns
+        --------
+        list of object:
+                Configuration details of the microservice by name
+        """
+        self.action = 'Get Microservice Configuration Details'
+        self.path = '{}/objects/{}/{}/details'.format(self.api_path,
+                                                      self.device_id,
+                                                      object_name)
+        self._call_get()
+
+        return json.loads(self.content)
