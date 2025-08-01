@@ -48,34 +48,15 @@ class Order(Device):
 
         self._call_post(params, timeout)
 
-    def apply_command_stack(self, command: str, params: dict, timeout=300) -> None:
+    def apply_command_stack(self, timeout=300) -> None:
         """
 
         Apply all commands stack of a device.
 
         Parameters
         -----------
-        command: String
-                Apply command
-                Available values : CREATE, UPDATE, IMPORT, LIST, READ, DELETE
-
-        params: dict
-                Parameters in a dict format:
-
-                {
-                    "simple_firewall": {
-                        "1": {
-                                "object_id": "1",
-                                "src_ip": "3.4.5.7",
-                                "dst_port": "44"
-                        },
-                        "2": {
-                                "object_id": "2",
-                                "src_ip": "3.4.5.6",
-                                "dst_port": "42"
-                        }
-                }
-                timeout:  int timeout in sec (300 secondes by default)
+        timeout: Integer
+                Connection timeout (300 seconds by default)
 
         Returns
         -------
@@ -84,10 +65,10 @@ class Order(Device):
         """
         self.action = 'Command execute'
         self.api_path = '/orderstack'
-        self.path = '{}/command/{}/{}'.format(self.api_path, self.device_id,
-                                              command)
+        self.path = '{}/execute/{}'.format(self.api_path, self.device_id)
 
-        self._call_post(params, timeout)
+        self._call_post(timeout=timeout)
+        self.api_path = '/ordercommand'
 
     def command_generate_configuration(self, command: str,
                                        params: dict) -> None:
@@ -236,6 +217,25 @@ class Order(Device):
         -----------
         command: String
                 CRUID method in microservice to add to the stack.
+
+        params: dict
+                Parameters in a dict format:
+
+                {
+                    "simple_firewall": {
+                        "1": {
+                                "object_id": "1",
+                                "src_ip": "3.4.5.7",
+                                "dst_port": "44"
+                        },
+                        "2": {
+                                "object_id": "2",
+                                "src_ip": "3.4.5.6",
+                                "dst_port": "42"
+                        }
+                }
+                timeout:  int timeout in sec (300 secondes by default)
+
         Returns
         --------
         None
@@ -247,6 +247,7 @@ class Order(Device):
                                               self.device_id,
                                               command)
         self._call_post(params, timeout)
+        self.api_path = '/ordercommand'
 
 
     def command_objects_all(self) -> None:
