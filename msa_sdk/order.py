@@ -48,27 +48,6 @@ class Order(Device):
 
         self._call_post(params, timeout)
 
-    def apply_command_stack(self, timeout=300) -> None:
-        """
-
-        Apply all commands stack of a device.
-
-        Parameters
-        -----------
-        timeout: Integer
-                Connection timeout (300 seconds by default)
-
-        Returns
-        -------
-        None
-
-        """
-        self.action = 'Command execute'
-        self.api_path = '/orderstack'
-        self.path = '{}/execute/{}'.format(self.api_path, self.device_id)
-
-        self._call_post({}, timeout)
-        self.api_path = '/ordercommand'
 
     def command_generate_configuration(self, command: str,
                                        params: dict) -> None:
@@ -211,7 +190,7 @@ class Order(Device):
                      timeout=300) -> None:
         """
 
-        Stack Command.
+        To queue multiple commands in a stack.
 
         Parameters
         -----------
