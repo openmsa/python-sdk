@@ -67,7 +67,7 @@ class Order(Device):
         self.api_path = '/orderstack'
         self.path = '{}/execute/{}'.format(self.api_path, self.device_id)
 
-        self._call_post(timeout=timeout)
+        self._call_post({}, timeout)
         self.api_path = '/ordercommand'
 
     def command_generate_configuration(self, command: str,
