@@ -42,7 +42,7 @@ class Order(Device):
         None
 
         """
-        self.action = 'Commands stack execute'
+        self.action = 'Command execute'
         self.path = '{}/execute/{}/{}'.format(self.api_path, self.device_id,
                                               command)
 
