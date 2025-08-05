@@ -1,4 +1,4 @@
-"""Module Order."""
+"""Module Orderstack."""
 
 import json
 
@@ -18,7 +18,7 @@ class OrderStack(Device):
                      timeout=300) -> None:
         """
 
-        To queue multiple commands in a stack.
+        To push multiple commands in a stack.
 
         Parameters
         -----------
@@ -57,7 +57,7 @@ class OrderStack(Device):
 
     def apply_command_stacked(self, timeout=300) -> None:
         """
-        Apply all commands stack of a device.
+        Execute all the commands stacked for the device.
         Parameters
         -----------
         device_id: int
@@ -67,10 +67,9 @@ class OrderStack(Device):
         Returns
         -------
         None
+        
         """
-        self.action = 'Apply all commands stack of a device'
+        self.action = 'Execute all the commands stacked for the device'
         self.path = '{}/execute/{}'.format(self.api_path, self.device_id)
 
         self._call_post(timeout=timeout)
-
-

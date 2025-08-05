@@ -24,6 +24,7 @@ def test_command_execute(_, order_fixture):
 
         mock_call_post.assert_called_once_with({"subnet": "mySubnet"}, 50)
 
+
 def test_command_execute_fail(order_fixture):
     """
     Test Command execute fail parameters type
