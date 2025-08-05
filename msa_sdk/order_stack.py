@@ -13,9 +13,6 @@ class OrderStack(Device):
         Device.__init__(self, device_id=device_id)
         self.api_path = '/orderstack'
 
-
-        self._call_get()
-        return json.loads(self.content)
     
 
     def add_command_in_stack(self, command: str, params,
