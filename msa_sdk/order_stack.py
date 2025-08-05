@@ -5,8 +5,8 @@ import json
 from msa_sdk.device import Device
 
 
-class Order(Device):
-    """Class Order."""
+class OrderStack(Device):
+    """Class OrderStack."""
 
     def __init__(self, device_id):
         """Initialize."""
