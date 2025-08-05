@@ -11,6 +11,7 @@ from msa_sdk.customer import Customer
 from msa_sdk.device import Device
 from msa_sdk.orchestration import Orchestration
 from msa_sdk.order import Order
+from msa_sdk.order_stack import OrderStack
 from msa_sdk.profile import Profile
 from msa_sdk.repository import Repository
 
@@ -222,6 +223,21 @@ def order_fixture():
                 mock_host_port.return_value = ('api_hostname', '8080')
                 order = Order(1234)
     return order
+
+
+@pytest.fixture
+def orderstack_fixture():
+    """OrderStack fixture."""
+    with patch('requests.post') as mock_post:
+        mock_post.return_value.json.return_value = {'token': '12345qwert'}
+
+        with patch('requests.get') as mock_call_get:
+            mock_call_get.return_value.text = device_info()
+
+            with patch('msa_sdk.msa_api.host_port') as mock_host_port:
+                mock_host_port.return_value = ('api_hostname', '8080')
+                orderstack = OrderStack(1234)
+    return orderstack
 
 
 @pytest.fixture
