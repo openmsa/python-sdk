@@ -12,7 +12,6 @@ class OrderStack(Device):
         """Initialize."""
         Device.__init__(self, device_id=device_id)
         self.api_path = '/orderstack'
-
     
 
     def add_command_in_stack(self, command: str, params,
@@ -56,38 +55,22 @@ class OrderStack(Device):
         self._call_put(params, timeout)
 
 
-    def apply_commands_stacked(self, command: str, params: dict, timeout=300) -> None:
+    def apply_command_stacked(self, timeout=300) -> None:
         """
         Apply all commands stack of a device.
         Parameters
         -----------
-        command: String
-                Apply command
-                Available values : CREATE, UPDATE, IMPORT, LIST, READ, DELETE
-        params: dict
-                Parameters in a dict format:
-                {
-                    "simple_firewall": {
-                        "1": {
-                                "object_id": "1",
-                                "src_ip": "3.4.5.7",
-                                "dst_port": "44"
-                        },
-                        "2": {
-                                "object_id": "2",
-                                "src_ip": "3.4.5.6",
-                                "dst_port": "42"
-                        }
-                }
-                timeout:  int timeout in sec (300 secondes by default)
+        device_id: int
+                Id of the device.
+        timeout: int
+                Timeout in seconds (300 seconds by default)
         Returns
         -------
         None
         """
-        self.action = 'Execute all the commands stacked'
-        self.path = '{}/command/{}/{}'.format(self.api_path, self.device_id,
-                                              command)
+        self.action = 'Apply all commands stack of a device'
+        self.path = '{}/execute/{}'.format(self.api_path, self.device_id)
 
-        self._call_post(params, timeout)
+        self._call_post(timeout=timeout)
 
 
