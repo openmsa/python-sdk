@@ -57,8 +57,8 @@ class OrderStack(Device):
 
     def apply_command_stacked(self, timeout=300) -> None:
         """
-        
         Execute all the commands stacked for the device.
+        
         Parameters
         -----------
         device_id: int
