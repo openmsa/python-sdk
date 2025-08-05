@@ -57,6 +57,7 @@ class OrderStack(Device):
 
     def apply_command_stacked(self, timeout=300) -> None:
         """
+        
         Execute all the commands stacked for the device.
         Parameters
         -----------
@@ -67,7 +68,7 @@ class OrderStack(Device):
         Returns
         -------
         None
-        
+
         """
         self.action = 'Execute all the commands stacked for the device'
         self.path = '{}/execute/{}'.format(self.api_path, self.device_id)
