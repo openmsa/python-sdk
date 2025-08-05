@@ -227,7 +227,7 @@ def order_fixture():
 
 @pytest.fixture
 def orderstack_fixture():
-    """OrderStack fixture."""
+    """Orderstack fixture."""
     with patch('requests.post') as mock_post:
         mock_post.return_value.json.return_value = {'token': '12345qwert'}
 
