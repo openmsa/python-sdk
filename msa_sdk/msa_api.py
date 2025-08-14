@@ -130,6 +130,30 @@ class MSA_API():  # pylint: disable=invalid-name
                                   log_response))
         sys.exit(0)
 
+    @classmethod
+    def task_pause(cls, comment, context, log_response=True):
+        """
+
+        Task pause and print.
+
+        Parameters
+        ----------
+        comment: String
+            Comment
+        context: Dictionary
+            Context
+        log_response: Bool
+            Write log to a file
+
+        Returns
+        -------
+        None
+
+        """
+        print(cls.process_content(constants.PAUSED, comment, context,
+                                  log_response))
+        sys.exit(0)
+
     @property
     def token(self):
         """
