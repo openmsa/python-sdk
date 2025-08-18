@@ -20,7 +20,7 @@ then
 fi
 cd / || exit 1
 
-if [[ -f /opt/fmc_repository/python-sdk/.git ]]; then
+if [[ -d /opt/fmc_repository/python-sdk/.git ]]; then
 	log_info "👾 Skipping upgrade for fellow developer."
 	exit 0
 fi
