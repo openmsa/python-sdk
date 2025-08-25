@@ -17,7 +17,7 @@ classifiers = [
 ]
 keywords = ["MSA", "ubiqube", "python-sdk"]
 dependencies = [
-    "requests == 2.32.4"
+    "requests == 2.32.5"
 ]
 requires-python = ">=3.12"
 
