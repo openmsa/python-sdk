@@ -167,7 +167,7 @@ def test_delete_service_by_id(orchestration_fixture):
     with patch('msa_sdk.msa_api.MSA_API._call_delete') as mock_call_delete:
         orch = orchestration_fixture
         orch.delete_service('1234')
-        assert orch.path == '/orchestration/MSAA19224/service/instance/1234'
+        assert orch.path == '/orchestration/v1/service/instance/1234'
         mock_call_delete.assert_called_once()
 
 
