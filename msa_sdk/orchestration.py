@@ -228,8 +228,7 @@ class Orchestration(MSA_API):
 
         """
         self.path = \
-            '/orchestration/{}/service/instance/{}'.format(self.ubiqube_id,
-                                                           service_id)
+            '/orchestration/v1/service/instance/{}'.format(service_id)
 
         self._call_delete()
 
@@ -750,3 +749,25 @@ class Orchestration(MSA_API):
         """
         self.path = "{}/service/attach?ubiqubeIds={}&uri={}".format(self.api_path, ubiqubeIds, uri)
         self._call_post()
+        
+    def execute_delete_process(self, process_name: str, service_id: int):
+        """
+
+        Execute the deletion of a service.
+
+        Parameters
+        ----------
+        process_name: String
+                      Process name
+        service_id:   Integer
+                      Service ID
+
+        Returns
+        -------
+        None
+             
+        """
+        format_path = ('/orchestration/process/execute/{}/{}?processName={}')
+        self.path = format_path.format(self.ubiqube_id, service_id, process_name)
+        self._call_post()
+
