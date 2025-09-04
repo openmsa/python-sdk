@@ -228,8 +228,7 @@ class Orchestration(MSA_API):
 
         """
         self.path = \
-            '/orchestration/{}/service/instance/{}'.format(self.ubiqube_id,
-                                                           service_id)
+            '/orchestration/v1/service/instance/{}'.format(service_id)
 
         self._call_delete()
 
