@@ -342,7 +342,7 @@ class Order(Device):
                 existing = json.loads(self.content)
                 if isinstance(existing, dict) and existing:
                     raise ValueError(
-                        f"Microservice object '{object_name}' with ID '{object_id}' already exists"
+                        f"Microservice instance '{object_name}' with ID '{object_id}' already exists"
                     )
 
             except json.JSONDecodeError:
