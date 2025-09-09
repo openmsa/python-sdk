@@ -289,3 +289,75 @@ class Order(Device):
         self._call_get()
 
         return json.loads(self.content)
+
+    def command_call_check_duplicate(self, command: str, mode: int, params, timeout=300) -> None:
+        """
+        Command call with duplicate check for CREATE.
+
+        Parameters
+        -----------
+        command: str
+            CRUD method in microservice to call ("CREATE", "UPDATE", etc.)
+        mode: int
+            0 - No application
+            1 - Apply to base
+            2 - Apply to device
+        params: dict
+            Parameters for the command.
+            When using CREATE, must contain:
+              - object_name (str): microservice object name
+              - object_id (str): instance ID
+        timeout: int
+            Timeout for the request in seconds (default=300)
+
+        Raises
+        ------
+        ValueError
+            If the object already exists when trying to CREATE
+        RuntimeError
+            If an unexpected error occurs while checking existence
+        """
+
+        self.action = 'Call command'
+
+        if command.upper() == "CREATE":
+            object_name = list(params.keys())[0]
+            object_id = list(params.get(object_name).keys())[0]
+
+            if not object_name or not object_id:
+                raise ValueError(f"CREATE requires '{object_name}' and '{object_id}' in params")
+
+            try:
+                # Directly check if object exists
+                self.action = 'Get Microservice Object Details'
+                self.path = '{}/objects/{}/{}/{}'.format(
+                    self.api_path,
+                    self.device_id,
+                    object_name,
+                    object_id
+                )
+                self._call_get()
+
+                # If we got JSON content and it's non-empty → object exists
+                existing = json.loads(self.content)
+                if isinstance(existing, dict) and existing:
+                    raise ValueError(
+                        f"Microservice object '{object_name}' with ID '{object_id}' already exists"
+                    )
+
+            except json.JSONDecodeError:
+                # Response was not valid JSON (likely "not found") → treat as non-existent
+                pass
+            except Exception as e:
+                raise RuntimeError(f"Error checking object existence: {e}")
+
+        # Build path for the actual command
+        self.path = '{}/call/{}/{}/{}'.format(
+            self.api_path,
+            self.device_id,
+            command,
+            mode
+        )
+
+        # Post command
+        self._call_post(params, timeout)
