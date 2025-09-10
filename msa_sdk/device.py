@@ -130,7 +130,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         Update device.
 
         field: String
-               Modifyed device field
+               Modified device field
         value: String
                Modified field's value (str)
 
