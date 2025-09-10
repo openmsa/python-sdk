@@ -528,7 +528,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
     def detach_files(self, uris):
         """
-        Attach files.
+        Detach files.
 
         Parameters
         ----------

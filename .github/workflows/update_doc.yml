@@ -23,13 +23,15 @@ jobs:
 
     - name: Install dependencies
       run: |
+        DIR=$(pwd)
+        cd ../
         python -m pip install --upgrade pip
         if [ -f ${DIR}/requirements.txt ]; then pip install -r ${DIR}/requirements.txt ; fi
         if [ -f ${DIR}/requirements-dev.txt ]; then pip install -r ${DIR}/requirements-dev.txt ; fi
 
     - name: Generate doc
       run: |
-        pdoc3 --html --force -o msa_sdk_doc msa_sdk
+        pdoc --html --force -o msa_sdk_doc msa_sdk
         cp msa_sdk.json msa_sdk_doc/msa_sdk
 
     - name: Create pull request
