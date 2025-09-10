@@ -643,7 +643,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         Returns
         -------
-        True:  Variable has been created successdully
+        True:  Variable has been created successfully
         False: Variable has not been created successfully
 
         """

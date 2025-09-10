@@ -37,7 +37,7 @@ jobs:
     - name: Create pull request
       uses: gabrielpossamai/action-pull-request-another-repo@main
       env:
-        API_TOKEN_GITHUB: ${{ env.GITHUB_TOKEN }}
+        API_TOKEN_GITHUB: ${{ env.MSA_DOCKER_REPO_ACCESS_TOKEN }}
       with:
         source_folder: 'msa_sdk_doc/msa_sdk/'
         destination_repo: 'ubiqube/msa-front'
