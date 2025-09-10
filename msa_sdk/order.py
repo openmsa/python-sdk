@@ -317,7 +317,6 @@ class Order(Device):
         RuntimeError
             If an unexpected error occurs while checking existence
         """
-
         self.action = 'Call command'
 
         if command.upper() == "CREATE":
