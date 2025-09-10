@@ -32,13 +32,13 @@ jobs:
         python-version: 3.12
 
     - name: Create pull request
-      uses: car-on-sale/action-pull-request-another-repo@v1.3.1
+      uses: gabrielpossamai/action-pull-request-another-repo@main
       env:
         API_TOKEN_GITHUB: ${{ env.GITHUB_TOKEN }}
       with:
         source_folder: 'msa_sdk_doc/msa_sdk/'
-        destination_repo: 'ubiqube/msa-docker'
-        destination_folder: 'front/msa_sdk_doc'
+        destination_repo: 'ubiqube/msa-front'
+        destination_folder: 'msa_sdk_doc'
         destination_base_branch: 'master'
         destination_head_branch: 'update_pythonsdk_doc'
         user_email: 'qa@ubiqube.com'

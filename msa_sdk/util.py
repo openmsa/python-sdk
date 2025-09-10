@@ -80,7 +80,7 @@ def get_ip_range(start, end) -> list:
     return result
 
 
-def cidr_to_range(cdir):
+def cidr_to_range(cidr):
     """
 
     Get the Start and End Address of the IP range from CIDR.
@@ -89,15 +89,15 @@ def cidr_to_range(cdir):
 
     Parameters
     ----------
-    cdir: String
-        cdir range
+    cidr: String
+        cidr range
 
     Returns
     -------
     list: List of ip range
 
     """
-    r_ips = list(ip_network(cdir).hosts())
+    r_ips = list(ip_network(cidr).hosts())
     ip_range = [str(x) for x in r_ips]
 
     return ip_range
