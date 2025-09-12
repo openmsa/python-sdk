@@ -28,13 +28,13 @@ class Pops(MSA_API):
         self.path = '{}'.format(self.api_path)
         self._call_post(data)
 
-    def remove_pop(self, pop_type, vendor, name):
+    def remove_pop(self, entity_type, vendor, name):
         """
         Remove a pop.
 
         Parameters
         ----------
-        pop_type: type of pop
+        entity_type: type of pop
         vendor: vendor of pop
         name: name of pop
 
@@ -44,5 +44,5 @@ class Pops(MSA_API):
 
         """
         self.action = 'Remove Pop'
-        self.path = '{}?popType={}&vendor={}&name={}'.format(self.api_path, pop_type, vendor, name)
+        self.path = '{}?entityType={}&vendor={}&name={}'.format(self.api_path, entity_type, vendor, name)
         self._call_delete()
