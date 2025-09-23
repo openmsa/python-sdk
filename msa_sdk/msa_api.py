@@ -53,7 +53,7 @@ class MSA_API():  # pylint: disable=invalid-name
         Parameters
         ----------
         status: String
-            Status ID: 'ENDED', 'FAIL', 'RUNNING', 'WARNING', 'PAUSE'
+            Status ID: 'ENDED', 'FAIL', 'WARNING', 'PAUSE'
         comment: String
             Comment
         new_params: Dictionary
@@ -105,6 +105,30 @@ class MSA_API():  # pylint: disable=invalid-name
         print(cls.process_content(constants.FAILED, comment, context,
                                   log_response))
         sys.exit(1)
+
+    @classmethod
+    def task_warning(cls, comment, context, log_response=True):
+        """
+
+        Task warning and print.
+
+        Parameters
+        ----------
+        comment: String
+            Comment
+        context: Dictionary
+            Context
+        log_response: Bool
+            Write log to a file
+
+        Returns
+        -------
+        None
+
+        """
+        print(cls.process_content(constants.WARNING, comment, context,
+                                  log_response))
+        sys.exit(2)
 
     @classmethod
     def task_success(cls, comment, context, log_response=True):

@@ -13,35 +13,38 @@ jobs:
   pull-request:
     runs-on: ubuntu-latest
     steps:
-    - name: Generate doc
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install pdoc3
-
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v6
+      with:
+        python-version: 3.12
+
+    - name: Install dependencies
+      run: |
+        DIR=$(pwd)
+        cd ../
+        python -m pip install --upgrade pip
+        if [ -f ${DIR}/requirements.txt ]; then pip install -r ${DIR}/requirements.txt ; fi
+        if [ -f ${DIR}/requirements-dev.txt ]; then pip install -r ${DIR}/requirements-dev.txt ; fi
 
     - name: Generate doc
       run: |
         pdoc --html --force -o msa_sdk_doc msa_sdk
         cp msa_sdk.json msa_sdk_doc/msa_sdk
 
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.12
-
     - name: Create pull request
-      uses: car-on-sale/action-pull-request-another-repo@v1.3.1
+      uses: gabrielpossamai/action-pull-request-another-repo@main
       env:
-        API_TOKEN_GITHUB: ${{ env.GITHUB_TOKEN }}
+        API_TOKEN_GITHUB: ${{ secrets.MSA_DOCKER_REPO_ACCESS_TOKEN }}
       with:
         source_folder: 'msa_sdk_doc/msa_sdk/'
-        destination_repo: 'ubiqube/msa-docker'
-        destination_folder: 'front/msa_sdk_doc'
+        destination_repo: 'ubiqube/msa-front'
+        destination_folder: 'msa_sdk_doc'
         destination_base_branch: 'master'
         destination_head_branch: 'update_pythonsdk_doc'
         user_email: 'qa@ubiqube.com'
         user_name: 'qa4ubiqube'
-        pr_title: 'Update Pyhton SDK documentation'
+        pr_title: 'Update Python SDK documentation'
         commit_msg: 'Update documentation automatic created'

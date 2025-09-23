@@ -8,19 +8,23 @@ from msa_sdk import util
 from msa_sdk.conf_profile import ConfProfile
 from msa_sdk.customer import Customer
 from msa_sdk.device import Device
+from msa_sdk.geolocation import Geolocation
 from msa_sdk.lookup import Lookup
 from msa_sdk.orchestration import Orchestration
 from msa_sdk.order import Order
+from msa_sdk.pops import Pops
 from msa_sdk.repository import Repository
 from msa_sdk.variables import Variables
 
-device = Device()
-lookup = Lookup()
-order = Order(1)
-orchestration = Orchestration(1)
-repository = Repository()
-customer = Customer()
 conf_profile = ConfProfile()
+customer = Customer()
+device = Device()
+geolocation = Geolocation(1)
+lookup = Lookup()
+orchestration = Orchestration(1)
+order = Order(1)
+pops = Pops()
+repository = Repository()
 variable = Variables()
 
 output_doc = collections.defaultdict(dict)  # type: dict
@@ -65,14 +69,16 @@ def get_members_function():
         )
 
 
-get_members('Device', device)
-get_members('Lookup', lookup)
-get_members('Order', order)
-get_members('Repository', repository)
-get_members('Customer', customer)
 get_members('ConfProfile', conf_profile)
-get_members('Variables', variable)
+get_members('Customer', customer)
+get_members('Device', device)
+get_members('Geolocation', geolocation)
+get_members('Lookup', lookup)
 get_members('Orchestration', orchestration)
+get_members('Order', order)
+get_members('Pops', pops)
+get_members('Repository', repository)
+get_members('Variables', variable)
 
 get_members_function()
 

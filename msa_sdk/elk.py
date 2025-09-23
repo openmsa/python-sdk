@@ -40,7 +40,7 @@ class EsHandler(logging.Handler):
         Return elasticearch index name.
 
         :param: index_name the prefix to be used in the index
-        :return: A srting containing the elasticsearch indexname used which should include the date.
+        :return: A string containing the elasticsearch indexname used which should include the date.
         """
         return "{0!s}-{1!s}".format(es_index_name, datetime.datetime.now().strftime('%Y.%m.%d'))
     

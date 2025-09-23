@@ -130,7 +130,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         Update device.
 
         field: String
-               Modifyed device field
+               Modified device field
         value: String
                Modified field's value (str)
 
@@ -528,7 +528,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
     def detach_files(self, uris):
         """
-        Attach files.
+        Detach files.
 
         Parameters
         ----------
@@ -643,7 +643,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         Returns
         -------
-        True:  Variable has been created successdully
+        True:  Variable has been created successfully
         False: Variable has not been created successfully
 
         """
