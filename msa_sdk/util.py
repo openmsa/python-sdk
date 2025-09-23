@@ -571,3 +571,23 @@ def update_asynchronous_task_details(details: str):
     orch.update_asynchronous_task_details(process_instance_id, task_id,
                                           exec_number, details)
     return orch
+
+def is_valid_port(port):
+    """
+    Validate if the given port is a valid TCP/UDP port number.
+
+    Args:
+        port (int or str): The port number to validate.
+
+    Returns:
+        bool: True if valid, False otherwise.
+    """
+    if port is None or port == "" or str(port).lower() == 'null':
+        return False
+
+    try:
+        port_int = int(port)
+        return 1 <= port_int <= 65535
+    except (ValueError, TypeError):
+        return False
+
