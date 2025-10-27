@@ -238,3 +238,19 @@ def test_task_success(api_fixture, capsys):
 
     assert sys_exit.type == SystemExit
     assert sys_exit.value.code == 0
+
+def test_task_pause(api_fixture, capsys):
+    msa = api_fixture
+
+    with pytest.raises(SystemExit) as sys_exit:
+        msa.task_pause("Task pause", {'SERVICEINSTANCEID': 1}, False)
+
+    captured = capsys.readouterr()
+    output = (
+        '{"wo_status": "PAUSE", "wo_comment": "Task pause",'
+        ' "wo_newparams": {"SERVICEINSTANCEID": 1}}\n'
+    )
+    assert captured.out == output
+    assert json.loads(captured.out)['wo_comment'] == 'Task pause'
+    assert sys_exit.type == SystemExit
+    assert sys_exit.value.code == 0
