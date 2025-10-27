@@ -730,3 +730,14 @@ def test_get_process_logs(orchestration_fixture):
         orch._content = '{}'
         result = orch.get_process_logs(123, 456)
         assert result == ''
+
+def test_execute_delete_process(orchestration_fixture):
+    """
+    Test execute_delete_process
+    """
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+        orch = orchestration_fixture
+        orch.execute_delete_process('ProcessName', 1234)
+        expected_path = f'/orchestration/process/execute/{orch.ubiqube_id}/1234?processName=ProcessName'
+        assert orch.path == expected_path
+        mock_call_post.assert_called_once_with()
