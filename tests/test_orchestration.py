@@ -741,3 +741,26 @@ def test_execute_delete_process(orchestration_fixture):
         expected_path = f'/orchestration/process/execute/{orch.ubiqube_id}/1234?processName=ProcessName'
         assert orch.path == expected_path
         mock_call_post.assert_called_once_with()
+
+def test_get_workflow_details(orchestration_fixture):
+    """
+    Test get_workflow_details
+    """
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
+        orch = orchestration_fixture
+        orch.get_workflow_details(
+            service_name='TestService',
+            defined_var_flag=True,
+            status='ACTIVE',
+            sort='name',
+            sort_order='ASC',
+            search_filter='filter',
+            page=2,
+            page_size=50
+        )
+        expected_path = (
+            f"/orchestration/v2/{orch.ubiqube_id}/workflow/details?"
+            "serviceName=TestService&definedVarFlag=True&status=ACTIVE&sort=name&sort_order=ASC&search_filter=filter&page=2&page_size=50"
+        )
+        assert orch.path == expected_path
+        mock_call_get.assert_called_once_with()
