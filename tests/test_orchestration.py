@@ -33,6 +33,27 @@ def test_list_service_instances(orchestration_fixture):
         assert orch.path == '/orchestration/MSAA19224/service/instance'
         assert _is_valid_json(orch.response.text)
 
+def test_list_service_instances_with_servicename(orchestration_fixture):
+    """
+    Test List Service Instances
+    """
+
+    device_info = (
+        '[{"name":"Process/Reference/Customer/Kibana/kibana_dashboard",'
+        '"id":2102,"serviceExternalReference":"MSASID2102","state":"ACTIVE"},'
+        '{"name":"Process/Reference/Customer/Kibana/kibana_dashboard",'
+        '"id":2258,"serviceExternalReference":"MSASID2258","state":"ACTIVE"},'
+        '{"name":"Process/Reference/Customer/Kibana/kibana_dashboard",'
+        '"id":2231,"serviceExternalReference":"MSASID2231","state":"ACTIVE"},'
+        '{"name":"Process/Reference/Device_Management/Device_Management_List",'
+        '"id":1536,"serviceExternalReference":"MSASID1536","state":"ACTIVE"}]')
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = device_info
+        orch = orchestration_fixture
+        orch.list_service_instances("serviceName")
+        assert orch.path == '/orchestration/MSAA19224/service/instance?serviceName=serviceName'
+        assert _is_valid_json(orch.response.text)
 
 def test_get_service_variables_by_service_id(orchestration_fixture):
     """
