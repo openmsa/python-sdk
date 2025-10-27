@@ -771,3 +771,22 @@ class Orchestration(MSA_API):
         self.path = format_path.format(self.ubiqube_id, service_id, process_name)
         self._call_post()
 
+    def get_process_logs(self, service_id: int, process_id: int):
+        """
+        Get logs for a specific process instance of a service.
+
+        Parameters
+        ----------
+        service_id: Integer
+                    Service ID
+        process_id: Integer
+                    Process ID
+
+        Returns
+        -------
+        None
+        """
+        self.path = f"{self.api_path}/logs/{service_id}/{process_id}"
+        self._call_get()
+        ctx = json.loads(self.content)
+        return ctx.get('logContent', "")

@@ -714,3 +714,19 @@ def test_read_service_instance_by_condition(orchestration_fixture):
             "serviceVariables": service_variables
         }
         assert orch.response == None if True else _is_valid_json(json.loads(orch.response.text))
+
+def test_get_process_logs(orchestration_fixture):
+    """
+    Test get_process_logs
+    """
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
+        orch = orchestration_fixture
+        # Case: logContent present
+        orch._content = '{"logContent": "Test log output"}'
+        result = orch.get_process_logs(123, 456)
+        assert orch.path == '/orchestration/logs/123/456'
+        assert result == 'Test log output'
+        # Case: logContent missing
+        orch._content = '{}'
+        result = orch.get_process_logs(123, 456)
+        assert result == ''
