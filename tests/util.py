@@ -12,6 +12,7 @@ from msa_sdk.device import Device
 from msa_sdk.orchestration import Orchestration
 from msa_sdk.order import Order
 from msa_sdk.order_stack import OrderStack
+from msa_sdk.pops import Pops
 from msa_sdk.profile import Profile
 from msa_sdk.repository import Repository
 
@@ -287,3 +288,14 @@ def conf_backup_fixture():
             mock_host_port.return_value = ('api_hostname', '8080')
             conf_backup = ConfBackup()
     return conf_backup
+
+@pytest.fixture
+def pops_fixture():
+    """Pops fixture."""
+    with patch('requests.post') as mock_post:
+        mock_post.return_value.json.return_value = {'token': '12345qwert'}
+
+        with patch('msa_sdk.msa_api.host_port') as mock_host_port:
+            mock_host_port.return_value = ('api_hostname', '8080')
+            pops = Pops()
+    return pops
