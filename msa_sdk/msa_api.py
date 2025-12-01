@@ -50,15 +50,18 @@ class MSA_API():  # pylint: disable=invalid-name
 
         Process content.
 
+        This method should not be called directly instead use
+        task_success(), task_warning(), task_error() or task_pause().
+
         Parameters
         ----------
         status: String
-            Status ID: 'ENDED', 'FAIL', 'WARNING', 'PAUSE'
+            Possible values: MSA_API.ENDED, MSA_API.FAILED, MSA_API.WARNING, MSA_API.PAUSED
         comment: String
             Comment
         new_params: Dictionary
             Context
-        log_response: Bool
+        log_response: Boolean
             Write log to a file
 
         Returns
@@ -66,6 +69,12 @@ class MSA_API():  # pylint: disable=invalid-name
         Response content formated
 
         """
+        if ((status != cls.ENDED) and (status != cls.FAILED) and (status != cls.WARNING) and (status != cls.PAUSED)):
+            # overwrite comment
+            comment = "Bad status, wo_status should be MSA_API.ENDED, MSA_API.FAILED, MSA_API.WARNING, or MSA_API.PAUSED"
+            # force log_response
+            log_response = True
+
         response = {
             "wo_status": status,
             "wo_comment": comment,
@@ -102,7 +111,7 @@ class MSA_API():  # pylint: disable=invalid-name
         None
 
         """
-        print(cls.process_content(constants.FAILED, comment, context,
+        print(cls.process_content(cls.FAILED, comment, context,
                                   log_response))
         sys.exit(1)
 
@@ -126,7 +135,7 @@ class MSA_API():  # pylint: disable=invalid-name
         None
 
         """
-        print(cls.process_content(constants.WARNING, comment, context,
+        print(cls.process_content(cls.WARNING, comment, context,
                                   log_response))
         sys.exit(2)
 
@@ -150,7 +159,7 @@ class MSA_API():  # pylint: disable=invalid-name
         None
 
         """
-        print(cls.process_content(constants.ENDED, comment, context,
+        print(cls.process_content(cls.ENDED, comment, context,
                                   log_response))
         sys.exit(0)
 
@@ -174,7 +183,7 @@ class MSA_API():  # pylint: disable=invalid-name
         None
 
         """
-        print(cls.process_content(constants.PAUSED, comment, context,
+        print(cls.process_content(cls.PAUSED, comment, context,
                                   log_response))
         sys.exit(0)
 
@@ -207,7 +216,7 @@ class MSA_API():  # pylint: disable=invalid-name
 
     def check_response(self):
         """
-        Check reponse of a POST/GET/PUT/DELETE.
+        Check response of a POST/GET/PUT/DELETE.
 
         Returns
         --------
