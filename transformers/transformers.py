@@ -10,9 +10,11 @@ This module provides:
 - Built-in sample mappings for immediate use
 """
 
-from typing import List, Dict, Any
-from dataclasses import dataclass, field
-
+from dataclasses import dataclass
+from dataclasses import field
+from typing import Any
+from typing import Dict
+from typing import List
 
 # ---------------- UNIVERSAL DATA MODEL ----------------
 
