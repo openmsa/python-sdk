@@ -19,19 +19,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class UniversalURLFilter:
-    """
-    Universal URL Filter Model.
-
-    Attributes:
-        pattern: URL pattern from vendor configuration.
-        action: Universal action (allow, block, monitor, etc.).
-        category: Universal category name.
-        list_name: Optional list name.
-        list_id: Optional list identifier.
-        type: Pattern type (literal, wildcard, regex, substring).
-        vendor: Originating vendor name.
-        metadata: Additional vendor-specific fields.
-    """
+    """Universal URL Filter Model."""
 
     pattern: str
     action: str
@@ -47,11 +35,7 @@ class UniversalURLFilter:
 
 
 class BaseTransformer:
-    """
-    Abstract transformer base class.
-
-    All transformers must implement the ``transform`` method.
-    """
+    """Abstract base class for all transformers."""
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -70,16 +54,14 @@ class BaseTransformer:
 
 
 class ActionMapper(BaseTransformer):
-    """
-    Transformer to map vendor actions to universal actions (or vice versa).
-    """
+    """Map vendor actions to universal actions (or reverse)."""
 
     def __init__(self, action_map: Dict[str, str]):
         """
         Initialize the ActionMapper.
 
         Args:
-            action_map: Dictionary mapping vendor actions to universal actions.
+            action_map: Mapping from vendor action → universal action.
         """
         self.action_map = action_map
 
@@ -88,23 +70,21 @@ class ActionMapper(BaseTransformer):
         Map the action field using the configured mapping.
 
         Args:
-            item: Input dictionary to transform.
+            item: Input dictionary.
 
         Returns:
-            Updated dictionary with mapped action.
+            Dictionary with updated action.
         """
         item["action"] = self.action_map.get(item.get("action"), item.get("action"))
         return item
 
 
 class PatternNormalizer(BaseTransformer):
-    """
-    Transformer that normalizes or passes through patterns unchanged.
-    """
+    """Normalize or pass through patterns unchanged."""
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Normalize the pattern of the item.
+        Normalize the pattern field.
 
         Args:
             item: Input dictionary.
@@ -117,22 +97,23 @@ class PatternNormalizer(BaseTransformer):
 
 
 class TypeMapper(BaseTransformer):
-    """
-    Transformer that maps vendor pattern types to universal types (or reverse).
-    """
+    """Map vendor pattern types to universal types (or reverse)."""
 
     def __init__(self, type_map: Dict[str, str]):
         """
         Initialize the TypeMapper.
 
         Args:
-            type_map: Mapping from vendor type to universal type.
+            type_map: Mapping from vendor type → universal type.
         """
         self.type_map = type_map
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Map the pattern type, normalizing case when necessary.
+        Map the pattern type field.
+
+        Vendor types may be inconsistent (uppercase/lowercase),
+        so normalization rules apply before mapping.
 
         Args:
             item: Input dictionary.
@@ -153,22 +134,20 @@ class TypeMapper(BaseTransformer):
 
 
 class CategoryMapper(BaseTransformer):
-    """
-    Transformer to map vendor category IDs or names to universal names.
-    """
+    """Map vendor category IDs or names to universal names."""
 
     def __init__(self, category_map: Dict[str, str]):
         """
         Initialize the CategoryMapper.
 
         Args:
-            category_map: Mapping from vendor category to universal category.
+            category_map: Mapping from vendor category → universal.
         """
         self.category_map = category_map
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Map vendor category to a universal category.
+        Map the category field.
 
         Args:
             item: Input dictionary.
@@ -182,9 +161,7 @@ class CategoryMapper(BaseTransformer):
 
 
 class MetadataEnricher(BaseTransformer):
-    """
-    Transformer that enriches items with vendor metadata fields.
-    """
+    """Enrich items with vendor name and embedded metadata fields."""
 
     def __init__(self, vendor: str, extra_fields: List[str] | None = None):
         """
@@ -192,14 +169,14 @@ class MetadataEnricher(BaseTransformer):
 
         Args:
             vendor: Vendor identifier.
-            extra_fields: Optional list of field names to embed in metadata.
+            extra_fields: Optional list of fields to copy to metadata.
         """
         self.vendor = vendor
         self.extra_fields = extra_fields or []
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Add vendor metadata to the item.
+        Add vendor metadata fields to the item.
 
         Args:
             item: Input dictionary.
@@ -231,7 +208,7 @@ def apply_transformers(
         transformers: Ordered list of transformer instances.
 
     Returns:
-        A list of transformed dictionaries.
+        List of transformed dictionaries.
     """
     result = []
     for item in items:
@@ -242,7 +219,7 @@ def apply_transformers(
 
 
 # ---------------- VENDOR MAPPINGS ----------------
-# (constant values do not require docstrings)
+
 
 FORTINET_ACTION_MAP = {"block": "block", "allow": "allow", "monitor": "monitor"}
 FORTINET_CATEGORY_MAP = {
@@ -297,6 +274,7 @@ PRISMA_TYPE_MAP = {
 
 
 # ---------------- PIPELINE DEFINITIONS ----------------
+
 
 VENDOR_TO_UNIVERSAL_PIPELINES = {
     "fortinet": [
