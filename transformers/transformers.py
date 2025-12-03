@@ -18,7 +18,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class UniversalURLFilter:
-    """ """
+    """Universal URL Filter Model"""
 
     pattern: str
     action: str
@@ -41,12 +41,12 @@ class BaseTransformer:
 
 
 class ActionMapper(BaseTransformer):
-    """ """
+    """Action Mapping Actionner"""
 
     def __init__(self, action_map: Dict[str, str]):
         self.action_map = action_map
     
-    """ """
+    """Action Mapping transformer"""
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
         item["action"] = self.action_map.get(item.get("action"), item.get("action"))
@@ -67,7 +67,7 @@ class TypeMapper(BaseTransformer):
     def __init__(self, type_map: Dict[str, str]):
         self.type_map = type_map
 
-    """ """
+    """Type Mapping transformer """
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
         # Always read the original 'type' from vendor config
@@ -89,7 +89,7 @@ class CategoryMapper(BaseTransformer):
     def __init__(self, category_map: Dict[str, str]):
         self.category_map = category_map
 
-    """ """
+    """Category Mapping transformer """
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
         vendor_cat = str(item.get("category_id", "default"))  # read from input
@@ -104,7 +104,7 @@ class MetadataEnricher(BaseTransformer):
         self.vendor = vendor
         self.extra_fields = extra_fields or []
 
-    """ """
+    """Metadata transformer """
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
         item["vendor"] = self.vendor
@@ -119,7 +119,7 @@ class MetadataEnricher(BaseTransformer):
 
 
 # ---------------- PIPELINE EXECUTOR ----------------
-""" """
+"""Apply transformers"""
 
 def apply_transformers(
     items: List[Dict[str, Any]], transformers: List[BaseTransformer]
