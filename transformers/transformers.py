@@ -37,6 +37,7 @@ class BaseTransformer:
     """Abstract transformer"""
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        """Base transformer"""
         raise NotImplementedError
 
 
@@ -44,11 +45,12 @@ class ActionMapper(BaseTransformer):
     """Action Mapping Actionner"""
 
     def __init__(self, action_map: Dict[str, str]):
+        """Init method"""
         self.action_map = action_map
-    
-    """Action Mapping transformer"""
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        """Action Mapping transformer"""
+        
         item["action"] = self.action_map.get(item.get("action"), item.get("action"))
         return item
 
@@ -65,11 +67,13 @@ class TypeMapper(BaseTransformer):
     """Map vendor type -> universal type"""
 
     def __init__(self, type_map: Dict[str, str]):
+        """Init method"""
+        
         self.type_map = type_map
 
-    """Type Mapping transformer """
-
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        """Type Mapping transformer """
+        
         # Always read the original 'type' from vendor config
         vendor_type = item.get("type", "simple")
         # Normalize case for Zscaler
@@ -87,12 +91,14 @@ class CategoryMapper(BaseTransformer):
     """Map vendor category to universal category"""
 
     def __init__(self, category_map: Dict[str, str]):
+        """Init method"""
+        
         self.category_map = category_map
 
     """Category Mapping transformer """
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
-        vendor_cat = str(item.get("category_id", "default"))  # read from input
+        vendor_cat = str(item.get("category_id", "default"))
         item["category"] = self.category_map.get(vendor_cat, "uncategorized")
         return item
 
@@ -101,12 +107,14 @@ class MetadataEnricher(BaseTransformer):
     """Add vendor metadata"""
 
     def __init__(self, vendor: str, extra_fields: list = None):
+        """Init method"""
+        
         self.vendor = vendor
         self.extra_fields = extra_fields or []
 
-    """Metadata transformer """
-
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        """Metadata transformer """
+        
         item["vendor"] = self.vendor
         if "metadata" not in item:
             item["metadata"] = {}
@@ -119,11 +127,12 @@ class MetadataEnricher(BaseTransformer):
 
 
 # ---------------- PIPELINE EXECUTOR ----------------
-"""Apply transformers"""
 
 def apply_transformers(
     items: List[Dict[str, Any]], transformers: List[BaseTransformer]
 ) -> List[Dict[str, Any]]:
+    """Apply transformers"""
+    
     result = []
     for item in items:
         for t in transformers:
