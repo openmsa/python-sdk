@@ -2,8 +2,8 @@
 
 import json
 
-from msa_sdk.msa_api import MSA_API
 from msa_sdk.device import Device
+from msa_sdk.msa_api import MSA_API
 
 
 class Customer(MSA_API):
