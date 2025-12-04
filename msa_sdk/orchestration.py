@@ -649,29 +649,6 @@ class Orchestration(MSA_API):
         self.update_process_script_details(
             process_id, task_id, exec_number, details_json)
 
-    def get_list_service_by_status(self, range: int) -> dict:
-        """
-
-        List services by status.
-
-        Parameters
-        ----------
-        range: Integer
-               Number of days for the statistic
-
-        Returns
-        -------
-        Dict()
-              Key:   Name of service
-              Value: Statistics by status
-
-        """
-        self.path = '{}/services?ubiqubeId={}&range={}'.format(
-            self.api_path_v1, self.ubiqube_id, range)
-        self._call_get()
-
-        return json.loads(self.content)
-
     def get_service_status_by_id(self, service_id: int):
         """
 
