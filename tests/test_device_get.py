@@ -26,7 +26,7 @@ def test_read_by_id(mock_post):
             mock_host_port.return_value = ('api_hostname', '8080')
             device = Device(device_id=21594)
 
-        assert device.path == '/device/v2/21594'
+        assert device.path == '/device/v3/21594'
         assert device.device_id == 21594
         assert device.name == "Linux self MSA"
         assert device.manufacturer_id == 14020601
