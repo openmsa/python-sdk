@@ -1,8 +1,9 @@
-"""Module customer."""
+"""Module customer (subtenant)."""
 
 import json
 
 from msa_sdk.msa_api import MSA_API
+from msa_sdk.device import Device
 
 
 class Customer(MSA_API):
@@ -21,12 +22,12 @@ class Customer(MSA_API):
         Parameters
         -------
         id: Integer
-            MSA ID for customer
+            MSA ID for customer (subtenant)
 
         Returns
         -------
         return_list: list()
-                     List of device Id of the customer
+                     List of device Id of the customer (subtenant)
 
         """
         return_list = []
@@ -38,6 +39,31 @@ class Customer(MSA_API):
             return_list.append(device['id'])
 
         return return_list
+
+    def get_ip_address_list(self, customer_id: int) -> list:
+        """
+
+        Get device ip address list for the customer (subtenant).
+
+        Parameters
+        -------
+        id: Integer
+            MSA ID for customer (subtenant)
+
+        Returns
+        -------
+        return_list: list()
+                     List of device Id of the customer (subtenant)
+
+        """
+        ip_address_list = []
+        devices = self.get_device_list_by_id(customer_id)
+        for device_id in devices:
+            device = Device(device_id=device_id)
+            device.read()
+            ip_address_list.append(device.management_address)
+
+        return ip_address_list
 
     def create_customer_by_prefix(self, prefix: str, name="",
                                   reference="") -> None:

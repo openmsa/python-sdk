@@ -256,7 +256,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
             self.path = "{}/{}".format(self.api_path,
                                        "reference/{}".format(by_ref))
         else:
-            self.path = '{}/v2/{}'.format(self.api_path, self.device_id)
+            self.path = '{}/v3/{}'.format(self.api_path, self.device_id)
 
         self._call_get()
         if not self.response.ok:
