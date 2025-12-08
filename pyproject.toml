@@ -22,7 +22,7 @@ dependencies = [
 requires-python = ">=3.12"
 
 [project.optional-dependencies]
-dev = ["pytest-cov == 7.0.0", "bumpver == 2025.1131", "pip-tools == 7.5.2", "pytest == 9.0.1", "pytest-pydocstyle == 2.4.0", "pytest-isort == 4.0.0"]
+dev = ["pytest-cov == 7.0.0", "bumpver == 2025.1131", "pip-tools == 7.5.2", "pytest == 9.0.2", "pytest-pydocstyle == 2.4.0", "pytest-isort == 4.0.0"]
 
 [project.urls]
 Homepage = "https://github.com/openmsa/python-sdk"
