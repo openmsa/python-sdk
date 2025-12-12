@@ -296,4 +296,76 @@ UNIVERSAL_TO_NETSKOPE_TYPE_MAP = {"literal": "exact", "regex": "regex", "wildcar
 
 # ---------------- ZSCALER ----------------
 
-ZSCALER_ACTION_MAP = {"block": "B
+ZSCALER_ACTION_MAP = {"block": "BLOCK", "allow": "ALLOW", "monitor": "MONITOR"}
+ZSCALER_CATEGORY_MAP = {"malware": "malware", "phishing": "phishing", "gambling": "gambling", "uncategorized": "uncategorized"}
+ZSCALER_TYPE_MAP = {"STRING": "literal", "WILDCARD": "wildcard", "REGEX": "regex"}
+
+# ---------------- PALO ALTO ----------------
+
+PRISMA_ACTION_MAP = {"block": "deny", "allow": "allow", "monitor": "alert"}
+PRISMA_CATEGORY_MAP = {"malware": "malware", "phishing": "phishing", "gambling": "gambling", "uncategorized": "uncategorized"}
+PRISMA_TYPE_MAP = {"simple": "literal", "wildcard": "wildcard", "regex": "regex", "substring": "substring"}
+
+# ---------------- PIPELINE DEFINITIONS ----------------
+
+VENDOR_TO_UNIVERSAL_PIPELINES = {
+    "fortinet": [
+        ActionMapper(FORTINET_ACTION_MAP),
+        PatternNormalizer(),
+        TypeMapper(FORTINET_TYPE_MAP),
+        CategoryMapper(FORTINET_CATEGORY_MAP),
+        MetadataEnricher("fortinet"),
+    ],
+    "netskope": [
+        ActionMapper(NETSKOPE_ACTION_MAP),
+        PatternNormalizer(),
+        TypeMapper(NETSKOPE_TO_UNIVERSAL_TYPE_MAP),
+        CategoryMapper(NETSKOPE_CATEGORY_MAP),
+        MetadataEnricher("netskope"),
+    ],
+    "zscaler": [
+        ActionMapper(ZSCALER_ACTION_MAP),
+        PatternNormalizer(),
+        TypeMapper(ZSCALER_TYPE_MAP),
+        CategoryMapper(ZSCALER_CATEGORY_MAP),
+        MetadataEnricher("zscaler"),
+    ],
+    "prisma": [
+        ActionMapper(PRISMA_ACTION_MAP),
+        PatternNormalizer(),
+        TypeMapper(PRISMA_TYPE_MAP),
+        CategoryMapper(PRISMA_CATEGORY_MAP),
+        MetadataEnricher("prisma"),
+    ],
+}
+
+UNIVERSAL_TO_VENDOR_PIPELINES = {
+    "fortinet": [
+        ActionMapper({v: k for k, v in FORTINET_ACTION_MAP.items()}),
+        PatternNormalizer(),
+        TypeMapper({v: k for k, v in FORTINET_TYPE_MAP.items()}),
+        CategoryMapper({v: k for k, v in FORTINET_CATEGORY_MAP.items()}),
+        MetadataEnricher("fortinet"),
+    ],
+    "netskope": [
+        ActionMapper({v: k for k, v in NETSKOPE_ACTION_MAP.items()}),
+        NetskopePatternNormalizer(),
+        TypeMapper(UNIVERSAL_TO_NETSKOPE_TYPE_MAP),
+        CategoryMapper({v: k for k, v in NETSKOPE_CATEGORY_MAP.items()}),
+        MetadataEnricher("netskope"),
+    ],
+    "zscaler": [
+        ActionMapper({v: k for k, v in ZSCALER_ACTION_MAP.items()}),
+        PatternNormalizer(),
+        TypeMapper({v: k for k, v in ZSCALER_TYPE_MAP.items()}),
+        CategoryMapper({v: k for k, v in ZSCALER_CATEGORY_MAP.items()}),
+        MetadataEnricher("zscaler"),
+    ],
+    "prisma": [
+        ActionMapper({v: k for k, v in PRISMA_ACTION_MAP.items()}),
+        PatternNormalizer(),
+        TypeMapper({v: k for k, v in PRISMA_TYPE_MAP.items()}),
+        CategoryMapper({v: k for k, v in PRISMA_CATEGORY_MAP.items()}),
+        MetadataEnricher("prisma"),
+    ],
+}
