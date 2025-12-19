@@ -69,7 +69,7 @@ jobs:
         echo current_version=$(grep -oP '__version__ = "\K[^"]+' msa_sdk/__init__.py) >> $GITHUB_ENV
 
     - name: Commit bump version
-      uses: stefanzweifel/git-auto-commit-action@v5
+      uses: stefanzweifel/git-auto-commit-action@v7
       with:
         commit_message: 🔖 Commit bump version ${{ env.current_version }}
         commit_user_name: "github-actions"
