@@ -41,7 +41,6 @@ class Profile(MSA_API):
             True if the profile exists, False otherwise.
         """
         self.action = 'Check Profile exist by reference'
-        self.path = '{}/v1/exist/{}'.format(self.api_path, reference)
-        self._call_post()
-        result = json.loads(self.content)
-        return result.get('exist', False)
+        self.path = '{}/ref?extRef={}'.format(self.api_path, reference)
+        self._call_get()
+        return self.response.status_code == 200
