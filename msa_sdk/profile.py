@@ -43,4 +43,4 @@ class Profile(MSA_API):
         self.action = 'Check Profile exist by reference'
         self.path = '{}/ref?extRef={}'.format(self.api_path, reference)
         self._call_get()
-        return self.response.status_code == 200
+        return self.response is not None and getattr(self.response, "status_code", None) == 200
