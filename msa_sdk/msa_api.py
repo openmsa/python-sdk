@@ -4,15 +4,17 @@ import logging
 import os
 import random
 import sys
+from typing import Optional
 
 import requests
+from requests import Response
 
 from msa_sdk import constants
 from msa_sdk import context
 
 logger = logging.getLogger("msa-sdk")
 
-def host_port():
+def host_port() -> tuple[str, str]:
     """
     Hostname and port of the API.
 
@@ -37,11 +39,11 @@ class MSA_API():  # pylint: disable=invalid-name
 
     def __init__(self):
         """Initialize."""
-        self.url = 'http://{}:{}/ubi-api-rest'.format(*host_port())
-        self.path = ""
-        self.response = None
-        self.log_response = True
-        self._content = ""
+        self.url: str = 'http://{}:{}/ubi-api-rest'.format(*host_port())
+        self.path: str = ""
+        self.response: Optional[Response] = None
+        self.log_response: bool = True
+        self._content: str = ""
         self.action = self.__class__
 
     @classmethod
@@ -224,7 +226,7 @@ class MSA_API():  # pylint: disable=invalid-name
 
 
         """
-        if not self.response.ok:
+        if self.response is not None and not self.response.ok:
             json_response = self.response.json()
             self._content = self.process_content(self.FAILED, self.action,
                                                  json_response['message'])
@@ -329,7 +331,7 @@ class MSA_API():  # pylint: disable=invalid-name
         self._content = self.response.text
         self.check_response()
 
-    def add_trace_headers(self, headers):
+    def add_trace_headers(self, headers: dict[str, str]):
         """Add W3C trace headers."""
         if 'TRACEID' not in context:
             t, s = self.create_trace_id()
