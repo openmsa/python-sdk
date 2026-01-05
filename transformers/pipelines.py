@@ -10,8 +10,7 @@ from transformers.base_transformer import BaseTransformer
 def apply_transformers(
     items: List[Dict[str, Any]],
     transformers: List[BaseTransformer]
-) -> List[Dict[str, Any]]:
-    
+) -> List[Dict[str, Any]]:   
     """Apply a sequence of transformers to a list of items.
 
     Each item in the input list is processed sequentially by all
@@ -25,8 +24,7 @@ def apply_transformers(
 
     Returns:
         A list of transformed dictionaries.
-    """
-    
+    """    
     result: List[Dict[str, Any]] = []
 
     for item in items:
