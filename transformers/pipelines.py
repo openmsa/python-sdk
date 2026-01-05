@@ -4,7 +4,9 @@ This module provides utilities to apply a sequence of transformers
 to vendor configuration items, producing universal model dictionaries.
 """
 
-from typing import List, Dict, Any
+from typing import List
+from typing import Dict
+from typing import Any
 
 from transformers.base_transformer import BaseTransformer
 
