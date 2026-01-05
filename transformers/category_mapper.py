@@ -11,6 +11,7 @@ from .base_transformer import BaseTransformer
 
 
 class CategoryMapper(BaseTransformer):
+    
     """Map category identifiers between vendor and universal models.
 
     This transformer replaces the ``category_id`` field of an item using
@@ -19,6 +20,7 @@ class CategoryMapper(BaseTransformer):
     """
 
     def __init__(self, category_map: Dict[str, str]) -> None:
+        
         """Initialize the CategoryMapper.
 
         Args:
@@ -29,6 +31,7 @@ class CategoryMapper(BaseTransformer):
         self.category_map = category_map
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        
         """Transform an item's category identifier using the category map.
 
         Args:
