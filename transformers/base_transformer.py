@@ -5,6 +5,7 @@ in the transformation pipeline.
 """
 
 from abc import ABC, abstractmethod
+
 from typing import Any, Dict
 
 class BaseTransformer(ABC):   
