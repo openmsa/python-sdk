@@ -6,6 +6,7 @@ metadata timestamps to each item in the transformation pipeline.
 
 from datetime import datetime
 from typing import Any, Dict
+
 from .base_transformer import BaseTransformer
 
 class MetadataEnricher(BaseTransformer):
