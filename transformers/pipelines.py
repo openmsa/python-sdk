@@ -5,6 +5,7 @@ to vendor configuration items, producing universal model dictionaries.
 """
 
 from typing import List, Dict, Any
+
 from transformers.base_transformer import BaseTransformer
 
 def apply_transformers(
