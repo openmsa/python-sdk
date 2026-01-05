@@ -8,6 +8,7 @@ from typing import Any, Dict
 from .base_transformer import BaseTransformer
 
 class ActionMapper(BaseTransformer):
+    
     """Map action values between vendor and universal models.
 
     This transformer replaces the ``action`` field of an item using a
@@ -16,6 +17,7 @@ class ActionMapper(BaseTransformer):
     """
 
     def __init__(self, action_map: Dict[str, str]) -> None:
+        
         """Initialize the ActionMapper.
 
         Args:
@@ -26,6 +28,7 @@ class ActionMapper(BaseTransformer):
         self.action_map = action_map
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        
         """Transform an item's action field using the action mapping.
 
         Args:
