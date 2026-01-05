@@ -1,29 +1,36 @@
-"""
-pipelines.py
+"""Pipeline helper functions for URL transformations.
 
-Helper functions to run transformation pipelines for URL lists.
+This module provides utilities to apply a sequence of transformers
+to vendor configuration items, producing universal model dictionaries.
 """
 
 from typing import List, Dict, Any
 from transformers.base_transformer import BaseTransformer
 
+def apply_transformers(
+    items: List[Dict[str, Any]],
+    transformers: List[BaseTransformer]
+) -> List[Dict[str, Any]]:
+    """Apply a sequence of transformers to a list of items.
 
-def apply_transformers(items: List[Dict[str, Any]], transformers: List[BaseTransformer]-> List[Dict[str, Any]]:
-    """
-    Apply a list of transformers sequentially to a list of items.
+    Each item in the input list is processed sequentially by all
+    transformers in the given order.
 
     Args:
-        items: List of vendor configuration dictionaries.
-        transformers: Ordered list of transformer instances.
+        items: A list of dictionaries representing vendor configuration
+            entries.
+        transformers: An ordered list of transformer instances that
+            implement the `transform` method.
 
     Returns:
-        List of transformed dictionaries.
+        A list of transformed dictionaries.
     """
-  
-    result = []
+    
+    result: List[Dict[str, Any]] = []
+
     for item in items:
         for transformer in transformers:
             item = transformer.transform(item)
         result.append(item)
-    return result
 
+    return result
