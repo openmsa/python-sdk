@@ -9,6 +9,7 @@ from typing import Any, Dict
 from .base_transformer import BaseTransformer
 
 class CategoryMapper(BaseTransformer):   
+
     """Map category identifiers between vendor and universal models.
 
     This transformer replaces the ``category_id`` field of an item using
