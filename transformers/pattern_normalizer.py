@@ -4,7 +4,8 @@ This module defines a generic pattern normalizer that ensures each item
 has a ``pattern`` field. Currently, this transformer acts as a pass-through.
 """
 
-from typing import Any, Dict
+from typing import Any
+from typing import Dict
 
 from .base_transformer import BaseTransformer
 
