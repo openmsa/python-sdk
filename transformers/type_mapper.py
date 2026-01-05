@@ -9,13 +9,13 @@ from typing import Any, Dict
 from .base_transformer import BaseTransformer
 
 class TypeMapper(BaseTransformer):    
-
     """Map type values between vendor and universal models.
 
     This transformer replaces the ``type`` field of an item using a
     predefined mapping dictionary. If the type is not found in the
     mapping, it is left unchanged.
     """
+    
     def __init__(self, type_map: Dict[str, str]) -> None:        
         """Initialize the TypeMapper.
 
