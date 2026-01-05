@@ -6,9 +6,7 @@ metadata timestamps to each item in the transformation pipeline.
 
 from datetime import datetime
 from typing import Any, Dict
-
 from .base_transformer import BaseTransformer
-
 
 class MetadataEnricher(BaseTransformer):
     """Enrich items with vendor and metadata information.
@@ -23,6 +21,7 @@ class MetadataEnricher(BaseTransformer):
         Args:
             vendor: The vendor name to attach to each item.
         """
+        
         self.vendor = vendor
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
@@ -35,6 +34,7 @@ class MetadataEnricher(BaseTransformer):
             The transformed dictionary containing the ``vendor`` field and
             a ``metadata.processed_at`` timestamp.
         """
+        
         item["vendor"] = self.vendor
         if "metadata" not in item:
             item["metadata"] = {}
