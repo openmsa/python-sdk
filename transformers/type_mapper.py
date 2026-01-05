@@ -9,6 +9,7 @@ from typing import Any, Dict
 from .base_transformer import BaseTransformer
 
 class TypeMapper(BaseTransformer):
+    
     """Map type values between vendor and universal models.
 
     This transformer replaces the ``type`` field of an item using a
@@ -17,6 +18,7 @@ class TypeMapper(BaseTransformer):
     """
 
     def __init__(self, type_map: Dict[str, str]) -> None:
+        
         """Initialize the TypeMapper.
 
         Args:
@@ -27,6 +29,7 @@ class TypeMapper(BaseTransformer):
         self.type_map = type_map
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        
         """Transform an item's type field using the type mapping.
 
         Args:
