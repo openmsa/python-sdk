@@ -9,7 +9,8 @@ from abc import abstractmethod
 from typing import Any
 from typing import Dict
 
-class BaseTransformer(ABC):   
+
+class BaseTransformer(ABC):
     """Define the interface for all transformers.
 
     All concrete transformers must implement the ``transform`` method,
@@ -18,7 +19,7 @@ class BaseTransformer(ABC):
     """
 
     @abstractmethod
-    def transform(self, item: Dict[str, Any]) -> Dict[str, Any]: 
+    def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
         """Transform a single dictionary item.
 
         Args:
@@ -27,5 +28,5 @@ class BaseTransformer(ABC):
 
         Returns:
             A transformed dictionary.
-        """ 
+        """
         raise NotImplementedError
