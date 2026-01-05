@@ -9,6 +9,7 @@ from typing import Any, Dict
 from .base_transformer import BaseTransformer
 
 class MetadataEnricher(BaseTransformer):
+
     """Enrich items with vendor and metadata information.
 
     This transformer adds a ``vendor`` field and a ``metadata`` dictionary
