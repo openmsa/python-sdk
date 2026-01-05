@@ -30,7 +30,7 @@ class NetskopePatternNormalizer(BaseTransformer):
     """
 
     def wildcard_to_regex(self, pattern: str) -> str:
-       r"""Convert a wildcard domain pattern to a regex.
+        r"""Convert a wildcard domain pattern to a regex.
 
         Example:
             ``*.example.com`` → ``^([^.]+\.)*example\.com$``
