@@ -1,16 +1,30 @@
+"""Base transformer definition.
+
+This module defines the abstract base class used by all transformers
+in the transformation pipeline.
+"""
+
 from abc import ABC, abstractmethod
-from typing import Dict, Any
+from typing import Any, Dict
+
 
 class BaseTransformer(ABC):
-    """Abstract base class for all transformers."""
+    """Define the interface for all transformers.
+
+    All concrete transformers must implement the ``transform`` method,
+    which takes a single dictionary item and returns a transformed
+    dictionary.
+    """
 
     @abstractmethod
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Transform a single dictionary item.
+        """Transform a single dictionary item.
+
         Args:
-            item: Input dictionary representing a URL entry.
+            item: A dictionary representing a single configuration or
+                URL entry.
+
         Returns:
-            Transformed dictionary.
+            A transformed dictionary.
         """
-        pass
+        raise NotImplementedError
