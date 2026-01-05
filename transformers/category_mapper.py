@@ -25,6 +25,7 @@ class CategoryMapper(BaseTransformer):
             category_map: A dictionary mapping source category identifiers
                 to destination category identifiers.
         """
+        
         self.category_map = category_map
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
@@ -38,6 +39,7 @@ class CategoryMapper(BaseTransformer):
             The transformed item with its ``category_id`` field mapped
             according to the configured category map.
         """
+        
         category_id = item.get("category_id")
         if category_id in self.category_map:
             item["category_id"] = self.category_map[category_id]
