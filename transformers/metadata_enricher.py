@@ -5,7 +5,8 @@ metadata timestamps to each item in the transformation pipeline.
 """
 
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
+from typing import Dict
 
 from .base_transformer import BaseTransformer
 
