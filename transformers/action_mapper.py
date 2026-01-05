@@ -7,10 +7,8 @@ between vendor-specific representations and the universal data model.
 from typing import Any, Dict
 from .base_transformer import BaseTransformer
 
-class ActionMapper(BaseTransformer):
-    
+class ActionMapper(BaseTransformer):    
     """Map action values between vendor and universal models.
-
     This transformer replaces the ``action`` field of an item using a
     predefined mapping dictionary. If the action is not found in the
     mapping, it is left unchanged.
