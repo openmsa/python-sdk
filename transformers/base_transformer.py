@@ -7,7 +7,6 @@ in the transformation pipeline.
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 
-
 class BaseTransformer(ABC):
     """Define the interface for all transformers.
 
@@ -27,4 +26,5 @@ class BaseTransformer(ABC):
         Returns:
             A transformed dictionary.
         """
+        
         raise NotImplementedError
