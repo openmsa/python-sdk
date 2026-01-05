@@ -5,6 +5,7 @@ between vendor-specific representations and the universal data model.
 """
 
 from typing import Any, Dict
+
 from .base_transformer import BaseTransformer
 
 class ActionMapper(BaseTransformer):    
