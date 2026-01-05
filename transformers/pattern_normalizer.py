@@ -9,6 +9,7 @@ from typing import Dict
 
 from .base_transformer import BaseTransformer
 
+
 class PatternNormalizer(BaseTransformer):    
     """Normalize or enforce the presence of a pattern field in items.
 
