@@ -8,6 +8,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Dict
 
 class BaseTransformer(ABC):   
+
     """Define the interface for all transformers.
 
     All concrete transformers must implement the ``transform`` method,
