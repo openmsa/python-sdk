@@ -9,6 +9,7 @@ from typing import Any, Dict
 from .base_transformer import BaseTransformer
 
 class MetadataEnricher(BaseTransformer):
+    
     """Enrich items with vendor and metadata information.
 
     This transformer adds a ``vendor`` field and a ``metadata`` dictionary
@@ -16,6 +17,7 @@ class MetadataEnricher(BaseTransformer):
     """
 
     def __init__(self, vendor: str) -> None:
+        
         """Initialize the MetadataEnricher.
 
         Args:
@@ -25,6 +27,7 @@ class MetadataEnricher(BaseTransformer):
         self.vendor = vendor
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        
         """Add vendor and metadata information to an item.
 
         Args:
