@@ -6,6 +6,7 @@ data model.
 """
 
 from typing import Any, Dict
+
 from .base_transformer import BaseTransformer
 
 class CategoryMapper(BaseTransformer):   
