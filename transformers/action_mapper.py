@@ -5,9 +5,7 @@ between vendor-specific representations and the universal data model.
 """
 
 from typing import Any, Dict
-
 from .base_transformer import BaseTransformer
-
 
 class ActionMapper(BaseTransformer):
     """Map action values between vendor and universal models.
@@ -24,6 +22,7 @@ class ActionMapper(BaseTransformer):
             action_map: A dictionary mapping source action values to
                 destination action values.
         """
+        
         self.action_map = action_map
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
@@ -37,6 +36,7 @@ class ActionMapper(BaseTransformer):
             The transformed item with its ``action`` field mapped according
             to the configured action map.
         """
+        
         action = item.get("action")
         if action in self.action_map:
             item["action"] = self.action_map[action]
