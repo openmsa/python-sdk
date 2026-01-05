@@ -12,7 +12,6 @@ from transformers.metadata_enricher import MetadataEnricher
 from transformers.pattern_normalizer import PatternNormalizer
 from transformers.type_mapper import TypeMapper
 
-
 # ---------------- FORTINET MAPPINGS ----------------
 
 FORTINET_ACTION_MAP = {
