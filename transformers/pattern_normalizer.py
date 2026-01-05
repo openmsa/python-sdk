@@ -8,6 +8,7 @@ from typing import Any, Dict
 from .base_transformer import BaseTransformer
 
 class PatternNormalizer(BaseTransformer):
+    
     """Normalize or enforce the presence of a pattern field in items.
 
     This transformer guarantees that each dictionary item contains a
@@ -15,6 +16,7 @@ class PatternNormalizer(BaseTransformer):
     """
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        
         """Ensure the item has a pattern field.
 
         Args:
