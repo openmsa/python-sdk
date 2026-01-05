@@ -14,6 +14,7 @@ class ActionMapper(BaseTransformer):
     predefined mapping dictionary. If the action is not found in the
     mapping, it is left unchanged.
     """
+
     def __init__(self, action_map: Dict[str, str]) -> None:    
         """Initialize the ActionMapper.
 
