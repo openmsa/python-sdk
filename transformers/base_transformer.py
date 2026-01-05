@@ -7,18 +7,15 @@ in the transformation pipeline.
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 
-class BaseTransformer(ABC):
-    
+class BaseTransformer(ABC):   
     """Define the interface for all transformers.
 
     All concrete transformers must implement the ``transform`` method,
     which takes a single dictionary item and returns a transformed
     dictionary.
     """
-
     @abstractmethod
-    def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
-        
+    def transform(self, item: Dict[str, Any]) -> Dict[str, Any]: 
         """Transform a single dictionary item.
 
         Args:
@@ -27,6 +24,5 @@ class BaseTransformer(ABC):
 
         Returns:
             A transformed dictionary.
-        """
-        
+        """ 
         raise NotImplementedError
