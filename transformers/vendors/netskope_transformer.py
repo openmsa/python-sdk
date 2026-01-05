@@ -69,4 +69,139 @@ class NetskopePatternNormalizer(BaseTransformer):
 
         else:
             item["pattern"] = raw_pattern
-            item["netskope_type"] =_]()
+            item["netskope_type"] = "exact"
+
+        return item
+
+    def transform_list(
+        self,
+        items: List[Dict[str, Any]],
+    ) -> List[Dict[str, Any]]:
+        """Transform a list of URL items.
+
+        Args:
+            items: A list of universal URL dictionaries.
+
+        Returns:
+            A list of Netskope-compatible URL dictionaries.
+        """
+        return [self.transform(item) for item in items]
+
+
+class NetskopePatternDenormalizer(BaseTransformer):
+    """Convert Netskope patterns back to universal model patterns."""
+
+    def regex_to_wildcard(self, pattern: str) -> Optional[str]:
+        """Convert a Netskope regex pattern back to wildcard format.
+
+        Example:
+            ``^([^.]+\\.)*example\\.com$`` → ``*.example.com``
+
+        Args:
+            pattern: A Netskope regex pattern.
+
+        Returns:
+            A wildcard pattern if conversion is possible, otherwise ``None``.
+        """
+        wildcard_regex = (
+            r"^\^\(\[\^\.\]\+\\\.\)\*(.+)\\\.([a-zA-Z0-9\-]+)\$$"
+        )
+        match = re.match(wildcard_regex, pattern)
+
+        if match:
+            domain = f"{match.group(1)}.{match.group(2)}"
+            return f"*.{domain}"
+
+        return None
+
+    def is_regex(self, pattern: str) -> bool:
+        """Determine whether a pattern contains regex syntax.
+
+        Args:
+            pattern: A URL pattern string.
+
+        Returns:
+            ``True`` if the pattern appears to be a regex, otherwise ``False``.
+        """
+        regex_markers = ("^", "$", "(", ")", "[", "]", "+", "?", "|", "{", "}")
+        return any(marker in pattern for marker in regex_markers)
+
+    def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        """Transform a Netskope URL item into a universal-compatible form.
+
+        Args:
+            item: A Netskope URL dictionary.
+
+        Returns:
+            A universal URL dictionary.
+        """
+        pattern = item.get("pattern", "").replace("\\\\", "\\")
+
+        if pattern.startswith("*.") and pattern.count("*") == 1:
+            item["type"] = "wildcard"
+
+        elif "*" in pattern:
+            item["type"] = "regex"
+
+        elif self.is_regex(pattern):
+            wildcard = self.regex_to_wildcard(pattern)
+            if wildcard:
+                item["type"] = "wildcard"
+                pattern = wildcard
+            else:
+                item["type"] = "regex"
+
+        else:
+            item["type"] = "exact"
+
+        item["pattern"] = pattern
+        item.pop("netskope_type", None)
+
+        return item
+
+
+# ---------------- NETSKOPE MAPPINGS ----------------
+
+NETSKOPE_ACTION_MAP = {
+    "block": "deny",
+    "allow": "allow",
+    "monitor": "allow",
+}
+
+NETSKOPE_CATEGORY_MAP = {
+    "malware": "malware",
+    "phishing": "phishing",
+    "gambling": "gambling",
+    "uncategorized": "uncategorized",
+}
+
+NETSKOPE_TO_UNIVERSAL_TYPE_MAP = {
+    "exact": "literal",
+    "regex": "regex",
+}
+
+UNIVERSAL_TO_NETSKOPE_TYPE_MAP = {
+    "literal": "exact",
+    "regex": "regex",
+    "wildcard": "regex",
+    "substring": "regex",
+}
+
+
+# ---------------- NETSKOPE PIPELINES ----------------
+
+VENDOR_TO_UNIVERSAL_PIPELINES = [
+    ActionMapper(NETSKOPE_ACTION_MAP),
+    TypeMapper(NETSKOPE_TO_UNIVERSAL_TYPE_MAP),
+    NetskopePatternDenormalizer(),
+    CategoryMapper(NETSKOPE_CATEGORY_MAP),
+    MetadataEnricher("netskope"),
+]
+
+UNIVERSAL_TO_VENDOR_PIPELINES = [
+    ActionMapper({value: key for key, value in NETSKOPE_ACTION_MAP.items()}),
+    TypeMapper(UNIVERSAL_TO_NETSKOPE_TYPE_MAP),
+    NetskopePatternNormalizer(),
+    CategoryMapper({value: key for key, value in NETSKOPE_CATEGORY_MAP.items()}),
+    MetadataEnricher("netskope"),
+]
