@@ -5,7 +5,8 @@ wildcard, regex, substring) between vendor-specific representations
 and the universal data model.
 """
 
-from typing import Any, Dict
+from typing import Any
+from typing import Dict
 
 from .base_transformer import BaseTransformer
 
