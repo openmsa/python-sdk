@@ -10,6 +10,7 @@ from typing import Dict
 
 from .base_transformer import BaseTransformer
 
+
 class CategoryMapper(BaseTransformer):   
     """Map category identifiers between vendor and universal models.
 
