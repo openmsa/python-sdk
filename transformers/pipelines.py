@@ -8,6 +8,7 @@ from typing import List, Dict, Any
 
 from transformers.base_transformer import BaseTransformer
 
+
 def apply_transformers(
     items: List[Dict[str, Any]],
     transformers: List[BaseTransformer]
