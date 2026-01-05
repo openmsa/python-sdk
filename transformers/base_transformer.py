@@ -4,7 +4,8 @@ This module defines the abstract base class used by all transformers
 in the transformation pipeline.
 """
 
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 from typing import Any
 from typing import Dict
 
