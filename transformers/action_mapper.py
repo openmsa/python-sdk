@@ -4,7 +4,8 @@ This module defines a transformer responsible for mapping action values
 between vendor-specific representations and the universal data model.
 """
 
-from typing import Any, Dict
+from typing import Any
+from typing import Dict
 
 from .base_transformer import BaseTransformer
 
