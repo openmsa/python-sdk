@@ -122,6 +122,7 @@ jobs:
             "image_tag": "sha-${{ github.sha }}",
             "latest_commit_message": "${{ env.LATEST_COMMIT_MESSAGE }}",
             "team_reviewers": "${{ env.REVIEWERS }}",
-            "branch_name": "${{ github.ref_name }}"
+            "branch_name": "${{ github.ref_name }}",
+            "user": "${{ github.actor }}"
           }
 
