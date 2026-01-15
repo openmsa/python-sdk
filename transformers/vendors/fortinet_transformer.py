@@ -5,6 +5,8 @@ URL filtering configurations, as well as transformation pipelines
 to convert between Fortinet-specific and universal data models.
 """
 
+import jmespath
+
 from transformers.action_mapper import ActionMapper
 from transformers.base_transformer import BaseTransformer
 from transformers.category_mapper import CategoryMapper
@@ -52,3 +54,29 @@ UNIVERSAL_TO_VENDOR_PIPELINES = [
     CategoryMapper({value: key for key, value in FORTINET_CATEGORY_MAP.items()}),
     MetadataEnricher("fortinet"),
 ]
+
+JMESPATH_FLATTEN_URLS = """
+*[?modify_type!='Deleted'].*.data_urls.*.{
+    pattern: url,
+    action: `allow`,
+    category_id: 'Uncategorized',
+    list_name: @.name,
+    list_id: @.object_id,
+    type: @.data_type
+}
+"""
+
+def flatten_fortinet_jmespath(url_lists: dict) -> list[dict]:
+    """
+    Flatten Fortinet JSON using JMESPath.
+
+    Args:
+        url_lists: Nested Fortinet JSON URL list.
+
+    Returns:
+        Flat list of URL entries suitable for transformer input.
+    """
+    result = jmespath.search(JMESPATH_FLATTEN_URLS, url_lists)
+    # jmespath returns a nested list, flatten if needed
+    flat_result = [item for sublist in result for item in sublist] if result else []
+    return flat_result
