@@ -27,8 +27,7 @@ values(@)[?modify_type!='Deleted'].{
 """
 
 def flatten_netskope_jmespath(url_lists: dict) -> list[dict]:
-    """Flatten the structure using jmespath."""
-  
+    """Flatten the structure using jmespath."""  
     extracted = jmespath.search(JMESPATH_NETSKOPE, url_lists) or []
     flat = []
 
@@ -49,7 +48,7 @@ def flatten_netskope_jmespath(url_lists: dict) -> list[dict]:
 
 class NetskopePatternNormalizer(BaseTransformer):
     """Normalize Netskope URL patterns for vendor compatibility.
-
+    
     This transformer converts universal URL patterns into Netskope-
     compatible formats:
 
