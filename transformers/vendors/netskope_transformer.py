@@ -3,12 +3,13 @@
 This module defines transformers and mappings required to convert
 Netskope URL list configurations to and from the universal data model.
 """
-import jmespath
 import re
 from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
+
+import jmespath
 
 from transformers.action_mapper import ActionMapper
 from transformers.base_transformer import BaseTransformer
