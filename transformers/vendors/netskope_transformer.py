@@ -27,9 +27,8 @@ values(@)[?modify_type!='Deleted'].{
 """
 
 def flatten_netskope_jmespath(url_lists: dict) -> list[dict]:
-  """Flatten the structure using jmespath.
-
-  """
+    """Flatten the structure using jmespath."""
+  
     extracted = jmespath.search(JMESPATH_NETSKOPE, url_lists) or []
     flat = []
 
