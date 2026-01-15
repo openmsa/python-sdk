@@ -3,7 +3,7 @@
 This module defines transformers and mappings required to convert
 Netskope URL list configurations to and from the universal data model.
 """
-
+import jmespath
 import re
 from typing import Any
 from typing import Dict
@@ -17,6 +17,33 @@ from transformers.metadata_enricher import MetadataEnricher
 from transformers.pattern_normalizer import PatternNormalizer
 from transformers.type_mapper import TypeMapper
 
+JMESPATH_NETSKOPE = """
+values(@)[?modify_type!='Deleted'].{
+  list_name: name,
+  list_id: object_id,
+  type: data_type,
+  urls: values(data_urls)
+}
+"""
+
+def flatten_netskope_jmespath(url_lists: dict) -> list[dict]:
+    extracted = jmespath.search(JMESPATH_NETSKOPE, url_lists) or []
+    flat = []
+
+    for lst in extracted:
+        for entry in lst.get("urls", []):
+            url = entry.get("url")
+            if not url:
+                continue
+            flat.append({
+                "pattern": url,
+                "action": "allow",
+                "category_id": "Uncategorized",
+                "list_name": lst["list_name"],
+                "list_id": str(lst["list_id"]),
+                "type": lst["type"]
+            })
+    return flat
 
 class NetskopePatternNormalizer(BaseTransformer):
     """Normalize Netskope URL patterns for vendor compatibility.
