@@ -15,6 +15,14 @@ from msa_sdk.order import Order
 from msa_sdk.pops import Pops
 from msa_sdk.repository import Repository
 from msa_sdk.variables import Variables
+# Explicit imports for the new transformer structure
+from transformers.base_transformer import BaseTransformer
+from transformers.action_mapper import ActionMapper
+from transformers.type_mapper import TypeMapper
+from transformers.pattern_normalizer import PatternNormalizer
+from transformers.metadata_enricher import MetadataEnricher
+from transformers.category_mapper import CategoryMapper
+from transformers.pipelines import apply_transformers
 
 conf_profile = ConfProfile()
 customer = Customer()
@@ -26,6 +34,14 @@ order = Order(1)
 pops = Pops()
 repository = Repository()
 variable = Variables()
+
+base_transformer = BaseTransformer()
+action_mapper = ActionMapper()
+type_mapper = TypeMapper()
+pattern_normalizer = PatternNormalizer()
+metadata_enricher = MetadataEnricher()
+category_mapper = CategoryMapper()
+pipelines = apply_transformers()
 
 output_doc = collections.defaultdict(dict)  # type: dict
 
@@ -80,7 +96,14 @@ get_members('Pops', pops)
 get_members('Repository', repository)
 get_members('Variables', variable)
 
-get_members_function()
+get_members('BaseTransformer', base_transformer)
+get_members('ActionMapper', action_mapper)
+get_members('TypeMapper', type_mapper)
+get_members('PatternNormalizer', pattern_normalizer)
+get_members('MetadataEnricher', metadata_enricher)
+get_members('CategoryMapper', category_mapper)
+get_members('apply_transformers', pipelines)
 
+get_members_function()
 
 print(json.dumps(output_doc))
