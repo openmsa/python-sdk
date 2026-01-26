@@ -4,8 +4,8 @@ This module provides the ActionMapper class, which converts action values
 between vendor-specific and universal representations.
 """
 
-from typing import Dict
 from typing import Any
+from typing import Dict
 
 from .base_transformer import BaseTransformer
 
