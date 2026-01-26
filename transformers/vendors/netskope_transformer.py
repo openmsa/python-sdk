@@ -10,6 +10,8 @@ from typing import Dict
 from typing import List
 from typing import Optional
 
+import jmespath
+
 from transformers.action_mapper import ActionMapper
 from transformers.base_transformer import BaseTransformer
 from transformers.category_mapper import CategoryMapper
