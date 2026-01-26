@@ -2,8 +2,8 @@
 __pdoc__ = {
     'elk': False
 }
-__version__ = "2.3.54"
-VERSION = "2.3.54"
+__version__ = "2.3.55"
+VERSION = "2.3.55"
 
 import base64
 import datetime
