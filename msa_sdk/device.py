@@ -12,9 +12,9 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                  model_id=None, login=None, password=None,
                  password_admin=None, management_address=None,
                  device_external=None, log_enabled=True,
-                 log_more_enabled=True, mail_alerting=True,
+                 log_more_enabled=True,
                  reporting=False, snmp_community="ubiqube",
-                 device_id=None, management_port=None):
+                 device_id=None, management_port=None, hostname=None):
         """
         Initialize.
 
@@ -39,8 +39,6 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         log_enabled: Bool
                 Log Enabled
         log_more_enabled: More logs
-        mail_alerting: Bool
-                Mail alerting
         reporting: Bool
                 Reporting
         snmp_community: SNMP Community
@@ -48,6 +46,8 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                    Device ID
         management_port: Integer
                    Management Port
+        hostname: String
+                 Hostname
         fail: Bool
               Fail creating the device
 
@@ -69,16 +69,15 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.device_external = device_external
         self.log_enabled = log_enabled
         self.log_more_enabled = log_more_enabled
-        self.mail_alerting = mail_alerting
         self.reporting = reporting
         self.snmp_community = snmp_community
         self.api_path_v1 = "/device/v1"
         self.api_path = "/device"
         self.management_interface = None
-        self.use_nat = False
         self.configuration = {}
         self.device_id = device_id
         self.management_port = management_port
+        self.hostname=hostname
         self.fail = None
 
         if device_id:
@@ -105,13 +104,12 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                 "modelId": self.model_id,
                 "managementAddress": self.management_address,
                 "reporting": self.reporting,
-                "useNat": self.use_nat,
                 "logEnabled": self.log_enabled,
                 "logMoreEnabled": self.log_more_enabled,
                 "managementInterface": self.management_interface,
-                "mailAlerting": self.mail_alerting,
                 "passwordAdmin": self.password_admin,
                 "externalReference": self.device_external,
+                "hostname": self.hostname,
                 "login": self.login,
                 "name": self.name,
                 "password": self.password,
@@ -132,7 +130,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         Update device.
 
         field: String
-               Modifyed device field
+               Modified device field
         value: String
                Modified field's value (str)
 
@@ -155,8 +153,6 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
                 "password": self.password,
                 "password_admin": self.password_admin,
                 "log_enable": self.log_enabled,
-                "mailAlerting": self.mail_alerting,
-                "useNat": self.use_nat,
                 "snmpCommunity": self.snmp_community
                 }
         self.path = '{}/v2/{}'.format(self.api_path, self.device_id)
@@ -260,7 +256,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
             self.path = "{}/{}".format(self.api_path,
                                        "reference/{}".format(by_ref))
         else:
-            self.path = '{}/v2/{}'.format(self.api_path, self.device_id)
+            self.path = '{}/v3/{}'.format(self.api_path, self.device_id)
 
         self._call_get()
         if not self.response.ok:
@@ -279,9 +275,9 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
         self.password = device_info["password"]
         self.password_admin = device_info["passwordAdmin"]
         self.log_enabled = device_info["logEnabled"]
-        self.mail_alerting = device_info["mailAlerting"]
-        self.use_nat = device_info["useNat"]
         self.snmp_community = device_info["snmpCommunity"]
+        self.device_external = device_info["externalReference"]
+        self.hostname = device_info["hostname"]
 
         return self.content
 
@@ -532,7 +528,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
     def detach_files(self, uris):
         """
-        Attach files.
+        Detach files.
 
         Parameters
         ----------
@@ -647,7 +643,7 @@ class Device(MSA_API):  # pylint: disable=too-many-instance-attributes
 
         Returns
         -------
-        True:  Variable has been created successdully
+        True:  Variable has been created successfully
         False: Variable has not been created successfully
 
         """

@@ -80,7 +80,7 @@ def get_ip_range(start, end) -> list:
     return result
 
 
-def cidr_to_range(cdir):
+def cidr_to_range(cidr):
     """
 
     Get the Start and End Address of the IP range from CIDR.
@@ -89,15 +89,15 @@ def cidr_to_range(cdir):
 
     Parameters
     ----------
-    cdir: String
-        cdir range
+    cidr: String
+        cidr range
 
     Returns
     -------
     list: List of ip range
 
     """
-    r_ips = list(ip_network(cdir).hosts())
+    r_ips = list(ip_network(cidr).hosts())
     ip_range = [str(x) for x in r_ips]
 
     return ip_range
@@ -571,3 +571,23 @@ def update_asynchronous_task_details(details: str):
     orch.update_asynchronous_task_details(process_instance_id, task_id,
                                           exec_number, details)
     return orch
+
+def is_valid_port(port):
+    """
+    Validate if the given port is a valid TCP/UDP port number.
+
+    Args:
+        port (int or str): The port number to validate.
+
+    Returns:
+        bool: True if valid, False otherwise.
+    """
+    if port is None or port == "" or str(port).lower() == 'null':
+        return False
+
+    try:
+        port_int = int(port)
+        return 1 <= port_int <= 65535
+    except (ValueError, TypeError):
+        return False
+

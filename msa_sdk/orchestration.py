@@ -15,21 +15,66 @@ class Orchestration(MSA_API):
         """Initialize."""
         MSA_API.__init__(self)
         self.api_path_v1 = "/orchestration/v1"
+        self.api_path_v2 = "/orchestration/v2"
         self.api_path = "/orchestration"
         self.ubiqube_id = ubiqube_id
 
-    def list_service_instances(self):
+    def list_service_instances(self, service_name=""):
         """
         List service instances.
+
+        Parameters
+        ----------
+        service_name: String
+            Service name to filter the instances, default is empty string
+
+        Returns
+        -------
+        None
+        """
+        self.action = 'List service instances'
+        base_path = f"{self.api_path}/{self.ubiqube_id}/service/instance"
+
+        if service_name:
+            self.path = f"{base_path}?serviceName={service_name}"
+        else:
+            self.path = base_path
+
+        self._call_get()
+
+
+    def get_workflow_details(self, service_name, defined_var_flag, status="",  sort="lastupdated", sort_order="DESC", search_filter="", page=1, page_size=100):
+        """
+        Get workflow details.
+
+        Parameters
+        ----------
+        service_name: String
+                Service name
+        defined_var_flag: Boolean
+                Flag to get only WF defined Vars or all vars
+        status: String
+                Status of the workflow, default is empty string
+        sort: String
+                Sort by field, default is lastupdated
+        sort_order: String
+                Sort order, default is DESC
+        search_filter: String
+                Search filter, default is empty string
+        page: Integer
+                Page number, default is 1
+        page_size: Integer
+                Page size, default is 100
 
         Returns
         -------
         None
 
         """
-        self.action = 'List service instances'
-        self.path = "{}/{}/service/instance".format(self.api_path,
-                                                    self.ubiqube_id)
+        self.action = 'Get workflow details'
+        self.path = "{}/{}/workflow/details?serviceName={}&definedVarFlag={}&status={}&sort={}&sort_order={}&search_filter={}&page={}&page_size={}".format(
+            self.api_path_v2, self.ubiqube_id, service_name, defined_var_flag, status, sort, sort_order, search_filter, page, page_size)
+
         self._call_get()
 
     def read_service_instance(self, service_id):
@@ -183,8 +228,7 @@ class Orchestration(MSA_API):
 
         """
         self.path = \
-            '/orchestration/{}/service/instance/{}'.format(self.ubiqube_id,
-                                                           service_id)
+            '/orchestration/v1/service/instance/{}'.format(service_id)
 
         self._call_delete()
 
@@ -605,29 +649,6 @@ class Orchestration(MSA_API):
         self.update_process_script_details(
             process_id, task_id, exec_number, details_json)
 
-    def get_list_service_by_status(self, range: int) -> dict:
-        """
-
-        List services by status.
-
-        Parameters
-        ----------
-        range: Integer
-               Number of days for the statistic
-
-        Returns
-        -------
-        Dict()
-              Key:   Name of service
-              Value: Statistics by status
-
-        """
-        self.path = '{}/services?ubiqubeId={}&range={}'.format(
-            self.api_path_v1, self.ubiqube_id, range)
-        self._call_get()
-
-        return json.loads(self.content)
-
     def get_service_status_by_id(self, service_id: int):
         """
 
@@ -705,3 +726,44 @@ class Orchestration(MSA_API):
         """
         self.path = "{}/service/attach?ubiqubeIds={}&uri={}".format(self.api_path, ubiqubeIds, uri)
         self._call_post()
+        
+    def execute_delete_process(self, process_name: str, service_id: int):
+        """
+
+        Execute the deletion of a service.
+
+        Parameters
+        ----------
+        process_name: String
+                      Process name
+        service_id:   Integer
+                      Service ID
+
+        Returns
+        -------
+        None
+             
+        """
+        format_path = ('/orchestration/process/execute/{}/{}?processName={}')
+        self.path = format_path.format(self.ubiqube_id, service_id, process_name)
+        self._call_post()
+
+    def get_process_logs(self, service_id: int, process_id: int):
+        """
+        Get logs for a specific process instance of a service.
+
+        Parameters
+        ----------
+        service_id: Integer
+                    Service ID
+        process_id: Integer
+                    Process ID
+
+        Returns
+        -------
+        None
+        """
+        self.path = f"{self.api_path}/logs/{service_id}/{process_id}"
+        self._call_get()
+        ctx = json.loads(self.content)
+        return ctx.get('logContent', "")

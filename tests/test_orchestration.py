@@ -33,6 +33,27 @@ def test_list_service_instances(orchestration_fixture):
         assert orch.path == '/orchestration/MSAA19224/service/instance'
         assert _is_valid_json(orch.response.text)
 
+def test_list_service_instances_with_servicename(orchestration_fixture):
+    """
+    Test List Service Instances
+    """
+
+    device_info = (
+        '[{"name":"Process/Reference/Customer/Kibana/kibana_dashboard",'
+        '"id":2102,"serviceExternalReference":"MSASID2102","state":"ACTIVE"},'
+        '{"name":"Process/Reference/Customer/Kibana/kibana_dashboard",'
+        '"id":2258,"serviceExternalReference":"MSASID2258","state":"ACTIVE"},'
+        '{"name":"Process/Reference/Customer/Kibana/kibana_dashboard",'
+        '"id":2231,"serviceExternalReference":"MSASID2231","state":"ACTIVE"},'
+        '{"name":"Process/Reference/Device_Management/Device_Management_List",'
+        '"id":1536,"serviceExternalReference":"MSASID1536","state":"ACTIVE"}]')
+
+    with patch('requests.get') as mock_call_get:
+        mock_call_get.return_value.text = device_info
+        orch = orchestration_fixture
+        orch.list_service_instances("serviceName")
+        assert orch.path == '/orchestration/MSAA19224/service/instance?serviceName=serviceName'
+        assert _is_valid_json(orch.response.text)
 
 def test_get_service_variables_by_service_id(orchestration_fixture):
     """
@@ -49,25 +70,6 @@ def test_get_service_variables_by_service_id(orchestration_fixture):
         orch.get_service_variables('1234')
         assert orch.path == '/orchestration/service/variables/1234'
         assert _is_valid_json(orch.response.text)
-
-
-def test_get_list_service_by_status(orchestration_fixture):
-    """
-    Test Get list of services by status
-    """
-    response = (
-        '{"Process/IP_CONTROLLER/Fulfilment_Dispatcher/Fulfilment_Dispatcher":'
-        '{"RUNNING":0,"ENDED":0,"WARNING":0,"FAIL":0},"Process/IP_CONTROLLER/'
-        'Fulfilment_Handler/Fulfilment_Handler":{"RUNNING":0,"ENDED":0,'
-        '"WARNING":0,"FAIL":0}}')
-
-    with patch('requests.get') as mock_call_get:
-        mock_call_get.return_value.text = response
-        orch = orchestration_fixture
-        orch.get_list_service_by_status(1)
-        assert orch.path == '/orchestration/v1/services?ubiqubeId=MSAA19224&range=1'
-        assert _is_valid_json(orch.response.text)
-
 
 def test_get_service_status_by_id(orchestration_fixture):
     """
@@ -167,7 +169,7 @@ def test_delete_service_by_id(orchestration_fixture):
     with patch('msa_sdk.msa_api.MSA_API._call_delete') as mock_call_delete:
         orch = orchestration_fixture
         orch.delete_service('1234')
-        assert orch.path == '/orchestration/MSAA19224/service/instance/1234'
+        assert orch.path == '/orchestration/v1/service/instance/1234'
         mock_call_delete.assert_called_once()
 
 
@@ -714,3 +716,53 @@ def test_read_service_instance_by_condition(orchestration_fixture):
             "serviceVariables": service_variables
         }
         assert orch.response == None if True else _is_valid_json(json.loads(orch.response.text))
+
+def test_get_process_logs(orchestration_fixture):
+    """
+    Test get_process_logs
+    """
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
+        orch = orchestration_fixture
+        # Case: logContent present
+        orch._content = '{"logContent": "Test log output"}'
+        result = orch.get_process_logs(123, 456)
+        assert orch.path == '/orchestration/logs/123/456'
+        assert result == 'Test log output'
+        # Case: logContent missing
+        orch._content = '{}'
+        result = orch.get_process_logs(123, 456)
+        assert result == ''
+
+def test_execute_delete_process(orchestration_fixture):
+    """
+    Test execute_delete_process
+    """
+    with patch('msa_sdk.msa_api.MSA_API._call_post') as mock_call_post:
+        orch = orchestration_fixture
+        orch.execute_delete_process('ProcessName', 1234)
+        expected_path = f'/orchestration/process/execute/{orch.ubiqube_id}/1234?processName=ProcessName'
+        assert orch.path == expected_path
+        mock_call_post.assert_called_once_with()
+
+def test_get_workflow_details(orchestration_fixture):
+    """
+    Test get_workflow_details
+    """
+    with patch('msa_sdk.msa_api.MSA_API._call_get') as mock_call_get:
+        orch = orchestration_fixture
+        orch.get_workflow_details(
+            service_name='TestService',
+            defined_var_flag=True,
+            status='ACTIVE',
+            sort='name',
+            sort_order='ASC',
+            search_filter='filter',
+            page=2,
+            page_size=50
+        )
+        expected_path = (
+            f"/orchestration/v2/{orch.ubiqube_id}/workflow/details?"
+            "serviceName=TestService&definedVarFlag=True&status=ACTIVE&sort=name&sort_order=ASC&search_filter=filter&page=2&page_size=50"
+        )
+        assert orch.path == expected_path
+        mock_call_get.assert_called_once_with()

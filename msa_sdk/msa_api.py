@@ -4,16 +4,17 @@ import logging
 import os
 import random
 import sys
+from typing import Optional
 
 import requests
+from requests import Response
 
 from msa_sdk import constants
 from msa_sdk import context
-from msa_sdk.variables import Variables
 
 logger = logging.getLogger("msa-sdk")
 
-def host_port():
+def host_port() -> tuple[str, str]:
     """
     Hostname and port of the API.
 
@@ -38,11 +39,11 @@ class MSA_API():  # pylint: disable=invalid-name
 
     def __init__(self):
         """Initialize."""
-        self.url = 'http://{}:{}/ubi-api-rest'.format(*host_port())
-        self.path = ""
-        self.response = None
-        self.log_response = True
-        self._content = ""
+        self.url: str = 'http://{}:{}/ubi-api-rest'.format(*host_port())
+        self.path: str = ""
+        self.response: Optional[Response] = None
+        self.log_response: bool = True
+        self._content: str = ""
         self.action = self.__class__
 
     @classmethod
@@ -51,15 +52,18 @@ class MSA_API():  # pylint: disable=invalid-name
 
         Process content.
 
+        This method should not be called directly instead use
+        task_success(), task_warning(), task_error() or task_pause().
+
         Parameters
         ----------
         status: String
-            Status ID: 'ENDED', 'FAIL', 'RUNNING', 'WARNING', 'PAUSE'
+            Possible values: MSA_API.ENDED, MSA_API.FAILED, MSA_API.WARNING, MSA_API.PAUSED
         comment: String
             Comment
         new_params: Dictionary
             Context
-        log_response: Bool
+        log_response: Boolean
             Write log to a file
 
         Returns
@@ -67,6 +71,12 @@ class MSA_API():  # pylint: disable=invalid-name
         Response content formated
 
         """
+        if ((status != cls.ENDED) and (status != cls.FAILED) and (status != cls.WARNING) and (status != cls.PAUSED)):
+            # overwrite comment
+            comment = "Bad status, wo_status should be MSA_API.ENDED, MSA_API.FAILED, MSA_API.WARNING, or MSA_API.PAUSED"
+            # force log_response
+            log_response = True
+
         response = {
             "wo_status": status,
             "wo_comment": comment,
@@ -93,7 +103,7 @@ class MSA_API():  # pylint: disable=invalid-name
         ----------
         comment: String
             Comment
-        new_params: Dictionary
+        context: Dictionary
             Context
         log_response: Bool
             Write log to a file
@@ -103,9 +113,33 @@ class MSA_API():  # pylint: disable=invalid-name
         None
 
         """
-        print(cls.process_content(constants.FAILED, comment, context,
+        print(cls.process_content(cls.FAILED, comment, context,
                                   log_response))
         sys.exit(1)
+
+    @classmethod
+    def task_warning(cls, comment, context, log_response=True):
+        """
+
+        Task warning and print.
+
+        Parameters
+        ----------
+        comment: String
+            Comment
+        context: Dictionary
+            Context
+        log_response: Bool
+            Write log to a file
+
+        Returns
+        -------
+        None
+
+        """
+        print(cls.process_content(cls.WARNING, comment, context,
+                                  log_response))
+        sys.exit(2)
 
     @classmethod
     def task_success(cls, comment, context, log_response=True):
@@ -117,7 +151,7 @@ class MSA_API():  # pylint: disable=invalid-name
         ----------
         comment: String
             Comment
-        new_params: Dictionary
+        context: Dictionary
             Context
         log_response: Bool
             Write log to a file
@@ -127,7 +161,31 @@ class MSA_API():  # pylint: disable=invalid-name
         None
 
         """
-        print(cls.process_content(constants.ENDED, comment, context,
+        print(cls.process_content(cls.ENDED, comment, context,
+                                  log_response))
+        sys.exit(0)
+
+    @classmethod
+    def task_pause(cls, comment, context, log_response=True):
+        """
+
+        Task pause and print.
+
+        Parameters
+        ----------
+        comment: String
+            Comment
+        context: Dictionary
+            Context
+        log_response: Bool
+            Write log to a file
+
+        Returns
+        -------
+        None
+
+        """
+        print(cls.process_content(cls.PAUSED, comment, context,
                                   log_response))
         sys.exit(0)
 
@@ -142,7 +200,7 @@ class MSA_API():  # pylint: disable=invalid-name
 
         """
         try:
-            url = os.environ.get('API_TOKEN_URL') or "http://msa-auth:8080/auth/realms/main/protocol/openid-connect/token"
+            url = os.environ.get('API_TOKEN_URL') or "http://msa-auth:8080/auth/realms/msa/protocol/openid-connect/token"
             params = {"client_id": os.environ.get("CLIENT_ID"), "grant_type": "client_credentials", "client_secret" : os.environ.get("CLIENT_SECRET")}
             response = requests.post(url, data=params)
             data = response.json()
@@ -160,7 +218,7 @@ class MSA_API():  # pylint: disable=invalid-name
 
     def check_response(self):
         """
-        Check reponse of a POST/GET/PUT/DELETE.
+        Check response of a POST/GET/PUT/DELETE.
 
         Returns
         --------
@@ -168,7 +226,7 @@ class MSA_API():  # pylint: disable=invalid-name
 
 
         """
-        if not self.response.ok:
+        if self.response is not None and not self.response.ok:
             json_response = self.response.json()
             self._content = self.process_content(self.FAILED, self.action,
                                                  json_response['message'])
@@ -193,10 +251,10 @@ class MSA_API():  # pylint: disable=invalid-name
         if data is None:
             data = {}
 
-        if isinstance(data, dict):
+        if isinstance(data, (dict, list)):
             data = json.dumps(data)
         else:
-            raise TypeError('Parameters needs to be a dictionary')
+            raise TypeError('Parameters needs to be a dictionary or a list')
 
         url = self.url + self.path
         self.response = requests.post(url, headers=headers, data=data,
@@ -273,7 +331,7 @@ class MSA_API():  # pylint: disable=invalid-name
         self._content = self.response.text
         self.check_response()
 
-    def add_trace_headers(self, headers):
+    def add_trace_headers(self, headers: dict[str, str]):
         """Add W3C trace headers."""
         if 'TRACEID' not in context:
             t, s = self.create_trace_id()
@@ -286,7 +344,7 @@ class MSA_API():  # pylint: disable=invalid-name
         headers['X-B3-TraceId'] = context['TRACEID']
         headers['X-B3-SpanId'] = context['SPANID']
 
-    def log_to_process_file(self, processId: str, log_message: str) -> bool:
+    def log_to_process_file(self, process_id: str, log_message: str) -> bool:
         """
 
         Write log string with ISO timestamp to process log file.

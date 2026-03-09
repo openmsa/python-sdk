@@ -164,7 +164,7 @@ class Variables:
         Parameters
         ----------
         context: Dict
-            Context com valores
+            Context
 
         Returns
         -------

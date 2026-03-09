@@ -7,34 +7,11 @@ from enum import Enum
 from threading import Lock
 from threading import Timer
 
-from elasticsearch import Elasticsearch
-from elasticsearch import RequestsHttpConnection
-from elasticsearch import helpers as eshelpers
-from elasticsearch.serializer import JSONSerializer
+from opensearchpy import OpenSearch
+from opensearchpy import helpers as eshelpers
 
 
 # Have a look at https://github.com/cmanaha/python-elasticsearch-logger
-class EsSerializer(JSONSerializer):
-    """
-    JSON serializer inherited from the elastic search JSON serializer.
-
-    Allows to serialize logs for a elasticsearch use.
-    Manage the record.exc_info containing an exception type.
-    """
-
-    def default(self, data):
-        """
-        Override the elasticsearch default method.
-
-        Allows to transform unknown types into strings.
-
-        :params data: The data to serialize before sending it to elastic search
-        """
-        try:
-            return super(EsSerializer, self).default(data)
-        except TypeError:
-            return str(data)
-
 class EsHandler(logging.Handler):
     """Elastic search handler."""
 
@@ -63,7 +40,7 @@ class EsHandler(logging.Handler):
         Return elasticearch index name.
 
         :param: index_name the prefix to be used in the index
-        :return: A srting containing the elasticsearch indexname used which should include the date.
+        :return: A string containing the elasticsearch indexname used which should include the date.
         """
         return "{0!s}-{1!s}".format(es_index_name, datetime.datetime.now().strftime('%Y.%m.%d'))
     
@@ -116,7 +93,6 @@ class EsHandler(logging.Handler):
                                          })
         self.raise_on_indexing_exceptions = raise_on_indexing_exceptions
         self.default_timestamp_field_name = default_timestamp_field_name
-        self.serializer = EsSerializer()
         self._client = None
         self._buffer = []
         self._buffer_lock = Lock()
@@ -130,12 +106,10 @@ class EsHandler(logging.Handler):
             self._timer.start()
 
     def __get_es_client(self):
-         return Elasticsearch(hosts=self.hosts,
+         return OpenSearch(hosts=self.hosts,
                                      http_auth=self.auth_details,
                                      use_ssl=False,
-                                     verify_certs=False,
-                                     connection_class=RequestsHttpConnection,
-                                     serializer=self.serializer)
+                                     verify_certs=False)
     def test_es_source(self):
         """
         Returns True if the handler can ping the Elasticsearch servers.
