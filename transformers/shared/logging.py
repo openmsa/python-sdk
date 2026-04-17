@@ -1,5 +1,5 @@
 """
-logging.py
+logging base class.
 
 Purpose:
     <Short description of the module responsibility>
