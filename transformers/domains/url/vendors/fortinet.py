@@ -1,5 +1,5 @@
 """
-fortinet.py
+fortinet transformers.
 
 Purpose:
     <Short description of the module responsibility>
