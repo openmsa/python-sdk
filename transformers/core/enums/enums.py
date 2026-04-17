@@ -1,5 +1,5 @@
 """
-enums base class
+enums base class.
 
 Purpose:
     <Short description of the module responsibility>
