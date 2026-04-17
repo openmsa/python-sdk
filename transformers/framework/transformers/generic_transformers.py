@@ -1,5 +1,5 @@
 """
-generic_transformers.py
+generic_transformers base class.
 
 Purpose:
     <Short description of the module responsibility>
