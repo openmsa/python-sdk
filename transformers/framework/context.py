@@ -1,5 +1,5 @@
 """
-context.py
+context base class.
 
 Purpose:
     <Short description of the module responsibility>
