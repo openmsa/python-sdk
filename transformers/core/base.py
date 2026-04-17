@@ -1,5 +1,5 @@
 """
-base.py
+Base transformer definitions.
 
 Purpose:
     <Short description of the module responsibility>
