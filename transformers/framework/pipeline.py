@@ -1,5 +1,5 @@
 """
-pipeline.py
+pipeline base class.
 
 Purpose:
     <Short description of the module responsibility>
