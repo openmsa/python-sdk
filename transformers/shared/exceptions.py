@@ -1,5 +1,5 @@
 """
-exceptions.py
+exceptions base class.
 
 Purpose:
     <Short description of the module responsibility>
