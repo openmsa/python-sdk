@@ -1,5 +1,5 @@
 """
-url_models.py
+models.py
 
 Purpose:
     <Short description of the module responsibility>
