@@ -1,5 +1,5 @@
 """
-netskope.py
+netskope transformers.
 
 Purpose:
     <Short description of the module responsibility>
