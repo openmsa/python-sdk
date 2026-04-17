@@ -1,5 +1,5 @@
 """
-enums.py
+enums base class
 
 Purpose:
     <Short description of the module responsibility>
