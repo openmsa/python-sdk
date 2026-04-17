@@ -1,5 +1,5 @@
 """
-transformers.py
+transformers base class.
 
 Purpose:
     <Short description of the module responsibility>
