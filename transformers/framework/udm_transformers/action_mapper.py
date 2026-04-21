@@ -9,7 +9,9 @@ from typing import Dict
 
 # Change from: from .base_transformer import BaseTransformer
 # To the absolute framework path:
-from transformers.framework.udm_transformers.base_transformer import BaseTransformer
+from transformers.framework.udm_transformers.base_transformer import \
+    BaseTransformer
+
 
 class ActionMapper(BaseTransformer):
     """Map action values between vendor and universal models.
