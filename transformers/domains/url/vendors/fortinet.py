@@ -6,24 +6,22 @@ converting between Fortinet-specific configurations and the Unified Data
 Model (UDM).
 """
 
-import jmespath
-
 from datetime import datetime
 from typing import Any
-from typing import Dict
 from typing import List
 from typing import Optional
 
+import jmespath
+
+from transformers.domains.url.models import URL_UDM
 from transformers.domains.url.models import Category
 from transformers.domains.url.models import Metadata
-from transformers.domains.url.models import URL_UDM
 
 from transformers.framework.udm_transformers.action_mapper import ActionMapper
 from transformers.framework.udm_transformers.category_mapper import CategoryMapper
 from transformers.framework.udm_transformers.metadata_enricher import MetadataEnricher
 from transformers.framework.udm_transformers.pattern_normalizer import PatternNormalizer
 from transformers.framework.udm_transformers.type_mapper import TypeMapper
-
 FORTINET_ACTION_MAP = {
     "allow": "allow",
     "block": "block",
