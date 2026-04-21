@@ -20,9 +20,9 @@ from transformers.framework.udm_transformers.category_mapper import \
     CategoryMapper
 from transformers.framework.udm_transformers.metadata_enricher import \
     MetadataEnricher
-from transformers.framework.udm_transformers.pattern_normalizer import \
-    PatternNormalizer
+from transformers.framework.udm_transformers.pattern_normalizer import PatternNormalizer
 from transformers.framework.udm_transformers.type_mapper import TypeMapper
+
 
 FORTINET_ACTION_MAP = {
     "allow": "allow",
