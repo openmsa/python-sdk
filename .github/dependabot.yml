@@ -1,4 +1,10 @@
 version: 2
+registries:
+  private-github-actions:
+    type: git
+    url: https://github.com
+    username: x-access-token
+    password: ${{ secrets.DEPENDABOT_GITHUB_TOKEN }}
 updates:
 - package-ecosystem: pip
   directory: "/"
@@ -8,3 +14,17 @@ updates:
   open-pull-requests-limit: 99
   commit-message:
     prefix: "🌱 MSA-14124: "
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: "weekly"
+  open-pull-requests-limit: 5
+  commit-message:
+    prefix: "💚 MSA-14124: "
+  labels:
+    - "💚 ci/cd"
+    - "dependencies"
+  reviewers:
+    - "ubiqube/GHA"
+  registries:
+    - "private-github-actions"
