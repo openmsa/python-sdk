@@ -11,9 +11,14 @@ Design Principles:
 - Strong Typing: Enforces RFC-compliant formatting and normalization. 
 """
 
-from typing import List, Literal, Optional
 from datetime import datetime
-from pydantic import BaseModel, Field, ConfigDict
+from typing import List
+from typing import Literal
+from typing import Optional
+
+from pydantic import BaseModel
+from pydantic import ConfigDict
+from pydantic import Field
 
 
 class Category(BaseModel):
