@@ -1,16 +1,14 @@
 """
-URL Domain Models - Unified Data Model (UDM)
+URL Domain Models - Unified Data Model (UDM).
 
 This module defines the canonical schema for URLs, URL collections, and
-categories within the URL domain. It abstracts vendor-specific constructs
-into a standardized representation to enable consistent policy handling
-across heterogeneous security platforms. [cite: 51-52, 170]
+categories within the URL domain.
 
 Design Principles:
 
-- Domain-Level Logic: Operates purely on domain concepts. [cite: 99]
-- Vendor-Agnostic: No vendor-specific logic is contained here. [cite: 100]
-- Strong Typing: Enforces RFC-compliant formatting and normalization. [cite: 173]
+- Domain-Level Logic: Operates purely on domain concepts. 
+- Vendor-Agnostic: No vendor-specific logic is contained here. 
+- Strong Typing: Enforces RFC-compliant formatting and normalization. 
 """
 
 from typing import List, Literal, Optional
