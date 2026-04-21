@@ -9,7 +9,8 @@ from typing import Any
 from typing import Dict
 
 # Restructured to use the absolute path within the Framework layer
-from transformers.framework.udm_transformers.base_transformer import BaseTransformer
+from transformers.framework.udm_transformers.base_transformer import \
+    BaseTransformer
 
 
 class PatternNormalizer(BaseTransformer):
