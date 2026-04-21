@@ -24,7 +24,6 @@ from transformers.framework.udm_transformers.pattern_normalizer import \
     PatternNormalizer
 from transformers.framework.udm_transformers.type_mapper import TypeMapper
 
-
 NETSKOPE_ACTION_MAP = {
     "block": "deny",
     "allow": "allow",
