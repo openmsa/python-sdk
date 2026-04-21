@@ -7,7 +7,10 @@ between vendor-specific representations and the universal data model.
 from typing import Any
 from typing import Dict
 
-from .base_transformer import BaseTransformer
+# Change from: from .base_transformer import BaseTransformer
+# To the absolute framework path:
+from transformers.framework.udm_transformers.base_transformer import \
+    BaseTransformer
 
 
 class ActionMapper(BaseTransformer):

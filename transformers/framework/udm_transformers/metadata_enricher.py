@@ -8,7 +8,9 @@ from datetime import datetime
 from typing import Any
 from typing import Dict
 
-from .base_transformer import BaseTransformer
+# Restructured to use the absolute path within the Framework layer
+from transformers.framework.udm_transformers.base_transformer import \
+    BaseTransformer
 
 
 class MetadataEnricher(BaseTransformer):
@@ -17,16 +19,16 @@ class MetadataEnricher(BaseTransformer):
     This transformer adds a ``vendor`` field and a ``metadata`` dictionary
     containing a ``processed_at`` timestamp to each item.
     """
-    
-    def __init__(self, vendor: str) -> None:        
+
+    def __init__(self, vendor: str) -> None:
         """Initialize the MetadataEnricher.
 
         Args:
             vendor: The vendor name to attach to each item.
-        """      
+        """
         self.vendor = vendor
 
-    def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:        
+    def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
         """Add vendor and metadata information to an item.
 
         Args:
@@ -35,11 +37,12 @@ class MetadataEnricher(BaseTransformer):
         Returns:
             The transformed dictionary containing the ``vendor`` field and
             a ``metadata.processed_at`` timestamp.
-        """        
+        """
         item["vendor"] = self.vendor
         if "metadata" not in item:
             item["metadata"] = {}
 
+        # Standardizing to the UDM requirement for processed_at timestamps
         item["metadata"]["processed_at"] = datetime.utcnow().isoformat()
 
         return item
