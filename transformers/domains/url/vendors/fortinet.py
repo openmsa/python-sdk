@@ -1,5 +1,5 @@
 """
-Fortinet URL Domain Integration
+Fortinet URL Domain Integration.
 
 This module implements the Transformer, Mapper, and Exporter for Fortinet,
 converting between Fortinet-specific configurations and the Pydantic
@@ -10,14 +10,14 @@ import jmespath
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-# Framework imports - Absolute paths [cite: 66-67]
+# Framework imports - Absolute paths
 from transformers.framework.udm_transformers.action_mapper import ActionMapper
 from transformers.framework.udm_transformers.category_mapper import CategoryMapper
 from transformers.framework.udm_transformers.metadata_enricher import MetadataEnricher
 from transformers.framework.udm_transformers.pattern_normalizer import PatternNormalizer
 from transformers.framework.udm_transformers.type_mapper import TypeMapper
 
-# Domain Model imports [cite: 81, 212]
+# Domain Model imports
 from transformers.domains.url.models import URL_UDM
 from transformers.domains.url.models import Category
 from transformers.domains.url.models import Metadata
@@ -42,6 +42,7 @@ JMESPATH_FLATTEN_URLS = """
 """
 
 def flatten_fortinet_jmespath(raw_data):
+    """Flatten nested Fortinet dict into a list of record dictionaries."""
     flat = []
 
     for _, url_list in raw_data.items():
@@ -62,14 +63,10 @@ def flatten_fortinet_jmespath(raw_data):
 # ---------------- MAPPER & EXPORTER ----------------
 
 class FortinetMapper:
-    """
-    Handles semantic alignment and Pydantic UDM instantiation.
-    """
+    """Handle semantic alignment and Pydantic UDM instantiation."""
 
     def to_udm(self, item: Dict[str, Any]) -> URL_UDM:
-        """
-        Converts a transformed dictionary into a validated URL_UDM instance.
-        """
+        """Convert a transformed dictionary into a validated URL_UDM instance."""
         # Construct the Metadata model
         # MetadataEnricher provides the ISO timestamp string
         meta = Metadata(
@@ -86,14 +83,11 @@ class FortinetMapper:
         )
 
 class FortinetExporter:
-    """
-    Universal Model -> Fortinet Format.
-    """
+    """Universal Model -> Fortinet Format."""
+
     def transform(self, udm: URL_UDM) -> Dict[str, Any]:
-        """
-        Reconstructs Fortinet-specific pattern and type syntax.
-        """
-        # Reverse mapping for Type [cite: 347]
+        """Reconstruct Fortinet-specific pattern and type syntax."""
+        # Reverse mapping for Type
         reverse_type_map = {v: k for k, v in FORTINET_TYPE_MAP.items()}
 
         return {
@@ -102,6 +96,7 @@ class FortinetExporter:
         }
 
 def run_universal_to_fortinet_pipeline(records: List[URL_UDM]) -> List[dict]:
+    """Execute the pipeline to convert UDM records back to Fortinet dicts."""
     output = []
 
     for r in records:
@@ -116,6 +111,7 @@ def run_universal_to_fortinet_pipeline(records: List[URL_UDM]) -> List[dict]:
 
 
 def export_fortinet_json(records: List[dict]) -> dict:
+    """Group flat records into the Fortinet-specific JSON structure."""
     grouped = {}
     counters = {}
 
@@ -144,13 +140,11 @@ def export_fortinet_json(records: List[dict]) -> dict:
 # ---------------- EXECUTION PIPELINE ----------------
 
 def run_fortinet_to_universal_pipeline(raw_data: Dict[str, Any]) -> List[URL_UDM]:
-    """
-    Orchestrates the deterministic flow from raw Fortinet data to UDM objects.
-    """
-    # 1. Extraction [cite: 264]
+    """Orchestrate deterministic flow from raw Fortinet data to UDM objects."""
+    # 1. Extraction
     flat_data = flatten_fortinet_jmespath(raw_data)
 
-    # 2. Transformation Pipeline [cite: 338-343]
+    # 2. Transformation Pipeline
     steps = [
         PatternNormalizer(),
         TypeMapper(FORTINET_TYPE_MAP),
