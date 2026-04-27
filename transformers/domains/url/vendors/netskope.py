@@ -6,13 +6,13 @@ converting between Netskope-specific configurations and the Pydantic
 Unified Data Model (UDM).
 """
 
+import re
 from datetime import datetime
 from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
 
-import re
 import jmespath
 
 # Domain Model imports
