@@ -1,8 +1,7 @@
 """
 URL Domain Models - Unified Data Model (UDM).
 
-This module defines the canonical schema for URLs, URL collections, and
-categories within the URL domain.
+This module defines the canonical schema for URLs, URL collections.
 
 Design Principles:
 
@@ -19,21 +18,6 @@ from typing import Optional
 from pydantic import BaseModel
 from pydantic import ConfigDict
 from pydantic import Field
-
-
-class Category(BaseModel):
-    """
-    Represents a normalized category entity.
-
-    This includes a stable identifier and taxonomic classification.
-    """
-
-    id: str = Field(..., description="Internal unique identifier for the category")
-    name: str = Field(..., description="Human-readable name of the category")
-    type: Literal["standard", "custom"] = Field(
-        ...,
-        description="Distinguishes between system-standard and user-defined categories",
-    )
 
 
 class Metadata(BaseModel):
@@ -70,30 +54,15 @@ class URL_UDM(BaseModel):
     type: Literal["literal", "wildcard", "regex"] = Field(
         ..., description="The syntax type of the pattern"
     )
-    action: Literal["allow", "block", "monitor"] = Field(
-        ..., description="Standardized enforcement action"
-    )
-    status: Literal["enable", "disable"] = Field(
-        ..., description="Operational status of the rule"
-    )
     url_list_id: str = Field(
         ..., description="Unique ID for the parent URL list"
     )
     url_list_name: str = Field(
         ..., description="Human-readable name of the URL list"
     )
-
-    categories: List[Category] = Field(
-        default_factory=list,
-        description="Merged array of standard and custom categories",
-    )
-
     vendor: Optional[str] = Field(
         None, description="Original vendor for traceability purposes"
     )
     metadata: Optional[Metadata] = Field(
         None, description="Processing metadata and timestamps"
-    )
-    notes: Optional[str] = Field(
-        None, description="Optional justifications or comments"
     )
