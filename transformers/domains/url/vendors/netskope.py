@@ -15,9 +15,6 @@ from typing import Optional
 import re
 import jmespath
 
-# Framework imports - Absolute paths
-
-
 # Domain Model imports
 from transformers.domains.url.models import URL_UDM
 from transformers.domains.url.models import Category
