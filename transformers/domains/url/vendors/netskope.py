@@ -1,5 +1,5 @@
 """
-Netskope URL Domain Integration
+Netskope URL Domain Integration.
 
 This module implements the Transformer, Mapper, and Exporter for Netskope,
 converting between Netskope-specific configurations and the Pydantic
@@ -52,7 +52,7 @@ values(@)[?modify_type!='Deleted'].{
 """
 
 def flatten_netskope_jmespath(url_lists: Dict[str, Any]) -> List[Dict[str, Any]]:
-    """Flatten the structure using jmespath. """
+    """Flatten the structure using jmespath."""
     extracted = jmespath.search(JMESPATH_NETSKOPE, url_lists) or []
     flat = []
 
@@ -75,8 +75,10 @@ def flatten_netskope_jmespath(url_lists: Dict[str, Any]) -> List[Dict[str, Any]]
 # ---------------- TRANSFORMERS ----------------
 
 class NetskopePatternNormalizer(BaseTransformer):
+    """Normalize Netskope patterns for the universal model."""
 
     def wildcard_to_regex(self, pattern: str) -> str:
+        """Convert a wildcard pattern to a regex string."""
         if not pattern.startswith("*."):
             return pattern
 
@@ -84,6 +86,7 @@ class NetskopePatternNormalizer(BaseTransformer):
         return rf"^([^.]+\.)*{domain}$"
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        """Transform Netskope patterns into normalized UDM formats."""
         item = item.copy()
 
         raw_pattern = item.get("pattern", "")
@@ -108,6 +111,7 @@ class NetskopePatternDenormalizer(BaseTransformer):
     """Convert Netskope patterns back to universal model patterns."""
 
     def regex_to_wildcard(self, pattern: str) -> Optional[str]:
+        """Attempt to convert a regex back to a wildcard string."""
         prefix = "^([^.]+\\.)*"
         suffix = "$"
 
@@ -119,10 +123,12 @@ class NetskopePatternDenormalizer(BaseTransformer):
         return None
 
     def is_regex(self, pattern: str) -> bool:
+        """Check if a pattern contains regex special characters."""
         regex_markers = ("^", "$", "(", ")", "[", "]", "+", "?", "|", "{", "}")
         return any(marker in pattern for marker in regex_markers)
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        """Denormalize patterns into standard UDM type and format."""
         pattern = item.get("pattern", "").replace("\\\\", "\\")
 
         # already wildcard
@@ -154,11 +160,10 @@ class NetskopePatternDenormalizer(BaseTransformer):
 # ---------------- MAPPER & EXPORTER ----------------
 
 class NetskopeMapper:
-    """Handles semantic alignment and Pydantic UDM instantiation."""
+    """Handle semantic alignment and Pydantic UDM instantiation."""
 
     def to_udm(self, item: Dict[str, Any]) -> URL_UDM:
-        """Converts transformed dictionary into validated URL_UDM instance. """
-
+        """Convert transformed dictionary into validated URL_UDM instance."""
         meta = Metadata(
             processed_at=datetime.fromisoformat(item["metadata"]["processed_at"]),
         )
@@ -168,27 +173,25 @@ class NetskopeMapper:
             type=item["type"],
             url_list_id=item["list_id"],
             url_list_name=item["list_name"],
-#            vendor=item["vendor"],
             vendor="netskope",
-#            metadata=meta,
         )
 
 class NetskopeExporter:
     """Universal Model -> Netskope Format."""
 
     def transform(self, item: Dict[str, Any]) -> Dict[str, Any]:
-        # Netskope expects URLs nested under the list ID
+        """Convert UDM fields into Netskope-specific schema."""
         return {
             "object_id": item.get("url_list_id"),
             "name": item.get("url_list_name"),
             "data_type": item.get("type"),
-            "data_urls": item.get("urls", []) # Ensure this is a list of strings
+            "data_urls": item.get("urls", [])
         }
 
 # ---------------- EXECUTION PIPELINE ----------------
 
 def run_netskope_to_universal_pipeline(raw_data: Dict[str, Any]) -> List[URL_UDM]:
-    """Orchestrates the flow from raw Netskope data to UDM objects. """
+    """Orchestrate the flow from raw Netskope data to UDM objects."""
     # 1. Extraction
     flat_data = flatten_netskope_jmespath(raw_data)
 
@@ -209,13 +212,14 @@ def run_netskope_to_universal_pipeline(raw_data: Dict[str, Any]) -> List[URL_UDM
     return udm_records
 
 def run_universal_to_netskope_pipeline(udm_records: List[Any]) -> List[Dict[str, Any]]:
+    """Convert UDM records into the structured Netskope payload."""
     if not udm_records:
         return []
 
     steps = [
         TypeMapper(UNIVERSAL_TO_NETSKOPE_TYPE_MAP),
         NetskopePatternNormalizer(),
-         MetadataEnricher("netskope")
+        MetadataEnricher("netskope")
     ]
 
     grouped = defaultdict(
@@ -262,9 +266,9 @@ def run_universal_to_netskope_pipeline(udm_records: List[Any]) -> List[Dict[str,
 
     return final_payload
 
-# Pipeline definitoion
+# Pipeline definition
 VENDOR_TO_UNIVERSAL_PIPELINES = {
-        "netskope": run_netskope_to_universal_pipeline
+    "netskope": run_netskope_to_universal_pipeline
 }
 
 UNIVERSAL_TO_VENDOR_PIPELINES = {
