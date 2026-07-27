@@ -1,7 +1,7 @@
 isort==8.0.1
 pdoc3
 pydocstyle==6.3.0
-pytest
+pytest<9
 pytest-cov
 pytest-pydocstyle
 pytest-isort

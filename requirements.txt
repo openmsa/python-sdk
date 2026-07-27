@@ -1,4 +1,2 @@
 requests
 opensearch-py==3.2.0
-jproperties
-pytest<8.0.0
