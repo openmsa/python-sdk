@@ -35,16 +35,44 @@ jobs:
         cp msa_sdk.json msa_sdk_doc/msa_sdk
 
     - name: Create pull request
-      uses: gabrielpossamai/action-pull-request-another-repo@main
       env:
         API_TOKEN_GITHUB: ${{ secrets.MSA_DOCKER_REPO_ACCESS_TOKEN }}
-      with:
-        source_folder: 'msa_sdk_doc/msa_sdk/'
-        destination_repo: 'ubiqube/msa-front'
-        destination_folder: 'msa_sdk_doc'
-        destination_base_branch: 'master'
-        destination_head_branch: 'update_pythonsdk_doc'
-        user_email: 'qa@ubiqube.com'
-        user_name: 'qa4ubiqube'
-        pr_title: 'MSA-15028: 📚 Update Python SDK documentation.'
-        commit_msg: 'MSA-15028: 📚 Update documentation automatic created.'
+        GH_TOKEN: ${{ secrets.MSA_DOCKER_REPO_ACCESS_TOKEN }}
+      run: |
+        CLONE_DIR=$(mktemp -d)
+        git config --global user.email 'qa@ubiqube.com'
+        git config --global user.name 'qa4ubiqube'
+
+        git clone "https://${API_TOKEN_GITHUB}@github.com/ubiqube/msa-front.git" "$CLONE_DIR"
+
+        cd "$CLONE_DIR"
+        git fetch -a
+
+        BRANCH_EXISTS=$(git show-ref update_pythonsdk_doc | wc -l)
+
+        if [ "$BRANCH_EXISTS" -gt 0 ]; then
+          git checkout update_pythonsdk_doc
+        else
+          git checkout -b update_pythonsdk_doc
+        fi
+
+        mkdir -p msa_sdk_doc
+        cp -r "${GITHUB_WORKSPACE}/msa_sdk_doc/msa_sdk/." msa_sdk_doc/
+
+        git add -A
+
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+          exit 0
+        fi
+
+        git commit -m 'MSA-15028: 📚 Update documentation automatic created.'
+        git push "https://${API_TOKEN_GITHUB}@github.com/ubiqube/msa-front.git" update_pythonsdk_doc
+
+        gh pr create \
+          --repo ubiqube/msa-front \
+          --head update_pythonsdk_doc \
+          --base master \
+          --title 'MSA-15028: 📚 Update Python SDK documentation.' \
+          --body 'update_pythonsdk_doc' \
+          || echo "PR already exists or could not be created"
