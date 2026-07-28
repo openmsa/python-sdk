@@ -6,6 +6,7 @@ on:
       - master
     paths:
       - 'msa_sdk/*'
+      - '!msa_sdk/__init__.py'
 env:
   GITHUB_TOKEN: ${{ secrets.OPENMSA_GITHUB_TOKEN }}
 

@@ -73,7 +73,7 @@ jobs:
     - name: Commit bump version
       uses: stefanzweifel/git-auto-commit-action@v7
       with:
-        commit_message: 🔖 Commit bump version ${{ env.current_version }}
+        commit_message: "🔖 Commit bump version ${{ env.current_version }} [skip ci]"
         commit_user_name: "github-actions"
         commit_user_email: "github-actions@github.com"
         commit_author: github-actions <github-actions@github.com>
